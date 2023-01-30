@@ -1,0 +1,18 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module gaussq2 ! in 
+    interface  ! in :gaussq2
+        subroutine gausq2(n,d,e,z,ierr) ! in :gaussq2:gaussq2.f
+            integer check(shape(d, 0) == n),depend(d) :: n
+            double precision dimension(n), intent(inout) :: d
+            double precision dimension(n),depend(n), intent(inout) :: e
+            double precision dimension(n),depend(n), intent(inout) :: z
+            integer :: ierr
+        end subroutine gausq2
+    end interface 
+end python module gaussq2
+
+! This file was auto-generated with f2py (version:1.23.4).
+! See:
+! https://web.archive.org/web/20140822061353/http://cens.ioc.ee/projects/f2py2e
