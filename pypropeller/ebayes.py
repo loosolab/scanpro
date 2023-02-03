@@ -44,7 +44,7 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     df_total = pmin(df_total, df_pooled)
     res['df_total'] = df_total
     res['p_value'] = 2*t.cdf(-abs(res["t"]), df=np.reshape(df_total, (len(res["t"]),1)))
-    stdev_unscaled = fit['ssr'] / np.sqrt(res['s2_post'])  # Sum of squared residuals devided by square root of post variance
+    #stdev_unscaled = fit['ssr'] / np.sqrt(res['s2_post'])  # Sum of squared residuals devided by square root of post variance
     
     # B-statistics
     var_prior_lim = stdev_coef_lim**2/res['s2_prior']

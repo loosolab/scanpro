@@ -109,8 +109,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
             df1 = df1[0]
     z = np.log(x)
     if not covariate:
-        print(winsor_tail_p[1])
-        z_trend = scipy.stats.trimboth(z, winsor_tail_p[1])
+        z_trend = scipy.stats.trim_mean(z, winsor_tail_p[1])
         z_resid = z - z_trend
     else:
         # this was not tested, because covariate is at this point None, this should be skipped
@@ -124,11 +123,11 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     zwvar = np.mean((zwins - zwmean)**2) * n/(n-1)
     # Theoretical Winsorized moments 
     g = gauss_quad_prob(128, dist='uniform')  # g[0] -> nodes, g[1] -> weights
-    linkfun = lambda x: x/1+x
-    linkinv = lambda x: x/1-x
+    linkfun = lambda x: x/(1+x)
+    linkinv = lambda x: x/(1-x)
 
-    # Try df2==Inf    
-    mom = winsorized_moments(df1, np.inf, winsor_tail_p, linkfun, linkinv, g)  # mom[0]=mean, mom[1]=var
+    # Try df2=1e10 instead of df2=np.inf, since np.inf returns nan
+    mom = winsorized_moments(df1, 1e10, winsor_tail_p, linkfun, linkinv, g)  # mom[0]=mean, mom[1]=var
     funval_inf = np.log(zwvar/mom[1])
     if funval_inf <= 0:
         df2 = np.inf
@@ -161,14 +160,14 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         return non_robust
     
     rbx = linkfun(non_robust['df2'])
-    funval_low = fun(rbx, df1, linkinv, winsorized_moments, zwvar, winsor_tail_p)
+    funval_low = fun(rbx, df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g)
     if funval_low >= 0:
         df2 = non_robust['df2']
     else:
-        u = scipy.optimize.brentq(fun, rbx, 1)
+        u = scipy.optimize.brentq(fun, rbx, 1, (df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
         df2 = linkinv(u)
     # Correct ztrend for bias
-    mom = winsorized_moments(df1, df2, winsor_tail_p)
+    mom = winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g)
     z_trend_corrected = z_trend + zwmean - mom[0]
     s20 = np.exp(z_trend_corrected)
 
@@ -356,25 +355,25 @@ def trigamma_inverse(x):  # DONE
             y[~omit] = trigamma_inverse(x[~omit])
         return y
 
-    #Newton's method
-    #1/trigamma(y) is convex, nearly linear and strictly > y-0.5,
-    #so iteration to solve 1/x = 1/trigamma is monotonically convergent
+    # Newton's method
+    # 1/trigamma(y) is convex, nearly linear and strictly > y-0.5,
+    # so iteration to solve 1/x = 1/trigamma is monotonically convergent
     y = 0.5 + 1 / x
     iter = 0
     while iter < 50:
-        tri = polygamma(3, y)
-        dif = tri*(1-tri/x)/digamma(y)
+        tri = polygamma(1, y)  # trigamma
+        dif = tri*(1-tri/x)/polygamma(2, y)
         y = y + dif
         if np.max(-dif/y) < 1e-8: break
         iter = iter+1
     return y
 
 
-def fun(x, df1, linkinv, winsorized_moments, zwvar, winsor_tail_p):
+def fun(x, df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g):
     """Estimate df2 by matching variance of winsorized residuals.
     """
     df2 = linkinv(x)
-    mom = winsorized_moments(df1, df2, winsor_tail_p)
+    mom = winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g)
     return np.log(zwvar/mom[1])
 
 
@@ -391,7 +390,7 @@ def winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g):
     f_nodes = linkinv(nodes)
     z_nodes = np.log(f_nodes)
     f1 = f.pdf(f_nodes, dfn=df1, dfd=df2) / (1-nodes)**2
-    q21 = [1] - q[0]
+    q21 = q[1] - q[0]
     m = q21 * sum(g[1] * f1 * z_nodes) + sum(zq * winsor_tail_p)
     v = q21 * sum(g[1] * f1 * (z_nodes - m)**2) + sum((zq - m)**2 * winsor_tail_p)
     return np.array([m,v])

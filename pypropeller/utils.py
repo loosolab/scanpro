@@ -3,11 +3,14 @@ from __future__ import print_function
 import numpy as np
 import pandas as pd
 # import statsmodels.api as sm
-from scipy.stats import nbinom, binom
+#from scipy import stats
+from scipy.stats import nbinom, binom, t
 from scipy.special import gammaln
 from scipy.special import psi
 from scipy.special import factorial
 from scipy.optimize import fmin_l_bfgs_b as optim
+
+from pypropeller import gaussq2
 
 
 def del_index(x, indices):
@@ -117,7 +120,7 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
     :param int beta: Parameter for gamma and beta distribution, defaults to 1
     :return numpy.ndarray: 2d list of nodes and weights.
     """
-    from gaussq2 import gausq2
+    #from pypropeller.gaussq2 import gausq2
     res = np.zeros((2,1))  # first row is nodes, second is weights
     x = res[0]  # nodes
     w = res[1]  # weights
@@ -126,6 +129,7 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
         print("Negativ number of nodes is not allowed!")
         return None
     if n == 0:
+        res = np.zeros((2,1))
         return res
     if n == 1:
         dist_dict = {'uniform': lambda: (l+u)/2, 
@@ -146,12 +150,13 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
     z = np.zeros(n)
     z[0] = 1
     ierr = 0
-    gausq2(n, a, b, z, ierr)
+    gaussq2.gausq2(n, a, b, z, ierr)
     x = a  # nodes
     w = z**2
     if dist == 'uniform':  # skipped other dists since we only use uniform!
-        x = l + (u-1)*(x+1)/2
+        x = l + (u-l)*(x+1)/2
     # save results to 2d list
+    res = np.zeros((2,n))
     res[0] = x
     res[1] = w
 
@@ -400,3 +405,96 @@ def fit_nbinom(X, initial_params=None):
     p = params[1]
 
     return n, p
+
+
+def combine(y_var,
+            X_vars,
+            fit=None,
+            dof_adjust=True,
+            incl_constant=True,
+            **glm_args,
+            ):
+    """
+      Function used to run a GLM model across multiple datasets, aggregating the
+      results using Rubin's combination rules -- i.e. multiple imputation analysis.
+      This function regresses the outcome variable on a linear combination of
+      independent variables, given a user-specified model family and link function.
+      For example if y_var = 'y' and X_vars = ['x1','x2','x3'], then by default this
+      function estimates the model y = a + x1 + x2 + x3, where a is the constant term.
+      Note, the constant term is added by default, but can be excluded by setting
+      incl_constant = False.
+      This function wraps statsmodels.GLM() and allows users to specify linear
+      models using GLM families including Gaussian, Binomial, and Poisson.
+      The function can be called on the completed dataframes generated from a MIDAS
+      model or users can supply their own list of completed datasets to analyse.
+      Args:
+        fit: A list of pd.DataFrames. The M completed datasets to be analyzed.
+        y_var: String. The name of the outcome variable.
+        X_vars: List of strings. The names of the predictor variables.
+        dof_adjust: Boolean. Indicates whether to apply the Barnard and Rubin (1999)
+        degrees of freedom adjustment for small-samples.
+        incl_constant: Boolean. Indicates whether to include an intercept in the null model (the default in
+        most generalized linear model software packages).
+        **glm_args: Further arguments to be passed to statsmodels.GLM(), e.g., to
+        specify model family, offsets, and variance and frequency weights (see the
+        statsmodels documentation for full details). If None, a Gaussian (ordinary
+        least squares) model will be estimated.
+      Returns:
+        DataFrame of combined model results  """
+
+    ind_models = []
+    mods_est = fit['coefficients']
+    mods_var = []
+    m = len(fit)
+
+    for i in range(m):
+        # df_mod = fit[i]
+        # df_endog = df_mod[y_var]
+        # df_exog = df_mod[X_vars]
+
+        # if incl_constant:
+        #     df_exog = sm.add_constant(df_exog)
+
+        # ind_model = sm.GLM(df_endog, df_exog, **glm_args)
+        # ind_results = ind_model.fit()
+        # mods_est.append(ind_results.params)
+        # mods_var.append(np.diag(ind_results.cov_params()))
+
+        if i == 0:
+            mods_df_resid = ind_results.df_resid
+            mods_coef_names = ind_results.model.exog_names
+
+    Q_bar = np.multiply((1 / m), np.sum(np.array(mods_est), 0))
+    U_bar = np.multiply((1 / m), np.sum(np.array(mods_var), 0))
+
+    models_demean = list(map(lambda x: np.square(x - Q_bar), mods_est))
+
+    B = np.multiply(1 / (m - 1), np.sum(np.array(models_demean), 0))
+
+    Q_bar_var = U_bar + ((1 + (1 / m)) * B)
+    Q_bar_se = np.sqrt(Q_bar_var)
+
+    v_m = (m - 1) * np.square(1 + (U_bar / ((1 + m ** (-1)) * B)))
+
+    if dof_adjust:
+        v_complete = mods_df_resid
+        gamma = ((1 + m ** (-1)) * B) / Q_bar_var
+        v_obs = ((v_complete + 1) / (v_complete + 3)) * v_complete * (1 - gamma)
+        v_corrected = ((1 / v_m) + (1 / v_obs)) ** (-1)
+        dof = v_corrected
+
+    else:
+        dof = v_m
+
+    est = Q_bar
+    std_err = Q_bar_se
+    stat = est / std_err
+
+    combined_mat = {'term': mods_coef_names,
+                    'estimate': est,
+                    'std.error': std_err,
+                    'statistic': stat,
+                    'df': dof,
+                    'p.value': (2 * (1 - t.cdf(abs(stat), df=dof)))}
+    
+    return combined_mat
