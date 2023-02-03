@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
 from statsmodels.stats.multitest import multipletests
+import warnings
 
 from pypropeller.get_transformed_props import get_transformed_props
 from pypropeller.linear_model import *
 from pypropeller.ebayes import *
+from pypropeller.result import PyproResult
 from pypropeller.utils import *
 
 
@@ -42,10 +44,21 @@ def pypropeller(adata, clusters='cluster', sample='sample', cond='group', transf
     columns = list(out.columns)
     out['Baseline_props'] = baseline_props.values
     columns.insert(0, 'Baseline_props')
+
     # rearrange dataframe columns
     out = out[columns]
 
-    return out
+    # create PyproResult object
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
+
+        output_obj = PyproResult(out)
+        output_obj.counts = counts
+        output_obj.props = props
+        output_obj.prop_trans = prop_trans
+        output_obj.design = design
+
+    return output_obj
 
 
 def anova(props, prop_trans, design, coef, robust):
@@ -115,6 +128,7 @@ def t_test(props, prop_trans, design, contrasts, robust):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition, 
     F-statistics, p-values and adjusted p-values.
     """
+
     if prop_trans.shape[1] < 3:
         print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
