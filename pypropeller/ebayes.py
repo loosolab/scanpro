@@ -148,8 +148,8 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05,0.1])
     if is_fin.any():
         i = np.where(is_fin)
         if len(df) > 1: df = df[i]
-        df_prior = df_prior[i]
-        var_post[i] = (df*var[i] + df_prior*var_post[i]) / (df + df_prior)
+        df_prior_fin = df_prior[i]
+        var_post[i] = (df*var[i] + df_prior_fin*var_post[i]) / (df + df_prior_fin)
     
     return var_prior, var_post, df_prior
 

@@ -144,7 +144,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         df2_shrunk = np.resize(df2, n)  # rep_len
         O = prop_not_outlier < 1
         if O.any():
-            df2_shrunk[O] = prop_not_outlier * df_pooled
+            df2_shrunk[O] = prop_not_outlier[O] * df_pooled
             o = np.argsort(tail_p)  # order
             df2_shrunk[o] = np.maximum.accumulate(df2_shrunk[o])
         # add results to dictionary
@@ -164,7 +164,8 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     if funval_low >= 0:
         df2 = non_robust['df2']
     else:
-        u = scipy.optimize.brentq(fun, rbx, 1, (df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
+        # interval [rbx, 0.99] since 1 gives divisionbyzero error
+        u = scipy.optimize.brentq(fun, rbx, 0.99, (df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
         df2 = linkinv(u)
     # Correct ztrend for bias
     mom = winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g)
@@ -208,8 +209,8 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         df2_shrunk[o] = np.maximum.accumulate(df2_ordered)
     
     else:
-        df2_outlier = df2_outlier2 = df2
-        df2_shrunk2 = df2_shrunk = np.resize(df2, n)
+        df2_outlier = df2
+        df2_shrunk = np.resize(df2, n)
     # append results to dictionary
     res['scale'] = s20
     res['df2'] = df2
