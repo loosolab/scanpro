@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import anndata
 from statsmodels.stats.multitest import multipletests
 
 from pypropeller.get_transformed_props import get_transformed_props
@@ -8,7 +9,7 @@ from pypropeller.ebayes import *
 from pypropeller.utils import *
 
 
-def pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit', robust=True):
+def pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit', robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
 
@@ -21,19 +22,22 @@ def pypropeller(adata, clusters='cluster', sample='sample', cond='group', transf
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition, 
     F-statistics, p-values and adjusted p-values. 
     """
-    
+    if isinstance(adata, anndata.AnnData):
+        adata = adata.obs
     counts, props, prop_trans = get_transformed_props(adata, sample_col=sample, cluster_col=clusters, transform=transform)
-    baseline_props = adata.obs[clusters].value_counts()/adata.obs.shape[0]  # proportions of each cluster in all samples
+    baseline_props = adata[clusters].value_counts()/adata.shape[0]  # proportions of each cluster in all samples
     #group_coll = pd.crosstab(adata.obs[sample], adata.obs[cond])  # cell counts for each sample across conditions
     #design = group_coll.where(group_coll == 0, 1).astype('int')  # same as group_coll but counts are replaced with 1 and 0
     design = create_design(data=adata, samples=sample, conds=cond)
     
     if design.shape[1] == 2:
-        print("There are 2 conditions. T-Test will be performed...")
+        if verbose:
+            print("There are 2 conditions. T-Test will be performed...")
         contrasts = [1, -1]  # columns in design matrix to be tested
         out = t_test(props, prop_trans, design, contrasts, robust)
     elif design.shape[1] > 2:
-        print("There are more than 2 conditions. ANOVA will be performed...")
+        if verbose:
+            print("There are more than 2 conditions. ANOVA will be performed...")
         coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
         out = anova(props, prop_trans, design, coef, robust)
 
@@ -48,7 +52,7 @@ def pypropeller(adata, clusters='cluster', sample='sample', cond='group', transf
     return out
 
 
-def anova(props, prop_trans, design, coef, robust):
+def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     """Test the significance of changes in cell proportion across 3 or more conditions using 
     empirical bayes and moderated ANOVA.
 
@@ -66,7 +70,8 @@ def anova(props, prop_trans, design, coef, robust):
         coef = np.array(coef)
     # check if there are less than 3 clusters
     if prop_trans.shape[1] < 3:
-        print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
+        if verbose:
+            print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
     X = design.iloc[:,coef]
     N = len(X)  # number of samples
@@ -102,7 +107,7 @@ def anova(props, prop_trans, design, coef, robust):
     return pd.DataFrame(res, columns=cols).set_index('Clusters')
 
 
-def t_test(props, prop_trans, design, contrasts, robust):
+def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     """Test the significance of changes in cell proportion across 2 conditions using 
     empirical bayes and moderated t-test.
 
@@ -116,7 +121,8 @@ def t_test(props, prop_trans, design, contrasts, robust):
     F-statistics, p-values and adjusted p-values.
     """
     if prop_trans.shape[1] < 3:
-        print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
+        if verbose:
+            print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
     fit = lm_fit(X=design, y=prop_trans)
     fit_cont = contrasts_fit(fit, contrasts)
@@ -146,7 +152,6 @@ def t_test(props, prop_trans, design, contrasts, robust):
     res['Clusters'] = props.columns.to_list()
     for i, cond in enumerate(design.columns):
         res['Mean_props_' + cond] = fit_prop['coefficients'].T[i]
-    #res['Mean_props'] = fit_prop['coefficients']
 
     res['Prop_ratio'] = RR
     res['t_statistics'] = fit_cont['t'].flatten()

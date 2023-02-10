@@ -90,11 +90,6 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     for key in ['t', 'p_value', 'lods', 'F']:
         if key in fit.keys():
             fit[key] = None
-    # fit['t'] = None
-    # fit['p_value'] = None
-    # fit['lods'] = None
-    # fit['F']['stat'] = None
-    # fit['F']['F_p_value'] = None
 
     n_coef = fit['coefficients'].shape[1]
     if any(np.isnan(contrasts)):
@@ -171,14 +166,32 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
 
 def create_design(samples, conds, cofactors=None, data=None, reorder=False, reindex=False, intercept=False,
                   before_reindex=True):
+    """Create design matrix where rows=samples and columns=conditions, to use for fitting linear models to clusters.
+
+    :param [list, numpy.array or str] samples: If data is provided, samples is the columns name where
+    samples are saved, otherwise samples is a list or array of samples.
+    :param [list, numpy.array or str] conds: If data is provided, conds is the columns name where
+    conditions are saved, otherwise conds is a list or array of conditions corresponding to samples.
+    :param [str or dict] cofactors: If data is provided, cofactors is a string (or list of strings) where
+    cofactors are saved, otherwise provide a dictionary with keys as cofactors names and values are lists
+    of cofacotrs corresponding to samples, defaults to None.
+    :param anndata.Anndata or pandas.DataFrame data: A dataframe where samples and conditions are columns,
+    if data is anndata, samples and conditions must be columns in adata.obs, defaults to None.
+    :param bool or list reorder: Reorder columns of data matrix to match the list provided, defaults to False.
+    :param bool or list reindex: Reorder rows of data matrix to match the list provided, defaults to False.
+    :param bool intercept: If True, an intercept is added as first column in the design matrix, defaults to False
+    :param bool before_reindex: If True, cofactors are added to design matrix before reordering rows, 
+    make sure that provided list match the samples, defaults to True.
+    :raises TypeError: _description_
+    :raises ValueError: _description_
+    :return pandas.DataFrame: Design matrix as pandas dataframe.
+    """
     if data is not None:
         if not isinstance(data, ad.AnnData) and not isinstance(data, pd.DataFrame):
-            raise ValueError("Only anndata objects and pandas dataframes are supported!")
+            raise TypeError("Only anndata objects and pandas dataframes are supported!")
         if isinstance(data, ad.AnnData):
             data = data.obs
-            # samples = data.obs[samples].to_list()
-            # conds = data.obs[conds].to_list()
-        # elif isinstance(data, pd.DataFrame):
+
         samples = data[samples].to_list()
         conds = data[conds].to_list()
 
@@ -205,6 +218,3 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
         design = design.reindex(reindex)
     
     return design
-
-
-

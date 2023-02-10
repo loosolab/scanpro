@@ -2,8 +2,6 @@ from __future__ import print_function
 
 import numpy as np
 import pandas as pd
-# import statsmodels.api as sm
-#from scipy import stats
 from scipy.stats import nbinom, binom, t
 from scipy.special import gammaln
 from scipy.special import psi
@@ -226,7 +224,7 @@ def boot_reps(adata, n_boots = 10, samples='sample'):
     groups = adata.obs[samples].unique()
     groups_adatas = {}
     for group in groups:
-        groups_adatas[group] = (adata[adata.obs[samples] == group])  # subset data for each sample
+        groups_adatas[group] = adata.obs[adata.obs[samples] == group]  # subset data for each sample
     indices = {}
     for i, group in enumerate(groups_adatas.keys()):
         indices[groups[i]] = np.arange(groups_adatas[group].shape[0])  # get sequence of indices
@@ -234,9 +232,9 @@ def boot_reps(adata, n_boots = 10, samples='sample'):
     for group in groups:
         for i in range(n_boots):
             boot = np.random.choice(indices[group], len(indices[group]))
-            rep = groups_adatas[group][boot]
-            rep.obs[samples] = [group+'_rep_'+str(i+1)]*rep.shape[0]
-            rep.obs_names_make_unique()
+            rep = groups_adatas[group].iloc[boot,:]
+            rep[samples] = [group+'_rep_'+str(i+1)]*rep.shape[0]
+            #rep.obs_names_make_unique()
             reps.append(rep)
 
     return reps
@@ -304,6 +302,7 @@ def simulate_cell_counts(counts, props, n_reps, a, b, n=None, mu=None):
     # estimate negativ binomial parameters from data
     # get sum of cell counts for each sample
     s = np.sum(counts.values, axis=0)
+    #X = np.ones_like(s)
     # fit negative binomial model
     #nb = sm.NegativeBinomial(s, X, full_output=0)
     #res = nb.fit(start_params=[1,1])
@@ -318,9 +317,9 @@ def simulate_cell_counts(counts, props, n_reps, a, b, n=None, mu=None):
     #p = n / ((n+mu) if n+mu != 0 else 1)
     if n is None:
         n, p = fit_nbinom(s)
-    else:
-        var = np.var(s)
-        p = n / ((n+mu) if n+mu != 0 else 1)
+    elif n and mu is None:
+        mu = np.mean(s)
+        p = n / ((n+mu) if n + mu != 0 else 1)
     #p = mu / var
     #p = 1/((1+mu)*res.params[1])
     #n = mu*p/(1-p)  # dispersion
@@ -457,12 +456,13 @@ def combine(y_var,
 
         # ind_model = sm.GLM(df_endog, df_exog, **glm_args)
         # ind_results = ind_model.fit()
-        # mods_est.append(ind_results.params)
+        ind_results = fit[i]
+        mods_est.append(ind_results['coefficients'])
         # mods_var.append(np.diag(ind_results.cov_params()))
 
         if i == 0:
-            mods_df_resid = ind_results.df_resid
-            mods_coef_names = ind_results.model.exog_names
+            mods_df_resid = ind_results['df_residual']
+            # mods_coef_names = ind_results.model.exog_names
 
     Q_bar = np.multiply((1 / m), np.sum(np.array(mods_est), 0))
     U_bar = np.multiply((1 / m), np.sum(np.array(mods_var), 0))
@@ -490,7 +490,7 @@ def combine(y_var,
     std_err = Q_bar_se
     stat = est / std_err
 
-    combined_mat = {'term': mods_coef_names,
+    combined_mat = {#'term': mods_coef_names,
                     'estimate': est,
                     'std.error': std_err,
                     'statistic': stat,
