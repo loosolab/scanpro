@@ -14,7 +14,7 @@ def get_transformed_props(data, sample_col='sample', cluster_col='cluster', tran
     """
     
     # check if data is a pandas dataframe or anndata object
-    if not isinstance(data, anndata.AnnData) or not isinstance(data, pd.DataFrame):
+    if not isinstance(data, anndata.AnnData) and not isinstance(data, pd.DataFrame):
         raise ValueError("Data must be anndata object or a pandas dataframe!")
         return None
     if isinstance(data, anndata.AnnData):
