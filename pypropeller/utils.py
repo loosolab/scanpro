@@ -240,49 +240,6 @@ def boot_reps(adata, n_boots = 10, samples='sample'):
     return reps
 
 
-def split_boot_reps(adata, n_boots=10, samples='sample'):
-    """Split one sample into replicates using bootstrapping without replacement.
-    Currently the function only splits sample into two.
-
-    :param _type_ adata: _description_
-    :param int n_boots: _description_, defaults to 10
-    :param str samples: _description_, defaults to 'sample'
-    :return _type_: _description_
-    """
-    groups = adata.obs[samples].unique()
-    groups_adatas = {}
-    for group in groups:
-        groups_adatas[group] = (adata[adata.obs[samples] == group])  # subset data for each sample
-    indices = {}
-    for i, group in enumerate(groups_adatas.keys()):
-        indices[groups[i]] = np.arange(groups_adatas[group].shape[0])  # get sequence of indices
-    # get minimum number of cells in all samples
-    n_min = [min([len(indices[groups[i]]) for i, _ in enumerate(groups_adatas.keys())])][0]
-    reps = []
-    for group in groups:
-        # choose n_min cells from each sample randomly without replacement 
-        reduce = np.random.choice(indices[group], n_min, replace=False)
-        groups_adatas[group] = groups_adatas[group][reduce]
-        n = n_min
-        n_indices = np.arange(n)
-        n_1 = np.random.choice(range(n), replace=False)  # number of cells for rep 1
-        n_2 = n - n_1  # number of cells for rep 2
-        # np.random.shuffle(indices[group])
-        rep_1_indices = np.random.choice(n_indices, n_1, replace=False)
-        rep_2_indices = [i for i in n_indices if i not in rep_1_indices]
-        rep_1 = groups_adatas[group][rep_1_indices]
-        rep_2 = groups_adatas[group][rep_2_indices]
-        rep_1.obs[samples] = [group+'_rep_'+str(1)]*rep_1.shape[0]
-        rep_2.obs[samples] = [group+'_rep_'+str(2)]*rep_2.shape[0]
-
-        rep_1.obs_names_make_unique()
-        rep_2.obs_names_make_unique()
-        reps.append(rep_1)
-        reps.append(rep_2)
-    
-    return reps
-
-
 def simulate_cell_counts(counts, props, n_reps, a, b, n=None, mu=None):
     """Generate replicates by simulating cell counts using distribution of data.
     - The total numbers of cells for each sample (n_j) are drwan from a negative binomial distribution.
