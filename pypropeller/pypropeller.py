@@ -1,7 +1,6 @@
 import time
 import pandas as pd
 import numpy as np
-import anndata
 from statsmodels.stats.multitest import multipletests
 
 from pypropeller.get_transformed_props import get_transformed_props
@@ -35,8 +34,9 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     :return _type_: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
 
-    if isinstance(data, anndata.AnnData):
+    if type(data).__name__ == "AnnData":
         data = data.obs
+
     # check if there are 2 conditions or more
     conditions = data[conds_col].unique()
     if len(conditions) < 2:
@@ -76,11 +76,13 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values. 
     """
-    if isinstance(adata, anndata.AnnData):
+
+    if type(adata).__name__ == "AnnData":
         adata = adata.obs
+
     counts, props, prop_trans = get_transformed_props(adata, sample_col=sample, cluster_col=clusters, transform=transform)
     design = create_design(data=adata, samples=sample, conds=cond)
-    
+
     if design.shape[1] == 2:
         if verbose:
             print("There are 2 conditions. T-Test will be performed...")
@@ -223,8 +225,9 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     :param bool robust: _description_, defaults to True
     :param bool verbose: _description_, defaults to True
     """
-    if isinstance(data, anndata.AnnData):
+    if type(data).__name__ == "AnnData":
         data = data.obs
+
     counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col, cluster_col=clusters_col, transform=transform)
     props_dict = props.to_dict(orient='index')
     true_props = {}

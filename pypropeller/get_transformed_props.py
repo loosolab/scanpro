@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import anndata
 from pypropeller.utils import *
 
 
@@ -14,10 +13,12 @@ def get_transformed_props(data, sample_col='sample', cluster_col='cluster', tran
     """
     
     # check if data is a pandas dataframe or anndata object
-    if not isinstance(data, anndata.AnnData) and not isinstance(data, pd.DataFrame):
+    if not type(data).__name__ == "AnnData" and not isinstance(data, pd.DataFrame):
         raise ValueError("Data must be anndata object or a pandas dataframe!")
-    if isinstance(data, anndata.AnnData):
+
+    if type(data).__name__ == "AnnData":
         data = data.obs
+
     # get counts for each cluster in each sample
     counts = pd.crosstab(index = data[sample_col], columns=data[cluster_col])
     # get sum of cells in sample
