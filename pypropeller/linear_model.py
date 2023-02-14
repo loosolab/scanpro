@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import anndata as ad
 import statsmodels.api as sm
 from pypropeller.utils import *
 from pypropeller.utils import vecmat
@@ -187,9 +186,10 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
     :return pandas.DataFrame: Design matrix as pandas dataframe.
     """
     if data is not None:
-        if not isinstance(data, ad.AnnData) and not isinstance(data, pd.DataFrame):
+        if not type(data).__name__ == "AnnData" and not isinstance(data, pd.DataFrame):
             raise TypeError("Only anndata objects and pandas dataframes are supported!")
-        if isinstance(data, ad.AnnData):
+        
+        if type(data).__name__ == "AnnData":
             data = data.obs
 
         samples = data[samples].to_list()

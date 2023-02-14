@@ -1,10 +1,10 @@
 import warnings
-import anndata
+# import anndata
 import scipy
 import numpy as np
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
-warnings.simplefilter(action='ignore', category=anndata.ImplicitModificationWarning)
+# warnings.simplefilter(action='ignore', category=anndata.ImplicitModificationWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
@@ -26,8 +26,9 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
     #n_binom, p_binom = fit_nbinom(s)
     #print(n_binom, p_binom)
     
-    if isinstance(data, anndata.AnnData):
+    if type(data).__name__ == "AnnData":
         data = data.obs
+    
     samples_list = data[sample_col].unique()
     samples_datas = {}
     for sample in samples_list:
