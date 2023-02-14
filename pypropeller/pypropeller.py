@@ -253,8 +253,7 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     start = time.time()
     for i in range(n_sims):
         # generate replicates
-        std_norm = np.std(counts.sum(axis=1))  # standard deviation for sum of cells in samples to use for normal distribution
-        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col, min_rep_pct=min_rep_pct, std=std_norm)
+        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col, min_rep_pct=min_rep_pct)
         # run propeller
         out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col, 
                                   cond=conds_col, transform=transform, robust=robust, verbose=False)
