@@ -3,5 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='pypropeller',
     version='0.2.0',
-    packages=find_packages(include=['pypropeller', 'pypropeller.*'])
+    packages=find_packages(include=['pypropeller', 'pypropeller.*']),
+    install_requires=['pandas',
+                      'statsmodels']
 )
