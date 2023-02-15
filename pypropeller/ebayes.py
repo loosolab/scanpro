@@ -119,7 +119,7 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]
         var_prior = var
         df_prior = 0
         return var_post, var_prior, df_prior
-    
+
     # check format of df and var
     if not isinstance(df, np.ndarray):
         df = np.array([df] * n)
@@ -129,7 +129,7 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]
         raise ValueError("length of var and df differ!")
     if len(df) > 1:
         var[df == 0] = 0
-    
+
     # fit F-distribution to data robustly
     if robust:
         fit = fit_f_dist_robust(var, df, covariate, winsor_tail_p)
@@ -143,7 +143,7 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]
     if not any(df_prior) or any(np.isnan(df_prior)):
         print("Could not estimate prior!")
         return None
-    
+
     var_prior = fit['scale']
     is_fin = np.isfinite(df_prior)
     if is_fin.all():

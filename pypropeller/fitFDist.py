@@ -51,7 +51,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     if len(df1) != n:
         print("length of x and df1 are different!")
         return None
-    
+
     # handle zeros and missing values
     ok = ~np.isnan(x) & np.isfinite(df1) & (df1 > 1e-6)
     notallok = ~ok.all()
@@ -62,7 +62,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
             df1 = df1[ok]
         if covariate:
             covariate = covariate[ok]
-        
+
         # fit F-distribution to corrected data
         fit = fit_f_dist_robust(x, df1, covariate=covariate, winsor_tail_p=winsor_tail_p)
         df2_shrunk[ok] = fit['df2_shrunk']
@@ -163,7 +163,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
             df2_shrunk[Ou] = prop_not_outlier[Ou] * df_pooled
             o = np.argsort(tail_p)  # order
             df2_shrunk[o] = np.maximum.accumulate(df2_shrunk[o])
-        
+
         # add results to dictionary
         res['scale'] = s20
         res['df2'] = df2
@@ -184,7 +184,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         # interval [rbx, 0.99] since 1 gives divisionbyzero error
         u = scipy.optimize.brentq(fun, rbx, 0.99, (df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
         df2 = linkinv(u)
-    
+
     # Correct ztrend for bias
     mom = winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g)
     z_trend_corrected = z_trend + zwmean - mom[0]
@@ -230,7 +230,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     else:
         df2_outlier = df2
         df2_shrunk = np.resize(df2, n)
-    
+
     # append results to dictionary
     res['scale'] = s20
     res['df2'] = df2
@@ -301,7 +301,7 @@ def fit_f_dist(x, df1, covariate=None):
     else:
         if np.any(x == 0):
             print("Warning! Zero sample variances detected, have been offset away from zero.")
-    
+
     x = pmax(x, 1e-5 * m)
     z = np.log(x)
     e = z - digamma(df1 / 2) + np.log(df1 / 2)
@@ -364,7 +364,6 @@ def trigamma_inverse(x):
         y[omit] = 1 / np.sqrt(x[omit])
         if (any(~omit)):
             y[~omit] = trigamma_inverse(x[~omit])
-
         return y
 
     omit = x < 1e-6
@@ -414,4 +413,5 @@ def winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g):
     q21 = q[1] - q[0]
     m = q21 * sum(g[1] * f1 * z_nodes) + sum(zq * winsor_tail_p)
     v = q21 * sum(g[1] * f1 * (z_nodes - m)**2) + sum((zq - m)**2 * winsor_tail_p)
+    
     return np.array([m, v])

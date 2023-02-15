@@ -33,7 +33,7 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
     indices = {}
     for sample in samples_list:
         indices[sample] = np.arange(samples_datas[sample].shape[0])
-    
+
     # get minimum number of cells in all samples
     n_min = [min([len(indices[sample]) for sample in samples_list])][0]
 

@@ -1,12 +1,6 @@
 from __future__ import print_function
 
 import numpy as np
-import pandas as pd
-from scipy.stats import nbinom, binom
-from scipy.special import gammaln
-from scipy.special import psi
-from scipy.special import factorial
-from scipy.optimize import fmin_l_bfgs_b as optim
 
 from pypropeller import gaussq2
 

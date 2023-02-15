@@ -141,7 +141,7 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
         if verbose:
             print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
-    
+
     X = design.iloc[:, coef]
     # fit linear model to each cluster to get coefficients estimates
     fit_prop = lm_fit(X=X, y=props)
