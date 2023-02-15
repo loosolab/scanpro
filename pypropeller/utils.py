@@ -27,7 +27,7 @@ def del_index(x, indices):
 
 
 def pmax(x, const):
-    """ Function compares each number in a list to a constant and returns the maximum 
+    """ Function compares each number in a list to a constant and returns the maximum
 
     :param list x: A list with numbers
     :param float const: A constant to compare to
@@ -105,12 +105,12 @@ def vecmat(v, M):
     return v * M
 
 
-def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1):
+def gauss_quad_prob(n, dist="uniform", ll=0, u=1, mu=0, sigma=1, alpha=1, beta=1):
     """Given a distribution, calculate nodes and weights of a gaussian quadrature.
 
     :param int n: Number of nodes.
     :param str dist: A distribution, only uniform is available! defaults to "uniform"
-    :param int l: Lower limit of uniform distribution, defaults to 0
+    :param int ll: Lower limit of uniform distribution, defaults to 0
     :param int u: Upper limit of uniform distribution, defaults to 1
     :param int mu: Mean of normal distribution, defaults to 0
     :param int sigma: Standard deviation of normal distribution, defaults to 1
@@ -130,7 +130,7 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
         res = np.zeros((2, 1))
         return res
     if n == 1:
-        dist_dict = {'uniform': lambda: (l + u) / 2, 
+        dist_dict = {'uniform': lambda: (ll + u) / 2,
                      'beta': lambda: alpha / (alpha + beta),
                      'normal': lambda: mu,
                      'gamma': lambda: alpha * beta}
@@ -152,7 +152,7 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
     x = a  # nodes
     w = z**2
     if dist == 'uniform':  # skipped other dists since we only use uniform!
-        x = l + (u - l) * (x + 1) / 2
+        x = ll + (u - ll) * (x + 1) / 2
     # save results to 2d list
     res = np.zeros((2, n))
     res[0] = x

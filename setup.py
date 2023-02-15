@@ -1,11 +1,10 @@
-import setuptools  # has to be imported befor distutils
-from setuptools import find_packages
+from setuptools import find_packages  # has to be imported befor distutils
 
 from numpy.distutils.core import Extension, setup
 
-flib = Extension(name = 'pypropeller.gaussq2',
-                 extra_compile_args = ['-O3'],
-                 sources = ['pypropeller/gaussq2.pyf','pypropeller/gaussq2.f'], # you may add several modules files under the same extension
+flib = Extension(name='pypropeller.gaussq2',
+                 extra_compile_args=['-O3'],
+                 sources=['pypropeller/gaussq2.pyf', 'pypropeller/gaussq2.f'],  # you may add several modules files under the same extension
                  )
 
 setup(
@@ -14,5 +13,5 @@ setup(
     packages=find_packages(include=['pypropeller', 'pypropeller.*']),
     install_requires=['pandas',
                       'statsmodels'],
-    ext_modules= [flib]
+    ext_modules=[flib]
 )
