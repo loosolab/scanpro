@@ -1,0 +1,84 @@
+# This file is a template, and might need editing before it works on your project.
+# To contribute improvements to CI/CD templates, please follow the Development guide at:
+# https://docs.gitlab.com/ee/development/cicd/templates.html
+# This specific template is located at:
+# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Python.gitlab-ci.yml
+
+# Official language image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/python/tags/
+image: python:latest 
+
+# Change pip's cache directory to be inside the project directory since we can
+# only cache local items.
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+# Pip's cache doesn't store the python packages
+# https://pip.pypa.io/en/stable/topics/caching/
+#
+# If you want to also cache the installed packages, you have to install
+# them in a virtualenv and cache it as well.
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+default:
+  before_script:
+    - apt-get update -qq
+    - apt-get install gfortran -qq -y
+    - python --version  # For debugging
+#    - pip install virtualenv
+#    - virtualenv venv
+#    - source venv/bin/activate
+#    - apt update
+
+# flake8 ignore rules:
+# E501 = Line too long
+# W503 = Line break occurred before a binary operator
+
+#this is a a rule that always passes for branches without jobs being run - otherwise some branches cannot be merged
+pass:
+  inherit:
+    default: false
+  script:
+     - 'echo passed'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
+
+linting:
+  stage: test
+  tags:
+    - coverage
+  script:
+    - pip install flake8
+    - flake8 pypropeller setup.py tests --ignore=E501,W503
+  allow_failure: false
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
+      changes:
+      - setup.py
+      - tests/*.py
+      - pypropeller/*.py
+
+tests:
+  stage: test
+  tags:
+    - coverage
+  coverage: '/TOTAL.*\s(\d*.\d*\%)/'
+  script:
+    - pip install pytest
+    - pip install pytest-cov
+    - pip install .  # install package
+    - pytest --cov-report=term --cov=./pypropeller . --junitxml=pytest.xml    
+  artifacts:
+    when: always
+    paths:
+      - pytest.xml
+    reports:
+      junit: pytest.xml
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
+      changes:
+      - tests/*.py
+      - pypropeller/*.py

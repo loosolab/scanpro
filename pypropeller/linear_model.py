@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
-import anndata as ad
 import statsmodels.api as sm
-from pypropeller.utils import *
-from pypropeller.utils import vecmat
+from pypropeller.utils import vecmat, del_index, cov_to_corr
 
 
 def lm_fit(X, y):
@@ -18,7 +16,7 @@ def lm_fit(X, y):
     fit = {}
     # loop over clusters and fit linear model for each cluster seperately
     for i, cluster in enumerate(y.columns):
-        M = y.iloc[:,i]  # get proportions for only one cluster
+        M = y.iloc[:, i]  # get proportions for only one cluster
         obs = np.isfinite(M)
         if sum(obs) > 0:
             X_cluster = X[obs]
@@ -26,7 +24,7 @@ def lm_fit(X, y):
             model = sm.OLS(M, X_cluster)  # design.iloc[:,coef] is passed to the fit function as design
             out = model.fit()
             fit[cluster] = out
-    
+
     # initialize lists for results
     coefficients = np.zeros((n_clusters, n_cond))  # list for beta coefficients
     sigma = np.zeros(n_clusters)  # list for variance
@@ -39,11 +37,11 @@ def lm_fit(X, y):
     for cluster, fit in fit.items():
 
         coefficients[i] = fit.params  # beta
-        s = np.sqrt(fit.ssr/(fit.df_resid))  # sigma calculated as sum of squared residuals / residual degree of freedom
-        #s = np.sqrt(sum(fit.resid**2)/(fit.df_resid))
+        s = np.sqrt(fit.ssr / (fit.df_resid))  # sigma calculated as sum of squared residuals / residual degree of freedom
+        # s = np.sqrt(sum(fit.resid**2)/(fit.df_resid))
         sigma[i] = s
         stdev[i] = fit.params / fit.tvalues / s  # standard deviation
-        df_residual[i] = fit.df_resid  # residual degrees of freedom 
+        df_residual[i] = fit.df_resid  # residual degrees of freedom
         ssr[i] = fit.ssr  # sum of squared residuals
         i += 1
 
@@ -85,23 +83,18 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
         raise ValueError("Fit must contain coefficients!")
     if 'stdev' not in fit.keys():
         raise ValueError("Fit must contain standard deviations!")
-    
+
     # Remove test statistics in case eBayes() has previously been run on the fit object
     for key in ['t', 'p_value', 'lods', 'F']:
         if key in fit.keys():
             fit[key] = None
-    # fit['t'] = None
-    # fit['p_value'] = None
-    # fit['lods'] = None
-    # fit['F']['stat'] = None
-    # fit['F']['F_p_value'] = None
 
     n_coef = fit['coefficients'].shape[1]
     if any(np.isnan(contrasts)):
         raise ValueError("Contrasts should not contain NaN values!")
 
     contrasts = np.array(contrasts)
-    contrasts = contrasts.reshape(len(contrasts),1)
+    contrasts = contrasts.reshape(len(contrasts), 1)
     if contrasts.shape[0] != n_coef:
         raise ValueError("Number of contrasts doesnt match number of coefficients!")
     fit['contrasts'] = contrasts
@@ -112,13 +105,13 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
         orthog = True
     else:
         orthog = sum(abs(cor_matrix[np.tril_indices(cor_matrix.shape[0], -1)])) < 1e-12
-    
+
     # If design matrix was singular, reduce to estimable coefficients
     r = cor_matrix.shape[0]
     if r < n_coef:  # not needed, since r == n_coef
         pass
 
-    contrasts_all_zero = np.where(np.sum(abs(contrasts), axis =1)==0)[0]  # which function -> indices where condition is met
+    contrasts_all_zero = np.where(np.sum(abs(contrasts), axis=1) == 0)[0]  # which function -> indices where condition is met
     if contrasts_all_zero.any():
         # delete rows and columns where contrast = 0
         contrasts = np.delete(contrasts, contrasts_all_zero, axis=0)
@@ -155,7 +148,7 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
         n_clusters = fit['stdev'].shape[0]
         n_cont = contrasts.shape[1]
         U = np.ones((n_clusters, n_cont))
-        o = np.ones((1,n_coef))
+        o = np.ones((1, n_coef))
         for i in range(n_clusters):
             RUC = R @ vecmat(fit['stdev'][i], contrasts)
             U[i] = np.sqrt(o @ RUC**2)
@@ -171,14 +164,33 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
 
 def create_design(samples, conds, cofactors=None, data=None, reorder=False, reindex=False, intercept=False,
                   before_reindex=True):
+    """Create design matrix where rows=samples and columns=conditions, to use for fitting linear models to clusters.
+
+    :param [list, numpy.array or str] samples: If data is provided, samples is the columns name where
+    samples are saved, otherwise samples is a list or array of samples.
+    :param [list, numpy.array or str] conds: If data is provided, conds is the columns name where
+    conditions are saved, otherwise conds is a list or array of conditions corresponding to samples.
+    :param [str or dict] cofactors: If data is provided, cofactors is a string (or list of strings) where
+    cofactors are saved, otherwise provide a dictionary with keys as cofactors names and values are lists
+    of cofacotrs corresponding to samples, defaults to None.
+    :param anndata.Anndata or pandas.DataFrame data: A dataframe where samples and conditions are columns,
+    if data is anndata, samples and conditions must be columns in adata.obs, defaults to None.
+    :param bool or list reorder: Reorder columns of data matrix to match the list provided, defaults to False.
+    :param bool or list reindex: Reorder rows of data matrix to match the list provided, defaults to False.
+    :param bool intercept: If True, an intercept is added as first column in the design matrix, defaults to False
+    :param bool before_reindex: If True, cofactors are added to design matrix before reordering rows,
+    make sure that provided list match the samples, defaults to True.
+    :raises TypeError: _description_
+    :raises ValueError: _description_
+    :return pandas.DataFrame: Design matrix as pandas dataframe.
+    """
     if data is not None:
-        if not isinstance(data, ad.AnnData) and not isinstance(data, pd.DataFrame):
-            raise ValueError("Only anndata objects and pandas dataframes are supported!")
-        if isinstance(data, ad.AnnData):
+        if not type(data).__name__ == "AnnData" and not isinstance(data, pd.DataFrame):
+            raise TypeError("Only anndata objects and pandas dataframes are supported!")
+
+        if type(data).__name__ == "AnnData":
             data = data.obs
-            # samples = data.obs[samples].to_list()
-            # conds = data.obs[conds].to_list()
-        # elif isinstance(data, pd.DataFrame):
+
         samples = data[samples].to_list()
         conds = data[conds].to_list()
 
@@ -196,15 +208,14 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
                 design[key] = factor
         if isinstance(cofactors, list) or isinstance(cofactors, np.ndarray):
             if data is None:
-                raise ValueError("When passing cofactors as list, please provide anndata object or pandas dataframe as data! " + 
-                "Otherwise provide a dictionary where keys are names of cofactors and values are lists")
+                s = "When passing cofactors as list, please provide anndata object or pandas dataframe as data!"
+                s += " Otherwise provide a dictionary where keys are names of cofactors and values are lists"
+                raise ValueError(s)
+
             for name in cofactors:
                 factor, _ = pd.factorize(data[name])
                 design[name] = factor
     if reindex is not False:
         design = design.reindex(reindex)
-    
+
     return design
-
-
-

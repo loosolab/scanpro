@@ -2,9 +2,7 @@ from __future__ import print_function
 
 import numpy as np
 import pandas as pd
-# import statsmodels.api as sm
-#from scipy import stats
-from scipy.stats import nbinom, binom, t
+from scipy.stats import nbinom, binom
 from scipy.special import gammaln
 from scipy.special import psi
 from scipy.special import factorial
@@ -29,7 +27,7 @@ def del_index(x, indices):
 
 
 def pmax(x, const):
-    """ Function compares each number in a list to a constant and returns the maximum 
+    """ Function compares each number in a list to a constant and returns the maximum
 
     :param list x: A list with numbers
     :param float const: A constant to compare to
@@ -58,20 +56,20 @@ def is_fullrank(x):
         x = np.array(x)
     e = np.linalg.eig(x.transpose() @ x)[0]
     e[::-1].sort()  # sort descneding
-    return e[0] > 1 and np.abs(e[len(e)-1]/e[0]) > 1e-13
+    return e[0] > 1 and np.abs(e[len(e) - 1] / e[0]) > 1e-13
 
 
 def cov_to_corr(cov):
     """Calculate correlation matrix from covariance matrix
 
-    :param numpy.ndarray cov: A covariance matrix 
+    :param numpy.ndarray cov: A covariance matrix
     :return numpy.ndarray: Corrolation matrix
     """
     # code from https://math.stackexchange.com/questions/186959/correlation-matrix-from-covariance-matrix
     # calculate D^-1 * cov * D^-1 where D^-1 is the square root of inverse of the diagonal of covariance matrix
     if not isinstance(cov, np.ndarray):
         cov = np.array(cov)
-    Dinv = np.diag(1 / np.sqrt(np.diag(cov))) 
+    Dinv = np.diag(1 / np.sqrt(np.diag(cov)))
     corr = Dinv @ cov @ Dinv
     return corr
 
@@ -100,19 +98,19 @@ def vecmat(v, M):
     """
     if not isinstance(v, np.ndarray):
         v = np.array(v)
-    if not isinstance (M, np.ndarray):
+    if not isinstance(M, np.ndarray):
         M = np.array(M)
-        
+
     v = v[:, np.newaxis]
     return v * M
 
 
-def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1):
+def gauss_quad_prob(n, dist="uniform", ll=0, u=1, mu=0, sigma=1, alpha=1, beta=1):
     """Given a distribution, calculate nodes and weights of a gaussian quadrature.
 
     :param int n: Number of nodes.
     :param str dist: A distribution, only uniform is available! defaults to "uniform"
-    :param int l: Lower limit of uniform distribution, defaults to 0
+    :param int ll: Lower limit of uniform distribution, defaults to 0
     :param int u: Upper limit of uniform distribution, defaults to 1
     :param int mu: Mean of normal distribution, defaults to 0
     :param int sigma: Standard deviation of normal distribution, defaults to 1
@@ -120,8 +118,8 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
     :param int beta: Parameter for gamma and beta distribution, defaults to 1
     :return numpy.ndarray: 2d list of nodes and weights.
     """
-    #from pypropeller.gaussq2 import gausq2
-    res = np.zeros((2,1))  # first row is nodes, second is weights
+    # from pypropeller.gaussq2 import gausq2
+    res = np.zeros((2, 1))  # first row is nodes, second is weights
     x = res[0]  # nodes
     w = res[1]  # weights
     n = int(n)
@@ -129,23 +127,23 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
         print("Negativ number of nodes is not allowed!")
         return None
     if n == 0:
-        res = np.zeros((2,1))
+        res = np.zeros((2, 1))
         return res
     if n == 1:
-        dist_dict = {'uniform': lambda: (l+u)/2, 
-                    'beta': lambda: alpha/(alpha+beta),
-                    'normal': lambda: mu,
-                    'gamma': lambda: alpha*beta}
+        dist_dict = {'uniform': lambda: (ll + u) / 2,
+                     'beta': lambda: alpha / (alpha + beta),
+                     'normal': lambda: mu,
+                     'gamma': lambda: alpha * beta}
         x = dist_dict[dist]()
         w = 1
         return res
 
-    i = np.arange(1,n+1)
-    i1 = np.arange(1,n)
-    if dist=='uniform':  # skipping other distributions because they are not used
+    # i = np.arange(1, n + 1)
+    i1 = np.arange(1, n)
+    if dist == 'uniform':  # skipping other distributions because they are not used
         a = np.zeros(n)
-        b = i1 / np.sqrt(4*(i1**2)-1)
-    
+        b = i1 / np.sqrt(4 * (i1**2) - 1)
+
     b = np.append(b, 0.)
     z = np.zeros(n)
     z[0] = 1
@@ -154,9 +152,9 @@ def gauss_quad_prob(n, dist="uniform", l=0, u=1, mu=0, sigma=1, alpha=1, beta=1)
     x = a  # nodes
     w = z**2
     if dist == 'uniform':  # skipped other dists since we only use uniform!
-        x = l + (u-l)*(x+1)/2
+        x = ll + (u - ll) * (x + 1) / 2
     # save results to 2d list
-    res = np.zeros((2,n))
+    res = np.zeros((2, n))
     res[0] = x
     res[1] = w
 
@@ -172,13 +170,13 @@ def estimate_params_from_counts(x):
     counts = x
     nc = norm_counts(counts)
     m1 = nc.mean(axis=1)
-    m2 = (nc**2).sum(axis=1)/nc.shape[1]
+    m2 = (nc**2).sum(axis=1) / nc.shape[1]
     n = np.mean(nc.sum())
-    alpha = (n*m1-m2)/(n*(m2/m1-m1-1)+m1)
-    beta = ((n-m1)*(n-m2/m1))/(n*(m2/m1-m1-1)+m1)
-    disp = 1/(alpha+beta)
-    pi = alpha/(alpha+beta)
-    var = n*pi*(1-pi)*(n*disp+1)/(1+disp)
+    alpha = (n * m1 - m2) / (n * (m2 / m1 - m1 - 1) + m1)
+    beta = ((n - m1) * (n - m2 / m1)) / (n * (m2 / m1 - m1 - 1) + m1)
+    disp = 1 / (alpha + beta)
+    pi = alpha / (alpha + beta)
+    var = n * pi * (1 - pi) * (n * disp + 1) / (1 + disp)
     return [n, alpha, beta, pi, disp, var]
 
 
@@ -190,8 +188,8 @@ def estimate_beta_params(x):
     """
     mu = x.mean(axis=1)
     V = x.var(axis=1)
-    a = (((1-mu)/V) - (1/mu))*mu**2
-    b = (((1-mu)/V) - (1/mu))*mu*(1-mu)
+    a = (((1 - mu) / V) - (1 / mu)) * mu**2
+    b = (((1 - mu) / V) - (1 / mu)) * mu * (1 - mu)
     return a, b
 
 
@@ -209,13 +207,13 @@ def norm_counts(x, log=False, prior_count=0.5, lib_size=None):
         lib_size = np.array(x.sum().to_list())
     M = np.median(lib_size)
     if log:
-        prior_counts_scaled = lib_size/np.mean(lib_size)*prior_count
-        return np.log2((((counts).T+prior_counts_scaled)/lib_size[:,np.newaxis]*M).T)
+        prior_counts_scaled = lib_size / np.mean(lib_size) * prior_count
+        return np.log2((((counts).T + prior_counts_scaled) / lib_size[:, np.newaxis] * M).T)
     else:
-        return ((counts).T/lib_size[:,np.newaxis]*M).T
+        return ((counts).T / lib_size[:, np.newaxis] * M).T
 
 
-def boot_reps(adata, n_boots = 10, samples='sample'):
+def boot_reps(adata, n_boots=10, samples='sample'):
     """Generate replicates for each sample using bootstrapping with replacement.
 
     :param anndata.AnnData adata: Anndata object.
@@ -226,7 +224,7 @@ def boot_reps(adata, n_boots = 10, samples='sample'):
     groups = adata.obs[samples].unique()
     groups_adatas = {}
     for group in groups:
-        groups_adatas[group] = (adata[adata.obs[samples] == group])  # subset data for each sample
+        groups_adatas[group] = adata.obs[adata.obs[samples] == group]  # subset data for each sample
     indices = {}
     for i, group in enumerate(groups_adatas.keys()):
         indices[groups[i]] = np.arange(groups_adatas[group].shape[0])  # get sequence of indices
@@ -234,54 +232,11 @@ def boot_reps(adata, n_boots = 10, samples='sample'):
     for group in groups:
         for i in range(n_boots):
             boot = np.random.choice(indices[group], len(indices[group]))
-            rep = groups_adatas[group][boot]
-            rep.obs[samples] = [group+'_rep_'+str(i+1)]*rep.shape[0]
-            rep.obs_names_make_unique()
+            rep = groups_adatas[group].iloc[boot, :]
+            rep[samples] = [group + '_rep_' + str(i + 1)] * rep.shape[0]
+            # rep.obs_names_make_unique()
             reps.append(rep)
 
-    return reps
-
-
-def split_boot_reps(adata, n_boots=10, samples='sample'):
-    """Split one sample into replicates using bootstrapping without replacement.
-    Currently the function only splits sample into two.
-
-    :param _type_ adata: _description_
-    :param int n_boots: _description_, defaults to 10
-    :param str samples: _description_, defaults to 'sample'
-    :return _type_: _description_
-    """
-    groups = adata.obs[samples].unique()
-    groups_adatas = {}
-    for group in groups:
-        groups_adatas[group] = (adata[adata.obs[samples] == group])  # subset data for each sample
-    indices = {}
-    for i, group in enumerate(groups_adatas.keys()):
-        indices[groups[i]] = np.arange(groups_adatas[group].shape[0])  # get sequence of indices
-    # get minimum number of cells in all samples
-    n_min = [min([len(indices[groups[i]]) for i, _ in enumerate(groups_adatas.keys())])][0]
-    reps = []
-    for group in groups:
-        # choose n_min cells from each sample randomly without replacement 
-        reduce = np.random.choice(indices[group], n_min, replace=False)
-        groups_adatas[group] = groups_adatas[group][reduce]
-        n = n_min
-        n_indices = np.arange(n)
-        n_1 = np.random.choice(range(n), replace=False)  # number of cells for rep 1
-        n_2 = n - n_1  # number of cells for rep 2
-        # np.random.shuffle(indices[group])
-        rep_1_indices = np.random.choice(n_indices, n_1, replace=False)
-        rep_2_indices = [i for i in n_indices if i not in rep_1_indices]
-        rep_1 = groups_adatas[group][rep_1_indices]
-        rep_2 = groups_adatas[group][rep_2_indices]
-        rep_1.obs[samples] = [group+'_rep_'+str(1)]*rep_1.shape[0]
-        rep_2.obs[samples] = [group+'_rep_'+str(2)]*rep_2.shape[0]
-
-        rep_1.obs_names_make_unique()
-        rep_2.obs_names_make_unique()
-        reps.append(rep_1)
-        reps.append(rep_2)
-    
     return reps
 
 
@@ -304,40 +259,41 @@ def simulate_cell_counts(counts, props, n_reps, a, b, n=None, mu=None):
     # estimate negativ binomial parameters from data
     # get sum of cell counts for each sample
     s = np.sum(counts.values, axis=0)
+    # X = np.ones_like(s)
     # fit negative binomial model
-    #nb = sm.NegativeBinomial(s, X, full_output=0)
-    #res = nb.fit(start_params=[1,1])
+    # nb = sm.NegativeBinomial(s, X, full_output=0)
+    # res = nb.fit(start_params=[1,1])
     # calculate n and p
-    #mu = np.exp(res.params[0])  # or np.mean(s)
-    #mu = np.mean(s)
-    #var = np.var(s)
-    #var = mu + res.params[1]*(mu**2)
-    #n = mu**2 / (var - mu) if var > mu else 10
-    #n = 20
-    #mu = 5000
-    #p = n / ((n+mu) if n+mu != 0 else 1)
+    # mu = np.exp(res.params[0])  # or np.mean(s)
+    # mu = np.mean(s)
+    # var = np.var(s)
+    # var = mu + res.params[1]*(mu**2)
+    # n = mu**2 / (var - mu) if var > mu else 10
+    # n = 20
+    # mu = 5000
+    # p = n / ((n+mu) if n+mu != 0 else 1)
     if n is None:
         n, p = fit_nbinom(s)
-    else:
-        var = np.var(s)
-        p = n / ((n+mu) if n+mu != 0 else 1)
-    #p = mu / var
-    #p = 1/((1+mu)*res.params[1])
-    #n = mu*p/(1-p)  # dispersion
+    elif n and mu is None:
+        mu = np.mean(s)
+        p = n / ((n + mu) if n + mu != 0 else 1)
+    # p = mu / var
+    # p = 1/((1+mu)*res.params[1])
+    # n = mu*p/(1-p)  # dispersion
     # generate total counts for each sample
-    total_reps = n_reps*counts.shape[1]  # number of reps multiplied by number of samples
+    total_reps = n_reps * counts.shape[1]  # number of reps multiplied by number of samples
     num_cells = nbinom.rvs(n, p, size=total_reps)
     # generate sample proportions
     true_p = np.zeros((props.shape[0], total_reps))  # for each sample we will generate n_reps replicates
-    reps_names = [name + '_rep' + str(i) for name in counts.T.index for i in range(1,n_reps+1)]
+    reps_names = [name + '_rep' + str(i) for name in counts.T.index for i in range(1, n_reps + 1)]
     for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
-        for i in range(0,total_reps,n_reps):  # iterate over samples
-            true_p[k,i:i+n_reps] = np.random.beta(a[k], b[i//n_reps][k], n_reps)  # draw random proportions from beta distribution for each sample
+        for i in range(0, total_reps, n_reps):  # iterate over samples
+            true_p[k, i:i + n_reps] = np.random.beta(a[k], b[i // n_reps][k], n_reps)  # draw random proportions from beta distribution for each sample
 
     # generate counts for each cluster in each replicate
     counts_sim = np.zeros((len(true_p), total_reps))
     for i in range(len(props)):
-        counts_sim[i,:] = binom.rvs(n=num_cells, p=true_p[i,:], size=total_reps)
+        counts_sim[i, :] = binom.rvs(n=num_cells, p=true_p[i, :], size=total_reps)
 
     counts_sim = counts_sim.T
     counts_t = counts.T  # counts should have rows=samples and columns=clusters for further analysis
@@ -359,13 +315,13 @@ def fit_nbinom(X, initial_params=None):
         X = args[0]
         N = X.size
 
-        #MLE estimate based on the formula on Wikipedia:
+        # MLE estimate based on the formula on Wikipedia:
         # http://en.wikipedia.org/wiki/Negative_binomial_distribution#Maximum_likelihood_estimation
         result = np.sum(gammaln(X + r)) \
             - np.sum(np.log(factorial(X))) \
-            - N*(gammaln(r)) \
-            + N*r*np.log(p) \
-            + np.sum(X*np.log(1-(p if p < 1 else 1-infinitesimal)))
+            - N * (gammaln(r)) \
+            + N * r * np.log(p) \
+            + np.sum(X * np.log(1 - (p if p < 1 else 1 - infinitesimal)))
 
         return -result
 
@@ -374,10 +330,10 @@ def fit_nbinom(X, initial_params=None):
         X = args[0]
         N = X.size
 
-        pderiv = (N*r)/p - np.sum(X)/(1-(p if p < 1 else 1-infinitesimal))
+        pderiv = (N * r) / p - np.sum(X) / (1 - (p if p < 1 else 1 - infinitesimal))
         rderiv = np.sum(psi(X + r)) \
-            - N*psi(r) \
-            + N*np.log(p)
+            - N * psi(r) \
+            + N * np.log(p)
 
         return np.array([-rderiv, -pderiv])
 
@@ -385,17 +341,17 @@ def fit_nbinom(X, initial_params=None):
         # reasonable initial values (from fitdistr function in R)
         m = np.mean(X)
         v = np.var(X)
-        size = (m**2)/(v-m) if v > m else 10
+        size = (m**2) / (v - m) if v > m else 10
 
         # convert mu/size parameterization to prob/size
-        p0 = size / ((size+m) if size+m != 0 else 1)
+        p0 = size / ((size + m) if size + m != 0 else 1)
         r0 = size
         initial_params = np.array([r0, p0])
 
     bounds = [(infinitesimal, None), (infinitesimal, 1)]
     optimres = optim(log_likelihood,
                      x0=initial_params,
-                     #fprime=log_likelihood_deriv,
+                     # fprime=log_likelihood_deriv,
                      args=(X,),
                      approx_grad=1,
                      bounds=bounds)
@@ -405,96 +361,3 @@ def fit_nbinom(X, initial_params=None):
     p = params[1]
 
     return n, p
-
-
-def combine(y_var,
-            X_vars,
-            fit=None,
-            dof_adjust=True,
-            incl_constant=True,
-            **glm_args,
-            ):
-    """
-      Function used to run a GLM model across multiple datasets, aggregating the
-      results using Rubin's combination rules -- i.e. multiple imputation analysis.
-      This function regresses the outcome variable on a linear combination of
-      independent variables, given a user-specified model family and link function.
-      For example if y_var = 'y' and X_vars = ['x1','x2','x3'], then by default this
-      function estimates the model y = a + x1 + x2 + x3, where a is the constant term.
-      Note, the constant term is added by default, but can be excluded by setting
-      incl_constant = False.
-      This function wraps statsmodels.GLM() and allows users to specify linear
-      models using GLM families including Gaussian, Binomial, and Poisson.
-      The function can be called on the completed dataframes generated from a MIDAS
-      model or users can supply their own list of completed datasets to analyse.
-      Args:
-        fit: A list of pd.DataFrames. The M completed datasets to be analyzed.
-        y_var: String. The name of the outcome variable.
-        X_vars: List of strings. The names of the predictor variables.
-        dof_adjust: Boolean. Indicates whether to apply the Barnard and Rubin (1999)
-        degrees of freedom adjustment for small-samples.
-        incl_constant: Boolean. Indicates whether to include an intercept in the null model (the default in
-        most generalized linear model software packages).
-        **glm_args: Further arguments to be passed to statsmodels.GLM(), e.g., to
-        specify model family, offsets, and variance and frequency weights (see the
-        statsmodels documentation for full details). If None, a Gaussian (ordinary
-        least squares) model will be estimated.
-      Returns:
-        DataFrame of combined model results  """
-
-    ind_models = []
-    mods_est = fit['coefficients']
-    mods_var = []
-    m = len(fit)
-
-    for i in range(m):
-        # df_mod = fit[i]
-        # df_endog = df_mod[y_var]
-        # df_exog = df_mod[X_vars]
-
-        # if incl_constant:
-        #     df_exog = sm.add_constant(df_exog)
-
-        # ind_model = sm.GLM(df_endog, df_exog, **glm_args)
-        # ind_results = ind_model.fit()
-        # mods_est.append(ind_results.params)
-        # mods_var.append(np.diag(ind_results.cov_params()))
-
-        if i == 0:
-            mods_df_resid = ind_results.df_resid
-            mods_coef_names = ind_results.model.exog_names
-
-    Q_bar = np.multiply((1 / m), np.sum(np.array(mods_est), 0))
-    U_bar = np.multiply((1 / m), np.sum(np.array(mods_var), 0))
-
-    models_demean = list(map(lambda x: np.square(x - Q_bar), mods_est))
-
-    B = np.multiply(1 / (m - 1), np.sum(np.array(models_demean), 0))
-
-    Q_bar_var = U_bar + ((1 + (1 / m)) * B)
-    Q_bar_se = np.sqrt(Q_bar_var)
-
-    v_m = (m - 1) * np.square(1 + (U_bar / ((1 + m ** (-1)) * B)))
-
-    if dof_adjust:
-        v_complete = mods_df_resid
-        gamma = ((1 + m ** (-1)) * B) / Q_bar_var
-        v_obs = ((v_complete + 1) / (v_complete + 3)) * v_complete * (1 - gamma)
-        v_corrected = ((1 / v_m) + (1 / v_obs)) ** (-1)
-        dof = v_corrected
-
-    else:
-        dof = v_m
-
-    est = Q_bar
-    std_err = Q_bar_se
-    stat = est / std_err
-
-    combined_mat = {'term': mods_coef_names,
-                    'estimate': est,
-                    'std.error': std_err,
-                    'statistic': stat,
-                    'df': dof,
-                    'p.value': (2 * (1 - t.cdf(abs(stat), df=dof)))}
-    
-    return combined_mat
