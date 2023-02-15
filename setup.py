@@ -12,6 +12,8 @@ setup(
     version='0.2.0',
     packages=find_packages(include=['pypropeller', 'pypropeller.*']),
     install_requires=['pandas',
-                      'statsmodels'],
+                      'statsmodels',
+                      'matplotlib',
+                      'seaborn'],
     ext_modules=[flib]
 )

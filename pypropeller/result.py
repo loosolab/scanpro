@@ -12,13 +12,12 @@ class PyproResult(pd.DataFrame):
     def _constructor(self):
         return PyproResult
 
-
     def _merge_design_props(self):
         """Merge proportions matrix with design matrix for plotting
 
         :return pandas.DataFrame: Merged proportions and design
         """
-        
+
         # Establish the samples per group
         sample_col = self.design.index.name
         design_melt = self.design.reset_index().melt(id_vars=sample_col)
@@ -30,11 +29,10 @@ class PyproResult(pd.DataFrame):
 
         return prop_merged
 
-
     def plot(self,
-                type='all',
-                clusters=None,
-                n_columns=3):
+             type='all',
+             clusters=None,
+             n_columns=3):
 
         if clusters is None:
             clusters = self.props.columns.tolist()
