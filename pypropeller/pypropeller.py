@@ -6,13 +6,12 @@ from statsmodels.stats.multitest import multipletests
 from pypropeller.get_transformed_props import get_transformed_props
 from pypropeller.linear_model import lm_fit, contrasts_fit, create_design
 from pypropeller import ebayes
-from pypropeller.utils import *
-from pypropeller.sim_reps import *
+from pypropeller.sim_reps import generate_reps, combine
 
 
 def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group',
                 transform='logit', robust=True, n_sims=20, n_reps=4, min_rep_pct=0.1, verbose=True):
-    """Wrapper function for pypropeller. The data must have replicates, 
+    """Wrapper function for pypropeller. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
     replicates, the function {sim_pypropeller} will generate artificial replicates
     using bootstrapping and run propeller multiple times. The values are then pooled
@@ -122,10 +121,12 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
             print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
     X = design.iloc[:, coef]
-    N = len(X)  # number of samples
-    p = len(X.columns)  # number of conditions
+    # N = len(X)  # number of samples
+    # p = len(X.columns)  # number of conditions
+
     # fit linear model to each cluster to get coefficients estimates
     fit_prop = lm_fit(X=X, y=props)
+
     # Change design matrix to intercept format
     design_2 = design.iloc[:, 1:]
     design_2 = add_constant(design_2, prepend=True, has_constant='skip')
@@ -136,6 +137,7 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     fit['coefficients'] = fit['coefficients'][:, coef[1:]]
     fit['stdev'] = fit['stdev'][:, coef[1:]]
     fit['cov_coef'] = fit['cov_coef'][coef[1:][:, np.newaxis], coef[1:]]
+
     # get F statistics using eBayes
     fit = ebayes.ebayes(fit, robust=robust)
 

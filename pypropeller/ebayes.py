@@ -1,11 +1,11 @@
 import numpy as np
 from scipy.stats import t, f, chi2
-from statsmodels.nonparametric.smoothers_lowess import lowess
-from pypropeller.utils import *
+# from statsmodels.nonparametric.smoothers_lowess import lowess
+from pypropeller.utils import pmin, pmax, is_fullrank, cov_to_corr, matvec
 from pypropeller.fitFDist import fit_f_dist_robust, fit_f_dist
 
 
-def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_tail_p=[0.05,0.1]):  # Done
+def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_tail_p=[0.05, 0.1]):  # Done
     """Applying empirical bayes method to compute moderated t- and f-statistics for each
     cluster to determine significant changes in composition.
 
@@ -28,27 +28,27 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     # checks
     if not coefficients.any() or not sigma.any() or not stdev.any() or not df_residual.any():
         raise ValueError("No data!")
-    if np.all(df_residual==0):
+    if np.all(df_residual == 0):
         raise ValueError("No residual degrees of freedom!")
     if np.all(~np.isfinite(sigma)):
         raise ValueError("No finite residual standard deviation!")
-    covariate = None
+    # covariate = None
     n_clusters = len(coefficients)
 
     # moderated t statistics
     var_prior, var_post, df_prior = squeeze_var(sigma**2, df_residual, robust=robust, winsor_tail_p=winsor_tail_p)
     res = {'s2_prior': var_prior, 's2_post': var_post, 'df_prior': df_prior}
-    res['t'] = coefficients / stdev / np.reshape(np.sqrt(res['s2_post']), (n_clusters,1))
+    res['t'] = coefficients / stdev / np.reshape(np.sqrt(res['s2_post']), (n_clusters, 1))
     df_total = df_residual + df_prior
     df_pooled = np.nansum(df_residual)
     df_total = pmin(df_total, df_pooled)
     res['df_total'] = df_total
-    res['p_value'] = 2*t.cdf(-abs(res["t"]), df=np.reshape(df_total, (len(res["t"]),1)))
-    #stdev_unscaled = fit['ssr'] / np.sqrt(res['s2_post'])  # Sum of squared residuals devided by square root of post variance
-    
+    res['p_value'] = 2 * t.cdf(-abs(res["t"]), df=np.reshape(df_total, (len(res["t"]), 1)))
+    # stdev_unscaled = fit['ssr'] / np.sqrt(res['s2_post'])  # Sum of squared residuals devided by square root of post variance
+
     # B-statistics
-    var_prior_lim = stdev_coef_lim**2/res['s2_prior']
-    res['var_prior'] = tmixture_matrix(res['t'],stdev,df_total,proportion,var_prior_lim)
+    var_prior_lim = stdev_coef_lim**2 / res['s2_prior']
+    res['var_prior'] = tmixture_matrix(res['t'], stdev, df_total, proportion, var_prior_lim)
     if np.any(np.isnan(res['var_prior'])):
         res['var_prior'][np.isnan(res['var_prior'])] = 1 / res['s2_prior']
         print("Estimation of var_prior failed - set to default value")
@@ -57,16 +57,16 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     t2 = res['t']**2
     inf_df = res['df_prior'] > 10**6
     if any(inf_df):
-        kernel = t2 * (1-1/r) / 2
+        kernel = t2 * (1 - 1 / r) / 2
         if any(~inf_df):
             t2_f = t2[~inf_df]
             r_f = r[~inf_df]
             df_total_f = df_total[~inf_df]
-            kernel[~inf_df] = (1 + df_total_f[:,np.newaxis]) / 2*np.log((t2_f+df_total_f[:,np.newaxis]) / (t2_f/r_f+df_total_f[:,np.newaxis]))
+            kernel[~inf_df] = (1 + df_total_f[:, np.newaxis]) / 2 * np.log((t2_f + df_total_f[:, np.newaxis]) / (t2_f / r_f + df_total_f[:, np.newaxis]))
     else:
-        kernel = (1+df_total[:,np.newaxis]) / 2*np.log((t2+df_total[:,np.newaxis]) / (t2/r+df_total[:,np.newaxis]))
-    res['lods'] = np.log(proportion/(1-proportion)) - np.log(r)/2 + kernel
-        
+        kernel = (1 + df_total[:, np.newaxis]) / 2 * np.log((t2 + df_total[:, np.newaxis]) / (t2 / r + df_total[:, np.newaxis]))
+    res['lods'] = np.log(proportion / (1 - proportion)) - np.log(r) / 2 + kernel
+
     fit['df_prior'] = df_prior
     fit['s2_prior'] = res['s2_prior']
     fit['var_prior'] = res['var_prior']
@@ -79,18 +79,17 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     if not fit['design'].empty and is_fullrank(fit['design']):
         F_stat = classify_tests_f(fit)
         fit['F'] = F_stat
-        #fit['F'] = F_stat['stat']
         df1 = F_stat['df1']
         df2 = F_stat['df2']
-        if df2 > 1e6: 
-            fit['F']['F_p_value'] = 1 - chi2.cdf(df1*fit['F']['stat'], df=df1)  # to calculate upper tail [x,inf) since cdf calculates lower tail [0,x]
+        if df2 > 1e6:
+            fit['F']['F_p_value'] = 1 - chi2.cdf(df1 * fit['F']['stat'], df=df1)  # to calculate upper tail [x,inf) since cdf calculates lower tail [0,x]
         else:
             fit['F']['F_p_value'] = 1 - f.cdf(fit['F'], df1, df2)
 
     return fit
 
 
-def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05,0.1]):  # DONE
+def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]):  # DONE
     """Apply empirical bayes method to squeeze posterior variances, given hyperparamters
     from fitting a F distribution to data.
 
@@ -114,13 +113,13 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05,0.1])
         df_prior = 0
         return var_post, var_prior, df_prior
     if not isinstance(df, np.ndarray):
-        df = np.array([df]*n)
+        df = np.array([df] * n)
     if len(df) == 1:
         df = np.repeat(df, n)
     if len(df) != n:
         raise ValueError("length of var and df differ!")
     if len(df) > 1:
-        var[df==0] = 0
+        var[df == 0] = 0
     if robust:
         fit = fit_f_dist_robust(var, df, covariate, winsor_tail_p)
         df_prior = fit['df2_shrunk']
@@ -135,7 +134,7 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05,0.1])
     var_prior = fit['scale']
     is_fin = np.isfinite(df_prior)
     if is_fin.all():
-        var_post = (df*var + df_prior*var_prior) / (df + df_prior)
+        var_post = (df * var + df_prior * var_prior) / (df + df_prior)
     # From here, at least some df_prior are infinite
     # For infinite df_prior, return var_prior
     if not isinstance(var_prior, np.ndarray):
@@ -147,10 +146,11 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05,0.1])
     # Maybe some df.prior are finite
     if is_fin.any():
         i = np.where(is_fin)
-        if len(df) > 1: df = df[i]
+        if len(df) > 1:
+            df = df[i]
         df_prior_fin = df_prior[i]
-        var_post[i] = (df*var[i] + df_prior_fin*var_post[i]) / (df + df_prior_fin)
-    
+        var_post[i] = (df * var[i] + df_prior_fin * var_post[i]) / (df + df_prior_fin)
+
     return var_prior, var_post, df_prior
 
 
@@ -168,15 +168,15 @@ def tmixture_matrix(t_stat, stdev_unscaled, df, proportion, v0_lim=np.array([]))
     """
     if t_stat.shape != stdev_unscaled.shape:
         raise ValueError("Shape of t_stat and stdev_unscaled do not match! ")
-        #return None
-    if v0_lim.any() and len(v0_lim)!=2:
+
+    if v0_lim.any() and len(v0_lim) != 2:
         raise ValueError("Length of v0_lim must be 2!")
-        #return None
+
     n_coef = t_stat.shape[-1]  # number of columns or conditions
     v0 = np.repeat(0, n_coef)
     for i in range(n_coef):
-        v0[i] = tmixture_vector(t_stat[:,i],stdev_unscaled[:,i],df,proportion,v0_lim)
-    
+        v0[i] = tmixture_vector(t_stat[:, i], stdev_unscaled[:, i], df, proportion, v0_lim)
+
     return v0
 
 
@@ -197,11 +197,12 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
         stdev_unscaled = stdev_unscaled[o]
         df = df[o]
     n_clusters = len(tstat)
-    n_target = int(np.ceil(proportion/2*n_clusters))
-    if n_target < 1: return np.nan
+    n_target = int(np.ceil(proportion / 2 * n_clusters))
+    if n_target < 1:
+        return np.nan
     # If ntarget is v small, ensure p at least matches selected proportion
     # This ensures ptarget < 1
-    p = max(n_target/n_clusters, proportion)
+    p = max(n_target / n_clusters, proportion)
 
     tstat = np.absolute(tstat)
     max_df = max(df)
@@ -210,19 +211,21 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
         tail_p = 1 - t.logcdf(tstat[i], df[i])  # upper tail
         tstat[i] = np.log(1 - t.ppf(tail_p, max_df))
         df[i] = max_df
+
     # Select top statistics
     o = np.argsort(tstat)[::-1][0:n_target]  # in decreasing order
     tstat = tstat[o]
     v1 = stdev_unscaled[o]**2
+
     # Compare to order statistics
-    r = np.arange(1, n_target+1)
-    p0 = 2*(1 - t.cdf(tstat, max_df))
-    p_target = ((r-0.5)/n_clusters - (1-p)*p0) / p
+    r = np.arange(1, n_target + 1)
+    p0 = 2 * (1 - t.cdf(tstat, max_df))
+    p_target = ((r - 0.5) / n_clusters - (1 - p) * p0) / p
     v0 = np.resize(0., n_target)
     pos = p_target > p0
     if pos.any():
-        q_target = t.ppf(1 - p_target[pos]/2, max_df)  # upper tail
-        v0[pos] = v1[pos]*((tstat[pos]/q_target)**2 - 1)
+        q_target = t.ppf(1 - p_target[pos] / 2, max_df)  # upper tail
+        v0[pos] = v1[pos] * ((tstat[pos] / q_target)**2 - 1)
     if v0_lim.any():
         v0 = pmin(pmax(v0, v0_lim[0]), v0_lim[1])
 
@@ -242,7 +245,7 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
     #     v0[pos] = v1[pos]*((tstat[pos]/q_target)**2 -1)
     # if v0_lim.any():
     #     v0 =  pmin(pmax(v0, v0_lim[0]), v0_lim[1])
-    
+
     return np.mean(v0)
 
 
@@ -258,9 +261,10 @@ def classify_tests_f(fit, df=np.Inf):  # DONE
     :return dict: F-statistics
     """
     f_stat = {}
+
     # Check for and adjust any coefficient variances exactly zero (usually caused by an all zero contrast)
     n = fit['cov_coef'].shape[0]
-    i = np.arange(0, n) + n*np.arange(0, n)
+    i = np.arange(0, n) + n * np.arange(0, n)
     cov_coef = np.array(fit['cov_coef'])
     if min(cov_coef.flat[i]) == 0:
         j = i[cov_coef.flat[i] == 0]
@@ -268,7 +272,7 @@ def classify_tests_f(fit, df=np.Inf):  # DONE
     cor_matrix = cov_to_corr(fit['cov_coef'])
 
     tstat = fit['t']
-    n_clusters = fit['t'].shape[0]
+    # n_clusters = fit['t'].shape[0]
     n_tests = fit['t'].shape[1]
 
     if n_tests == 1:
@@ -276,13 +280,12 @@ def classify_tests_f(fit, df=np.Inf):  # DONE
         f_stat['df1'] = 1
         f_stat['df2'] = df
         return f_stat
-    
+
     e_values, e_vectors = np.linalg.eig(cor_matrix)  # calculate eigenvalues and eigenvectors
-    r = sum(e_values/e_values[0] > 1e-8)  # degrees of freedom
-    Q = matvec(e_vectors[:,0:r], 1/np.sqrt(e_values[0:r])/np.sqrt(r))
-    f_stat['stat'] = (tstat @ Q)**2 @ np.ones((r,1))
+    r = sum(e_values / e_values[0] > 1e-8)  # degrees of freedom
+    Q = matvec(e_vectors[:, 0:r], 1 / np.sqrt(e_values[0:r]) / np.sqrt(r))
+    f_stat['stat'] = (tstat @ Q)**2 @ np.ones((r, 1))
     f_stat['df1'] = r
     f_stat['df2'] = df
 
     return f_stat
-    
