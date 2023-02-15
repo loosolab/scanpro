@@ -4,13 +4,13 @@ import numpy as np
 from statsmodels.stats.multitest import multipletests
 
 from pypropeller.get_transformed_props import get_transformed_props
-from pypropeller.linear_model import *
+from pypropeller.linear_model import lm_fit, contrasts_fit, create_design
 from pypropeller import ebayes
 from pypropeller.utils import *
 from pypropeller.sim_reps import *
 
 
-def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group', 
+def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group',
                 transform='logit', robust=True, n_sims=20, n_reps=4, min_rep_pct=0.1, verbose=True):
     """Wrapper function for pypropeller. The data must have replicates, 
     since propeller requires replicated data to run. If the data doesn't have
@@ -42,19 +42,19 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     if len(conditions) < 2:
         raise ValueError("There has to be at least two conditions to compare!")
 
-    baseline_props = data[clusters_col].value_counts()/data.shape[0]  # proportions of each cluster in all samples
+    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
 
     if len(conditions) == len(data[samples_col].unique()):
         if verbose:
             print("Your data doesn't have replicates! Artificial replicates will be simulated to run pypropeller")
             print("Simulation may take some minutes...")
-        out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, min_rep_pct=min_rep_pct, clusters_col=clusters_col, 
-            samples_col=samples_col, conds_col=conds_col, transform=transform, robust=robust, verbose=verbose)
+        out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, min_rep_pct=min_rep_pct, clusters_col=clusters_col,
+                              samples_col=samples_col, conds_col=conds_col, transform=transform, robust=robust, verbose=verbose)
         print('Done!')
 
     else:
         out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
-    
+
     columns = list(out.columns)
     out['Baseline_props'] = baseline_props.values
     columns.insert(0, 'Baseline_props')
@@ -74,7 +74,7 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     :param str cond: Column in adata.obs where condition informtaion are stored, defaults to 'group'
     :param str transform: Method of normalization of proportions (logit or arcsin), defaults to 'logit'
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
-    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values. 
+    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
 
     if type(adata).__name__ == "AnnData":
@@ -101,16 +101,16 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
 
 
 def anova(props, prop_trans, design, coef, robust=True, verbose=True):
-    """Test the significance of changes in cell proportion across 3 or more conditions using 
+    """Test the significance of changes in cell proportion across 3 or more conditions using
     empirical bayes and moderated ANOVA.
 
     :param pandas.DataFrame props: True cell proportions.
     :param pandas.DataFrame prop_trans: Normalized cell proportions.
-    :param pandas.DataFrame design: Design matrix where rows are samples and columns are 
+    :param pandas.DataFrame design: Design matrix where rows are samples and columns are
     coefficients of condtions of interest to be estimated.
     :param numpy.ndarray coef: Array specifiying columns of interest in the design matrix.
     :param bool robust: Robust empirical bayes estimation of posterior variances.
-    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition, 
+    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
     from statsmodels.tools.tools import add_constant
@@ -121,21 +121,21 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
         if verbose:
             print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
-    X = design.iloc[:,coef]
+    X = design.iloc[:, coef]
     N = len(X)  # number of samples
     p = len(X.columns)  # number of conditions
     # fit linear model to each cluster to get coefficients estimates
     fit_prop = lm_fit(X=X, y=props)
     # Change design matrix to intercept format
-    design_2 = design.iloc[:,1:]
+    design_2 = design.iloc[:, 1:]
     design_2 = add_constant(design_2, prepend=True, has_constant='skip')
     # fit fit linear model with all confounding variables
     fit = lm_fit(X=design_2, y=prop_trans)
 
     # remove intercept from stdev, coefficients and covariance matrix for the ebayes method
-    fit['coefficients'] = fit['coefficients'][:,coef[1:]]
-    fit['stdev'] = fit['stdev'][:,coef[1:]]
-    fit['cov_coef'] = fit['cov_coef'][coef[1:][:, np.newaxis],coef[1:]]
+    fit['coefficients'] = fit['coefficients'][:, coef[1:]]
+    fit['stdev'] = fit['stdev'][:, coef[1:]]
+    fit['cov_coef'] = fit['cov_coef'][coef[1:][:, np.newaxis], coef[1:]]
     # get F statistics using eBayes
     fit = ebayes.ebayes(fit, robust=robust)
 
@@ -156,16 +156,16 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
 
 
 def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
-    """Test the significance of changes in cell proportion across 2 conditions using 
+    """Test the significance of changes in cell proportion across 2 conditions using
     empirical bayes and moderated t-test.
 
     :param pandas.DataFrame props: True cell proportions.
     :param pandas.DataFrame prop_trans: Normalized cell proportions.
-    :param pandas.DataFrame design: Design matrix where rows are samples and columns are 
+    :param pandas.DataFrame design: Design matrix where rows are samples and columns are
     coefficients of condtions of interest to be estimated.
     :param list contrasts: A list specifiying 2 conditions in the design matrix to be tested; [1, -1].
     :param bool robust: Robust empirical bayes estimation of posterior variances.
-    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition, 
+    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
     if prop_trans.shape[1] < 3:
@@ -180,14 +180,14 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     contrasts = np.array(contrasts)
     if len(contrasts) == 2:
         fit_prop = lm_fit(X=design, y=props)
-        #z = np.array(list(map(lambda x: x**contrasts ,fit_prop['coefficients']))).T
+        # z = np.array(list(map(lambda x: x**contrasts ,fit_prop['coefficients']))).T
         z = (fit_prop['coefficients']**contrasts).T
         RR = np.prod(z, axis=0)
     # If confounding variables included in design matrix exclude them
     else:
-        design = design.iloc[:, np.where(contrasts!=0)[0]]
+        design = design.iloc[:, np.where(contrasts != 0)[0]]
         fit_prop = lm_fit(X=design, y=props)
-        new_cont = contrasts[contrasts!=0]
+        new_cont = contrasts[contrasts != 0]
         z = (fit_prop['coefficients']**new_cont).T
         RR = np.prod(z, axis=0)
 
@@ -210,8 +210,8 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     return pd.DataFrame(res, columns=cols).set_index('Clusters')
 
 
-def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cluster', 
-            samples_col='sample', conds_col='group', transform='logit', robust=True, verbose=True):
+def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cluster',
+                    samples_col='sample', conds_col='group', transform='logit', robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
     :param _type_ data: _description_
@@ -239,7 +239,7 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     data['tmp'] = data[clusters_col].astype('str') + '_' + data[samples_col].astype('str')
     data['props'] = data['tmp'].map(true_props)
     data.drop('tmp', axis=1, inplace=True)
-    
+
     conditions = data[conds_col].unique()
     n_conds = len(conditions)
     res = {}
@@ -255,14 +255,14 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
         # generate replicates
         rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col, min_rep_pct=min_rep_pct)
         # run propeller
-        out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col, 
+        out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
                                   cond=conds_col, transform=transform, robust=robust, verbose=False)
         # get adjusted p values for simulation
-        p_values[i] = out_sim.iloc[:,-1].to_list()
+        p_values[i] = out_sim.iloc[:, -1].to_list()
         # get coefficients estimates from linear model fit
         for k, cluster in enumerate(out_sim.index):
             for j, condition in enumerate(conditions):
-                coefficients[condition][i,k] = out_sim.iloc[k,j]
+                coefficients[condition][i, k] = out_sim.iloc[k, j]
     # end timer
     end = time.time()
     elapsed = end - start
