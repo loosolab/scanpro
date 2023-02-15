@@ -211,7 +211,7 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
         tstat = tstat[o]
         stdev_unscaled = stdev_unscaled[o]
         df = df[o]
-    
+
     n_clusters = len(tstat)
     n_target = int(np.ceil(proportion / 2 * n_clusters))
     if n_target < 1:

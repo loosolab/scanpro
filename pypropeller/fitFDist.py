@@ -413,5 +413,5 @@ def winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g):
     q21 = q[1] - q[0]
     m = q21 * sum(g[1] * f1 * z_nodes) + sum(zq * winsor_tail_p)
     v = q21 * sum(g[1] * f1 * (z_nodes - m)**2) + sum((zq - m)**2 * winsor_tail_p)
-    
+
     return np.array([m, v])
