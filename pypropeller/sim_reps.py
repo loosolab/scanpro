@@ -14,12 +14,13 @@ import pandas as pd
 def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='norm'):
     """Generate replicates by splitting original samples using bootstrapping.
 
-    :param anndata.AnnData or pandas.DataFrame data: _description_
-    :param int n_reps: number of replicates to generate, defaults to 2.
+    :param anndata.AnnData or pandas.DataFrame data: Dataframe or adata.obs whith single cell info.
+    :param int n_reps: Number of replicates to generate, defaults to 2.
     :param str sample_col: Column where samples are stored, defaults to 'sample'.
     :param float min_rep_pct: Avoid choosing very small/large number of cells for each replicate, defaults to 0.1
-    :param str dist: _description_, defaults to 'norm'.
-    :return _type_: List of replicates as dataframes.
+    :param str dist: Distribution to use for probabilities of drawing number of cells for replicates, defaults to 'norm'.
+    :param float std: Standard deviation of number of cells in samples, defaults to 1000.
+    :return pandas.DataFrame: List of replicates as dataframes.
     """
     #counts, _, _ = get_transformed_props(data, sample_col=samples, cluster_col='celltype', transform='logit')
     #s = np.sum(counts.T.values, axis=0)
