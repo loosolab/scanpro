@@ -25,6 +25,7 @@ cache:
 
 default:
   before_script:
+    - apt-get install gfortran
     - python --version  # For debugging
 #    - pip install virtualenv
 #    - virtualenv venv
