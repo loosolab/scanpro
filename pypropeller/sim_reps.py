@@ -103,3 +103,16 @@ def combine(fit,
         mods_est[i] = Q_bar
 
     return mods_est
+
+
+def get_mean_sim(df_list):
+    """Calculate the mean of each index in multiple dataframes.
+
+    :param list df_list: List of pandas dataframes to calculate mean from.
+    :return pandas.DataFrame: A dataframe with means.
+    """
+    df_concat = pd.concat(df_list)
+    df_groupby = df_concat.groupby(df_concat.index)
+    df_mean = df_groupby.mean()
+
+    return df_mean
