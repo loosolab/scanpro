@@ -7,7 +7,7 @@ import warnings
 from pypropeller.get_transformed_props import get_transformed_props
 from pypropeller.linear_model import lm_fit, contrasts_fit, create_design
 from pypropeller import ebayes
-from pypropeller.sim_reps import generate_reps, combine
+from pypropeller.sim_reps import generate_reps, combine, get_mean_sim
 from pypropeller.result import PyproResult
 
 
@@ -57,13 +57,13 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     else:
         out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
 
-    columns = list(out.columns)
+    columns = list(out.results.columns)
     # add baseline proportions as first columns
-    out['Baseline_props'] = baseline_props.values
+    out.results['Baseline_props'] = baseline_props.values
     columns.insert(0, 'Baseline_props')
 
     # rearrange dataframe columns
-    out = out[columns]
+    out.results = out.results[columns]
 
     return out
 
@@ -109,7 +109,8 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
 
-        output_obj = PyproResult(out)
+        output_obj = PyproResult()
+        output_obj.results = out
         output_obj.counts = counts
         output_obj.props = props
         output_obj.prop_trans = prop_trans
@@ -272,10 +273,15 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
 
     conditions = data[conds_col].unique()
     n_conds = len(conditions)
+    # initiate lists to save results
     res = {}
     n_clusters = len(data[clusters_col].unique())
     coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
     p_values = np.zeros((n_sims, n_clusters))
+    counts_list = []
+    props_list = []
+    prop_trans_list = []
+
     if verbose:
         print(f'Generating {n_reps} replicates and running {n_sims} simulations...')
 
@@ -287,27 +293,53 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
         # run propeller
         out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
                                   cond=conds_col, transform=transform, robust=robust, verbose=False)
+        # save counts, props and prop_trans
+        counts_list.append(out_sim.counts)
+        props_list.append(out_sim.props)
+        prop_trans_list.append(out_sim.prop_trans)
+
         # get adjusted p values for simulation
-        p_values[i] = out_sim.iloc[:, -1].to_list()
+        p_values[i] = out_sim.results.iloc[:, -1].to_list()
         # get coefficients estimates from linear model fit
-        for k, cluster in enumerate(out_sim.index):
+        for k, cluster in enumerate(out_sim.results.index):
             for j, condition in enumerate(conditions):
-                coefficients[condition][i, k] = out_sim.iloc[k, j]
+                coefficients[condition][i, k] = out_sim.results.iloc[k, j]
     # end timer
     end = time.time()
     elapsed = end - start
     if verbose:
         print(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
+    
+    # save design matrix
+    design_sim = out_sim.design
 
     # combine coefficients
     combined_coefs = combine(fit=coefficients, conds=conditions, n_clusters=n_clusters, n_conds=n_conds, n_sims=n_sims)
+
+    # get mean counts, proportions and transformed proportions from all simulations
+    counts_mean = get_mean_sim(counts_list)
+    props_mean = get_mean_sim(props_list)
+    prop_trans_mean = get_mean_sim(prop_trans_list)
+
     # get clusters names
-    res['Clusters'] = list(out_sim.index)
+    res['Clusters'] = list(out_sim.results.index)
     for i, condition in enumerate(coefficients.keys()):
         res['Mean_props_' + condition] = combined_coefs[i]
     # calculate median of p values from all runs
     res['p_values'] = np.median(p_values, axis=0)
 
-    res = pd.DataFrame(res).set_index('Clusters')
+    # create dataframe for results
+    out = pd.DataFrame(res).set_index('Clusters')
 
-    return res
+    # create PyproResult object
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
+
+        output_obj = PyproResult()
+        output_obj.results = out
+        output_obj.counts = counts_mean
+        output_obj.props = props_mean
+        output_obj.prop_trans = prop_trans_mean
+        output_obj.design = design_sim
+
+    return output_obj

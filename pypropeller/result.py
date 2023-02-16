@@ -6,7 +6,8 @@ import seaborn as sns
 import math
 
 
-class PyproResult(pd.DataFrame):
+#class PyproResult(pd.DataFrame):
+class PyproResult():
 
     @property
     def _constructor(self):
