@@ -309,7 +309,7 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     elapsed = end - start
     if verbose:
         print(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
-    
+
     # save design matrix
     design_sim = out_sim.design
 

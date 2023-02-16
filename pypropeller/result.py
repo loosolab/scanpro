@@ -1,12 +1,10 @@
 """ A class containing the results of a pypropeller analysis """
 
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
 
 
-#class PyproResult(pd.DataFrame):
 class PyproResult():
 
     @property
