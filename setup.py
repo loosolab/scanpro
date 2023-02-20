@@ -17,5 +17,4 @@ setup(
                       'statannotations==0.4',  # statannotations doesn't support seaborn >= 0.12
                       # 'seaborn',
                       ],
-    ext_modules=[flib]
-    )
+    ext_modules=[flib])
