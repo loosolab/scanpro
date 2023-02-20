@@ -46,7 +46,7 @@ class PyproResult():
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
         n_rows = math.ceil(len(clusters) / n_columns)
-        fig, axes = plt.subplots(nrows=n_rows, ncols=n_columns, figsize=(3 * n_columns, 3 * n_rows))
+        fig, axes = plt.subplots(nrows=n_rows, ncols=n_columns, figsize=(3 * n_columns, 4 * n_rows))
 
         # Fill in the plot
         axes = axes.flatten() if len(clusters) > 1 else [axes]
