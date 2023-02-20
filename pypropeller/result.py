@@ -72,9 +72,9 @@ class PyproResult():
             pairs = [(prop_merged.Group.unique()[0], prop_merged.Group.unique()[-1])]
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
-            .configure(test=None, verbose=False)
-            .set_pvalues(pvalues=[round(self.results.iloc[i,-1], 2)])
-            .annotate())
+             .configure(test=None, verbose=False)
+             .set_pvalues(pvalues=[round(self.results.iloc[i, -1], 2)])
+             .annotate())
 
         fig.tight_layout()
 
