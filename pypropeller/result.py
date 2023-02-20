@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+from statannotations.Annotator import Annotator
 
 
 class PyproResult():
@@ -68,6 +69,12 @@ class PyproResult():
 
             ax.set_title(cluster)
             ax.set(ylabel='Proportions')
+            pairs = [(prop_merged.Group.unique()[0], prop_merged.Group.unique()[-1])]
+            annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
+            (annot
+            .configure(test=None, verbose=False)
+            .set_pvalues(pvalues=[round(self.results.iloc[i,-1], 2)])
+            .annotate())
 
         fig.tight_layout()
 

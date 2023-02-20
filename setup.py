@@ -14,6 +14,8 @@ setup(
     install_requires=['pandas',
                       'statsmodels',
                       'matplotlib',
-                      'seaborn'],
+                      'statannotations==0.4',  # statannotations doesn't support seaborn >= 0.12
+                      #'seaborn',
+                    ],
     ext_modules=[flib]
 )
