@@ -38,7 +38,6 @@ def lm_fit(X, y):
 
         coefficients[i] = fit.params  # beta
         s = np.sqrt(fit.ssr / (fit.df_resid))  # sigma calculated as sum of squared residuals / residual degree of freedom
-        # s = np.sqrt(sum(fit.resid**2)/(fit.df_resid))
         sigma[i] = s
         stdev[i] = fit.params / fit.tvalues / s  # standard deviation
         df_residual[i] = fit.df_resid  # residual degrees of freedom
@@ -52,6 +51,7 @@ def lm_fit(X, y):
     results['df_residual'] = df_residual
     results['ssr'] = ssr
     results['design'] = X
+
     # calculate the covariance using QR decomposition
     m = np.linalg.qr(X, mode='r')
     cov_coef = np.linalg.inv((m.T @ m))
@@ -75,10 +75,9 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     """
     fit = fit_prop.copy()
 
+    # check for correct fitting values
     if not contrasts and not coefficients:
         raise ValueError("Specify either contrasts or coefficients!")
-    # if coefficients:
-    #     return fit['']
     if 'coefficients' not in fit.keys():
         raise ValueError("Fit must contain coefficients!")
     if 'stdev' not in fit.keys():
@@ -154,10 +153,10 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
             U[i] = np.sqrt(o @ RUC**2)
         fit['stdev'] = U
     # Replace NAs if necessary
-    # if na_coef:
-    #     i = fit['stdev'] > 1e20
-    #     fit['coefficients'][i] = np.nan
-    #     fit['stdev'][i] = np.nan
+    if na_coef:
+        i = fit['stdev'] > 1e20
+        fit['coefficients'][i] = np.nan
+        fit['stdev'][i] = np.nan
 
     return fit
 
@@ -184,6 +183,7 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
     :raises ValueError: _description_
     :return pandas.DataFrame: Design matrix as pandas dataframe.
     """
+    # check if data is either anndata or pandas dataframe
     if data is not None:
         if not type(data).__name__ == "AnnData" and not isinstance(data, pd.DataFrame):
             raise TypeError("Only anndata objects and pandas dataframes are supported!")
@@ -200,22 +200,27 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
     design = group_coll.where(group_coll == 0, 1).astype('int')
 
     if cofactors is not None:
+        # reorder rows before adding cofactors columns
         if reindex is not False and not before_reindex:
             design = design.reindex(reindex)
+        # check type of cofactor
         if isinstance(cofactors, dict):
             for key, values in cofactors.items():
                 factor, _ = pd.factorize(values)
                 design[key] = factor
         if isinstance(cofactors, list) or isinstance(cofactors, np.ndarray):
+            # if cofactor is a list, it should contain columns names which are found in data
             if data is None:
                 s = "When passing cofactors as list, please provide anndata object or pandas dataframe as data!"
                 s += " Otherwise provide a dictionary where keys are names of cofactors and values are lists"
                 raise ValueError(s)
-
+            # add to design matrix
             for name in cofactors:
                 factor, _ = pd.factorize(data[name])
                 design[name] = factor
+
     if reindex is not False:
+        # reorder rows
         design = design.reindex(reindex)
 
     return design

@@ -4,7 +4,6 @@ from scipy.stats import f, chi2, rankdata
 from scipy.special import digamma, polygamma
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from pypropeller.utils import pmin, pmax, gauss_quad_prob
-# from pypropeller.ebayes import *
 
 
 def linkfun(x):
@@ -32,6 +31,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     if not isinstance(winsor_tail_p, np.ndarray):
         winsor_tail_p = np.array(winsor_tail_p)
 
+    # initialise results dictionary
     res = {}
     scale = np.nan
     df2 = np.nan
@@ -51,6 +51,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     if len(df1) != n:
         print("length of x and df1 are different!")
         return None
+
     # handle zeros and missing values
     ok = ~np.isnan(x) & np.isfinite(df1) & (df1 > 1e-6)
     notallok = ~ok.all()
@@ -59,23 +60,21 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         x = x[ok]
         if len(df1 > 1):
             df1 = df1[ok]
-
         if covariate:
-            # covariate2 = covariate[~ok]
             covariate = covariate[ok]
+
+        # fit F-distribution to corrected data
         fit = fit_f_dist_robust(x, df1, covariate=covariate, winsor_tail_p=winsor_tail_p)
         df2_shrunk[ok] = fit['df2_shrunk']
         df2_shrunk[~ok] = fit['df2']
         if not covariate:
             scale = fit['scale']
 
+        # save results
         res['scale'] = scale
         res['df2'] = fit['df2']
         res['df2_shrunk'] = df2_shrunk
-        # else:  # not necessary since covariate is always None
-        #     scale = x
-        #     scale[ok] = fit['scale']
-        #     interpolate.interp1d(covariate, np.log(fit['scale']), kind='linear', fill_value='extrapolate')
+
         return res
 
     # avoid zeros and negativ values
@@ -158,12 +157,13 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         empirical_tail_prop = (n - r + 0.5) / n
         prop_not_outlier = pmin(tail_p / empirical_tail_prop, 1)
         df_pooled = n * df1
-        df2_shrunk = np.resize(df2, n)  # rep_len
+        df2_shrunk = np.resize(df2, n)
         Ou = prop_not_outlier < 1
         if Ou.any():
             df2_shrunk[Ou] = prop_not_outlier[Ou] * df_pooled
             o = np.argsort(tail_p)  # order
             df2_shrunk[o] = np.maximum.accumulate(df2_shrunk[o])
+
         # add results to dictionary
         res['scale'] = s20
         res['df2'] = df2
@@ -184,6 +184,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
         # interval [rbx, 0.99] since 1 gives divisionbyzero error
         u = scipy.optimize.brentq(fun, rbx, 0.99, (df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
         df2 = linkinv(u)
+
     # Correct ztrend for bias
     mom = winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g)
     z_trend_corrected = z_trend + zwmean - mom[0]
@@ -199,12 +200,13 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     log_prop_not_outlier = pmin(log_tail_p - log_empirical_tail_prop, 0)
     prop_not_outlier = np.exp(log_prop_not_outlier)
     prop_outlier = np.expm1(log_prop_not_outlier)
+
     if np.any(log_prop_not_outlier < 0):
         o = np.argsort(log_tail_p)
 
-        # Find df2.outlier to make maxFstat the median of the distribution
-        # Exploit fact that log(TailP) is nearly linearly with positive 2nd deriv as a function of df2
-        # Note that minTailP and NewTailP are always less than 0.5
+        # Find df2_outlier to make max(F_stat) the median of the distribution
+        # Exploit fact that log(tail_p) is nearly linearly with positive 2nd deriv as a function of df2
+        # Note that min_tail_p and new_tail_p are always less than 0.5
         min_log_tail_p = min(log_tail_p)
         if min_log_tail_p == -np.inf:
             df2_outlier = 0
@@ -216,7 +218,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
             df2_outlier = np.log(0.5) / new_log_tail_p * df2_outlier
             df2_shrunk = prop_not_outlier * df2 + prop_outlier * df2_outlier
 
-        # Force df2.shrunk to be monotonic in TailP
+        # Force df2_shrunk to be monotonic in tail_p
         o = np.argsort(log_tail_p)
         df2_ordered = df2_shrunk[o]
         m = np.maximum.accumulate(df2_ordered)
@@ -228,6 +230,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     else:
         df2_outlier = df2
         df2_shrunk = np.resize(df2, n)
+
     # append results to dictionary
     res['scale'] = s20
     res['df2'] = df2
@@ -239,7 +242,7 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
     return res
 
 
-def fit_f_dist(x, df1, covariate=None):  # DONE
+def fit_f_dist(x, df1, covariate=None):
     """Moment estimation of the parameters of a scaled F-distribution.
     Method from Gordon Smyth and Belinda Phipson, adapted from
     R limma package implementation.
@@ -250,7 +253,7 @@ def fit_f_dist(x, df1, covariate=None):  # DONE
     :return dict: scaled prior variances and schrunk prior degrees of freedom.
     """
 
-    # initialise return values
+    # initialise results dictionary
     res = {}
     scale = np.nan
     df2 = np.nan
@@ -276,10 +279,8 @@ def fit_f_dist(x, df1, covariate=None):  # DONE
             if len(df1) != n:
                 print("x and df1 have different lengths")
                 return None
-    # if not covariate:
-    #    splinedf = 1
 
-    # remove missing or infinite or negative values
+    # remove missing, infinite or negative values
     ok = ok & np.isfinite(x) & (x > -1e-15)
     nok = sum(ok)
     if nok == 1:
@@ -292,20 +293,6 @@ def fit_f_dist(x, df1, covariate=None):  # DONE
         if len(df1) > 1:
             df1 = df1[ok]
 
-    # ## skipped because covariate is alway None
-    # if(!is.null(covariate)) {
-    # 	covariate.notok <- covariate[!ok]
-    # 	covariate <- covariate[ok]
-
-    # ## old function
-    # x = [i for i in x if np.isfinite(i) and i > 0]
-    # df1 = [i for i in df1 if np.isfinite(i) and i > 0]
-    # df1 = np.array(df1)
-    # n = len(x)
-    # if n == 0:
-    #     scale = None
-    #     df2 = None
-    #     return  scale, df2
     x = pmax(x, 0)
     m = np.median(x)
     if m == 0:
@@ -314,6 +301,7 @@ def fit_f_dist(x, df1, covariate=None):  # DONE
     else:
         if np.any(x == 0):
             print("Warning! Zero sample variances detected, have been offset away from zero.")
+
     x = pmax(x, 1e-5 * m)
     z = np.log(x)
     e = z - digamma(df1 / 2) + np.log(df1 / 2)
@@ -322,6 +310,7 @@ def fit_f_dist(x, df1, covariate=None):  # DONE
         evar = sum(((e - emean)**2) / (nok - 1))
     # estimate scale and df2
     evar = evar - np.mean(polygamma(1, df1 / 2))  # trigamma function
+    # calcualte scale and df2
     if evar > 0:
         df2 = 2 * trigamma_inverse(evar)
         scale = np.exp(emean + digamma(df2 / 2) - np.log(df2 / 2))
@@ -338,12 +327,13 @@ def fit_f_dist(x, df1, covariate=None):  # DONE
     return res
 
 
-def trigamma_inverse(x):  # DONE
+def trigamma_inverse(x):
     """Compute the inverse of trigamma function.
 
     :param numpy.ndarray x: Numeric vector.
     :return numpy.ndarray: Numeric vector y satisfying trigamma(y)==x.
     """
+    # check if x has the right format
     if not isinstance(x, np.ndarray):
         if isinstance(x, list):
             x = np.array(x)
@@ -374,7 +364,6 @@ def trigamma_inverse(x):  # DONE
         y[omit] = 1 / np.sqrt(x[omit])
         if (any(~omit)):
             y[~omit] = trigamma_inverse(x[~omit])
-
         return y
 
     omit = x < 1e-6
@@ -424,4 +413,5 @@ def winsorized_moments(df1, df2, winsor_tail_p, linkfun, linkinv, g):
     q21 = q[1] - q[0]
     m = q21 * sum(g[1] * f1 * z_nodes) + sum(zq * winsor_tail_p)
     v = q21 * sum(g[1] * f1 * (z_nodes - m)**2) + sum((zq - m)**2 * winsor_tail_p)
+
     return np.array([m, v])

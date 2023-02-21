@@ -2,11 +2,13 @@ import time
 import pandas as pd
 import numpy as np
 from statsmodels.stats.multitest import multipletests
+import warnings
 
 from pypropeller.get_transformed_props import get_transformed_props
 from pypropeller.linear_model import lm_fit, contrasts_fit, create_design
 from pypropeller import ebayes
-from pypropeller.sim_reps import generate_reps, combine
+from pypropeller.sim_reps import generate_reps, combine, get_mean_sim
+from pypropeller.result import PyproResult
 
 
 def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group',
@@ -43,6 +45,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
 
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
 
+    # check if there are replicates
     if len(conditions) == len(data[samples_col].unique()):
         if verbose:
             print("Your data doesn't have replicates! Artificial replicates will be simulated to run pypropeller")
@@ -54,11 +57,13 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     else:
         out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
 
-    columns = list(out.columns)
-    out['Baseline_props'] = baseline_props.values
+    columns = list(out.results.columns)
+    # add baseline proportions as first columns
+    out.results['Baseline_props'] = baseline_props.values
     columns.insert(0, 'Baseline_props')
+
     # rearrange dataframe columns
-    out = out[columns]
+    out.results = out.results[columns]
 
     return out
 
@@ -75,13 +80,17 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
-
+    # check data type
     if type(adata).__name__ == "AnnData":
         adata = adata.obs
 
+    # calculate proportions and transformed proportions
     counts, props, prop_trans = get_transformed_props(adata, sample_col=sample, cluster_col=clusters, transform=transform)
+
+    # create design matrix
     design = create_design(data=adata, samples=sample, conds=cond)
 
+    # check number of conditions
     if design.shape[1] == 2:
         if verbose:
             print("There are 2 conditions. T-Test will be performed...")
@@ -96,7 +105,18 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     if verbose:
         print('Done!')
 
-    return out
+    # create PyproResult object
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
+
+        output_obj = PyproResult()
+        output_obj.results = out
+        output_obj.counts = counts
+        output_obj.props = props
+        output_obj.prop_trans = prop_trans
+        output_obj.design = design
+
+    return output_obj
 
 
 def anova(props, prop_trans, design, coef, robust=True, verbose=True):
@@ -113,17 +133,17 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     F-statistics, p-values and adjusted p-values.
     """
     from statsmodels.tools.tools import add_constant
+    # check if coef is a numpy array
     if not isinstance(coef, np.ndarray):
         coef = np.array(coef)
+
     # check if there are less than 3 clusters
     if prop_trans.shape[1] < 3:
         if verbose:
             print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
-    X = design.iloc[:, coef]
-    # N = len(X)  # number of samples
-    # p = len(X.columns)  # number of conditions
 
+    X = design.iloc[:, coef]
     # fit linear model to each cluster to get coefficients estimates
     fit_prop = lm_fit(X=X, y=props)
 
@@ -145,6 +165,7 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     p_values = fit['F']['F_p_value'].flatten()
     fdr = multipletests(p_values, method='fdr_bh')
 
+    # save results to dictionary
     res = {}
     res['Clusters'] = props.columns.to_list()
     for i, cond in enumerate(X.columns):
@@ -170,13 +191,19 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
+    # check if there are less than 3 clusters
     if prop_trans.shape[1] < 3:
         if verbose:
             print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
         robust = False
+
+    # fit linear model to each cluster to get coefficients estimates
     fit = lm_fit(X=design, y=prop_trans)
     fit_cont = contrasts_fit(fit, contrasts)
+
+    # run empirical bayes
     fit_cont = ebayes.ebayes(fit_cont, robust=robust)
+
     # Get mean cell type proportions and relative risk for output
     # If no confounding variable included in design matrix
     contrasts = np.array(contrasts)
@@ -197,7 +224,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     p_values = fit_cont['p_value'].flatten()
     fdr = multipletests(p_values, method='fdr_bh')
 
-    # create results dict
+    # save results to dictionary
     res = {}
     res['Clusters'] = props.columns.to_list()
     for i, cond in enumerate(design.columns):
@@ -227,9 +254,11 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     :param bool robust: _description_, defaults to True
     :param bool verbose: _description_, defaults to True
     """
+    # check datas type
     if type(data).__name__ == "AnnData":
         data = data.obs
 
+    # calculate proportions and transformed proportions
     counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col, cluster_col=clusters_col, transform=transform)
     props_dict = props.to_dict(orient='index')
     true_props = {}
@@ -244,10 +273,15 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
 
     conditions = data[conds_col].unique()
     n_conds = len(conditions)
+    # initiate lists to save results
     res = {}
     n_clusters = len(data[clusters_col].unique())
     coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
     p_values = np.zeros((n_sims, n_clusters))
+    counts_list = []
+    props_list = []
+    prop_trans_list = []
+
     if verbose:
         print(f'Generating {n_reps} replicates and running {n_sims} simulations...')
 
@@ -259,27 +293,53 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
         # run propeller
         out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
                                   cond=conds_col, transform=transform, robust=robust, verbose=False)
+        # save counts, props and prop_trans
+        counts_list.append(out_sim.counts)
+        props_list.append(out_sim.props)
+        prop_trans_list.append(out_sim.prop_trans)
+
         # get adjusted p values for simulation
-        p_values[i] = out_sim.iloc[:, -1].to_list()
+        p_values[i] = out_sim.results.iloc[:, -1].to_list()
         # get coefficients estimates from linear model fit
-        for k, cluster in enumerate(out_sim.index):
+        for k, cluster in enumerate(out_sim.results.index):
             for j, condition in enumerate(conditions):
-                coefficients[condition][i, k] = out_sim.iloc[k, j]
+                coefficients[condition][i, k] = out_sim.results.iloc[k, j]
     # end timer
     end = time.time()
     elapsed = end - start
     if verbose:
         print(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
 
+    # save design matrix
+    design_sim = out_sim.design
+
     # combine coefficients
     combined_coefs = combine(fit=coefficients, conds=conditions, n_clusters=n_clusters, n_conds=n_conds, n_sims=n_sims)
+
+    # get mean counts, proportions and transformed proportions from all simulations
+    counts_mean = get_mean_sim(counts_list)
+    props_mean = get_mean_sim(props_list)
+    prop_trans_mean = get_mean_sim(prop_trans_list)
+
     # get clusters names
-    res['Clusters'] = list(out_sim.index)
+    res['Clusters'] = list(out_sim.results.index)
     for i, condition in enumerate(coefficients.keys()):
         res['Mean_props_' + condition] = combined_coefs[i]
     # calculate median of p values from all runs
     res['p_values'] = np.median(p_values, axis=0)
 
-    res = pd.DataFrame(res).set_index('Clusters')
+    # create dataframe for results
+    out = pd.DataFrame(res).set_index('Clusters')
 
-    return res
+    # create PyproResult object
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
+
+        output_obj = PyproResult()
+        output_obj.results = out
+        output_obj.counts = counts_mean
+        output_obj.props = props_mean
+        output_obj.prop_trans = prop_trans_mean
+        output_obj.design = design_sim
+
+    return output_obj

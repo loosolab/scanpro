@@ -1,11 +1,9 @@
 import warnings
-# import anndata
 import scipy
 import numpy as np
 import pandas as pd
 
 warnings.simplefilter(action='ignore', category=FutureWarning)
-# warnings.simplefilter(action='ignore', category=anndata.ImplicitModificationWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
@@ -21,22 +19,24 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
     :param float std: Standard deviation of number of cells in samples, defaults to 1000.
     :return pandas.DataFrame: List of replicates as dataframes.
     """
-    # counts, _, _ = get_transformed_props(data, sample_col=samples, cluster_col='celltype', transform='logit')
-    # s = np.sum(counts.T.values, axis=0)
-    # n_binom, p_binom = fit_nbinom(s)
-    # print(n_binom, p_binom)
-
+    # check type of data
     if type(data).__name__ == "AnnData":
         data = data.obs
 
     samples_list = data[sample_col].unique()
+    # subset data for each sample
     samples_datas = {}
     for sample in samples_list:
-        samples_datas[sample] = data[data[sample_col] == sample]  # subset data for each sample
+        samples_datas[sample] = data[data[sample_col] == sample]
+
+    # get sequence of indices for each sample [0:n_cells_in_sample]
     indices = {}
     for sample in samples_list:
-        indices[sample] = np.arange(samples_datas[sample].shape[0])  # get sequence of indices for each sample [0:n_cells_in_sample]
+        indices[sample] = np.arange(samples_datas[sample].shape[0])
+
+    # get minimum number of cells in all samples
     n_min = [min([len(indices[sample]) for sample in samples_list])][0]
+
     reps = []
     for sample in samples_list:  # loop over samples
         # choose n_min cells randomly
@@ -44,6 +44,7 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
         samples_datas[sample] = samples_datas[sample].iloc[reduce, :]
         n = n_min
         cells = list(samples_datas[sample].index)  # get all cells (after reduction) in data
+
         # get proportions of cell clusters for each cell
         # -> calculated beforehand and added to data.obs; props=in each sample, props_2=in all samples
         cell_probs = np.array(samples_datas[sample]['props'])
@@ -52,11 +53,10 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
         for i in range(n_reps):
             if dist == 'norm':
                 # TODO: change size parameter to be not hardcoded
-                rv = scipy.stats.norm(samples_datas[sample].shape[0] / n_reps, 1039.5)  # 792.5838185170071 -> standard deviation from original counts
+                rv = scipy.stats.norm(samples_datas[sample].shape[0] / n_reps, 1039.5)
                 x = np.arange(n)
                 if min_rep_pct:
                     x = scipy.stats.trimboth(x, min_rep_pct)  # since we don't want samples to have too small or large counts
-                    # proportions[:int(min_rep_pct*n)] = 0
                 probabilities = rv.pdf(x)  # generate probabilities using normal distribution
                 probabilities = probabilities / probabilities.sum()  # normalize probabilities to get sum=1
 
@@ -103,3 +103,16 @@ def combine(fit,
         mods_est[i] = Q_bar
 
     return mods_est
+
+
+def get_mean_sim(df_list):
+    """Calculate the mean of each index in multiple dataframes.
+
+    :param list df_list: List of pandas dataframes to calculate mean from.
+    :return pandas.DataFrame: A dataframe with means.
+    """
+    df_concat = pd.concat(df_list)
+    df_groupby = df_concat.groupby(df_concat.index)
+    df_mean = df_groupby.mean()
+
+    return df_mean
