@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import math
+import numpy as np
 from statannotations.Annotator import Annotator
 
 
@@ -30,14 +31,26 @@ class PyproResult():
         return prop_merged
 
     def plot(self,
-             type='all',
+             kind='stripplot',
              clusters=None,
              n_columns=3):
+        """Plot proportions pro condition
 
+        :param str kind: Kind of plot (stripplot, barplot and boxplot), defaults to 'stripplot'
+        :param list or str clusters: _description_, defaults to None
+        :param int n_columns: _description_, defaults to 3
+        """
         if clusters is None:
             clusters = self.props.columns.tolist()
         else:
-            pass  # TODO: check if clusters are in the index
+            if not isinstance(clusters, list):
+                clusters = [clusters]
+            # check if all clusters are in data
+            check = all(item in self.props.columns for item in clusters)
+            if not check:
+                s1 = "The following clusters could not be found in data: "
+                s2 = ', '.join([clusters[i] for i in np.where(np.isin(clusters, self.props.columns, invert=True))[0]])
+                raise ValueError(s1 + s2)
 
         sample_col = self.design.index.name
 
@@ -59,11 +72,11 @@ class PyproResult():
                 legend = False
 
             # Plot the proportions
-            if type == 'stripplot':
+            if kind == 'stripplot':
                 ax = sns.stripplot(data=prop_merged, y=cluster, x="Group", hue=sample_col, legend=legend, jitter=True, ax=axes[i])
-            elif type == 'boxplot':
+            elif kind == 'boxplot':
                 ax = sns.boxplot(data=prop_merged, y=cluster, x="Group", color="white", showfliers=False, ax=axes[i])
-            elif type == 'barplot':
+            elif kind == 'barplot':
                 ax = sns.barplot(data=prop_merged, y=cluster, x="Group", hue=sample_col, ax=axes[i])
                 ax.legend_.remove()
 
@@ -79,9 +92,24 @@ class PyproResult():
         fig.tight_layout()
 
         # Add legend to the last plot
-        if not type == 'boxplot':
+        if not kind == 'boxplot':
             axes[n_columns - 1].legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False)
 
         # Remove empty plots
         for i in range(len(clusters), len(axes)):
             axes[i].set_visible(False)
+
+
+    def plot_samples(self, stacked=True,
+                     x='samples'):
+
+        if stacked:
+            if x == 'samples':
+                self.props.plot(kind='bar', stacked=True).legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+            elif x == 'clusters':
+                self.props.T.plot(kind='bar', stacked=True).legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+        else:
+            if x == 'samples':
+                self.props.plot.bar().legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+            elif x == 'clusters':
+                self.props.T.plot.bar().legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
