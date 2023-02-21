@@ -99,17 +99,20 @@ class PyproResult():
         for i in range(len(clusters), len(axes)):
             axes[i].set_visible(False)
 
-
     def plot_samples(self, stacked=True,
                      x='samples'):
+        """Plot proportions of clusters pro sample
 
+        :param bool stacked: If True, a stacked bar plot is plotted, defaults to True
+        :param str x: Specifies if clusters or samples are plotted as x axis, defaults to 'samples'
+        """
         if stacked:
             if x == 'samples':
-                self.props.plot(kind='bar', stacked=True).legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+                self.props.plot(kind='bar', stacked=True).legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
             elif x == 'clusters':
-                self.props.T.plot(kind='bar', stacked=True).legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+                self.props.T.plot(kind='bar', stacked=True).legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
         else:
             if x == 'samples':
-                self.props.plot.bar().legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+                self.props.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
             elif x == 'clusters':
-                self.props.T.plot.bar().legend(loc='center left',bbox_to_anchor=(1.0, 0.5))
+                self.props.T.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
