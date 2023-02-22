@@ -2,6 +2,7 @@ import warnings
 import numpy as np
 import pandas as pd
 
+warnings.simplefilter(action="ignore", category=pd.errors.SettingWithCopyWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
