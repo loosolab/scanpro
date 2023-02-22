@@ -10,7 +10,7 @@ from pypropeller.sim_reps import generate_reps, combine
 
 
 def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group',
-                transform='logit', robust=True, n_sims=20, n_reps=4, min_rep_pct=0.1, verbose=True):
+                transform='logit', robust=True, n_sims=100, n_reps=8, verbose=True):
     """Wrapper function for pypropeller. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
     replicates, the function {sim_pypropeller} will generate artificial replicates
@@ -24,10 +24,8 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
-    :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 20.
-    :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 4.
-    :param float min_rep_pct: Exclude min_rep_pct from start and end of range of number of cells in sample to choose
-    for simulated replicates, defaults to 0.1.
+    :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
+    :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
     :return _type_: Dataframe containing estimated mean proportions for each cluster and p-values.
@@ -47,9 +45,11 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         if verbose:
             print("Your data doesn't have replicates! Artificial replicates will be simulated to run pypropeller")
             print("Simulation may take some minutes...")
-        out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, min_rep_pct=min_rep_pct, clusters_col=clusters_col,
+        # set transform to arcsin, since it produces more accurate results for simulations
+        transform = 'arcsin'
+        out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                               samples_col=samples_col, conds_col=conds_col, transform=transform, robust=robust, verbose=verbose)
-        print('Done!')
+
 
     else:
         out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
@@ -82,6 +82,7 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     counts, props, prop_trans = get_transformed_props(adata, sample_col=sample, cluster_col=clusters, transform=transform)
     design = create_design(data=adata, samples=sample, conds=cond)
 
+    # check number of conditions
     if design.shape[1] == 2:
         if verbose:
             print("There are 2 conditions. T-Test will be performed...")
@@ -212,35 +213,22 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     return pd.DataFrame(res, columns=cols).set_index('Clusters')
 
 
-def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cluster',
-                    samples_col='sample', conds_col='group', transform='logit', robust=True, verbose=True):
+def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
+                    samples_col='sample', conds_col='group', transform='arcsin', robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
     :param _type_ data: _description_
-    :param int n_reps: _description_, defaults to 4
-    :param int n_sims: _description_, defaults to 20
-    :param float min_rep_pct: _description_, defaults to 0.1
+    :param int n_reps: _description_, defaults to 8
+    :param int n_sims: _description_, defaults to 100
     :param str clusters_col: _description_, defaults to 'cluster'
     :param str samples_col: _description_, defaults to 'sample'
     :param str conds_col: _description_, defaults to 'group'
-    :param str transform: _description_, defaults to 'logit'
+    :param str transform: _description_, defaults to 'arcsin'
     :param bool robust: _description_, defaults to True
     :param bool verbose: _description_, defaults to True
     """
     if type(data).__name__ == "AnnData":
         data = data.obs
-
-    counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col, cluster_col=clusters_col, transform=transform)
-    props_dict = props.to_dict(orient='index')
-    true_props = {}
-    # get proportions of each cluster in each sample
-    for sample in props_dict:
-        for cluster in props_dict[sample]:
-            true_props[cluster + '_' + sample] = props_dict[sample][cluster]
-    # add to dataframe
-    data['tmp'] = data[clusters_col].astype('str') + '_' + data[samples_col].astype('str')
-    data['props'] = data['tmp'].map(true_props)
-    data.drop('tmp', axis=1, inplace=True)
 
     conditions = data[conds_col].unique()
     n_conds = len(conditions)
@@ -248,6 +236,7 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     n_clusters = len(data[clusters_col].unique())
     coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
     p_values = np.zeros((n_sims, n_clusters))
+
     if verbose:
         print(f'Generating {n_reps} replicates and running {n_sims} simulations...')
 
@@ -255,7 +244,7 @@ def sim_pypropeller(data, n_reps=4, n_sims=20, min_rep_pct=0.1, clusters_col='cl
     start = time.time()
     for i in range(n_sims):
         # generate replicates
-        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col, min_rep_pct=min_rep_pct)
+        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col)
         # run propeller
         out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
                                   cond=conds_col, transform=transform, robust=robust, verbose=False)
