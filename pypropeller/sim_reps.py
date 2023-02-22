@@ -48,8 +48,9 @@ def generate_reps(data, n_reps=8, sample_col='sample'):
             rep = samples_datas[sample].iloc[rep_cells, :]  # get only chosen cells as a dataframe
             rep.loc[:, sample_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
             reps.append(rep)
+
             n -= n_rep  # substract number of cells of replicate from total number of cells
-            
+
             # get indices of cells that where not chosen
             not_chosen_cells = np.where(np.isin(cells_indices, rep_cells, invert=True))[0]
             # remove chosen cells for next replicate

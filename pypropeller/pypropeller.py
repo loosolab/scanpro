@@ -52,8 +52,6 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         transform = 'arcsin'
         out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                               samples_col=samples_col, conds_col=conds_col, transform=transform, robust=robust, verbose=verbose)
-
-
     else:
         out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
 
