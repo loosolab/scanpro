@@ -15,11 +15,12 @@ def generate_reps(data, n_reps=8, sample_col='sample'):
     :param str sample_col: Column where samples are stored, defaults to 'sample'.
     :return pandas.DataFrame: List of replicates as dataframes.
     """
-
+    # check type of data
     if type(data).__name__ == "AnnData":
         data = data.obs
 
     samples_list = data[sample_col].unique()
+    # subset data for each sample
     samples_datas = {}
     for sample in samples_list:
         # subset data for each sample
@@ -86,3 +87,16 @@ def combine(fit,
         mods_est[i] = Q_bar
 
     return mods_est
+
+
+def get_mean_sim(df_list):
+    """Calculate the mean of each index in multiple dataframes.
+
+    :param list df_list: List of pandas dataframes to calculate mean from.
+    :return pandas.DataFrame: A dataframe with means.
+    """
+    df_concat = pd.concat(df_list)
+    df_groupby = df_concat.groupby(df_concat.index)
+    df_mean = df_groupby.mean()
+
+    return df_mean
