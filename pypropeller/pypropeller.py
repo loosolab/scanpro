@@ -86,7 +86,7 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     counts, props, prop_trans = get_transformed_props(adata, sample_col=sample, cluster_col=clusters, transform=transform)
 
     # create design matrix
-    design = create_design(data=adata, samples=sample, conds=cond)
+    design = create_design(data=adata, samples=sample, conds=cond, reindex=props.index)
 
     # check number of conditions
     if design.shape[1] == 2:
