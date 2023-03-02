@@ -30,21 +30,41 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
-    :return _type_: Dataframe containing estimated mean proportions for each cluster and p-values.
+    :return _tyfpe_: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
 
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    # check if there are 2 conditions or more
+    # get all conditions
     conditions = data[conds_col].unique()
+    # check if there are 2 conditions or more
     if len(conditions) < 2:
         raise ValueError("There has to be at least two conditions to compare!")
 
+    # assume data is replicated
+    repd = True
+    partially_repd = False
+    # check if at least one condition doesnt have replicates
+    no_reps_list = []
+    for condition in conditions:
+        # get samples for condition
+        samples_list = data[data[conds_col] == condition][samples_col].unique()
+        if len(samples_list) == 1:
+            no_reps_list.append(condition)
+    # at least one condition doesn't have replicates
+    if len(conditions) > 0:
+        # if all conditions don't have replicates, set repd to False
+        if len(no_reps_list) == len(conditions):
+            repd = False
+        # otherwise, data is partially replicated
+        else:
+            partially_repd = True
+
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
 
-    # check if there are replicates
-    if len(conditions) == len(data[samples_col].unique()):
+    # check if there are no replicates
+    if not repd:
         if verbose:
             print("Your data doesn't have replicates! Artificial replicates will be simulated to run pypropeller")
             print("Simulation may take some minutes...")
@@ -52,16 +72,49 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         transform = 'arcsin'
         out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                               samples_col=samples_col, conds_col=conds_col, transform=transform, robust=robust, verbose=verbose)
+
+    # if at least on condition doesn't have replicate, merge samples and bootstrap
+    elif partially_repd:
+        s1 = "The following conditions don't have replicates! "
+        s2 = ", ".join(no_reps_list) + '\n'
+        s3 = "Both normal pypropeller and sim_pypropeller will be performed."
+        if verbose:
+            print(s1 + s2 + s3)
+        # add conditions as merged_samples column
+        merged_samples_col = 'merged_samples'
+        data[merged_samples_col] = data[conds_col]
+
+        # run pypropeller normally
+        if verbose:
+            print("Running pypropeller with original replicates...")
+        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
+
+        # run simulations
+        if verbose:
+            print("Running pypropeller with simulated replicates...")
+        # set transform to arcsin, since it produces more accurate results for simulations
+        transform = 'arcsin'
+        out_sim = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
+                                  samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
+                                  robust=robust, verbose=verbose)
+
+        print("To access results for original reps, run <out.results>, and <out.sim_results> for simulated results")
+
+    # if all conditions have replicates, run pypropeller normally
     else:
         out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
 
     columns = list(out.results.columns)
-    # add baseline proportions as first columns
+    # add baseline proportions as first column
     out.results['Baseline_props'] = baseline_props.values
     columns.insert(0, 'Baseline_props')
 
     # rearrange dataframe columns
     out.results = out.results[columns]
+
+    # add simulated results for partially replicated data
+    if partially_repd:
+        out.sim_results = out_sim.results
 
     return out
 
