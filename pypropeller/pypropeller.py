@@ -53,7 +53,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         if len(samples_list) == 1:
             no_reps_list.append(condition)
     # at least one condition doesn't have replicates
-    if len(conditions) > 0:
+    if len(no_reps_list) > 0:
         # if all conditions don't have replicates, set repd to False
         if len(no_reps_list) == len(conditions):
             repd = False
