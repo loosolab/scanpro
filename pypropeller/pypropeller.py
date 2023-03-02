@@ -274,9 +274,17 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
     for i in range(n_sims):
         # generate replicates
         rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col)
+
         # run propeller
-        out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
-                                  cond=conds_col, transform=transform, robust=robust, verbose=False)
+        try:
+            out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
+                                    cond=conds_col, transform=transform, robust=robust, verbose=False)
+        # workaround brentq error "f(a) and f(b) must have different signs"
+        # rerun simulation instead of crashing
+        except ValueError:
+            i -=1
+            continue
+
         # save counts, props and prop_trans
         counts_list.append(out_sim.counts)
         props_list.append(out_sim.props)
