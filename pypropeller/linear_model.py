@@ -76,7 +76,7 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     fit = fit_prop.copy()
 
     # check for correct fitting values
-    if not contrasts and not coefficients:
+    if contrasts is None and coefficients is None:
         raise ValueError("Specify either contrasts or coefficients!")
     if 'coefficients' not in fit.keys():
         raise ValueError("Fit must contain coefficients!")

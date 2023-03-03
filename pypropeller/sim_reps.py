@@ -1,22 +1,19 @@
 import warnings
-import scipy
 import numpy as np
 import pandas as pd
 
+warnings.simplefilter(action="ignore", category=pd.errors.SettingWithCopyWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
 
-def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='norm'):
+def generate_reps(data, n_reps=8, sample_col='sample'):
     """Generate replicates by splitting original samples using bootstrapping.
 
     :param anndata.AnnData or pandas.DataFrame data: Dataframe or adata.obs whith single cell info.
     :param int n_reps: Number of replicates to generate, defaults to 2.
     :param str sample_col: Column where samples are stored, defaults to 'sample'.
-    :param float min_rep_pct: Avoid choosing very small/large number of cells for each replicate, defaults to 0.1
-    :param str dist: Distribution to use for probabilities of drawing number of cells for replicates, defaults to 'norm'.
-    :param float std: Standard deviation of number of cells in samples, defaults to 1000.
     :return pandas.DataFrame: List of replicates as dataframes.
     """
     # check type of data
@@ -27,11 +24,12 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
     # subset data for each sample
     samples_datas = {}
     for sample in samples_list:
+        # subset data for each sample
         samples_datas[sample] = data[data[sample_col] == sample]
 
-    # get sequence of indices for each sample [0:n_cells_in_sample]
     indices = {}
     for sample in samples_list:
+        # get sequence of indices for each sample [0:n_cells_in_sample]
         indices[sample] = np.arange(samples_datas[sample].shape[0])
 
     # get minimum number of cells in all samples
@@ -43,35 +41,23 @@ def generate_reps(data, n_reps=2, sample_col='sample', min_rep_pct=0.1, dist='no
         reduce = np.random.choice(indices[sample], n_min, replace=False)
         samples_datas[sample] = samples_datas[sample].iloc[reduce, :]
         n = n_min
-        cells = list(samples_datas[sample].index)  # get all cells (after reduction) in data
-
-        # get proportions of cell clusters for each cell
-        # -> calculated beforehand and added to data.obs; props=in each sample, props_2=in all samples
-        cell_probs = np.array(samples_datas[sample]['props'])
-        cell_probs += 0.01  # add pseudo counts to avoid small clusters not getting chosen
-        cell_probs /= cell_probs.sum()  # normalize to get sum=1
+        cells_indices = np.arange(n)  # all cells in a sample
         for i in range(n_reps):
-            if dist == 'norm':
-                # TODO: change size parameter to be not hardcoded
-                rv = scipy.stats.norm(samples_datas[sample].shape[0] / n_reps, 1039.5)
-                x = np.arange(n)
-                if min_rep_pct:
-                    x = scipy.stats.trimboth(x, min_rep_pct)  # since we don't want samples to have too small or large counts
-                probabilities = rv.pdf(x)  # generate probabilities using normal distribution
-                probabilities = probabilities / probabilities.sum()  # normalize probabilities to get sum=1
-
-            n_rep = np.random.choice(x, p=probabilities)  # number of cells for replicate
-            rep_cells = np.random.choice(cells, n_rep, p=cell_probs, replace=False)  # choose n_rep cells
-            rep = samples_datas[sample].loc[rep_cells]
-            rep.loc[:, sample_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]
+            x = range(n)
+            n_rep = np.random.choice(x)  # number of cells for replicate
+            rep_cells = np.random.choice(cells_indices, n_rep, replace=False)  # choose n_rep cells
+            rep = samples_datas[sample].iloc[rep_cells, :]  # get only chosen cells as a dataframe
+            rep.loc[:, sample_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
             reps.append(rep)
+
             n -= n_rep  # substract number of cells of replicate from total number of cells
 
-            not_chosen_cells = np.where(np.isin(cells, rep_cells, invert=True))[0]
-            cells = [cells[i] for i in not_chosen_cells]  # remove chosen cells for next replicate
-            cell_probs = cell_probs[not_chosen_cells]  # remove probabilities of chosen cells
-            cell_probs /= cell_probs.sum()  # normalize again to get sum=1
+            # get indices of cells that where not chosen
+            not_chosen_cells = np.where(np.isin(cells_indices, rep_cells, invert=True))[0]
+            # remove chosen cells for next replicate
+            cells_indices = [cells_indices[i] for i in not_chosen_cells]
 
+    # join replicates
     rep_data = pd.concat(reps, join='outer')
 
     return rep_data

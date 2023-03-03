@@ -21,13 +21,15 @@ def get_transformed_props(data, sample_col='sample', cluster_col='cluster', tran
 
     # get counts for each cluster in each sample
     counts = pd.crosstab(index=data[sample_col], columns=data[cluster_col])
+    # adding pseudo count to avoid zeroes
+    pseudo_counts = counts + 0.01
     # get sum of cells in sample
-    counts['sum'] = counts.sum(axis=1)
+    pseudo_counts['sum'] = pseudo_counts.sum(axis=1)
     # true proportions for each cluster in each sample -> counts(cluster_in_sample)/sum(counts_in_sample)
-    props = counts.iloc[:, :-1].div(counts["sum"], axis=0)
+    props = pseudo_counts.iloc[:, :-1].div(pseudo_counts["sum"], axis=0)
     # transform props
     if transform == 'logit':
-        pseudo_counts = counts + 0.5  # adding pseudo count to avoid zeroes
+        pseudo_counts += 0.49  # to avoid "f(a) and f(b) must have different signs" error
         pseudo_counts['sum'] = pseudo_counts.iloc[:, :-1].sum(axis=1)
         pseudo_props = pseudo_counts.iloc[:, :-1].div(pseudo_counts["sum"], axis=0)
         prop_trans = np.log(pseudo_props / (1 - pseudo_props))
