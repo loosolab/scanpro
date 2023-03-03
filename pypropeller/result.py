@@ -16,7 +16,7 @@ class PyproResult():
     def _merge_design_props(self, simulated=False):
         """Merge proportions matrix with design matrix for plotting
 
-        :param boolean simulated: True if results were simulated
+        :param bool simulated: True if results were simulated
         :return pandas.DataFrame: Merged proportions and design
         """
 
@@ -44,9 +44,9 @@ class PyproResult():
         :param str kind: Kind of plot (stripplot, barplot and boxplot), defaults to 'stripplot'
         :param list or str clusters: _description_, defaults to None
         :param int n_columns: _description_, defaults to 3
-        :param boolean simulated: True if results were simulated
+        :param bool simulated: True if results were simulated
         """
-        # if no clusters are specified, plot all clusters 
+        # if no clusters are specified, plot all clusters
         if clusters is None:
             clusters = self.props.columns.tolist()
         else:

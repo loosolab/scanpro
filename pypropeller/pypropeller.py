@@ -316,7 +316,7 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    #get list of conditions
+    # get list of conditions
     conditions = data[conds_col].unique()
     n_conds = len(conditions)
 
