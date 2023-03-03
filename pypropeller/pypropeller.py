@@ -25,13 +25,13 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to 'sample'.
     :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
-
+    :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
-    :return _tyfpe_: Dataframe containing estimated mean proportions for each cluster and p-values.
+    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster and p-values.
     """
 
     if type(data).__name__ == "AnnData":
@@ -154,12 +154,12 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
 
-    :param anndata.AnnData adata: Anndata object containing single-cell data.
+    :param anndata.AnnData or pandas.DataFrame adata: Anndata object containing single-cell data.
     :param str clusters: Column in adata.obs where cluster or celltype information are stored, defaults to 'cluster'
     :param str sample: Column in adata.obs where sample informtaion are stored, defaults to 'sample'
     :param str cond: Column in adata.obs where condition informtaion are stored, defaults to 'group'
     :param str transform: Method of normalization of proportions (logit or arcsin), defaults to 'logit'
-
+    :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
@@ -344,16 +344,18 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
                     conditions=None, robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
-    :param :param anndata.AnnData or pandas.DataFrame data: _description_
-    :param int n_reps: _description_, defaults to 8
-    :param int n_sims: _description_, defaults to 100
-    :param str clusters_col: _description_, defaults to 'cluster'
-    :param str samples_col: _description_, defaults to 'sample'
-    :param str conds_col: _description_, defaults to 'group'
-    :param str transform: _description_, defaults to 'arcsin'
-
-    :param bool robust: _description_, defaults to True
-    :param bool verbose: _description_, defaults to True
+    :param anndata.AnnData or pandas.DataFrame data: _description_
+    :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
+    :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
+    :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored, defaults to 'cluster'.
+    :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to 'sample'.
+    :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
+    :param str transform: Method of transformation of proportions, defaults to 'logit'.
+    :param str conditions: List of condtitions of interest to compare, defaults to None.
+    :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
+    :param bool verbose: defaults to True.
+    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster 
+    and median p-values from all simulations.
     """
     # check datas type
     if type(data).__name__ == "AnnData":
