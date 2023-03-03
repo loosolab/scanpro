@@ -60,7 +60,6 @@ class PyproResult():
                 raise ValueError(s1 + s2)
 
         sample_col = self.design.index.name if not simulated else self.sim_design.index.name
-
         prop_merged = self._merge_design_props(simulated=simulated)
 
         # get results dataframe
@@ -92,6 +91,8 @@ class PyproResult():
 
             ax.set_title(cluster)
             ax.set(ylabel='Proportions')
+            ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right')
+
             pairs = [(prop_merged.Group.unique()[0], prop_merged.Group.unique()[-1])]
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
@@ -99,11 +100,12 @@ class PyproResult():
              .set_pvalues(pvalues=[round(results.iloc[i, -1], 3)])
              .annotate())
 
-        fig.tight_layout()
+        plt.subplots_adjust(wspace=0.5, hspace=0.5)
 
         # Add legend to the last plot
         if not kind == 'boxplot':
-            axes[n_columns - 1].legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False)
+            axes[n_columns - 1].legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left",
+                                       frameon=False, ncols=2)
 
         # Remove empty plots
         for i in range(len(clusters), len(axes)):
