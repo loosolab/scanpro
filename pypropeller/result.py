@@ -93,7 +93,11 @@ class PyproResult():
             ax.set(ylabel='Proportions')
             ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right')
 
-            pairs = [(prop_merged.Group.unique()[0], prop_merged.Group.unique()[-1])]
+            if self.conditions is not None:
+                pairs = (self.conditions[0], self.conditions[-1])
+            else:
+                pairs = (prop_merged.Group.unique()[0], prop_merged.Group.unique()[-1])
+            pairs = [pairs]
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
              .configure(test=None, verbose=False)
