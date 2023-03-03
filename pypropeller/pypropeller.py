@@ -354,7 +354,7 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbose: defaults to True.
-    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster 
+    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
     and median p-values from all simulations.
     """
     # check datas type
