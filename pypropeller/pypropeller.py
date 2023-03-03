@@ -37,8 +37,6 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    ### code for specifiying conds of interest
-
     # check conditions
     if conditions is not None:
         # check if conditions are in a list
@@ -89,7 +87,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
-                              samples_col=samples_col, conds_col=conds_col, transform=transform, 
+                              samples_col=samples_col, conds_col=conds_col, transform=transform,
                               conditions=conditions, robust=robust, verbose=verbose)
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
@@ -106,7 +104,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         # run pypropeller normally
         if verbose:
             print("Running pypropeller with original replicates...")
-        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, 
+        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform,
                               conditions, robust, verbose)
 
         # run simulations
@@ -122,7 +120,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
 
     # if all conditions have replicates, run pypropeller normally
     else:
-        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, 
+        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform,
                               conditions, robust, verbose)
 
     columns = list(out.results.columns)
@@ -151,7 +149,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     return out
 
 
-def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit', 
+def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit',
                     conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
@@ -342,7 +340,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
 
 def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
-                    samples_col='sample', conds_col='group', transform='arcsin', 
+                    samples_col='sample', conds_col='group', transform='arcsin',
                     conditions=None, robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
@@ -392,7 +390,7 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
         # run propeller
         try:
             out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
-                                      cond=conds_col, transform=transform, 
+                                      cond=conds_col, transform=transform,
                                       conditions=conditions, robust=robust, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
