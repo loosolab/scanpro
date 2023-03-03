@@ -98,7 +98,7 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
                                   samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
                                   robust=robust, verbose=verbose)
 
-        print("To access results for original reps, run <out.results>, and <out.sim_results> for simulated results")
+        print("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
     # if all conditions have replicates, run pypropeller normally
     else:
@@ -112,9 +112,17 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     # rearrange dataframe columns
     out.results = out.results[columns]
 
+    # if data is not replicated, add results also as sim_results for plotting
+    if not repd:
+        out.sim_results = out.results
+
     # add simulated results for partially replicated data
     if partially_repd:
         out.sim_results = out_sim.results
+        out.sim_design = out_sim.sim_design
+        out.sim_counts = out_sim.sim_counts
+        out.sim_props = out_sim.sim_props
+        out.sim_prop_trans = out_sim.sim_prop_trans
 
     return out
 
@@ -308,8 +316,15 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
     if type(data).__name__ == "AnnData":
         data = data.obs
 
+    #get list of conditions
     conditions = data[conds_col].unique()
     n_conds = len(conditions)
+
+    # get original counts and proportions
+    counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col, cluster_col=clusters_col, transform=transform)
+    # get original design matrix
+    design = create_design(data=data, samples=samples_col, conds=conds_col, reindex=props.index)
+
     # initiate lists to save results
     res = {}
     n_clusters = len(data[clusters_col].unique())
@@ -382,9 +397,13 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
 
         output_obj = PyproResult()
         output_obj.results = out
-        output_obj.counts = counts_mean
-        output_obj.props = props_mean
-        output_obj.prop_trans = prop_trans_mean
-        output_obj.design = design_sim
+        output_obj.counts = counts  # original counts
+        output_obj.sim_counts = counts_mean  # mean of all simulated counts
+        output_obj.props = props
+        output_obj.sim_props = props_mean
+        output_obj.prop_trans = prop_trans
+        output_obj.sim_prop_trans = prop_trans_mean
+        output_obj.design = design
+        output_obj.sim_design = design_sim
 
     return output_obj
