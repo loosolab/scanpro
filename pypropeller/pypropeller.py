@@ -406,7 +406,12 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
         prop_trans_list.append(out_sim.prop_trans)
 
         # get adjusted p values for simulation
-        p_values[i] = out_sim.results.iloc[:, -1].to_list()
+        try:  # check if all clusters are simulated, if a cluster is missing, rerun simulation
+            p_values[i] = out_sim.results.iloc[:, -1].to_list()
+        except ValueError:
+            i -= 1
+            continue
+
         # get coefficients estimates from linear model fit
         for k, cluster in enumerate(out_sim.results.index):
             for j, condition in enumerate(conditions):
