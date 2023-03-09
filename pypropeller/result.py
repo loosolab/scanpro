@@ -1,7 +1,6 @@
 """ A class containing the results of a pypropeller analysis """
 
 import matplotlib.pyplot as plt
-import matplotlib.ticker as tic
 import seaborn as sns
 import math
 import numpy as np
@@ -98,8 +97,6 @@ class PyproResult():
 
             ax.set_title(cluster)
             ax.set(ylabel='Proportions')
-            #ax.tick_params(axis='x', which='major', labelsize=10)
-            #ax.set_xticks(ax.get_xticks(), ax.xaxis.get_majorticklabels(), rotation=45, ha='right', rotation_mode='anchor')
             ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')
 
             # pairs to plot p values
@@ -107,16 +104,12 @@ class PyproResult():
             all_conds = True if len(self.conditions) == len(self.design.columns) else False  # check if all conditions were chosen
             pairs = [(self.conditions[0], self.conditions[-1])] if not all_conds else [(labels[0], labels[-1])]
 
-            # add p values to plot
-            if self.conditions is None:
-                plt.text(0.7, 0.8, "y p-values: %.2f" %(results.iloc[i, -1]), horizontalalignment='center',
-                         verticalalignment='center', transform=ax.transAxes)
-            else:       
-                annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
-                (annot
-                .configure(test=None, verbose=False)
-                .set_pvalues(pvalues=[round(results.iloc[i, -1], 3)])
-                .annotate())
+            # add p values to plot      
+            annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
+            (annot
+             .configure(test=None, verbose=False)
+             .set_pvalues(pvalues=[round(results.iloc[i, -1], 3)])
+             .annotate())
 
         plt.subplots_adjust(wspace=0.5, hspace=0.6)
 
