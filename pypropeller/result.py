@@ -104,7 +104,7 @@ class PyproResult():
             all_conds = True if len(self.conditions) == len(self.design.columns) else False  # check if all conditions were chosen
             pairs = [(self.conditions[0], self.conditions[-1])] if not all_conds else [(labels[0], labels[-1])]
 
-            # add p values to plot      
+            # add p values to plot   
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
              .configure(test=None, verbose=False)
