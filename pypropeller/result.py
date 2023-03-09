@@ -38,13 +38,15 @@ class PyproResult():
              kind='stripplot',
              clusters=None,
              n_columns=3,
-             simulated=False):
+             simulated=False,
+             save=False):
         """Plot proportions pro condition
 
         :param str kind: Kind of plot (stripplot, barplot and boxplot), defaults to 'stripplot'
-        :param list or str clusters: _description_, defaults to None
-        :param int n_columns: _description_, defaults to 3
-        :param bool simulated: True if results were simulated
+        :param list or str clusters: Specify clusters to plot, if None, all clusters will be plotted, defaults to None
+        :param int n_columns: Number of columns in the figure, defaults to 3
+        :param bool simulated: If True, simulated results will be plotted, defaults to False
+        :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
         # if no clusters are specified, plot all clusters
         if clusters is None:
@@ -115,12 +117,17 @@ class PyproResult():
         for i in range(len(clusters), len(axes)):
             axes[i].set_visible(False)
 
+        if save:
+            plt.savefig(fname=save, dpi=600, bbox_inches='tight')
+
     def plot_samples(self, stacked=True,
-                     x='samples'):
+                     x='samples',
+                     save=False):
         """Plot proportions of clusters pro sample
 
         :param bool stacked: If True, a stacked bar plot is plotted, defaults to True
         :param str x: Specifies if clusters or samples are plotted as x axis, defaults to 'samples'
+        :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
         if stacked:
             if x == 'samples':
@@ -132,3 +139,6 @@ class PyproResult():
                 self.props.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
             elif x == 'clusters':
                 self.props.T.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+
+        if save:
+            plt.savefig(fname=save, dpi=600, bbox_inches='tight')
