@@ -12,7 +12,7 @@ from pypropeller.result import PyproResult
 
 
 def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group',
-                transform='logit', robust=True, n_sims=100, n_reps=8, verbose=True):
+                transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
     """Wrapper function for pypropeller. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
     replicates, the function {sim_pypropeller} will generate artificial replicates
@@ -25,19 +25,35 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to 'sample'.
     :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
+    :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
-    :return _tyfpe_: Dataframe containing estimated mean proportions for each cluster and p-values.
+    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster and p-values.
     """
 
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    # get all conditions
-    conditions = data[conds_col].unique()
+    # check conditions
+    if conditions is not None:
+        # check if conditions are in a list
+        if not isinstance(conditions, list) and not isinstance(conditions, np.ndarray):
+            raise ValueError("Please provide names of conditions of interest as a list!")
+        # check if conditions are in data
+        not_in_data = np.isin(conditions, data[conds_col].unique(), invert=True)
+        check = any(not_in_data)
+        if check:
+            s1 = "The following conditions could not be found in data: "
+            s2 = ', '.join([conditions[i] for i in np.where(not_in_data)[0]])
+            raise ValueError(s1 + s2)
+
+    else:
+        # if no conditions are specified, get all conditions
+        conditions = data[conds_col].unique()
+
     # check if there are 2 conditions or more
     if len(conditions) < 2:
         raise ValueError("There has to be at least two conditions to compare!")
@@ -71,7 +87,8 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
-                              samples_col=samples_col, conds_col=conds_col, transform=transform, robust=robust, verbose=verbose)
+                              samples_col=samples_col, conds_col=conds_col, transform=transform,
+                              conditions=conditions, robust=robust, verbose=verbose)
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
     elif partially_repd:
@@ -87,7 +104,8 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         # run pypropeller normally
         if verbose:
             print("Running pypropeller with original replicates...")
-        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
+        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform,
+                              conditions, robust, verbose)
 
         # run simulations
         if verbose:
@@ -96,13 +114,14 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
         transform = 'arcsin'
         out_sim = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                                   samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
-                                  robust=robust, verbose=verbose)
+                                  conditions=conditions, robust=robust, verbose=verbose)
 
         print("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
     # if all conditions have replicates, run pypropeller normally
     else:
-        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform, robust, verbose)
+        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform,
+                              conditions, robust, verbose)
 
     columns = list(out.results.columns)
     # add baseline proportions as first column
@@ -111,6 +130,9 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
 
     # rearrange dataframe columns
     out.results = out.results[columns]
+
+    # add connditions to object
+    out.conditions = conditions
 
     # if data is not replicated, add results also as sim_results for plotting
     if not repd:
@@ -127,15 +149,17 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     return out
 
 
-def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit', robust=True, verbose=True):
+def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit',
+                    conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
 
-    :param anndata.AnnData adata: Anndata object containing single-cell data.
+    :param anndata.AnnData or pandas.DataFrame adata: Anndata object containing single-cell data.
     :param str clusters: Column in adata.obs where cluster or celltype information are stored, defaults to 'cluster'
     :param str sample: Column in adata.obs where sample informtaion are stored, defaults to 'sample'
     :param str cond: Column in adata.obs where condition informtaion are stored, defaults to 'group'
     :param str transform: Method of normalization of proportions (logit or arcsin), defaults to 'logit'
+    :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
@@ -149,16 +173,33 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
     # create design matrix
     design = create_design(data=adata, samples=sample, conds=cond, reindex=props.index)
 
-    # check number of conditions
-    if design.shape[1] == 2:
+    contrasts = None
+    coef = None
+
+    if conditions is not None:
+        # get indices of giving conditions in design matrix
+        cond_indices = design.columns.get_indexer(conditions)
+        if len(cond_indices) == 2:  # if only two conditions, make contrasts list
+            contrasts = np.zeros(len(design.columns))
+            contrasts[cond_indices[0]] = 1
+            contrasts[cond_indices[1]] = -1
+        else:
+            coef = np.sort(cond_indices)
+    # if no specific conditions are provided, consider all conditions
+    else:
+        # check number of conditions
+        if design.shape[1] == 2:
+            contrasts = [1, -1]  # columns in design matrix to be tested
+        elif design.shape[1] > 2:
+            coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
+
+    if contrasts is not None:
         if verbose:
             print("There are 2 conditions. T-Test will be performed...")
-        contrasts = [1, -1]  # columns in design matrix to be tested
         out = t_test(props, prop_trans, design, contrasts, robust)
-    elif design.shape[1] > 2:
+    else:
         if verbose:
             print("There are more than 2 conditions. ANOVA will be performed...")
-        coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
         out = anova(props, prop_trans, design, coef, robust)
 
     if verbose:
@@ -299,25 +340,30 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
 
 def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
-                    samples_col='sample', conds_col='group', transform='arcsin', robust=True, verbose=True):
+                    samples_col='sample', conds_col='group', transform='arcsin',
+                    conditions=None, robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
-    :param _type_ data: _description_
-    :param int n_reps: _description_, defaults to 8
-    :param int n_sims: _description_, defaults to 100
-    :param str clusters_col: _description_, defaults to 'cluster'
-    :param str samples_col: _description_, defaults to 'sample'
-    :param str conds_col: _description_, defaults to 'group'
-    :param str transform: _description_, defaults to 'arcsin'
-    :param bool robust: _description_, defaults to True
-    :param bool verbose: _description_, defaults to True
+    :param anndata.AnnData or pandas.DataFrame data: _description_
+    :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
+    :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
+    :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored, defaults to 'cluster'.
+    :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to 'sample'.
+    :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
+    :param str transform: Method of transformation of proportions, defaults to 'logit'.
+    :param str conditions: List of condtitions of interest to compare, defaults to None.
+    :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
+    :param bool verbose: defaults to True.
+    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
+    and median p-values from all simulations.
     """
     # check datas type
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    # get list of conditions
-    conditions = data[conds_col].unique()
+    # get list of conditions and number of conditions
+    if conditions is None:
+        conditions = data[conds_col].unique()
     n_conds = len(conditions)
 
     # get original counts and proportions
@@ -346,7 +392,8 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
         # run propeller
         try:
             out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
-                                      cond=conds_col, transform=transform, robust=robust, verbose=False)
+                                      cond=conds_col, transform=transform,
+                                      conditions=conditions, robust=robust, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
@@ -359,7 +406,12 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
         prop_trans_list.append(out_sim.prop_trans)
 
         # get adjusted p values for simulation
-        p_values[i] = out_sim.results.iloc[:, -1].to_list()
+        try:  # check if all clusters are simulated, if a cluster is missing, rerun simulation
+            p_values[i] = out_sim.results.iloc[:, -1].to_list()
+        except ValueError:
+            i -= 1
+            continue
+
         # get coefficients estimates from linear model fit
         for k, cluster in enumerate(out_sim.results.index):
             for j, condition in enumerate(conditions):
@@ -405,5 +457,6 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
         output_obj.sim_prop_trans = prop_trans_mean
         output_obj.design = design
         output_obj.sim_design = design_sim
+        output_obj.conditions = conditions
 
     return output_obj

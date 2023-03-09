@@ -281,6 +281,7 @@ def classify_tests_f(fit, df=np.Inf):  # DONE
         return f_stat
 
     e_values, e_vectors = np.linalg.eig(cor_matrix)  # calculate eigenvalues and eigenvectors
+    e_values, e_vectors = e_values.real, e_vectors.real  # workaround complex numbers
     r = sum(e_values / e_values[0] > 1e-8)  # degrees of freedom
     Q = matvec(e_vectors[:, 0:r], 1 / np.sqrt(e_values[0:r]) / np.sqrt(r))
     # save results

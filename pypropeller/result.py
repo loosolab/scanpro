@@ -38,13 +38,15 @@ class PyproResult():
              kind='stripplot',
              clusters=None,
              n_columns=3,
-             simulated=False):
+             simulated=False,
+             save=False):
         """Plot proportions pro condition
 
         :param str kind: Kind of plot (stripplot, barplot and boxplot), defaults to 'stripplot'
-        :param list or str clusters: _description_, defaults to None
-        :param int n_columns: _description_, defaults to 3
-        :param bool simulated: True if results were simulated
+        :param list or str clusters: Specify clusters to plot, if None, all clusters will be plotted, defaults to None
+        :param int n_columns: Number of columns in the figure, defaults to 3
+        :param bool simulated: If True, simulated results will be plotted, defaults to False
+        :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
         # if no clusters are specified, plot all clusters
         if clusters is None:
@@ -60,7 +62,7 @@ class PyproResult():
                 raise ValueError(s1 + s2)
 
         sample_col = self.design.index.name if not simulated else self.sim_design.index.name
-
+        n_conds = len(self.design.columns)
         prop_merged = self._merge_design_props(simulated=simulated)
 
         # get results dataframe
@@ -69,7 +71,10 @@ class PyproResult():
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
         n_rows = math.ceil(len(clusters) / n_columns)
-        fig, axes = plt.subplots(nrows=n_rows, ncols=n_columns, figsize=(3 * n_columns, 4 * n_rows))
+        width = n_conds // 2 if n_conds > 8 else 3
+        hight = (n_conds // 2) + 1 if n_conds > 8 else 4
+
+        fig, axes = plt.subplots(nrows=n_rows, ncols=n_columns, figsize=(width * n_columns, hight * n_rows))
 
         # Fill in the plot
         axes = axes.flatten() if len(clusters) > 1 else [axes]
@@ -92,29 +97,42 @@ class PyproResult():
 
             ax.set_title(cluster)
             ax.set(ylabel='Proportions')
-            pairs = [(prop_merged.Group.unique()[0], prop_merged.Group.unique()[-1])]
+            ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')
+
+            # pairs to plot p values
+            labels = [label.get_text() for label in ax.get_xticklabels()]
+            all_conds = True if len(self.conditions) == len(self.design.columns) else False  # check if all conditions were chosen
+            pairs = [(self.conditions[0], self.conditions[-1])] if not all_conds else [(labels[0], labels[-1])]
+
+            # add p values to plot
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
              .configure(test=None, verbose=False)
              .set_pvalues(pvalues=[round(results.iloc[i, -1], 3)])
              .annotate())
 
-        fig.tight_layout()
+        plt.subplots_adjust(wspace=0.5, hspace=0.6)
 
         # Add legend to the last plot
         if not kind == 'boxplot':
-            axes[n_columns - 1].legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False)
+            axes[n_columns - 1].legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left",
+                                       frameon=False, ncols=2)
 
         # Remove empty plots
         for i in range(len(clusters), len(axes)):
             axes[i].set_visible(False)
 
+        if save:
+            plt.savefig(fname=save, dpi=600, bbox_inches='tight')
+
     def plot_samples(self, stacked=True,
-                     x='samples'):
+                     x='samples',
+                     save=False):
         """Plot proportions of clusters pro sample
 
         :param bool stacked: If True, a stacked bar plot is plotted, defaults to True
         :param str x: Specifies if clusters or samples are plotted as x axis, defaults to 'samples'
+        :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
         if stacked:
             if x == 'samples':
@@ -126,3 +144,6 @@ class PyproResult():
                 self.props.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
             elif x == 'clusters':
                 self.props.T.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+
+        if save:
+            plt.savefig(fname=save, dpi=600, bbox_inches='tight')
