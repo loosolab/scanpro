@@ -11,7 +11,7 @@ from pypropeller.sim_reps import generate_reps, combine, get_mean_sim
 from pypropeller.result import PyproResult
 
 
-def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='group',
+def pypropeller(data, clusters_col, conds_col, samples_col=None,
                 transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
     """Wrapper function for pypropeller. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
@@ -21,9 +21,10 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
 
     :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
     condition and cluster/celltype information.
-    :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored, defaults to 'cluster'.
-    :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to 'sample'.
-    :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
+    :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
+    :param str conds_col: Column in data or data.obs where condition information are stored.
+    :param str samples_col: Column in data or data.obs where sample information are stored.
+    If None, temporary samples column is created and set equals to conds_col, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
@@ -33,7 +34,6 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     :raises ValueError: Data must have at least two conditions!
     :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster and p-values.
     """
-
     if type(data).__name__ == "AnnData":
         data = data.obs
 
@@ -58,24 +58,30 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     if len(conditions) < 2:
         raise ValueError("There has to be at least two conditions to compare!")
 
-    # assume data is replicated
-    repd = True
-    partially_repd = False
-    # check if at least one condition doesnt have replicates
-    no_reps_list = []
-    for condition in conditions:
-        # get samples for condition
-        samples_list = data[data[conds_col] == condition][samples_col].unique()
-        if len(samples_list) == 1:
-            no_reps_list.append(condition)
-    # at least one condition doesn't have replicates
-    if len(no_reps_list) > 0:
-        # if all conditions don't have replicates, set repd to False
-        if len(no_reps_list) == len(conditions):
-            repd = False
-        # otherwise, data is partially replicated
-        else:
-            partially_repd = True
+    # if samples_col is None, data is not replicated
+    if samples_col is None:
+        repd = False
+        partially_repd = False
+
+    # otherwise, assume data is replicated
+    else:
+        repd = True
+        partially_repd = False
+        # check if at least one condition doesnt have replicates
+        no_reps_list = []
+        for condition in conditions:
+            # get samples for condition
+            samples_list = data[data[conds_col] == condition][samples_col].unique()
+            if len(samples_list) == 1:
+                no_reps_list.append(condition)
+        # at least one condition doesn't have replicates
+        if len(no_reps_list) > 0:
+            # if all conditions don't have replicates, set repd to False
+            if len(no_reps_list) == len(conditions):
+                repd = False
+            # otherwise, data is partially replicated
+            else:
+                partially_repd = True
 
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
 
@@ -149,15 +155,15 @@ def pypropeller(data, clusters_col='cluster', samples_col='sample', conds_col='g
     return out
 
 
-def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', transform='logit',
+def run_pypropeller(adata, clusters, samples, conds, transform='logit',
                     conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
 
     :param anndata.AnnData or pandas.DataFrame adata: Anndata object containing single-cell data.
-    :param str clusters: Column in adata.obs where cluster or celltype information are stored, defaults to 'cluster'
-    :param str sample: Column in adata.obs where sample informtaion are stored, defaults to 'sample'
-    :param str cond: Column in adata.obs where condition informtaion are stored, defaults to 'group'
+    :param str clusters: Column in adata.obs where cluster or celltype information are stored.
+    :param str samples: Column in adata.obs where sample information are stored.
+    :param str conds: Column in adata.obs where condition information are stored.
     :param str transform: Method of normalization of proportions (logit or arcsin), defaults to 'logit'
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
@@ -168,10 +174,10 @@ def run_pypropeller(adata, clusters='cluster', sample='sample', cond='group', tr
         adata = adata.obs
 
     # calculate proportions and transformed proportions
-    counts, props, prop_trans = get_transformed_props(adata, sample_col=sample, cluster_col=clusters, transform=transform)
+    counts, props, prop_trans = get_transformed_props(adata, sample_col=samples, cluster_col=clusters, transform=transform)
 
     # create design matrix
-    design = create_design(data=adata, samples=sample, conds=cond, reindex=props.index)
+    design = create_design(data=adata, samples=samples, conds=conds, reindex=props.index)
 
     contrasts = None
     coef = None
@@ -339,8 +345,8 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     return pd.DataFrame(res, columns=cols).set_index('Clusters')
 
 
-def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
-                    samples_col='sample', conds_col='group', transform='arcsin',
+def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
+                    transform='arcsin', n_reps=8, n_sims=100,
                     conditions=None, robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
@@ -360,6 +366,14 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
     # check datas type
     if type(data).__name__ == "AnnData":
         data = data.obs
+
+    # check samples column
+    if samples_col is None:
+        if verbose:
+            print("samples_col was not provided! conds_col will be set as samples_col")
+        # add conds_col as samples_col
+        samples_col = 'tmp_samples'
+        data[samples_col] = data[conds_col]
 
     # get list of conditions and number of conditions
     if conditions is None:
@@ -391,8 +405,8 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
 
         # run propeller
         try:
-            out_sim = run_pypropeller(rep_data, clusters=clusters_col, sample=samples_col,
-                                      cond=conds_col, transform=transform,
+            out_sim = run_pypropeller(rep_data, clusters=clusters_col, samples=samples_col,
+                                      conds=conds_col, transform=transform,
                                       conditions=conditions, robust=robust, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
@@ -458,5 +472,8 @@ def sim_pypropeller(data, n_reps=8, n_sims=100, clusters_col='cluster',
         output_obj.design = design
         output_obj.sim_design = design_sim
         output_obj.conditions = conditions
+
+    # remove temporary samples column
+    data.drop(samples_col, axis=1, inplace=True)
 
     return output_obj
