@@ -38,6 +38,18 @@ def pypropeller(data, clusters_col, conds_col, samples_col=None,
     if type(data).__name__ == "AnnData":
         data = data.obs
 
+    # check if samples_col and conds_col are in data
+    columns = [clusters_col, conds_col]
+    # add samples_col if given
+    if samples_col is not None:
+        columns.append(samples_col)
+    columns_not_in_data = np.isin(columns, data.columns, invert=True)
+    check_columns = any(columns_not_in_data)
+    if check_columns:
+        s1 = "The following columns could not be found in data: "
+        s2 = ', '.join([columns[i] for i in np.where(columns_not_in_data)[0]])
+        raise ValueError(s1 + s2)
+
     # check conditions
     if conditions is not None:
         # check if conditions are in a list
