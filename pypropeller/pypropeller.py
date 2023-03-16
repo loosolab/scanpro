@@ -1,8 +1,9 @@
 import time
+import warnings
 import pandas as pd
 import numpy as np
 from statsmodels.stats.multitest import multipletests
-import warnings
+from statsmodels.tools.tools import add_constant
 
 from pypropeller.get_transformed_props import get_transformed_props
 from pypropeller.linear_model import lm_fit, contrasts_fit, create_design
@@ -238,7 +239,6 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
-    from statsmodels.tools.tools import add_constant
     # check if coef is a numpy array
     if not isinstance(coef, np.ndarray):
         coef = np.array(coef)
@@ -350,13 +350,14 @@ def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
                     conditions=None, robust=True, verbose=True):
     """Run pypropeller multiple times on same dataset and pool estimates together.
 
-    :param anndata.AnnData or pandas.DataFrame data: _description_
+    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
+    condition and cluster/celltype information.
+    :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
+    :param str conds_col: Column in data or data.obs where condition informtaion are stored.
+    :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to None.
+    :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
-    :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored, defaults to 'cluster'.
-    :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to 'sample'.
-    :param str conds_col: Column in data or data.obs where condition informtaion are stored, defaults to 'group'.
-    :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbose: defaults to True.
@@ -381,7 +382,8 @@ def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
     n_conds = len(conditions)
 
     # get original counts and proportions
-    counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col, cluster_col=clusters_col, transform=transform)
+    counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col,
+                                                      cluster_col=clusters_col, transform=transform)
     # get original design matrix
     design = create_design(data=data, samples=samples_col, conds=conds_col, reindex=props.index)
 
