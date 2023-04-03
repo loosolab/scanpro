@@ -204,29 +204,3 @@ def norm_counts(x, log=False, prior_count=0.5, lib_size=None):
         return np.log2((((counts).T + prior_counts_scaled) / lib_size[:, np.newaxis] * M).T)
     else:
         return ((counts).T / lib_size[:, np.newaxis] * M).T
-
-
-def boot_reps(adata, n_boots=10, samples='sample'):
-    """Generate replicates for each sample using bootstrapping with replacement.
-
-    :param anndata.AnnData adata: Anndata object.
-    :param int n_boots: Number of replicates, defaults to 10
-    :param str samples: Name of samples column in obs table, defaults to 'sample'
-    :return list: list of replicates as anndata objects.
-    """
-    groups = adata.obs[samples].unique()
-    groups_adatas = {}
-    for group in groups:
-        groups_adatas[group] = adata.obs[adata.obs[samples] == group]  # subset data for each sample
-    indices = {}
-    for i, group in enumerate(groups_adatas.keys()):
-        indices[groups[i]] = np.arange(groups_adatas[group].shape[0])  # get sequence of indices
-    reps = []
-    for group in groups:
-        for i in range(n_boots):
-            boot = np.random.choice(indices[group], len(indices[group]))
-            rep = groups_adatas[group].iloc[boot, :]
-            rep[samples] = [group + '_rep_' + str(i + 1)] * rep.shape[0]
-            reps.append(rep)
-
-    return reps
