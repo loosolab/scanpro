@@ -384,6 +384,8 @@ def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
     if samples_col is None:
         if verbose:
             print("samples_col was not provided! conds_col will be set as samples_col")
+        # copy dataframe
+        data = data.copy()
         # add conds_col as samples_col
         samples_col = 'tmp_samples'
         data[samples_col] = data[conds_col]
