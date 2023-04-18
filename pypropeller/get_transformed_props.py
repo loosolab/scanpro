@@ -36,10 +36,10 @@ def get_transformed_props(data, sample_col='sample', cluster_col='cluster', tran
     elif transform == 'arcsin':
         prop_trans = np.arcsin(np.sqrt(props))
 
-    return counts.iloc[:, :-1], props, prop_trans
+    return counts, props, prop_trans
 
 
-def get_tranformed_props_counts(x, transform='logit', normalize=False):
+def get_transformed_props_counts(x, transform='logit', normalize=False):
     """Calculate proportions and transformed proportions from a cluster*sample matrix.
 
     :param pandas.DataFrame x: A count matrix where rows=samples and columns=clusters.
