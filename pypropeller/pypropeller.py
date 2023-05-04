@@ -490,6 +490,7 @@ def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
         output_obj.conditions = conditions
 
     # remove temporary samples column
-    data.drop(samples_col, axis=1, inplace=True)
+    if samples_col is None:
+      data.drop(samples_col, axis=1, inplace=True)
 
     return output_obj
