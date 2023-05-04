@@ -1,6 +1,8 @@
 from __future__ import print_function
 
 import numpy as np
+import pandas as pd
+from scipy.stats import binom, nbinom
 
 from pypropeller import gaussq2
 
@@ -204,3 +206,138 @@ def norm_counts(x, log=False, prior_count=0.5, lib_size=None):
         return np.log2((((counts).T + prior_counts_scaled) / lib_size[:, np.newaxis] * M).T)
     else:
         return ((counts).T / lib_size[:, np.newaxis] * M).T
+
+
+def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
+    """simulating cell counts using distribution of data.
+    - The total numbers of cells for each sample (n_j) are drawn from a negative binomial distribution.
+    - The proportions for each cell type in each sample (p_ij) is drawn from beta distribution with parameters a and b.
+    - The cell counts for each cluster in each sample are drawn from a binomial distribution with propability p_ij and
+    and size (n) = n_ij.
+
+    :param pandas.DataFrame or numpy.ndarray props: True proportions; proportions of each cluster in all samples.
+    :param int n_reps: Number of replicates per condition.
+    :param list a: estimated alpha paramters for beta distribution.
+    :param list b: estimated beta paramters from beta distribution for each cluster in each sample.
+    :param int n_conds: number of conditions to be simulated. Depends on a and b.
+    :param float n: Parameter (size) for NB distribution, defaults to 20.
+    :param float mu: Mean parameter (depth) for NB distribution, defaults to 5000.
+    :return pandas.DataFrame: Simulated cell counts.
+    """
+    # estimate p parameter for negativ binomial from data
+    p = n / ((n + mu) if n + mu != 0 else 1)
+
+    # generate total counts for each sample
+    total_reps = n_reps * n_conds  # number of reps multiplied by number of samples
+    num_cells = nbinom.rvs(n, p, size=total_reps)
+
+    # generate sample proportions
+    true_p = np.zeros((len(props), total_reps))  # for each condition we will generate n_reps samples
+    cluster_names = ['c' + str(i) for i in range(1, len(props) + 1)]
+    if isinstance(a, int) or isinstance(a, float):
+        a = [a]
+    for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
+        # draw random proportions from beta distribution for each sample
+        if len(a) == 1:
+            true_p[k, :] = np.random.beta(a[0], b[k], total_reps)
+        else:
+            true_p[k, i:i + n_reps] = np.random.beta(a[k], b[i // n_reps][k], n_reps)
+
+    # generate counts for each cluster in each replicate
+    counts_sim = np.zeros((len(true_p), total_reps))
+    for i in range(len(props)):
+        counts_sim[i, :] = binom.rvs(n=num_cells, p=true_p[i, :], size=total_reps)
+
+    counts_sim = counts_sim.T
+    samples_names = ['S' + str(i) for i in range(1, total_reps + 1)]
+
+    return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=pd.Index(cluster_names))
+
+
+def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
+    """Simulate cell count matrix with differences in proportions.
+    - The total numbers of cells for each sample (n_j) are drwan from a negative binomial distribution.
+    - The proportions for each cell type in each sample (p_ij) is drawn from beta distribution with parameters a and b.
+    - The cell counts for each cluster in each sample are drawn from a binomial distribution with propability p_ij and
+    and size (n) = n_ij.
+
+    :param pandas.DataFrame or numpy.ndarray props: Proportions of each cluster in all samples.
+    :param int n_reps: Number of replicates.
+    :param list a: estimated alpha paramters for beta distribution.
+    :param list b: estimated beta paramters from beta distribution for each cluster in each sample.
+    :param float n: Parameter for NB distribution, defaults to 20.
+    :param float mu: Mean parameter for NB distribution, defaults to 5000.
+    :return pandas.DataFrame: Simulated cell counts.
+    """
+    # calculate p
+    p = n / ((n + mu) if n + mu != 0 else 1)
+
+    # generate total counts for each sample
+    total_reps = n_reps * n_conds  # number of reps multiplied by number of conditions
+
+    # draw number of cells for each sample from a negativ binomial distribution
+    num_cells = nbinom.rvs(n, p, size=total_reps)
+
+    # generate sample proportions
+    true_p = np.zeros((props.shape[0], total_reps))  # for each sample we will generate n_reps replicates
+    samples_names = ['S' + str(i) for i in range(1, total_reps + 1)]
+
+    # get clusters names
+    try:
+        clusters_names = props.index
+    except:
+        clusters_names = [f'c{i+1}' for i in range(len(props))]
+
+    # draw cluster proportions from a beta distribution
+    for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
+        for i in range(0, total_reps, n_reps):  # iterate over samples
+            # draw random proportions from beta distribution for each sample
+            true_p[k, i:i + n_reps] = np.random.beta(a[k], b[i // n_reps][k], n_reps)
+
+    # generate counts for each cluster in each replicate
+    counts_sim = np.zeros((len(true_p), total_reps))
+    for i in range(len(props)):
+        counts_sim[i, :] = binom.rvs(n=num_cells, p=true_p[i, :], size=total_reps)
+
+    counts_sim = counts_sim.T
+
+    return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=clusters_names)
+
+
+def convert_counts_to_df(counts, n_reps, n_conds):
+    """Convert a cell count matrix to a dataframe.
+
+    :param pandas.DataFrame counts: A cluster*sample cell count matrix.
+    :param int n_reps: Number of replicates for each condition.
+    :param int n_conds: Number of conditions.
+    :return pandas.DataFrame: A Dataframe with sample, cluster and condition columns.
+    """
+    x = counts.copy()
+
+    n_samples = len(counts.index)
+
+    # get sum of cells in samples and clusters
+    # total sum per row and column
+    x.loc['sum',:]= x.sum(axis=0)
+    #Total sum per row:
+    x.loc[:,'sum'] = x.sum(axis=1)
+
+    # create cells as index
+    df = {'cells': [f'cell_{i+1}' for i in range(int(x.iloc[-1,-1]))]}
+    # create samples
+    samples_repeats = x['sum'][:-1].to_list()
+    samples = [f'S{i+1}' for i in range(n_samples)]
+    df['sample'] = np.repeat(samples, samples_repeats)
+    # create clusters
+    clusters = [name for name in counts.columns]  # len(true_proportions)
+    clusters_repeats = {f'{sample}': [counts[cluster][sample] for cluster in counts.columns] for sample in counts.index}
+    clusters_list = []
+    for sample in counts.index:
+        clusters_list += list(np.repeat(clusters, clusters_repeats[sample]))
+    df['cluster'] = clusters_list
+    # create conditions
+    conditions = [f'cond_{i+1}' for i in range(n_conds)]
+    conditions_repeats = [x['sum'][i:i+n_reps].sum() for i in range(0, n_samples, n_reps)]
+    df['group'] = np.repeat(conditions, conditions_repeats)
+
+    return pd.DataFrame(df).set_index('cells')
