@@ -228,7 +228,7 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     p = n / ((n + mu) if n + mu != 0 else 1)
 
     # generate total counts for each sample
-    total_reps = n_reps * n_conds  # number of reps multiplied by number of samples
+    total_reps = n_reps * n_conds  # number of replicates multiplied by number of conditions
     num_cells = nbinom.rvs(n, p, size=total_reps)
 
     # generate sample proportions
@@ -241,7 +241,8 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
         if len(a) == 1:
             true_p[k, :] = np.random.beta(a[0], b[k], total_reps)
         else:
-            true_p[k, i:i + n_reps] = np.random.beta(a[k], b[i // n_reps][k], n_reps)
+            for i in range(0, total_reps, n_reps):
+                true_p[k, i:i + n_reps] = np.random.beta(a[k], b[i // n_reps][k], n_reps)
 
     # generate counts for each cluster in each replicate
     counts_sim = np.zeros((len(true_p), total_reps))
