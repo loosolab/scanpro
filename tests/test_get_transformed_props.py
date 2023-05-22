@@ -44,7 +44,7 @@ def props_test():
                      [0.00841187, 0.05029807, 0.19508579, 0.22988102, 0.51632325]])
 
 
-@pytest.fixtures
+@pytest.fixture
 def trans_props_test():
     """Expected logit transformed proportions"""
     return np.array([[-4.33130943, -2.81421441, -1.73033476, -0.30494678, -0.59466117],
@@ -53,7 +53,7 @@ def trans_props_test():
                      [-4.76042982, -2.93691657, -1.41728364, -1.20905132,  0.06480467]])
 
 
-@pytest.fixtures
+@pytest.fixture
 def trans_props_norm_test():
     """Expected logit transformed proportions with normalized counts"""
     return np.array([[-1.29365443, -1.36616217, -1.53106414, -1.16019453, -1.62109072],
@@ -62,7 +62,7 @@ def trans_props_norm_test():
                      [-1.71481121, -1.40811218, -1.09697477, -1.81199221, -1.04481185]])
 
 
-@pytest.fixtures
+@pytest.fixture
 def trans_props_arcsin_test():
     """Expected arcsin transformed proportions"""
     return np.array([[0.11379174, 0.23998205, 0.39842955, 0.70956057, 0.63895161],
