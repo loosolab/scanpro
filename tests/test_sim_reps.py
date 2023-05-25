@@ -2,9 +2,9 @@ import pytest
 
 import numpy as np
 import pandas as pd
-from pypropeller.pypropeller import run_pypropeller
-from pypropeller.sim_reps import *
-from pypropeller.utils import simulate_cell_counts, convert_counts_to_df
+from scanpro.scanpro import run_scanpro
+from scanpro.sim_reps import *
+from scanpro.utils import simulate_cell_counts, convert_counts_to_df
 
 
 @pytest.fixture
@@ -60,7 +60,7 @@ def counts_list(counts_df):
 
         # run propeller
         try:
-            out_sim = run_pypropeller(rep_data, clusters=clusters_col, samples=samples_col,
+            out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
                                     conds=conds_col, transform=transform,
                                     conditions=None, robust=True, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"

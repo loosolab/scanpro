@@ -2,8 +2,8 @@ import pytest
 
 import numpy as np
 import pandas as pd
-from pypropeller.get_transformed_props import get_transformed_props, get_transformed_props_counts
-from pypropeller.utils import simulate_cell_counts, convert_counts_to_df
+from scanpro.get_transformed_props import get_transformed_props, get_transformed_props_counts
+from scanpro.utils import simulate_cell_counts, convert_counts_to_df
 
 
 @pytest.fixture
