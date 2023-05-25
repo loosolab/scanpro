@@ -52,14 +52,14 @@ linting:
     - coverage
   script:
     - pip install flake8
-    - flake8 pypropeller setup.py tests --ignore=E501,W503
+    - flake8 scanpro setup.py tests --ignore=E501,W503
   allow_failure: false
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
       changes:
       - setup.py
       - tests/*.py
-      - pypropeller/*.py
+      - scanpro/*.py
 
 tests:
   stage: test
@@ -70,7 +70,7 @@ tests:
     - pip install pytest
     - pip install pytest-cov
     - pip install .  # install package
-    - pytest --cov-report=term --cov=./pypropeller . --junitxml=pytest.xml    
+    - pytest --cov-report=term --cov=./scanpro . --junitxml=pytest.xml    
   artifacts:
     when: always
     paths:
@@ -81,4 +81,4 @@ tests:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
       changes:
       - tests/*.py
-      - pypropeller/*.py
+      - scanpro/*.py
