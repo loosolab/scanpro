@@ -1,7 +1,7 @@
-from pypropeller import pypropeller
+from scanpro import scanpro
 
 
 def test_import():
-    """ Test if pypropeller is imported correctly """
+    """ Test if scanpro is imported correctly """
 
-    assert pypropeller.__name__ == "pypropeller.pypropeller"
+    assert scanpro.__name__ == "scanpro.scanpro"
