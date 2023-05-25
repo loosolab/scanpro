@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from pypropeller.utils import norm_counts
+from scanpro.utils import norm_counts
 
 
 def get_transformed_props(data, sample_col='sample', cluster_col='cluster', transform='logit'):

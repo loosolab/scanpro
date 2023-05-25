@@ -1,3 +1,4 @@
+<<<<<<< tests/test_pypropeller.py
 import pytest
 
 import numpy as np
@@ -35,11 +36,15 @@ def counts_df_3():
     counts_df_3 = convert_counts_to_df(counts, n_reps=n_reps, n_conds=3)
 
     return counts_df_3
+=======
+from scanpro import scanpro
+>>>>>>> tests/test_pypropeller.py
 
 
 def test_import():
-    """ Test if pypropeller is imported correctly """
+    """ Test if scanpro is imported correctly """
 
+<<<<<<< tests/test_pypropeller.py
     assert pypropeller.__name__ == "pypropeller.pypropeller"
 
 
@@ -120,3 +125,6 @@ def test_sim_pypropeller(data):
     
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns
+=======
+    assert scanpro.__name__ == "scanpro.scanpro"
+>>>>>>> tests/test_pypropeller.py

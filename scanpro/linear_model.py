@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
-from pypropeller.utils import vecmat, del_index, cov_to_corr
+from scanpro.utils import vecmat, del_index, cov_to_corr
 
 
 def lm_fit(X, y):
