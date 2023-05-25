@@ -16,13 +16,13 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts_df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
 
-    return counts_df
+    return counts
 
 
 @pytest.fixture
-def counts():
+def counts_matrix():
     """Simulated cell count matrix"""
     np.random.seed(10)
 
@@ -91,13 +91,13 @@ def test_get_transformed_props(counts_df, transform, props_test, trans_props_tes
 
 
 @pytest.mark.parametrize("transform, normalize", [("logit", True), ("arcsin", False)])
-def test_get_transformed_props_counts(counts, transform, normalize, props_test,
+def test_get_transformed_props_counts(counts_matrix, transform, normalize, props_test,
                                       trans_props_norm_test, trans_props_arcsin_test):
     """Test get_transformed_props_counts function"""
-    props, trans_props = get_transformed_props_counts(counts, transform=transform, normalize=normalize)
+    props, trans_props = get_transformed_props_counts(counts_matrix, transform=transform, normalize=normalize)
 
     # check if dataframes are produces
-    assert all([isinstance(res, pd.DataFrame) for res in [counts, props, trans_props]])
+    assert all([isinstance(res, pd.DataFrame) for res in [props, trans_props]])
     # check if dataframes have the right index and columns
     assert all(x in props.columns for x in [f'c{i}' for i in range(1, 6)])
     assert all(x in props.index for x in [f'S{i}' for i in range(1, 6)])

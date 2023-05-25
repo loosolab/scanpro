@@ -53,7 +53,8 @@ def counts_list(counts_df):
     counts_df = counts_df.copy()
     # add conds_col as samples_col
     counts_df[samples_col] = counts_df[conds_col]
-
+    # initiate list to save counts
+    counts = []
     for i in range(n_sims):
         # generate replicates
         rep_data = generate_reps(data=counts_df, n_reps=n_reps, sample_col=samples_col)
@@ -70,9 +71,9 @@ def counts_list(counts_df):
             continue
 
         # save counts, props and prop_trans
-        counts_list.append(out_sim.counts)
+        counts.append(out_sim.counts)
 
-    return counts_list
+    return counts
 
 
 @pytest.fixture

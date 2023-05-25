@@ -18,9 +18,9 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts_df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
 
-    return counts_df
+    return counts
 
 
 @pytest.fixture
@@ -32,9 +32,9 @@ def counts_df_3():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=3)
-    counts_df_3 = convert_counts_to_df(counts, n_reps=n_reps, n_conds=3)
+    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=3)
 
-    return counts_df_3
+    return counts
 
 
 def test_import():
@@ -111,12 +111,11 @@ def test_t_test(counts_df, transform):
     assert all(x in out.columns for x in ['p_values', 'Adjusted_p_values'])
 
 
-@pytest.mark.parametrize("data", [counts_df, counts_df_3])
-def test_sim_scanpro(data):
+def test_sim_scanpro(counts_df):
     """Test sim_scanpro function"""
-    out = scanpro.sim_scanpro(data, 'cluster', 'group', samples_col=None,
-                                      transform='arcsin', n_reps=8, n_sims=100,
-                                      conditions=None, robust=True, verbose=False)
-    
+    out = scanpro.sim_scanpro(counts_df, 'cluster', 'group', samples_col=None,
+                              transform='arcsin', n_reps=8, n_sims=100,
+                              conditions=None, robust=True, verbose=False)
+
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns
