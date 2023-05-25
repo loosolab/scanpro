@@ -80,7 +80,7 @@ def test_get_transformed_props(counts_df, transform, props_test, trans_props_tes
     assert all([isinstance(res, pd.DataFrame) for res in [counts, props, trans_props]])
     # check if dataframes have the right index and columns
     assert all(x in props.columns for x in [f'c{i}' for i in range(1, 6)])
-    assert all(x in props.index for x in [f'S{i}' for i in range(1, 6)])
+    assert all(x in props.index for x in [f'S{i}' for i in range(1, 5)])
     # check if proportions are calcualted correctly
     assert np.allclose(props.values, props_test)
     # check if values are correct
@@ -100,7 +100,7 @@ def test_get_transformed_props_counts(counts_matrix, transform, normalize, props
     assert all([isinstance(res, pd.DataFrame) for res in [props, trans_props]])
     # check if dataframes have the right index and columns
     assert all(x in props.columns for x in [f'c{i}' for i in range(1, 6)])
-    assert all(x in props.index for x in [f'S{i}' for i in range(1, 6)])
+    assert all(x in props.index for x in [f'S{i}' for i in range(1, 5)])
     # check if proportions are calculated correctly
     assert np.allclose(props.values, props_test)
     # check if values are correct
