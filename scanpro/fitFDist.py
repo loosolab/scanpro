@@ -3,7 +3,7 @@ import scipy
 from scipy.stats import f, chi2, rankdata
 from scipy.special import digamma, polygamma
 from statsmodels.nonparametric.smoothers_lowess import lowess
-from pypropeller.utils import pmin, pmax, gauss_quad_prob
+from scanpro.utils import pmin, pmax, gauss_quad_prob
 
 
 def linkfun(x):

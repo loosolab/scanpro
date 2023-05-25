@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import binom, nbinom
 
-from pypropeller import gaussq2
+from scanpro import gaussq2
 
 
 def del_index(x, indices):

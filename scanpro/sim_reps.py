@@ -69,13 +69,13 @@ def combine(fit,
             conds,
             n_clusters,
             ):
-    """Function to combine coefficients estimates from multiple runs of pypropeller,
+    """Function to combine coefficients estimates from multiple runs of scanpro,
     following rubin's rule.
     Code adapted from https://github.com/MIDASverse/MIDASpy
 
     :param dict fit: Dictionary containing beta coefficients estimate for each condition.
     Keys are names of conditions and values are matrices of coefficients for all clusters for each run.
-    :param int n_sims: Number of runs of pypropeller. Number must match the number of rows of matrices in fit.
+    :param int n_sims: Number of runs of scanpro. Number must match the number of rows of matrices in fit.
     :param int n_conds: Number of conditions. Must match the number of keys in fit.
     :param list conds: List of names of conditions.
     :param int n_clusters: Number of clusters. Must match number of columns in fit's matrices.

@@ -2,11 +2,11 @@ import pytest
 
 import numpy as np
 import pandas as pd
-from pypropeller import pypropeller
-from pypropeller.get_transformed_props import get_transformed_props
-from pypropeller.linear_model import create_design
-from pypropeller.utils import simulate_cell_counts, convert_counts_to_df
-from pypropeller.result import PyproResult
+from scanpro import scanpro
+from scanpro.get_transformed_props import get_transformed_props
+from scanpro.linear_model import create_design
+from scanpro.utils import simulate_cell_counts, convert_counts_to_df
+from scanpro.result import PyproResult
 
 
 @pytest.fixture
@@ -38,18 +38,18 @@ def counts_df_3():
 
 
 def test_import():
-    """ Test if pypropeller is imported correctly """
+    """ Test if scanpro is imported correctly """
 
-    assert pypropeller.__name__ == "pypropeller.pypropeller"
+    assert scanpro.__name__ == "scanpro.scanpro"
 
 
 @pytest.mark.parametrize("transform, samples", [("logit", None),
                                                 ("arcsin", None),
                                                 ('logit', 'sample'),
                                                 ('arcsin', 'sample')])
-def test_pypropeller(counts_df, transform, samples):
-    """Test pypropeller wrapper function"""
-    out = pypropeller.pypropeller(counts_df, 'cluster', 'group', samples_col=samples,
+def test_scanpro(counts_df, transform, samples):
+    """Test scanpro wrapper function"""
+    out = scanpro.scanpro(counts_df, 'cluster', 'group', samples_col=samples,
                       transform=transform, verbose=False)
     
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
@@ -64,9 +64,9 @@ def test_pypropeller(counts_df, transform, samples):
                                                   ("arcsin", None),
                                                   ('logit', ['cond_1', 'cond_2']),
                                                   ('arcsin', ['cond_1', 'cond_2'])])
-def test_run_pypropeller(counts_df_3, transform, conditions):
-    """Test run_pypropeller function"""
-    out = pypropeller.run_pypropeller(counts_df_3, clusters='cluster', samples='sample',
+def test_run_scanpro(counts_df_3, transform, conditions):
+    """Test run_scanpro function"""
+    out = scanpro.run_scanpro(counts_df_3, clusters='cluster', samples='sample',
                                       conds='group', conditions=conditions,
                                       transform=transform, verbose=False)
 
@@ -87,7 +87,7 @@ def test_anova(counts_df_3, transform):
     coef = np.arange(len(design.columns))
 
     # run anova
-    out = pypropeller.anova(props, prop_trans, design, coef, verbose=False)
+    out = scanpro.anova(props, prop_trans, design, coef, verbose=False)
 
     assert isinstance(out, pd.DataFrame)
     assert all(x in out.columns for x in ['p_values', 'Adjusted_p_values'])
@@ -105,16 +105,16 @@ def test_t_test(counts_df, transform):
 
     contrasts = [1, -1]
     # run anova
-    out = pypropeller.t_test(props, prop_trans, design, contrasts, verbose=False)
+    out = scanpro.t_test(props, prop_trans, design, contrasts, verbose=False)
 
     assert isinstance(out, pd.DataFrame)
     assert all(x in out.columns for x in ['p_values', 'Adjusted_p_values'])
 
 
 @pytest.mark.parametrize("data", [counts_df, counts_df_3])
-def test_sim_pypropeller(data):
-    """Test sim_pypropeller function"""
-    out = pypropeller.sim_pypropeller(data, 'cluster', 'group', samples_col=None,
+def test_sim_scanpro(data):
+    """Test sim_scanpro function"""
+    out = scanpro.sim_scanpro(data, 'cluster', 'group', samples_col=None,
                                       transform='arcsin', n_reps=8, n_sims=100,
                                       conditions=None, robust=True, verbose=False)
     

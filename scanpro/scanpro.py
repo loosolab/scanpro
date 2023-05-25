@@ -5,18 +5,18 @@ import numpy as np
 from statsmodels.stats.multitest import multipletests
 from statsmodels.tools.tools import add_constant
 
-from pypropeller.get_transformed_props import get_transformed_props
-from pypropeller.linear_model import lm_fit, contrasts_fit, create_design
-from pypropeller import ebayes
-from pypropeller.sim_reps import generate_reps, combine, get_mean_sim
-from pypropeller.result import PyproResult
+from scanpro.get_transformed_props import get_transformed_props
+from scanpro.linear_model import lm_fit, contrasts_fit, create_design
+from scanpro import ebayes
+from scanpro.sim_reps import generate_reps, combine, get_mean_sim
+from scanpro.result import PyproResult
 
 
-def pypropeller(data, clusters_col, conds_col, samples_col=None,
+def scanpro(data, clusters_col, conds_col, samples_col=None,
                 transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
-    """Wrapper function for pypropeller. The data must have replicates,
+    """Wrapper function for scanpro. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
-    replicates, the function {sim_pypropeller} will generate artificial replicates
+    replicates, the function {sim_scanpro} will generate artificial replicates
     using bootstrapping and run propeller multiple times. The values are then pooled
     to get robust estimation of p values.
 
@@ -101,11 +101,11 @@ def pypropeller(data, clusters_col, conds_col, samples_col=None,
     # check if there are no replicates
     if not repd:
         if verbose:
-            print("Your data doesn't have replicates! Artificial replicates will be simulated to run pypropeller")
+            print("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro")
             print("Simulation may take some minutes...")
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
-        out = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
+        out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                               samples_col=samples_col, conds_col=conds_col, transform=transform,
                               conditions=conditions, robust=robust, verbose=verbose)
 
@@ -113,33 +113,33 @@ def pypropeller(data, clusters_col, conds_col, samples_col=None,
     elif partially_repd:
         s1 = "The following conditions don't have replicates! "
         s2 = ", ".join(no_reps_list) + '\n'
-        s3 = "Both normal pypropeller and sim_pypropeller will be performed."
+        s3 = "Both normal scanpro and sim_scanpro will be performed."
         if verbose:
             print(s1 + s2 + s3)
         # add conditions as merged_samples column
         merged_samples_col = 'merged_samples'
         data[merged_samples_col] = data[conds_col]
 
-        # run pypropeller normally
+        # run scanpro normally
         if verbose:
-            print("Running pypropeller with original replicates...")
-        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform,
+            print("Running scanpro with original replicates...")
+        out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
                               conditions, robust, verbose)
 
         # run simulations
         if verbose:
-            print("Running pypropeller with simulated replicates...")
+            print("Running scanpro with simulated replicates...")
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
-        out_sim = sim_pypropeller(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
+        out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                                   samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
                                   conditions=conditions, robust=robust, verbose=verbose)
 
         print("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
-    # if all conditions have replicates, run pypropeller normally
+    # if all conditions have replicates, run scanpro normally
     else:
-        out = run_pypropeller(data, clusters_col, samples_col, conds_col, transform,
+        out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
                               conditions, robust, verbose)
 
     columns = list(out.results.columns)
@@ -168,7 +168,7 @@ def pypropeller(data, clusters_col, conds_col, samples_col=None,
     return out
 
 
-def run_pypropeller(adata, clusters, samples, conds, transform='logit',
+def run_scanpro(adata, clusters, samples, conds, transform='logit',
                     conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
@@ -357,10 +357,10 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     return pd.DataFrame(res, columns=cols).set_index('Clusters')
 
 
-def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
+def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
                     transform='arcsin', n_reps=8, n_sims=100,
                     conditions=None, robust=True, verbose=True):
-    """Run pypropeller multiple times on same dataset and pool estimates together.
+    """Run scanpro multiple times on same dataset and pool estimates together.
 
     :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
     condition and cluster/celltype information.
@@ -421,7 +421,7 @@ def sim_pypropeller(data, clusters_col, conds_col, samples_col=None,
 
         # run propeller
         try:
-            out_sim = run_pypropeller(rep_data, clusters=clusters_col, samples=samples_col,
+            out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
                                       conds=conds_col, transform=transform,
                                       conditions=conditions, robust=robust, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"

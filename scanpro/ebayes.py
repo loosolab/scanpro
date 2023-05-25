@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.stats import t, f, chi2
-from pypropeller.utils import pmin, pmax, is_fullrank, cov_to_corr, matvec
-from pypropeller.fitFDist import fit_f_dist_robust, fit_f_dist
+from scanpro.utils import pmin, pmax, is_fullrank, cov_to_corr, matvec
+from scanpro.fitFDist import fit_f_dist_robust, fit_f_dist
 
 
 def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_tail_p=[0.05, 0.1]):  # Done
