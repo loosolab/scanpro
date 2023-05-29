@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from scanpro.get_transformed_props import get_transformed_props
-from scanpro.linear_model import *
+from scanpro.linear_model import create_design, lm_fit, contrasts_fit
 from scanpro.utils import simulate_cell_counts, convert_counts_to_df
 
 
@@ -31,7 +31,7 @@ def test_create_design(counts_df):
     # create design matrix
     design = create_design(data=counts_df, samples='sample',
                            conds='group', reindex=props.index)
-    
+
     assert isinstance(design, pd.DataFrame)
     # check columns -> conditions
     assert all(x in design.columns for x in counts_df['group'].unique())
@@ -57,6 +57,7 @@ def test_lm_fit(counts_df):
     assert all([stat in fit.keys() for stat in stats])
     # check if all clusters have coefficients
     assert len(fit['coefficients']) == len(counts_df['cluster'].unique())
+
 
 def test_contrasts_fit(counts_df):
     """Test contrasts_fit function"""

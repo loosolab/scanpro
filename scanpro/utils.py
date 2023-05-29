@@ -286,7 +286,7 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     # get clusters names
     try:
         clusters_names = props.index
-    except:
+    except AttributeError:
         clusters_names = [f'c{i+1}' for i in range(len(props))]
 
     # draw cluster proportions from a beta distribution
@@ -319,12 +319,12 @@ def convert_counts_to_df(counts, n_reps, n_conds):
 
     # get sum of cells in samples and clusters
     # total sum per row and column
-    x.loc['sum',:]= x.sum(axis=0)
-    #Total sum per row:
-    x.loc[:,'sum'] = x.sum(axis=1)
+    x.loc['sum', :]= x.sum(axis=0)
+    # total sum per row:
+    x.loc[:, 'sum'] = x.sum(axis=1)
 
     # create cells as index
-    df = {'cells': [f'cell_{i+1}' for i in range(int(x.iloc[-1,-1]))]}
+    df = {'cells': [f'cell_{i+1}' for i in range(int(x.iloc[-1, -1]))]}
     # create samples
     samples_repeats = x['sum'][:-1].to_list()
     samples = [f'S{i+1}' for i in range(n_samples)]
@@ -338,7 +338,7 @@ def convert_counts_to_df(counts, n_reps, n_conds):
     df['cluster'] = clusters_list
     # create conditions
     conditions = [f'cond_{i+1}' for i in range(n_conds)]
-    conditions_repeats = [x['sum'][i:i+n_reps].sum() for i in range(0, n_samples, n_reps)]
+    conditions_repeats = [x['sum'][i:i + n_reps].sum() for i in range(0, n_samples, n_reps)]
     df['group'] = np.repeat(conditions, conditions_repeats)
 
     return pd.DataFrame(df).set_index('cells')

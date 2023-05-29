@@ -50,8 +50,8 @@ def test_import():
 def test_scanpro(counts_df, transform, samples):
     """Test scanpro wrapper function"""
     out = scanpro.scanpro(counts_df, 'cluster', 'group', samples_col=samples,
-                      transform=transform, verbose=False)
-    
+                          transform=transform, verbose=False)
+
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
     if samples is None:
         assert isinstance(out.sim_results, pd.DataFrame)
@@ -61,14 +61,14 @@ def test_scanpro(counts_df, transform, samples):
 
 
 @pytest.mark.parametrize("transform, conditions", [("logit", None),
-                                                  ("arcsin", None),
-                                                  ('logit', ['cond_1', 'cond_2']),
-                                                  ('arcsin', ['cond_1', 'cond_2'])])
+                                                   ("arcsin", None),
+                                                   ('logit', ['cond_1', 'cond_2']),
+                                                   ('arcsin', ['cond_1', 'cond_2'])])
 def test_run_scanpro(counts_df_3, transform, conditions):
     """Test run_scanpro function"""
     out = scanpro.run_scanpro(counts_df_3, clusters='cluster', samples='sample',
-                                      conds='group', conditions=conditions,
-                                      transform=transform, verbose=False)
+                              conds='group', conditions=conditions,
+                              transform=transform, verbose=False)
 
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
     assert all(x in out.results.columns for x in ['p_values', 'Adjusted_p_values'])

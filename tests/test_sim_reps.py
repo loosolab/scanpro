@@ -1,9 +1,8 @@
 import pytest
 
 import numpy as np
-import pandas as pd
 from scanpro.scanpro import run_scanpro
-from scanpro.sim_reps import *
+from scanpro.sim_reps import generate_reps, combine, get_mean_sim
 from scanpro.utils import simulate_cell_counts, convert_counts_to_df
 
 
@@ -27,14 +26,14 @@ def coefficients():
     """Coefficients of two conditions to test combine function"""
     fit = {'cond_1': np.array([[0.01860629, 0.04741851, 0.16473536, 0.39056604, 0.37867379],
                                [0.01434144, 0.05097195, 0.15868627, 0.39802525, 0.37797508],
-                               [0.01536439, 0.05282983, 0.1555466 , 0.39024898, 0.3860102 ],
-                               [0.01350291, 0.0429639 , 0.17366848, 0.35909548, 0.41076923],
+                               [0.01536439, 0.05282983, 0.1555466, 0.39024898, 0.3860102],
+                               [0.01350291, 0.0429639, 0.17366848, 0.35909548, 0.41076923],
                                [0.01173468, 0.05070031, 0.15823847, 0.39373346, 0.38559308]]),
-            'cond_2': np.array([[0.01499118, 0.07476602, 0.17289819, 0.28538108, 0.45196353],
-                                [0.0067029 , 0.07274286, 0.16928989, 0.29888145, 0.4523829 ],
-                                [0.01356278, 0.05925851, 0.16602386, 0.30615178, 0.45500307],
-                                [0.00863847, 0.05860963, 0.17158782, 0.29647629, 0.46468779],
-                                [0.00752065, 0.04287439, 0.18210656, 0.2517275 , 0.5157709 ]])}
+           'cond_2': np.array([[0.01499118, 0.07476602, 0.17289819, 0.28538108, 0.45196353],
+                               [0.0067029, 0.07274286, 0.16928989, 0.29888145, 0.4523829],
+                               [0.01356278, 0.05925851, 0.16602386, 0.30615178, 0.45500307],
+                               [0.00863847, 0.05860963, 0.17158782, 0.29647629, 0.46468779],
+                               [0.00752065, 0.04287439, 0.18210656, 0.2517275, 0.5157709]])}
     return fit
 
 
@@ -62,8 +61,8 @@ def counts_list(counts_df):
         # run propeller
         try:
             out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
-                                    conds=conds_col, transform=transform,
-                                    conditions=None, robust=True, verbose=False)
+                                  conds=conds_col, transform=transform,
+                                  conditions=None, robust=True, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
@@ -113,8 +112,8 @@ def test_combine(coefficients):
     combined_coefs = combine(fit=coefficients, conds=conditions,
                              n_clusters=n_clusters, n_conds=n_conds, n_sims=n_sims)
     # expected combined coefficients
-    exp_coefs = np.array([[0.01470994, 0.0489769 , 0.16217504, 0.38633384, 0.38780428],
-                          [0.0102832 , 0.06165028, 0.17238126, 0.28772362, 0.46796164]])
+    exp_coefs = np.array([[0.01470994, 0.0489769, 0.16217504, 0.38633384, 0.38780428],
+                          [0.0102832, 0.06165028, 0.17238126, 0.28772362, 0.46796164]])
 
     assert np.allclose(combined_coefs, exp_coefs)
 
