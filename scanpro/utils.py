@@ -319,7 +319,7 @@ def convert_counts_to_df(counts, n_reps, n_conds):
 
     # get sum of cells in samples and clusters
     # total sum per row and column
-    x.loc['sum', :]= x.sum(axis=0)
+    x.loc['sum', :] = x.sum(axis=0)
     # total sum per row:
     x.loc[:, 'sum'] = x.sum(axis=1)
 
