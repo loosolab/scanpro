@@ -7,11 +7,11 @@ import numpy as np
 from statannotations.Annotator import Annotator
 
 
-class PyproResult():
+class ScanproResult():
 
     @property
     def _constructor(self):
-        return PyproResult
+        return ScanproResult
 
     def _merge_design_props(self, simulated=False):
         """Merge proportions matrix with design matrix for plotting

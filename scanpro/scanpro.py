@@ -9,7 +9,7 @@ from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import lm_fit, contrasts_fit, create_design
 from scanpro import ebayes
 from scanpro.sim_reps import generate_reps, combine, get_mean_sim
-from scanpro.result import PyproResult
+from scanpro.result import scanpro
 
 
 def scanpro(data, clusters_col, conds_col, samples_col=None,
@@ -33,7 +33,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
-    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster and p-values.
+    :return scanpro: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
     if type(data).__name__ == "AnnData":
         data = data.obs
@@ -224,11 +224,11 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
     if verbose:
         print('Done!')
 
-    # create PyproResult object
+    # create scanpro object
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
 
-        output_obj = PyproResult()
+        output_obj = scanpro()
         output_obj.results = out
         output_obj.counts = counts
         output_obj.props = props
@@ -373,7 +373,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbose: defaults to True.
-    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
+    :return scanpro: A scanpro object containing estimated mean proportions for each cluster
     and median p-values from all simulations.
     """
     # check datas type
@@ -473,11 +473,11 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     # create dataframe for results
     out = pd.DataFrame(res).set_index('Clusters')
 
-    # create PyproResult object
+    # create scanpro object
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
 
-        output_obj = PyproResult()
+        output_obj = scanpro()
         output_obj.results = out
         output_obj.counts = counts  # original counts
         output_obj.sim_counts = counts_mean  # mean of all simulated counts
