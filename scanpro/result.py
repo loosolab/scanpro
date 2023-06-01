@@ -104,16 +104,29 @@ class PyproResult():
             ax.set(ylabel='Proportions')
             ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')
 
-            # pairs to plot p values
-            labels = [label.get_text() for label in ax.get_xticklabels()]
-            all_conds = True if len(self.conditions) == len(self.design.columns) else False  # check if all conditions were chosen
-            pairs = [(self.conditions[0], self.conditions[-1])] if not all_conds else [(labels[0], labels[-1])]
+            # get p-value as string
+            p_value = f"p={p_values[i]}"
+            # check number of compared conditions
+            n_compared_conds = len(self.conditions)
+            if n_compared_conds == 2:
+                # pairs to plot p values
+                #all_conds = True if len(self.conditions) == len(self.design.columns) else False  # check if all conditions were chosen
+                pairs = [(self.conditions[0], self.conditions[-1])]
+                line_width = 1.5
+            else:
+                # get x axis labels from plot
+                labels = [label.get_text() for label in ax.get_xticklabels()]
+                # choose first and last label to have p-value in the centre
+                pairs = [(labels[0], labels[-1])]
+                # if more than 2 conditions, don't plot horizontal bar
+                line_width = 0
 
             # add p values to plot
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
-             .configure(test=None, verbose=False)
-             .set_pvalues(pvalues=[p_values[i]])
+             .configure(test=None, line_width=line_width, verbose=False)
+             #.set_pvalues(pvalues=[p_values[i]])
+             .set_custom_annotations([p_value])
              .annotate())
 
         plt.subplots_adjust(wspace=0.5, hspace=0.6)
