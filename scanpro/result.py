@@ -55,7 +55,7 @@ class ScanproResult():
         if clusters is None:
             clusters = self.props.columns.tolist()
             # get all p_values
-            p_values = round(results.iloc[:,-1], 3).to_list()
+            p_values = round(results.iloc[:, -1], 3).to_list()
         else:
             if not isinstance(clusters, list):
                 clusters = [clusters]
@@ -66,12 +66,11 @@ class ScanproResult():
                 s2 = ', '.join([clusters[i] for i in np.where(np.isin(clusters, self.props.columns, invert=True))[0]])
                 raise ValueError(s1 + s2)
             # get p_values of specified clusters
-            p_values = round(results.loc[clusters].iloc[:,-1], 3).to_list()
+            p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()
 
         sample_col = self.design.index.name if not simulated else self.sim_design.index.name
         n_conds = len(self.design.columns)
         prop_merged = self._merge_design_props(simulated=simulated)
-
 
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
@@ -110,7 +109,6 @@ class ScanproResult():
             n_compared_conds = len(self.conditions)
             if n_compared_conds == 2:
                 # pairs to plot p values
-                #all_conds = True if len(self.conditions) == len(self.design.columns) else False  # check if all conditions were chosen
                 pairs = [(self.conditions[0], self.conditions[-1])]
                 line_width = 1.5
             else:
@@ -125,7 +123,6 @@ class ScanproResult():
             annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
             (annot
              .configure(test=None, line_width=line_width, verbose=False)
-             #.set_pvalues(pvalues=[p_values[i]])
              .set_custom_annotations([p_value])
              .annotate())
 
