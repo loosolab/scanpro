@@ -61,30 +61,31 @@ def test_ebayes(test_fit):
 
 def test_squeeze_var(test_fit):
     """Test squeeze var function"""
-    sigma = test_fit['sigma']  # sigma
-    df_residual = test_fit['df_residual']    
+    sigma = test_fit['sigma']
+    df_residual = test_fit['df_residual']
     winsor_tail_p = [0.05, 0.1]
 
     var_prior, var_post, df_prior = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
 
     assert all([isinstance(stat, np.ndarray) for stat in [var_prior, var_post, df_prior]])
+    assert len(var_prior) == 1
     n_clusters = 5  # number of clusters in simulated data
-    assert all([len(stat) == n_clusters for stat in [var_prior, var_post, df_prior]])
+    assert all([len(stat) == n_clusters for stat in [var_post, df_prior]])
 
 
 def test_tmixture_matrix(test_fit):
     """Test tmixture_matrix function"""
     stdev_coef_lim = np.array([0.1, 4])
-    coefficients = test_fit['coefficients']  # beta
-    stdev = test_fit['stdev']  # standard deviation (stdev.unscaled in R's version)
-    sigma = test_fit['sigma']  # sigma
-    df_residual = test_fit['df_residual']    
+    coefficients = test_fit['coefficients']
+    stdev = test_fit['stdev']
+    sigma = test_fit['sigma']
+    df_residual = test_fit['df_residual']
     winsor_tail_p = [0.05, 0.1]
-    proportion=0.01
+    proportion = 0.01
     n_clusters = 5
 
     var_prior, var_post, df_prior = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
-   # calcualte t-staisctics
+    # calcualte t-staisctics
     t_stat = coefficients / stdev / np.reshape(np.sqrt(var_post), (n_clusters, 1))
     df_total = df_residual + df_prior
     df_pooled = np.nansum(df_residual)
@@ -94,24 +95,24 @@ def test_tmixture_matrix(test_fit):
     out = tmixture_matrix(t_stat, stdev, df_total, proportion, var_prior_lim)
 
     assert isinstance(out, np.ndarray)
-    # check if length of output == number of conditions
+    # check if length of output == number of conditions - 1
     n_conds = 3
-    assert len(out) == n_conds
+    assert len(out) == n_conds - 1
 
 
 def test_tmixture_vector(test_fit):
     """Test tmixture_vector function"""
     stdev_coef_lim = np.array([0.1, 4])
-    coefficients = test_fit['coefficients']  # beta
-    stdev = test_fit['stdev']  # standard deviation (stdev.unscaled in R's version)
-    sigma = test_fit['sigma']  # sigma
-    df_residual = test_fit['df_residual']    
+    coefficients = test_fit['coefficients']
+    stdev = test_fit['stdev']
+    sigma = test_fit['sigma']
+    df_residual = test_fit['df_residual']
     winsor_tail_p = [0.05, 0.1]
-    proportion=0.01
+    proportion = 0.01
     n_clusters = 5
 
     var_prior, var_post, df_prior = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
-   # calcualte t-staisctics
+    # calcualte t-staisctics
     t_stat = coefficients / stdev / np.reshape(np.sqrt(var_post), (n_clusters, 1))
     df_total = df_residual + df_prior
     df_pooled = np.nansum(df_residual)
@@ -124,8 +125,21 @@ def test_tmixture_vector(test_fit):
 
 def test_classify_tests_f(test_fit):
     """Test classify_tests_f function"""
+    coefficients = test_fit['coefficients']
+    stdev = test_fit['stdev']
+    sigma = test_fit['sigma']
+    df_residual = test_fit['df_residual']
+    winsor_tail_p = [0.05, 0.1]
+    n_clusters = 5
+    # calculate prior/post variance and prior degrees of freedom using empirical bayes
+    _, var_post, _ = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
+
+    # calcualte t-staisctics
+    test_fit['t'] = coefficients / stdev / np.reshape(np.sqrt(var_post), (n_clusters, 1))
     out = classify_tests_f(test_fit)
 
     assert isinstance(out, dict)
     # check if all results are in the dictionary
     assert all([x in out.keys() for x in ['stat', 'df1', 'df2']])
+    # check if stats are caculated for all clusters
+    assert len(out['stat']) == n_clusters
