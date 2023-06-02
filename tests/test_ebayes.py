@@ -1,13 +1,12 @@
 import pytest
 
 import numpy as np
-import pandas as pd
 from statsmodels.tools.tools import add_constant
 
 from scanpro.ebayes import ebayes, squeeze_var, tmixture_vector, tmixture_matrix, classify_tests_f
 from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import create_design, lm_fit
-from scanpro.utils import simulate_cell_counts, convert_counts_to_df, pmin, pmax
+from scanpro.utils import simulate_cell_counts, convert_counts_to_df, pmin
 
 
 @pytest.fixture()
