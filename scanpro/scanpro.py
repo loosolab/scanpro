@@ -387,7 +387,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         # copy dataframe
         data = data.copy()
         # add conds_col as samples_col
-        samples_col = 'tmp_samples'
+        samples_col = 'pseudo_samples'
         data[samples_col] = data[conds_col]
 
     # get list of conditions and number of conditions
