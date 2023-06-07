@@ -153,10 +153,6 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     # add connditions to object
     out.conditions = conditions
 
-    # if data is not replicated, add results also as sim_results for plotting
-    if not repd:
-        out.sim_results = out.results
-
     # add simulated results for partially replicated data
     if partially_repd:
         out.sim_results = out_sim.results
@@ -479,6 +475,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
 
         output_obj = ScanproResult()
         output_obj.results = out
+        output_obj.sim_results = out  # add results also as sim_results for plotting
         output_obj.counts = counts  # original counts
         output_obj.sim_counts = counts_mean  # mean of all simulated counts
         output_obj.props = props
