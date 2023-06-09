@@ -13,15 +13,15 @@ class ScanproResult():
     def _constructor(self):
         return ScanproResult
 
-    def _merge_design_props(self, simulated=False):
+    def _merge_design_props(self):
         """Merge proportions matrix with design matrix for plotting
 
         :param bool simulated: True if results were simulated
         :return pandas.DataFrame: Merged proportions and design
         """
 
-        design = self.design if not simulated else self.sim_design
-        props = self.props if not simulated else self.sim_props
+        design = self.sim_design if hasattr(self, "sim_design") else self.design
+        props = self.sim_props if hasattr(self, "sim_props") else self.props
 
         # Establish the samples per group
         sample_col = design.index.name
@@ -38,7 +38,6 @@ class ScanproResult():
              kind='stripplot',
              clusters=None,
              n_columns=3,
-             simulated=False,
              save=False):
         """Plot proportions pro condition
 
@@ -49,7 +48,9 @@ class ScanproResult():
         :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
         # get results dataframe
-        results = self.results if not simulated else self.sim_results
+        simulated = True if hasattr(self, "sim_results") else False
+        results = self.sim_results if simulated else self.results
+        design = self.sim_design if simulated else self.design
 
         # if no clusters are specified, plot all clusters
         if clusters is None:
@@ -68,9 +69,9 @@ class ScanproResult():
             # get p_values of specified clusters
             p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()
 
-        sample_col = self.design.index.name if not simulated else self.sim_design.index.name
+        sample_col = design.index.name
         n_conds = len(self.design.columns)
-        prop_merged = self._merge_design_props(simulated=simulated)
+        prop_merged = self._merge_design_props()
 
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
@@ -92,11 +93,11 @@ class ScanproResult():
 
             # Plot the proportions
             if kind == 'stripplot':
-                ax = sns.stripplot(data=prop_merged, y=cluster, x="Group", hue=sample_col, legend=legend, jitter=True, ax=axes[i])
+                ax = sns.stripplot(data=prop_merged, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=axes[i])
             elif kind == 'boxplot':
-                ax = sns.boxplot(data=prop_merged, y=cluster, x="Group", color="white", showfliers=False, ax=axes[i])
+                ax = sns.boxplot(data=prop_merged, y=cluster, x="group", color="white", showfliers=False, ax=axes[i])
             elif kind == 'barplot':
-                ax = sns.barplot(data=prop_merged, y=cluster, x="Group", hue=sample_col, ax=axes[i])
+                ax = sns.barplot(data=prop_merged, y=cluster, x="group", hue=sample_col, ax=axes[i])
                 ax.legend_.remove()
 
             ax.set_title(cluster)
@@ -120,7 +121,7 @@ class ScanproResult():
                 line_width = 0
 
             # add p values to plot
-            annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="Group", verbose=False)
+            annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="group", verbose=False)
             (annot
              .configure(test=None, line_width=line_width, verbose=False)
              .set_custom_annotations([p_value])
@@ -130,7 +131,8 @@ class ScanproResult():
 
         # Add legend to the last plot
         if not kind == 'boxplot':
-            axes[n_columns - 1].legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left",
+            title = sample_col if not simulated else "Simulated replicates"
+            axes[n_columns - 1].legend(title=title, bbox_to_anchor=(1.05, 1), loc="upper left",
                                        frameon=False, ncols=2)
 
         # Remove empty plots
@@ -149,16 +151,17 @@ class ScanproResult():
         :param str x: Specifies if clusters or samples are plotted as x axis, defaults to 'samples'
         :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
-        if stacked:
-            if x == 'samples':
-                self.props.plot(kind='bar', stacked=True).legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-            elif x == 'clusters':
-                self.props.T.plot(kind='bar', stacked=True).legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-        else:
-            if x == 'samples':
-                self.props.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
-            elif x == 'clusters':
-                self.props.T.plot.bar().legend(loc='center left', bbox_to_anchor=(1.0, 0.5))
+
+        if x == 'samples':
+            ax = self.props.plot(kind='bar', stacked=stacked)
+            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), title="clusters")
+        elif x == 'clusters':
+            ax = self.props.T.plot(kind='bar', stacked=stacked)
+            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), title="samples")
+
+        # set labels
+        ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')
+        ax.set_ylabel("Proportions")
 
         if save:
             plt.savefig(fname=save, dpi=600, bbox_inches='tight')
