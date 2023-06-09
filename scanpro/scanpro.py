@@ -411,6 +411,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     counts_list = []
     props_list = []
     prop_trans_list = []
+    design_list = []
 
     if verbose:
         print(f'Generating {n_reps} replicates and running {n_sims} simulations...')
@@ -436,6 +437,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         counts_list.append(out_sim.counts)
         props_list.append(out_sim.props)
         prop_trans_list.append(out_sim.prop_trans)
+        design_list.append(out_sim.design)
 
         # get adjusted p values for simulation
         try:  # check if all clusters are simulated, if a cluster is missing, rerun simulation
@@ -455,7 +457,9 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         print(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
 
     # save design matrix
-    design_sim = out_sim.design
+    # make sure to include all simulations as some clusters may be missing in some simulations
+    design_sim = pd.concat(design_list)
+    design_sim = design_sim[~design_sim.index.duplicated(keep='first')].sort_index()  # remove all but first occurence of index
 
     # combine coefficients
     combined_coefs = combine(fit=coefficients, conds=conditions, n_clusters=n_clusters, n_conds=n_conds, n_sims=n_sims)
