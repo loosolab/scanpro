@@ -101,10 +101,12 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     # check if there are no replicates
     if not repd:
         if verbose:
-            print("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro")
+            print("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro.")
+            if transform != "arcsin":
+                print("Consider setting transform='arcsin', as this produces more accurate results for simulated data.")
             print("Simulation may take some minutes...")
+
         # set transform to arcsin, since it produces more accurate results for simulations
-        transform = 'arcsin'
         out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                           samples_col=samples_col, conds_col=conds_col, transform=transform,
                           conditions=conditions, robust=robust, verbose=verbose)
