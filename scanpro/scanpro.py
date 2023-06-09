@@ -144,8 +144,8 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
 
     columns = list(out.results.columns)
     # add baseline proportions as first column
-    out.results['Baseline_props'] = baseline_props.values
-    columns.insert(0, 'Baseline_props')
+    out.results['baseline_props'] = baseline_props.values
+    columns.insert(0, 'baseline_props')
 
     # rearrange dataframe columns
     out.results = out.results[columns]
@@ -285,15 +285,15 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
 
     # save results to dictionary
     res = {}
-    res['Clusters'] = props.columns.to_list()
+    res['clusters'] = props.columns.to_list()
     for i, cond in enumerate(X.columns):
-        res['Mean_props_' + cond] = fit_prop['coefficients'].T[i]
-    res['F_statistics'] = fit['F']['stat'].flatten()
+        res['mean_props_' + cond] = fit_prop['coefficients'].T[i]
+    res['f_statistics'] = fit['F']['stat'].flatten()
     res['p_values'] = p_values
-    res['Adjusted_p_values'] = fdr[1]
+    res['adjusted_p_values'] = fdr[1]
     cols = list(res.keys())
 
-    return pd.DataFrame(res, columns=cols).set_index('Clusters')
+    return pd.DataFrame(res, columns=cols).set_index('clusters')
 
 
 def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
@@ -344,17 +344,17 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
     # save results to dictionary
     res = {}
-    res['Clusters'] = props.columns.to_list()
+    res['clusters'] = props.columns.to_list()
     for i, cond in enumerate(design.columns):
-        res['Mean_props_' + cond] = fit_prop['coefficients'].T[i]
+        res['mean_props_' + cond] = fit_prop['coefficients'].T[i]
 
-    res['Prop_ratio'] = RR
+    res['prop_ratio'] = RR
     res['t_statistics'] = fit_cont['t'].flatten()
     res['p_values'] = p_values
-    res['Adjusted_p_values'] = fdr[1]
+    res['adjusted_p_values'] = fdr[1]
     cols = list(res.keys())
 
-    return pd.DataFrame(res, columns=cols).set_index('Clusters')
+    return pd.DataFrame(res, columns=cols).set_index('clusters')
 
 
 def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
@@ -464,14 +464,14 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     prop_trans_mean = get_mean_sim(prop_trans_list)
 
     # get clusters names
-    res['Clusters'] = list(out_sim.results.index)
+    res['clusters'] = list(out_sim.results.index)
     for i, condition in enumerate(coefficients.keys()):
-        res['Mean_props_' + condition] = combined_coefs[i]
+        res['mean_props_' + condition] = combined_coefs[i]
     # calculate median of p values from all runs
     res['p_values'] = np.median(p_values, axis=0)
 
     # create dataframe for results
-    out = pd.DataFrame(res).set_index('Clusters')
+    out = pd.DataFrame(res).set_index('clusters')
 
     # create scanpro object
     with warnings.catch_warnings():
