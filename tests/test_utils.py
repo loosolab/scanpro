@@ -1,5 +1,4 @@
 import pytest
-import requests
 
 import numpy as np
 import pandas as pd
@@ -105,9 +104,9 @@ def test_pmin():
 
 
 @pytest.mark.parametrize("value, rank", [('matrix', False), ('matrix_full_rank', True)])
-def test_is_fullrank(value, rank):
+def test_is_fullrank(value, rank, request):
     """Test is_fullrank function"""
-    out = is_fullrank(requests.get(value))
+    out = is_fullrank(request.getfixturevalue(value))
 
     if rank:
         assert out
