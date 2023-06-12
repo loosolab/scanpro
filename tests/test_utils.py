@@ -74,7 +74,7 @@ def beta_params():
 
 def test_del_index():
     """Test del_index function"""
-    values = np.array([[i for i in range(5)] for j in range(4)])
+    values = np.array([list(range(5)) for _ in range(4)])
     exp = np.array([[0, 2, 4],
                     [0, 2, 4]])
 
@@ -240,7 +240,7 @@ def test_convert_counts_to_df(n_reps, n_conds):
     p = np.array([0.01, 0.05, 0.15, 0.34, 0.45])  # true clusters proportions
     a = 10
     b = a * (1 - p) / p
-    n_reps = 2
+
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=n_conds)
     df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=n_conds)
 
