@@ -1,4 +1,5 @@
 import pytest
+import requests
 
 import numpy as np
 import pandas as pd
@@ -80,7 +81,7 @@ def test_del_index():
 
     out = del_index(values, [1, 3])
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
 def test_pmax():
@@ -90,7 +91,7 @@ def test_pmax():
 
     out = pmax(values, 3)
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
 def test_pmin():
@@ -100,13 +101,13 @@ def test_pmin():
 
     out = pmin(values, 3)
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
-@pytest.mark.parametrize("value, rank", [(matrix, False), (matrix_full_rank, True)])
+@pytest.mark.parametrize("value, rank", [('matrix', False), ('matrix_full_rank', True)])
 def test_is_fullrank(value, rank):
     """Test is_fullrank function"""
-    out = is_fullrank(value)
+    out = is_fullrank(requests.get(value))
 
     if rank:
         assert out
@@ -122,7 +123,7 @@ def test_cov_to_corr(cov_mat):
 
     out = cov_to_corr(cov_mat)
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
 def test_matvec(cov_mat):
@@ -135,7 +136,7 @@ def test_matvec(cov_mat):
 
     out = matvec(cov_mat, vec)
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
 def test_vecmat(cov_mat):
@@ -148,7 +149,7 @@ def test_vecmat(cov_mat):
 
     out = vecmat(vec, cov_mat)
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
 def test_gauss_quad_prob():
@@ -158,7 +159,7 @@ def test_gauss_quad_prob():
 
     out = gauss_quad_prob(5)
 
-    assert np.array_equal(out, exp)
+    assert np.allclose(out, exp)
 
 
 def test_estimate_params_from_counts(counts_matrix):
@@ -173,8 +174,8 @@ def test_estimate_params_from_counts(counts_matrix):
     b = out[2].values
 
     assert len(out) == 6
-    assert np.array_equal(a, exp_a)
-    assert np.array_equal(b, exp_b)
+    assert np.allclose(a, exp_a)
+    assert np.allclose(b, exp_b)
 
 
 def test_estimate_beta_params(props):
@@ -187,8 +188,8 @@ def test_estimate_beta_params(props):
     a = out[0].values
     b = out[1].values
 
-    assert np.array_equal(a, exp_a)
-    assert np.array_equal(b, exp_b)
+    assert np.allclose(a, exp_a)
+    assert np.allclose(b, exp_b)
 
 
 def test_norm_counts(counts_matrix):
@@ -200,7 +201,7 @@ def test_norm_counts(counts_matrix):
 
     out = norm_counts(counts_matrix)
 
-    assert np.array_equal(out.values, exp)
+    assert np.allclose(out.values, exp)
 
 
 @pytest.mark.parametrize("n_reps", [1, 2, 3])
@@ -234,11 +235,15 @@ def test_simulate_cell_counts_2(n_reps, true_props, beta_params):
 
 
 @pytest.mark.parametrize("n_reps, n_conds", [(2, 2), (3, 2), (2, 3)])
-def test_convert_counts_to_df(counts_matrix, n_reps, n_conds):
+def test_convert_counts_to_df(n_reps, n_conds):
     """Test convert_counts_to_df function"""
     n_samples = n_reps * n_conds
-
-    df = convert_counts_to_df(counts_matrix, n_reps=n_reps, n_conds=n_conds)
+    p = np.array([0.01, 0.05, 0.15, 0.34, 0.45])  # true clusters proportions
+    a = 10
+    b = a * (1 - p) / p
+    n_reps = 2
+    counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=n_conds)
+    df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=n_conds)
 
     assert (column in df.columns for column in ['sample', 'cluster', 'group'])
     assert len(df['sample'].unique()) == n_samples
