@@ -244,7 +244,7 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
     return np.mean(v0)
 
 
-def classify_tests_f(fit, df=np.Inf):  # DONE
+def classify_tests_f(fit, df=np.Inf):
     """Use F-tests to classify vectors of t-test statistics into outcomes.
     Used to classify each cluster into up, down or not significantly changing
     depending on related t-tests.
