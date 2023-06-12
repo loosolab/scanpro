@@ -41,13 +41,6 @@ def counts_matrix():
 
 
 @pytest.fixture()
-def props(counts_matrix):
-    proportions, _ = get_transformed_props_counts(counts_matrix)
-
-    return proportions
-
-
-@pytest.fixture()
 def true_props():
     props_series = pd.DataFrame({'celltype': ['Cardiomyocytes', 'Endothelial cells', 'Epicardial cells',
                                               'Fibroblast', 'Immune cells', 'Neurons', 'Smooth muscle cells'],
@@ -177,8 +170,10 @@ def test_estimate_params_from_counts(counts_matrix):
     assert np.allclose(b, exp_b)
 
 
-def test_estimate_beta_params(props):
+def test_estimate_beta_params(counts_matrix):
     """Test estimat_beta_params function"""
+    props, _ = get_transformed_props_counts(counts_matrix)
+
     exp_a = np.array([0.76490173, 0.79231443, 0.78663769, 0.59951658])
     exp_b = np.array([3.05960692, 3.16925772, 3.14655077, 2.39806631])
 
