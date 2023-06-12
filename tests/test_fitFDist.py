@@ -59,16 +59,6 @@ def test_params(test_fit):
 
 
 @pytest.fixture()
-def link_fun(x):
-    return x / (1 + x)
-
-
-@pytest.fixture()
-def link_inv(x):
-    return x / (1 - x)
-
-
-@pytest.fixture()
 def g():
     return gauss_quad_prob(128, dist='uniform')
 
@@ -133,17 +123,17 @@ def test_trigamma_inverse():
 def test_fun(rbx, mom, zwvar, g):
     """Test fun function"""
     winsor_tail_p = np.array([0.05, 0.1])
-    value = np.log(rbx / mom[1])
+    value = np.log(zwvar / mom[1])
 
     out = fun(rbx, 10, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g)
 
     assert np.isclose(out, value)
 
 
-def test_winsorized_moments(g, link_fun, link_inv):
+def test_winsorized_moments(g, linkfun, linkinv):
     """Test winsorized_moments function"""
     winsor_tail_p = np.array([0.05, 0.1])
 
-    out = winsorized_moments(10, 1e10, winsor_tail_p, link_fun, link_inv, g)
+    out = winsorized_moments(10, 1e10, winsor_tail_p, linkfun, linkinv, g)
 
     assert all(np.isclose(out, [-0.10712624, 0.16791501]))
