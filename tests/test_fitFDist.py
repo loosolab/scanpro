@@ -11,6 +11,7 @@ from scanpro.utils import simulate_cell_counts, convert_counts_to_df, gauss_quad
 
 @pytest.fixture()
 def test_df():
+    """Create a dummy dataframe with simulated samples, clusters and conditions"""
     np.random.seed(10)
 
     p = np.array([0.01, 0.05, 0.15, 0.34, 0.45])  # true clusters proportions
@@ -25,6 +26,7 @@ def test_df():
 
 @pytest.fixture()
 def test_fit(test_df):
+    """Create fit object"""
     # calculate proportions and transformed proportions
     _, props, prop_trans = get_transformed_props(test_df, sample_col='sample',
                                                  cluster_col='cluster', transform='logit')
@@ -49,6 +51,7 @@ def test_fit(test_df):
 
 @pytest.fixture()
 def test_params(test_fit):
+    """Get sigma and residual degrees of freedom from fit object"""
     sigma = test_fit['sigma']
     df_residual = test_fit['df_residual']
 
@@ -86,16 +89,19 @@ def mom():
 
 
 def test_linkfun():
+    """Test linkfun function"""
     out = linkfun(1)
     assert out == 0.5
 
 
 def test_linkinv():
+    """Test linkinv function"""
     out = linkinv(2)
     assert out == -2
 
 
 def test_fit_f_dist_robust(test_params):
+    """Test fit_f_dist_robust function"""
     var, df = test_params
 
     out = fit_f_dist_robust(var, df, covariate=None, winsor_tail_p=[0.05, 0.1])
@@ -107,6 +113,7 @@ def test_fit_f_dist_robust(test_params):
 
 
 def test_fit_f_dist(test_params):
+    """Test fit_f_dist function"""
     var, df = test_params
 
     out = fit_f_dist(var, df, covariate=None)
@@ -117,12 +124,14 @@ def test_fit_f_dist(test_params):
 
 
 def test_trigamma_inverse():
+    """Test trigamma_inverse function"""
     out = trigamma_inverse(1)
 
     assert all(np.isclose(1.42625512, out))
 
 
 def test_fun(rbx, mom, zwvar, g):
+    """Test fun function"""
     winsor_tail_p = np.array([0.05, 0.1])
     value = np.log(rbx / mom[1])
 
@@ -132,6 +141,7 @@ def test_fun(rbx, mom, zwvar, g):
 
 
 def test_winsorized_moments(g, link_fun, link_inv):
+    """Test winsorized_moments function"""
     winsor_tail_p = np.array([0.05, 0.1])
 
     out = winsorized_moments(10, 1e10, winsor_tail_p, link_fun, link_inv, g)
