@@ -130,7 +130,7 @@ def test_fun(rbx, mom, zwvar, g):
     assert np.isclose(out, value)
 
 
-def test_winsorized_moments(g, linkfun, linkinv):
+def test_winsorized_moments(g):
     """Test winsorized_moments function"""
     winsor_tail_p = np.array([0.05, 0.1])
 
