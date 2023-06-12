@@ -50,13 +50,13 @@ def props(counts_matrix):
 @pytest.fixture()
 def true_props():
     props_series = pd.DataFrame({'celltype': ['Cardiomyocytes', 'Endothelial cells', 'Epicardial cells',
-                                              'Fibroblast','Immune cells', 'Neurons', 'Smooth muscle cells'],
+                                              'Fibroblast', 'Immune cells', 'Neurons', 'Smooth muscle cells'],
                                  'props': [0.550716, 0.101838, 0.064313, 0.182517, 0.076476, 0.016180, 0.007960]}).set_index('celltype')
 
     return props_series
 
 
-@pytest.fixtures()
+@pytest.fixture()
 def beta_params():
     a = pd.Series({'Cardiomyocytes': 2.168850, 'Endothelial cells': 12.218475, 'Epicardial cells': 3.250916,
                    'Fibroblast': 3.156563, 'Immune cells': 1.361579, 'Neurons': 2.354012, 'Smooth muscle cells': 3.679757})
@@ -109,9 +109,9 @@ def test_is_fullrank(value, rank):
     out = is_fullrank(value)
 
     if rank:
-        assert out == True
+        assert out
     else:
-        assert out == False
+        assert not out
 
 
 def test_cov_to_corr(cov_mat):
@@ -119,7 +119,7 @@ def test_cov_to_corr(cov_mat):
     exp = np.array([[1., 0.25, 0.9],
                     [0.25, 1., 0.5],
                     [0.9, 0.5, 1.]])
-    
+
     out = cov_to_corr(cov_mat)
 
     assert np.array_equal(out, exp)
@@ -130,7 +130,7 @@ def test_matvec(cov_mat):
     exp = np.array([[1., 2., 8.1],
                     [1., 32., 18.],
                     [8.1, 36., 81.]])
-    
+
     vec = np.array([1, 2, 1])
 
     out = matvec(cov_mat, vec)
@@ -140,12 +140,12 @@ def test_matvec(cov_mat):
 
 def test_vecmat(cov_mat):
     """Test vecmat function"""
-    exp = np.array([[1.,  1.,  8.1],
+    exp = np.array([[1., 1., 8.1],
                     [2., 32., 36.],
                     [8.1, 18., 81.]])
-    
+
     vec = np.array([1, 2, 1])
-    
+
     out = vecmat(vec, cov_mat)
 
     assert np.array_equal(out, exp)
@@ -155,11 +155,11 @@ def test_gauss_quad_prob():
     """Test gauss_quad_prob function"""
     exp = np.array([[0.04691008, 0.23076534, 0.5, 0.76923466, 0.95308992],
                     [0.11846344, 0.23931434, 0.28444444, 0.23931434, 0.11846344]])
-    
+
     out = gauss_quad_prob(5)
 
     assert np.array_equal(out, exp)
-    
+
 
 def test_estimate_params_from_counts(counts_matrix):
     """Test estimate_params_from_counts function"""
@@ -227,7 +227,7 @@ def test_simulate_cell_counts_2(n_reps, true_props, beta_params):
 
     counts = simulate_cell_counts_2(true_props, n_reps,
                                     a, b_grps, n_conds=2, n=20, mu=5000)
-    
+
     assert isinstance(counts, pd.DataFrame)
     assert len(counts.index) == n_samples
     assert len(counts.columns) == n_clusters
