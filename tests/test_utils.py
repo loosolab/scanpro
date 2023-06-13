@@ -174,15 +174,15 @@ def test_estimate_beta_params(counts_matrix):
     """Test estimat_beta_params function"""
     props, _ = get_transformed_props_counts(counts_matrix)
 
-    exp_a = np.array([0.76490173, 0.79231443, 0.78663769, 0.59951658])
-    exp_b = np.array([3.05960692, 3.16925772, 3.14655077, 2.39806631])
+    exp_a = np.array([0.76492002, 0.79233183, 0.78666146, 0.59952976])
+    exp_b = np.array([3.05968009, 3.16932733, 3.14664585, 2.39811905])
 
     out = estimate_beta_params(props)
 
     a = out[0].values
     b = out[1].values
 
-    # assert np.allclose(a, exp_a)
+    assert np.allclose(a, exp_a)
     assert np.allclose(b, exp_b)
 
 
