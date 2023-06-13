@@ -11,6 +11,7 @@ from scanpro.utils import simulate_cell_counts, convert_counts_to_df, pmin
 
 @pytest.fixture()
 def test_df():
+    """Simulated dataframe with cells, five clusters and two conditions"""
     np.random.seed(10)
 
     p = np.array([0.01, 0.05, 0.15, 0.34, 0.45])  # true clusters proportions
@@ -25,6 +26,7 @@ def test_df():
 
 @pytest.fixture()
 def test_fit(test_df):
+    """A fit object (dict); test_df will be fitted using lm_fit function"""
     # calculate proportions and transformed proportions
     _, props, prop_trans = get_transformed_props(test_df, sample_col='sample',
                                                  cluster_col='cluster', transform='logit')

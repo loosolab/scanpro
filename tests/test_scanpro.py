@@ -11,6 +11,7 @@ from scanpro.result import PyproResult
 
 @pytest.fixture
 def counts_df():
+    """A simulated cell count dataframe with five clusters and two conditions"""
     np.random.seed(10)
 
     p = np.array([0.01, 0.05, 0.15, 0.34, 0.45])  # true clusters proportions
@@ -25,6 +26,7 @@ def counts_df():
 
 @pytest.fixture
 def counts_df_3():
+    """A simulated cell count dataframe with five clusters and two conditions"""
     np.random.seed(10)
 
     p = np.array([0.01, 0.05, 0.15, 0.34, 0.45])  # true clusters proportions

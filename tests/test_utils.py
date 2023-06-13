@@ -11,16 +11,19 @@ from scanpro.utils import norm_counts, simulate_cell_counts, simulate_cell_count
 
 @pytest.fixture()
 def matrix_full_rank():
+    """Full rank matrix to test is_fullrank function"""
     return [[2, 3], [-1, 4]]
 
 
 @pytest.fixture()
 def matrix():
+    """a not full rank matrix to test is_fullrank function"""
     return np.zeros((4, 5))
 
 
 @pytest.fixture()
 def cov_mat():
+    """Covariance matrix to test cov_to_corr function"""
     return np.array([[1.0, 1.0, 8.1],
                      [1.0, 16.0, 18.0],
                      [8.1, 18.0, 81.0]])
@@ -42,6 +45,7 @@ def counts_matrix():
 
 @pytest.fixture()
 def true_props():
+    """Hypothetical cell proportions as series to test simulate_cell_counts_2"""
     props_series = pd.DataFrame({'celltype': ['Cardiomyocytes', 'Endothelial cells', 'Epicardial cells',
                                               'Fibroblast', 'Immune cells', 'Neurons', 'Smooth muscle cells'],
                                  'props': [0.550716, 0.101838, 0.064313, 0.182517, 0.076476, 0.016180, 0.007960]}).set_index('celltype')
@@ -51,6 +55,7 @@ def true_props():
 
 @pytest.fixture()
 def beta_params():
+    """Beta distribution parameters as series to test simulate_cell_counts_2"""
     a = pd.Series({'Cardiomyocytes': 2.168850, 'Endothelial cells': 12.218475, 'Epicardial cells': 3.250916,
                    'Fibroblast': 3.156563, 'Immune cells': 1.361579, 'Neurons': 2.354012, 'Smooth muscle cells': 3.679757})
 

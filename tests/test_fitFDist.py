@@ -60,21 +60,25 @@ def test_params(test_fit):
 
 @pytest.fixture()
 def g():
+    """Get nodes and weights for gauss quad"""
     return gauss_quad_prob(128, dist='uniform')
 
 
 @pytest.fixture()
 def rbx():
+    """Value used to test fun function"""
     return np.array([0.90710905])
 
 
 @pytest.fixture()
 def zwvar():
+    """Value used to test fun function"""
     return 0.3485366766092676
 
 
 @pytest.fixture()
 def mom():
+    """Value used to test fun function"""
     return np.array([-0.01586543, 0.32967972])
 
 
