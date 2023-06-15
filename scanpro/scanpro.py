@@ -37,12 +37,14 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     """
     if type(data).__name__ == "AnnData":
         data = data.obs
+    data = data.copy()  # make sure original data is not modified
 
     # check if samples_col and conds_col are in data
     columns = [clusters_col, conds_col]
     # add samples_col if given
     if samples_col is not None:
         columns.append(samples_col)
+
     columns_not_in_data = np.isin(columns, data.columns, invert=True)
     check_columns = any(columns_not_in_data)
     if check_columns:
@@ -80,6 +82,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     else:
         repd = True
         partially_repd = False
+
         # check if at least one condition doesnt have replicates
         no_reps_list = []
         for condition in conditions:
@@ -87,6 +90,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
             samples_list = data[data[conds_col] == condition][samples_col].unique()
             if len(samples_list) == 1:
                 no_reps_list.append(condition)
+
         # at least one condition doesn't have replicates
         if len(no_reps_list) > 0:
             # if all conditions don't have replicates, set repd to False
@@ -95,8 +99,6 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
             # otherwise, data is partially replicated
             else:
                 partially_repd = True
-
-    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
 
     # check if there are no replicates
     if not repd:
@@ -113,14 +115,11 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
     elif partially_repd:
-        s1 = "The following conditions don't have replicates! "
+        s1 = "The following conditions don't have replicates: "
         s2 = ", ".join(no_reps_list) + '\n'
         s3 = "Both normal scanpro and sim_scanpro will be performed."
         if verbose:
             print(s1 + s2 + s3)
-        # add conditions as merged_samples column
-        merged_samples_col = 'merged_samples'
-        data[merged_samples_col] = data[conds_col]
 
         # run scanpro normally
         if verbose:
@@ -131,6 +130,11 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         # run simulations
         if verbose:
             print("Running scanpro with simulated replicates...")
+
+        # add conditions as merged_samples column
+        merged_samples_col = 'merged_samples'
+        data[merged_samples_col] = data[conds_col]
+
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
@@ -144,15 +148,16 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
                           conditions, robust, verbose)
 
-    columns = list(out.results.columns)
     # add baseline proportions as first column
+    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
     out.results['baseline_props'] = baseline_props.values
+    columns = list(out.results.columns)
     columns.insert(0, 'baseline_props')
 
     # rearrange dataframe columns
     out.results = out.results[columns]
 
-    # add connditions to object
+    # add conditions to object
     out.conditions = conditions
 
     # if data is not replicated, add results also as sim_results for plotting
@@ -170,7 +175,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     return out
 
 
-def run_scanpro(adata, clusters, samples, conds, transform='logit',
+def run_scanpro(data, clusters, samples, conds, transform='logit',
                 conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
@@ -185,14 +190,14 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
     # check data type
-    if type(adata).__name__ == "AnnData":
-        adata = adata.obs
+    if type(data).__name__ == "AnnData":
+        data = data.obs
 
     # calculate proportions and transformed proportions
-    counts, props, prop_trans = get_transformed_props(adata, sample_col=samples, cluster_col=clusters, transform=transform)
+    counts, props, prop_trans = get_transformed_props(data, sample_col=samples, cluster_col=clusters, transform=transform)
 
     # create design matrix
-    design = create_design(data=adata, samples=samples, conds=conds, reindex=props.index)
+    design = create_design(data=data, samples=samples, conds=conds, reindex=props.index)
 
     contrasts = None
     coef = None
@@ -384,8 +389,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
 
     # check samples column
     if samples_col is None:
-        if verbose:
-            print("samples_col was not provided! conds_col will be set as samples_col")
+
         # copy dataframe
         data = data.copy()
         # add conds_col as samples_col
