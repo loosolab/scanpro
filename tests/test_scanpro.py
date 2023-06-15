@@ -6,7 +6,7 @@ from scanpro import scanpro
 from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import create_design
 from scanpro.utils import simulate_cell_counts, convert_counts_to_df
-from scanpro.result import PyproResult
+from scanpro.result import ScanproResult
 
 
 @pytest.fixture
@@ -54,7 +54,7 @@ def test_scanpro(counts_df, transform, samples):
     out = scanpro.scanpro(counts_df, 'cluster', 'group', samples_col=samples,
                           transform=transform, verbose=False)
 
-    assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
+    assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     if samples is None:
         assert isinstance(out.sim_results, pd.DataFrame)
         assert "p_values" in out.results.columns and "p_values" in out.sim_results.columns
@@ -72,7 +72,7 @@ def test_run_scanpro(counts_df_3, transform, conditions):
                               conds='group', conditions=conditions,
                               transform=transform, verbose=False)
 
-    assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
+    assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert all(x in out.results.columns for x in ['p_values', 'Adjusted_p_values'])
 
 
@@ -119,5 +119,5 @@ def test_sim_scanpro(counts_df):
                               transform='arcsin', n_reps=8, n_sims=100,
                               conditions=None, robust=True, verbose=False)
 
-    assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
+    assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns
