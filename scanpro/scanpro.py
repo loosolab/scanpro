@@ -13,7 +13,7 @@ from scanpro.result import PyproResult
 
 
 def scanpro(data, clusters_col, conds_col, samples_col=None,
-                transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
+            transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
     """Wrapper function for scanpro. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
     replicates, the function {sim_scanpro} will generate artificial replicates
@@ -106,8 +106,8 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
-                              samples_col=samples_col, conds_col=conds_col, transform=transform,
-                              conditions=conditions, robust=robust, verbose=verbose)
+                          samples_col=samples_col, conds_col=conds_col, transform=transform,
+                          conditions=conditions, robust=robust, verbose=verbose)
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
     elif partially_repd:
@@ -124,7 +124,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         if verbose:
             print("Running scanpro with original replicates...")
         out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
-                              conditions, robust, verbose)
+                          conditions, robust, verbose)
 
         # run simulations
         if verbose:
@@ -132,15 +132,15 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
-                                  samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
-                                  conditions=conditions, robust=robust, verbose=verbose)
+                              samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
+                              conditions=conditions, robust=robust, verbose=verbose)
 
         print("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
     # if all conditions have replicates, run scanpro normally
     else:
         out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
-                              conditions, robust, verbose)
+                          conditions, robust, verbose)
 
     columns = list(out.results.columns)
     # add baseline proportions as first column
@@ -169,7 +169,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
 
 
 def run_scanpro(adata, clusters, samples, conds, transform='logit',
-                    conditions=None, robust=True, verbose=True):
+                conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
 
@@ -358,8 +358,8 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
 
 def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
-                    transform='arcsin', n_reps=8, n_sims=100,
-                    conditions=None, robust=True, verbose=True):
+                transform='arcsin', n_reps=8, n_sims=100,
+                conditions=None, robust=True, verbose=True):
     """Run scanpro multiple times on same dataset and pool estimates together.
 
     :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
@@ -422,8 +422,8 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         # run propeller
         try:
             out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
-                                      conds=conds_col, transform=transform,
-                                      conditions=conditions, robust=robust, verbose=False)
+                                  conds=conds_col, transform=transform,
+                                  conditions=conditions, robust=robust, verbose=False)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
@@ -491,6 +491,6 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
 
     # remove temporary samples column
     if samples_col is None:
-      data.drop(samples_col, axis=1, inplace=True)
+        data.drop(samples_col, axis=1, inplace=True)
 
     return output_obj

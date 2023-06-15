@@ -4,7 +4,7 @@ from scanpro.utils import pmin, pmax, is_fullrank, cov_to_corr, matvec
 from scanpro.fitFDist import fit_f_dist_robust, fit_f_dist
 
 
-def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_tail_p=[0.05, 0.1]):  # Done
+def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_tail_p=[0.05, 0.1]):
     """Applying empirical bayes method to compute moderated t- and f-statistics for each
     cluster to determine significant changes in composition.
 
@@ -14,9 +14,6 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     :param bool robust: Apply robust method against outliers to estimate of var and df prior, defaults to False
     :param list winsor_tail_p: Limits for winsorization; this will set outliers below min/max percentile
     to the value at min/max percentile, defaults to [0.05,0.1], defaults to [0.05,0.1]
-    :raises ValueError: _description_
-    :raises ValueError: _description_
-    :raises ValueError: _description_
     :return dict: Dictionary with computed statistics.
     """
     stdev_coef_lim = np.array(stdev_coef_lim)
@@ -96,7 +93,7 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     return fit
 
 
-def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]):  # DONE
+def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]):
     """Apply empirical bayes method to squeeze posterior variances, given hyperparamters
     from fitting a F distribution to data.
 
@@ -168,16 +165,14 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]
     return var_prior, var_post, df_prior
 
 
-def tmixture_matrix(t_stat, stdev_unscaled, df, proportion, v0_lim=np.array([])):  # DONE
+def tmixture_matrix(t_stat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
     """Estimate the prior variance of the coefficients.
 
     :param numpy.ndarray t_stat: T-statistics
     :param numpy.ndarray stdev_unscaled: Standard deviations resulting from linear model fitting.
     :param numpy.ndarray df: Degrees of freedom resulting from linear model fitting.
-    :param float proportion:
-    :param numpy.ndarray v0_lim: Upper and lower limitsfor estimated standard deviations, defaults to np.array([])
-    :raises ValueError: _description_
-    :raises ValueError: _description_
+    :param float proportion: Expected proportion of differentiated clusters, defaults to 0.01
+    :param numpy.ndarray v0_lim: Upper and lower limits for estimated standard deviations, defaults to np.array([])
     :return numpy.ndarray: Estimnated v0 values
     """
     # check if lists are have right format
@@ -194,14 +189,14 @@ def tmixture_matrix(t_stat, stdev_unscaled, df, proportion, v0_lim=np.array([]))
     return v0
 
 
-def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):  # DONE
+def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
     """Estimate scale factor in mixture of two t-distributions. This and tmixture_matrix
     function are used to estimate standard devitaions for clusters.
 
     :param numpy.ndarray t_stat: T-statistics
     :param numpy.ndarray stdev_unscaled: Standard deviations resulting from linear model fitting.
     :param numpy.ndarray df: Degrees of freedom resulting from linear model fitting.
-    :param float proportion:
+    :param float proportion: Expected proportion of differentiated clusters, defaults to 0.01
     :param numpy.ndarray v0_lim: Upper and lower limitsfor estimated standard deviations, defaults to np.array([])
     :return float: Estimated v0 value.
     """
@@ -249,7 +244,7 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
     return np.mean(v0)
 
 
-def classify_tests_f(fit, df=np.Inf):  # DONE
+def classify_tests_f(fit, df=np.Inf):
     """Use F-tests to classify vectors of t-test statistics into outcomes.
     Used to classify each cluster into up, down or not significantly changing
     depending on related t-tests.

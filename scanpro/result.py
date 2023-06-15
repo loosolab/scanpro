@@ -55,7 +55,7 @@ class PyproResult():
         if clusters is None:
             clusters = self.props.columns.tolist()
             # get all p_values
-            p_values = round(results.iloc[:,-1], 3).to_list()
+            p_values = round(results.iloc[:, -1], 3).to_list()
         else:
             if not isinstance(clusters, list):
                 clusters = [clusters]
@@ -66,12 +66,11 @@ class PyproResult():
                 s2 = ', '.join([clusters[i] for i in np.where(np.isin(clusters, self.props.columns, invert=True))[0]])
                 raise ValueError(s1 + s2)
             # get p_values of specified clusters
-            p_values = round(results.loc[clusters].iloc[:,-1], 3).to_list()
+            p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()
 
         sample_col = self.design.index.name if not simulated else self.sim_design.index.name
         n_conds = len(self.design.columns)
         prop_merged = self._merge_design_props(simulated=simulated)
-
 
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters

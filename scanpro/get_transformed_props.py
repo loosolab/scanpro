@@ -48,14 +48,17 @@ def get_transformed_props_counts(x, transform='logit', normalize=False):
     :return pandas.DataFrame: Two matrices as pandas dataframes; proportions and transformed proportions.
     """
     counts = x.copy()
-    counts['sum'] = counts.sum(axis=1)
+    # adding pseudo count to avoid zeroes
+    pseudo_counts = counts + 0.01
+    # get sum of cells in sample
+    pseudo_counts['sum'] = pseudo_counts.sum(axis=1)
     # true proportions for each cluster in each sample -> counts(cluster_in_sample)/sum(counts_in_sample)
-    props = counts.iloc[:, :-1].div(counts["sum"], axis=0)
+    props = pseudo_counts.iloc[:, :-1].div(pseudo_counts["sum"], axis=0)
     # transform props
     if transform == 'logit':
         if normalize:
-            counts = norm_counts(counts)
-        pseudo_counts = counts + 0.5  # adding pseudo count to avoid zeroes
+            pseudo_counts = norm_counts(pseudo_counts)
+        pseudo_counts = pseudo_counts + 0.49  # adding pseudo count to avoid zeroes
         pseudo_counts['sum'] = pseudo_counts.iloc[:, :-1].sum(axis=1)
         pseudo_props = pseudo_counts.iloc[:, :-1].div(pseudo_counts["sum"], axis=0)
         prop_trans = np.log(pseudo_props / (1 - pseudo_props))

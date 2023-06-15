@@ -69,12 +69,15 @@ tests:
   script:
     - pip install pytest
     - pip install pytest-cov
+    - pip install pytest-html
     - pip install .  # install package
-    - pytest --cov-report=term --cov=./scanpro . --junitxml=pytest.xml    
+    - cd tests/      # move to prevent pytest from loading local modules
+    - pytest --import-mode=importlib --cov-report=term --cov=scanpro . --junitxml=../pytest.xml --cov-report html:../htmlcov
   artifacts:
     when: always
     paths:
       - pytest.xml
+      - htmlcov
     reports:
       junit: pytest.xml
   rules:
