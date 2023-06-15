@@ -14,7 +14,7 @@ def linkinv(x):
     return x / (1 - x)
 
 
-def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DONE
+def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):
     """Estimate parameters of a scaled F distribution robustly, given first
     degrees of freedom. Robust estimation limit the effect of outliers.
     Method from Gordon Smyth and Belinda Phipson, and
@@ -116,10 +116,10 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):  # DON
             p_lower = f.logcdf(f1, df1[i], df2)
             up = p_upper < p_lower
             if up.any():
-                f[up] = np.log(1 - f.ppf(p_upper[up], df1_max, df2))  # upper tail
+                f1[up] = np.log(1 - f.ppf(p_upper[up], df1_max, df2))  # upper tail
             if ~up.any():
-                f[~up] = np.log(f.ppf(p_lower[~up], df1_max, df2))
-            x[i] = f * s
+                f1[~up] = np.log(f.ppf(p_lower[~up], df1_max, df2))
+            x[i] = f1 * s
             df1 = df1_max
         else:
             df1 = df1[0]
