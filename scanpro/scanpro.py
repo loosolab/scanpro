@@ -152,7 +152,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
     out.results['baseline_props'] = baseline_props.values
     columns = list(out.results.columns)
-    columns.insert(0, 'baseline_props')
+    columns = ["baseline_props"] + [column for column in columns if column != 'baseline_props']  # put baseline_props first
 
     # rearrange dataframe columns
     out.results = out.results[columns]
@@ -246,7 +246,7 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
 
 
 def anova(props, prop_trans, design, coef, robust=True, verbose=True):
-    """Test the significance of changes in cell proportion across 3 or more conditions using
+    """ Test the significance of changes in cell proportion across 3 or more conditions using
     empirical bayes and moderated ANOVA.
 
     :param pandas.DataFrame props: True cell proportions.
@@ -389,7 +389,9 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
 
     # check samples column
     if samples_col is None:
-
+        # this information is given in the function calling sim_scanpro
+        # if verbose:
+        #     print("samples_col was not provided! conds_col will be set as samples_col")
         # copy dataframe
         data = data.copy()
         # add conds_col as samples_col

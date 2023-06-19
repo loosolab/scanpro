@@ -1,7 +1,9 @@
 """ A class containing the results of a scanpro analysis """
 
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import seaborn as sns
+import pandas as pd
 import math
 import numpy as np
 from statannotations.Annotator import Annotator
@@ -13,15 +15,16 @@ class ScanproResult():
     def _constructor(self):
         return ScanproResult
 
-    def _merge_design_props(self):
+    def _merge_design_props(self, simulated=False):
         """Merge proportions matrix with design matrix for plotting
 
         :param bool simulated: True if results were simulated
         :return pandas.DataFrame: Merged proportions and design
         """
 
-        design = self.sim_design if hasattr(self, "sim_design") else self.design
-        props = self.sim_props if hasattr(self, "sim_props") else self.props
+        # Get the design and proportions
+        design = self.sim_design if simulated else self.design
+        props = self.sim_props if simulated else self.props
 
         # Establish the samples per group
         sample_col = design.index.name
@@ -53,8 +56,9 @@ class ScanproResult():
         design = self.sim_design if simulated else self.design
 
         # if no clusters are specified, plot all clusters
+        all_clusters = self.props.columns.tolist()
         if clusters is None:
-            clusters = self.props.columns.tolist()
+            clusters = all_clusters
             # get all p_values
             p_values = round(results.iloc[:, -1], 3).to_list()
         else:
@@ -67,11 +71,18 @@ class ScanproResult():
                 s2 = ', '.join([clusters[i] for i in np.where(np.isin(clusters, self.props.columns, invert=True))[0]])
                 raise ValueError(s1 + s2)
             # get p_values of specified clusters
-            p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()
+            p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()   # the last column contains the p_values
 
         sample_col = design.index.name
         n_conds = len(self.design.columns)
         prop_merged = self._merge_design_props()
+        prop_merged["simulated"] = False
+
+        # If the results contain simulated proportions, add these proportions to prop_merged
+        if simulated:
+            prop_merged_simulated = self._merge_design_props(simulated=True)
+            prop_merged_simulated["simulated"] = True
+            prop_merged = pd.concat([prop_merged, prop_merged_simulated])
 
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
@@ -91,13 +102,32 @@ class ScanproResult():
             else:
                 legend = False
 
-            # Plot the proportions
+            # Plot the proportions to axis
+            ax = axes[i]
+            ax2 = None  # for simulated data in stripplot
             if kind == 'stripplot':
-                ax = sns.stripplot(data=prop_merged, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=axes[i])
+
+                sns.stripplot(data=prop_merged, y=cluster, x="group", jitter=True, ax=ax, alpha=0)  # initialize by plotting invisible points (alpha=0) to get the full axes limits
+
+                for simulated_bool, prop_table in prop_merged.sort_values("simulated").groupby("simulated"):  # sortby ensures that original data is plotted first
+                    if simulated_bool:
+                        marker = "s"  # square marker for simulated data
+                        sample2marker = {sample: marker for sample in prop_table[sample_col]}  # for adjusting legend later
+
+                        # Create second axes to enable second legend
+                        ax2 = ax.twinx()
+                        ax2.set_yticks([])  # remove yticks
+                        sns.stripplot(data=prop_table, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
+
+                    else:
+                        sns.stripplot(data=prop_table, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7)
+
             elif kind == 'boxplot':
-                ax = sns.boxplot(data=prop_merged, y=cluster, x="group", color="white", showfliers=False, ax=axes[i])
+                prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
+                sns.boxplot(data=prop_table, y=cluster, x="group", color="white", showfliers=False, ax=ax)
             elif kind == 'barplot':
-                ax = sns.barplot(data=prop_merged, y=cluster, x="group", hue=sample_col, ax=axes[i])
+                prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
+                sns.barplot(data=prop_table, y=cluster, x="group", hue=sample_col, ax=ax)
                 ax.legend_.remove()
 
             ax.set_title(cluster)
@@ -127,13 +157,38 @@ class ScanproResult():
              .set_custom_annotations([p_value])
              .annotate())
 
-        plt.subplots_adjust(wspace=0.5, hspace=0.6)
+            # If stripplot and simulated, adjust y limit to be the same for both axes (original and simulated data)
+            if ax2 is not None:
+                ax2.set_ylim(ax.get_ylim())
 
-        # Add legend to the last plot
-        if not kind == 'boxplot':
-            title = sample_col if not simulated else "Simulated replicates"
-            axes[n_columns - 1].legend(title=title, bbox_to_anchor=(1.05, 1), loc="upper left",
-                                       frameon=False, ncols=2)
+            # Add legend to the last plot
+            if legend and kind != "boxplot":
+
+                # Plot first legend
+                l1 = ax.legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False, ncols=2)
+
+                if kind == "stripplot" and simulated:
+
+                    # Plot second legend to get size
+                    l2 = ax2.legend(ncols=2)
+
+                    # get extent of both legends
+                    l1_extent = l1.get_window_extent().transformed(ax.transAxes.inverted())
+                    l2_extent = l2.get_window_extent().transformed(ax.transAxes.inverted())
+
+                    # adjust location of second legend
+                    l2_height = (l2_extent.y1 - l2_extent.y0) * 1.2  # get second legend height + extent a little to make room
+                    l2_loc = (l1_extent.x0, l1_extent.y0 - l2_height)  # location is lower left corner
+
+                    # Adjust marker handles manually (bug in legend shows all legends as circles)
+                    handles, labels = ax2.get_legend_handles_labels()
+                    handles = [Line2D([], [], color=h.get_facecolor(), linestyle='', marker=sample2marker[l])
+                               for h, l in zip(handles, labels)]
+
+                    # Final legend location
+                    ax2.legend(handles, labels, title="Simulated replicates", frameon=False, ncols=2, loc=l2_loc)
+
+        plt.subplots_adjust(wspace=0.5, hspace=0.6)
 
         # Remove empty plots
         for i in range(len(clusters), len(axes)):
