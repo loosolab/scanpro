@@ -464,7 +464,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     prop_trans_mean = get_mean_sim(prop_trans_list)
 
     # get clusters names
-    res['Clusters'] = list(out_sim.results.index)
+    res['Clusters'] = list(counts.columns)
     for i, condition in enumerate(coefficients.keys()):
         res['Mean_props_' + condition] = combined_coefs[i]
     # calculate median of p values from all runs
