@@ -1,31 +1,31 @@
-# Pypropeller: A python implementation of the propeller tool for differnetial proportions analysis
-Pypropeller offers a python implementation of the propeller method [(Phipson et al., 2022)](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456) to test the significance of changes in cell proportions
-across differnet conditions. It also solves the limitation of needing replicated datasets by simulating artificial replicates using bootstrapping. 
+# Scanpro: robust proportion analysis for single cell resolution data
+Scanpro, a modular tool for proportion analysis, seamlessly integrating into widely accepted frameworks in the python environment. Scanpro is fast, accurate, support datasets without replicates, and is intended to be used by bioinformatics experts and beginners
+
 
 ## Install
 To install pypropeller: 
 - clone the repository
 ```
-git clone https://gitlab.gwdg.de/loosolab/software/pypropeller.git
+git clone https://gitlab.gwdg.de/loosolab/software/scanpro.git
 ```
-- navigate to pypropeller directory
+- navigate to scanpro directory
 ```
-cd pypropeller
+cd scanpro
 ```
 - then run 
 ```
 pip install .
 ```
 ## Quick start
-To run the tool import and call the function `pypropeller`:
+To run the tool import and call the function `scanpro`:
 ```
-from pypropeller import pypropeller
+from scanpro import scanpro
 
-out = pypropeller.pypropeller(adata, clusters_col='clusters', conds_col='condition', samples_col='sample')
+out = scanpro.scanpro(adata, clusters_col='clusters', conds_col='condition', samples_col='sample')
 
 ```
 
-- If samples_col is not given or set to None, the dataset is assumed to be not replicated and pypropeller will run the bootstrapping method.
+- If samples_col is not given or set to None, the dataset is assumed to be not replicated and scanpro will run the bootstrapping method.
 
 To show the results, run
 ```out.results```. 
