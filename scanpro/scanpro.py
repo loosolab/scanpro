@@ -37,6 +37,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     """
     if type(data).__name__ == "AnnData":
         data = data.obs
+    data = data.copy()  # make sure original data is not modified
 
     # check if samples_col and conds_col are in data
     columns = [clusters_col, conds_col]
@@ -80,6 +81,8 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     else:
         repd = True
         partially_repd = False
+        # change sample names to condition_sample to avoid duplicate sample names
+        data[samples_col] = data[conds_col].astype(str) + '_' + data[samples_col].astype(str)
         # check if at least one condition doesnt have replicates
         no_reps_list = []
         for condition in conditions:
