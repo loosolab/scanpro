@@ -14,8 +14,8 @@ from scanpro.result import ScanproResult
 
 def scanpro(data, clusters_col, conds_col, samples_col=None,
             transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
-    """Wrapper function for scanpro. The data must have replicates,
-    since propeller requires replicated data to run. If the data doesn't have
+    """ Wrapper function for scanpro. In order to run propeller, the
+    data must have replicates. If the data doesn't have
     replicates, the function {sim_scanpro} will generate artificial replicates
     using bootstrapping and run propeller multiple times. The values are then pooled
     to get robust estimation of p values.
@@ -78,10 +78,17 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         repd = False
         partially_repd = False
 
+        # add conds_col as samples_col
+        samples_col = f"{conds_col} mean"
+        data[samples_col] = data[conds_col]
+
     # otherwise, assume data is replicated
     else:
         repd = True
         partially_repd = False
+
+        # change sample names to condition_sample to avoid duplicate sample names
+        # data[samples_col] = data[conds_col].astype(str) + '_' + data[samples_col].astype(str)
 
         # check if at least one condition doesnt have replicates
         no_reps_list = []
@@ -387,20 +394,6 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    # check samples column
-    if samples_col is None:
-        # this information is given in the function calling sim_scanpro
-        # if verbose:
-        #     print("samples_col was not provided! conds_col will be set as samples_col")
-        # copy dataframe
-        data = data.copy()
-        # add conds_col as samples_col
-        samples_col = 'pseudo_samples'
-        data[samples_col] = data[conds_col]
-
-    # get list of conditions and number of conditions
-    if conditions is None:
-        conditions = data[conds_col].unique()
     n_conds = len(conditions)
 
     # get original counts and proportions
