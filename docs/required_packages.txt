@@ -1,0 +1,4 @@
+pandoc
+sphinx
+nbsphinx
+sphinx_rtd_theme
