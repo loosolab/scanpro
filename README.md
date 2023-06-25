@@ -1,6 +1,6 @@
-# scanpro: A python implementation of the propeller tool for differnetial proportions analysis
-scanpro offers a python implementation of the propeller method [(Phipson et al., 2022)](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456) to test the significance of changes in cell proportions
-across differnet conditions. It also solves the limitation of needing replicated datasets by simulating artificial replicates using bootstrapping. 
+# Scanpro: robust proportion analysis for single cell resolution data
+Scanpro offers a python implementation of the propeller method [(Phipson et al., 2022)](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456) to test the significance of changes in cell proportions
+across different conditions from single cell clustering data. Scanpro also supports datasets without replicates by simulating artificial replicates using bootstrapping, and integrates seamlessly into existing frameworks using the AnnData format.
 
 ## Install
 To install scanpro: 
