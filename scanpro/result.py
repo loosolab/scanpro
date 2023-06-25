@@ -150,8 +150,13 @@ class ScanproResult():
                 # if more than 2 conditions, don't plot horizontal bar
                 line_width = 0
 
+            # get y-axis with maximum value
+            ax_p = ax
+            if ax2:
+                ax_p = ax2 if ax2.get_ylim()[1] > ax.get_ylim()[1] else ax
+
             # add p values to plot
-            annot = Annotator(ax, pairs=pairs, data=prop_merged, y=cluster, x="group", verbose=False)
+            annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x="group", verbose=False)
             (annot
              .configure(test=None, line_width=line_width, verbose=False)
              .set_custom_annotations([p_value])
