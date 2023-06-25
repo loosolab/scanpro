@@ -94,6 +94,7 @@ class ScanproResult():
 
         # Fill in the plot
         axes = axes.flatten() if len(clusters) > 1 else [axes]
+        axes2 = []
         for i, cluster in enumerate(clusters):
 
             # Show the legend for the last plot on first row:
@@ -117,6 +118,7 @@ class ScanproResult():
                         # Create second axes to enable second legend
                         ax2 = ax.twinx()
                         ax2.set_yticks([])  # remove yticks
+                        axes2.append(ax2)
                         sns.stripplot(data=prop_table, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
 
                     else:
@@ -150,10 +152,12 @@ class ScanproResult():
                 # if more than 2 conditions, don't plot horizontal bar
                 line_width = 0
 
-            # get y-axis with maximum value
+            # get y-axis with maximum value plotted
+            max_prop = prop_merged.groupby("simulated")[cluster].max().sort_values(ascending=False)
+            sim_bool_max = max_prop.index[0]
             ax_p = ax
-            if ax2:
-                ax_p = ax2 if ax2.get_ylim()[1] > ax.get_ylim()[1] else ax
+            if sim_bool_max:  # if simulated has the highest value, use ax2 for p-values
+                ax_p = ax2
 
             # add p values to plot
             annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x="group", verbose=False)
@@ -164,36 +168,44 @@ class ScanproResult():
 
             # If stripplot and simulated, adjust y limit to be the same for both axes (original and simulated data)
             if ax2 is not None:
-                ax2.set_ylim(ax.get_ylim())
+                ax_ylim = ax.get_ylim()
+                ax2_ylim = ax2.get_ylim()
+                new_ylim = (min(ax_ylim[0], ax2_ylim[0]), max(ax_ylim[1], ax2_ylim[1]))
 
-            # Add legend to the last plot
-            if legend and kind != "boxplot":
-
-                # Plot first legend
-                l1 = ax.legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False, ncols=2)
-
-                if kind == "stripplot" and simulated:
-
-                    # Plot second legend to get size
-                    l2 = ax2.legend(ncols=2)
-
-                    # get extent of both legends
-                    l1_extent = l1.get_window_extent().transformed(ax.transAxes.inverted())
-                    l2_extent = l2.get_window_extent().transformed(ax.transAxes.inverted())
-
-                    # adjust location of second legend
-                    l2_height = (l2_extent.y1 - l2_extent.y0) * 1.2  # get second legend height + extent a little to make room
-                    l2_loc = (l1_extent.x0, l1_extent.y0 - l2_height)  # location is lower left corner
-
-                    # Adjust marker handles manually (bug in legend shows all legends as circles)
-                    handles, labels = ax2.get_legend_handles_labels()
-                    handles = [Line2D([], [], color=h.get_facecolor(), linestyle='', marker=sample2marker[l])
-                               for h, l in zip(handles, labels)]
-
-                    # Final legend location
-                    ax2.legend(handles, labels, title="Simulated replicates", frameon=False, ncols=2, loc=l2_loc)
+                ax.set_ylim(new_ylim)
+                ax2.set_ylim(new_ylim)
 
         plt.subplots_adjust(wspace=0.5, hspace=0.6)
+
+        # Add legend to the last plot of first row
+        if kind != "boxplot":
+
+            # Plot first legend
+            ax = axes[n_columns - 1]
+            l1 = ax.legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False, ncols=2)
+
+            if kind == "stripplot" and simulated:
+
+                # Plot second legend to get size
+                ax2 = axes2[n_columns - 1]
+                l2 = ax2.legend(ncols=2)
+
+                # get extent of both legends
+                l1_extent = l1.get_window_extent().transformed(ax.transAxes.inverted())
+                l2_extent = l2.get_window_extent().transformed(ax.transAxes.inverted())
+
+                # adjust location of second legend
+                l2_height = (l2_extent.y1 - l2_extent.y0) * 1.2  # get second legend height + extent a little to make room
+                l2_loc = (l1_extent.x0, l1_extent.y0 - l2_height)  # location is lower left corner
+
+                # Adjust marker handles manually (bug in legend shows all legends as circles)
+                handles, labels = ax2.get_legend_handles_labels()
+                handles, labels = zip(*sorted(zip(handles, labels), key=lambda t: t[1])) # sort by label name
+                handles = [Line2D([], [], color=h.get_facecolor(), linestyle='', marker=sample2marker[l])
+                           for h, l in zip(handles, labels)]
+
+                # Final legend location
+                ax2.legend(handles, labels, title="Simulated replicates", frameon=False, ncols=2, loc=l2_loc)
 
         # Remove empty plots
         for i in range(len(clusters), len(axes)):
