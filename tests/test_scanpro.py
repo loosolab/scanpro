@@ -20,6 +20,7 @@ def counts_df():
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
     counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts['merged_samples'] = counts['group'].astype(str)
 
     return counts
 
@@ -115,10 +116,11 @@ def test_t_test(counts_df, transform):
 
 def test_sim_scanpro(counts_df):
     """Test sim_scanpro function"""
-    out = scanpro.sim_scanpro(counts_df, 'cluster', 'group', samples_col=None,
+    out = scanpro.sim_scanpro(counts_df, 'cluster', 'group',
+                              samples_col=['merged_samples'],
                               transform='arcsin', n_reps=8, n_sims=100,
-                              conditions=['cond_1', 'cond_2'], robust=True,
-                              verbose=False)
+                              conditions=['cond_1', 'cond_2'],
+                              robust=True, verbose=False)
 
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns
