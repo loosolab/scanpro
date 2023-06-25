@@ -37,6 +37,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     """
     if type(data).__name__ == "AnnData":
         data = data.obs
+    data = data.copy()  # make sure original data is not modified
 
     # check if samples_col and conds_col are in data
     columns = [clusters_col, conds_col]
@@ -75,11 +76,16 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     if samples_col is None:
         repd = False
         partially_repd = False
+        # add conds_col as samples_col
+        samples_col = 'pseudo_samples'
+        data[samples_col] = data[conds_col]
 
     # otherwise, assume data is replicated
     else:
         repd = True
         partially_repd = False
+        # change sample names to condition_sample to avoid duplicate sample names
+        data[samples_col] = data[conds_col].astype(str) + '_' + data[samples_col].astype(str)
         # check if at least one condition doesnt have replicates
         no_reps_list = []
         for condition in conditions:
@@ -380,19 +386,6 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    # check samples column
-    if samples_col is None:
-        if verbose:
-            print("samples_col was not provided! conds_col will be set as samples_col")
-        # copy dataframe
-        data = data.copy()
-        # add conds_col as samples_col
-        samples_col = 'tmp_samples'
-        data[samples_col] = data[conds_col]
-
-    # get list of conditions and number of conditions
-    if conditions is None:
-        conditions = data[conds_col].unique()
     n_conds = len(conditions)
 
     # get original counts and proportions
