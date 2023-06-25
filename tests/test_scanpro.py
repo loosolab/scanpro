@@ -117,7 +117,8 @@ def test_sim_scanpro(counts_df):
     """Test sim_scanpro function"""
     out = scanpro.sim_scanpro(counts_df, 'cluster', 'group', samples_col=None,
                               transform='arcsin', n_reps=8, n_sims=100,
-                              conditions=None, robust=True, verbose=False)
+                              conditions=['cond_1', 'cond_2'], robust=True,
+                              verbose=False)
 
     assert isinstance(out, PyproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns
