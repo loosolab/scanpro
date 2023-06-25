@@ -93,6 +93,7 @@ build-pages:
     - apt-get update -qq && apt-get install -qq -y pandoc
     - pip install sphinx sphinxcontrib-images sphinx-rtd-theme==1.2.0  # sphinx-rtd-theme==1.2.1 has an issue with wide tables
     - pip freeze | grep sphinx
+    - pip install .  # install package
     - cd docs
     - make html
   artifacts:
