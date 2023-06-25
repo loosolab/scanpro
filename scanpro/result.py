@@ -200,7 +200,7 @@ class ScanproResult():
 
                 # Adjust marker handles manually (bug in legend shows all legends as circles)
                 handles, labels = ax2.get_legend_handles_labels()
-                handles, labels = zip(*sorted(zip(handles, labels), key=lambda t: t[1])) # sort by label name
+                handles, labels = zip(*sorted(zip(handles, labels), key=lambda t: t[1]))  # sort by label name
                 handles = [Line2D([], [], color=h.get_facecolor(), linestyle='', marker=sample2marker[l])
                            for h, l in zip(handles, labels)]
 
