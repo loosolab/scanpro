@@ -18,7 +18,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'scanpro'
+project = 'Scanpro'
 copyright = '2023, Loosolab'
 author = 'Loosolab'
 
