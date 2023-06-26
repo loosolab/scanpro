@@ -33,10 +33,6 @@ default:
 #    - source venv/bin/activate
 #    - apt update
 
-# flake8 ignore rules:
-# E501 = Line too long
-# W503 = Line break occurred before a binary operator
-
 #this is a a rule that always passes for branches without jobs being run - otherwise some branches cannot be merged
 pass:
   inherit:
@@ -46,13 +42,16 @@ pass:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
 
+# flake8 ignore rules:
+# E501 = Line too long
+# W503 = Line break occurred before a binary operator
 linting:
   stage: test
   tags:
     - coverage
   script:
     - pip install flake8
-    - flake8 scanpro setup.py tests --ignore=E501,W503
+    - flake8 scanpro setup.py tests --ignore=E501,W503 --extend-exclude=scanpro/__init__.py  # exclude __init__ due to version import
   allow_failure: false
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR

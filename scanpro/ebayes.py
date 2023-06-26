@@ -5,7 +5,8 @@ from scanpro.fitFDist import fit_f_dist_robust, fit_f_dist
 
 
 def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_tail_p=[0.05, 0.1]):
-    """Applying empirical bayes method to compute moderated t- and f-statistics for each
+    """
+    Applying empirical bayes method to compute moderated t- and f-statistics for each
     cluster to determine significant changes in composition.
 
     :param dict fit: Dictionary of fitted linear models for each cluster, resulting from lm_fit.
@@ -38,7 +39,8 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
 
     # save results to res dictionary
     res = {'s2_prior': var_prior, 's2_post': var_post, 'df_prior': df_prior}
-    # calcualte t-staisctics
+
+    # calcualte t-statistics
     res['t'] = coefficients / stdev / np.reshape(np.sqrt(res['s2_post']), (n_clusters, 1))
     df_total = df_residual + df_prior
     df_pooled = np.nansum(df_residual)
@@ -55,6 +57,7 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
     r = np.outer(np.repeat(1, len(res['t'])), res['var_prior'])
     r = (stdev**2 + r) / stdev**2
     t2 = res['t']**2
+
     # check for any infinite prior degrees of freedom
     inf_df = res['df_prior'] > 10**6
     if any(inf_df):
@@ -94,7 +97,7 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
 
 
 def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]):
-    """Apply empirical bayes method to squeeze posterior variances, given hyperparamters
+    """ Apply empirical bayes method to squeeze posterior variances, given hyperparamters
     from fitting a F distribution to data.
 
     :param numpy.ndarray var: List of variances resulting from linear model fitting.
@@ -166,7 +169,7 @@ def squeeze_var(var, df, covariate=None, robust=False, winsor_tail_p=[0.05, 0.1]
 
 
 def tmixture_matrix(t_stat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
-    """Estimate the prior variance of the coefficients.
+    """ Estimate the prior variance of the coefficients.
 
     :param numpy.ndarray t_stat: T-statistics
     :param numpy.ndarray stdev_unscaled: Standard deviations resulting from linear model fitting.
@@ -245,7 +248,8 @@ def tmixture_vector(tstat, stdev_unscaled, df, proportion, v0_lim=np.array([])):
 
 
 def classify_tests_f(fit, df=np.Inf):
-    """Use F-tests to classify vectors of t-test statistics into outcomes.
+    """ Use F-tests to classify vectors of t-test statistics into outcomes.
+
     Used to classify each cluster into up, down or not significantly changing
     depending on related t-tests.
     By Gordon Smyth, adapted from the R Limma package.
@@ -268,6 +272,7 @@ def classify_tests_f(fit, df=np.Inf):
 
     tstat = fit['t']
     n_tests = fit['t'].shape[1]
+
     # check if there is only one statistic
     if n_tests == 1:
         f_stat['stat'] = tstat**2
@@ -279,6 +284,7 @@ def classify_tests_f(fit, df=np.Inf):
     e_values, e_vectors = e_values.real, e_vectors.real  # workaround complex numbers
     r = sum(e_values / e_values[0] > 1e-8)  # degrees of freedom
     Q = matvec(e_vectors[:, 0:r], 1 / np.sqrt(e_values[0:r]) / np.sqrt(r))
+
     # save results
     f_stat['stat'] = (tstat @ Q)**2 @ np.ones((r, 1))
     f_stat['df1'] = r

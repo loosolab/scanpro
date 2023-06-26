@@ -10,18 +10,24 @@ from scanpro.linear_model import lm_fit, contrasts_fit, create_design
 from scanpro import ebayes
 from scanpro.sim_reps import generate_reps, combine, get_mean_sim
 from scanpro.result import PyproResult
+from scanpro.logging import ScanproLogger as logger
 
 
-def scanpro(data, clusters_col, conds_col, samples_col=None,
-            transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
+def scanpro(data, clusters_col, conds_col,
+            samples_col=None,
+            conditions=None,
+            transform='logit',
+            robust=True,
+            n_sims=100,
+            n_reps=8,
+            verbosity=1):
     """Wrapper function for scanpro. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
     replicates, the function {sim_scanpro} will generate artificial replicates
     using bootstrapping and run propeller multiple times. The values are then pooled
     to get robust estimation of p values.
 
-    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
-    condition and cluster/celltype information.
+    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample, condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition information are stored.
     :param str samples_col: Column in data or data.obs where sample information are stored, if None,
@@ -31,31 +37,37 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
+    :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
     :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster and p-values.
     """
+
+    logger.set_verbosity(verbosity)
+
+    # Data must be Anndata or dataframe
     if type(data).__name__ == "AnnData":
         data = data.obs
+    else:
+        if type(data).__name__ != "DataFrame":
+            raise ValueError("Data must be an AnnData or DataFrame object.")
     data = data.copy()  # make sure original data is not modified
 
     # check if samples_col and conds_col are in data
     columns = [clusters_col, conds_col]
-    # add samples_col if given
-    if samples_col is not None:
-        columns.append(samples_col)
-    columns_not_in_data = np.isin(columns, data.columns, invert=True)
-    check_columns = any(columns_not_in_data)
-    if check_columns:
-        s1 = "The following columns could not be found in data: "
-        s2 = ', '.join([columns[i] for i in np.where(columns_not_in_data)[0]])
-        raise ValueError(s1 + s2)
+    columns += [samples_col] if samples_col is not None else []    # add samples_col if given
+    columns_not_in_data = [col for col in columns if col not in data.columns]
+    if len(columns_not_in_data) > 0:
+        s = "The following columns could not be found in data: "
+        s += ', '.join(columns_not_in_data)
+        raise ValueError(s)
 
     # check conditions
     if conditions is not None:
         # check if conditions are in a list
         if not isinstance(conditions, list) and not isinstance(conditions, np.ndarray):
             raise ValueError("Please provide names of conditions of interest as a list!")
+
         # check if conditions are in data
         not_in_data = np.isin(conditions, data[conds_col].unique(), invert=True)
         check = any(not_in_data)
@@ -70,7 +82,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
 
     # check if there are 2 conditions or more
     if len(conditions) < 2:
-        raise ValueError("There has to be at least two conditions to compare!")
+        raise ValueError("There has to be at least two conditions to compare! Only one condition was found: " + str(conditions))
 
     # if samples_col is None, data is not replicated
     if samples_col is None:
@@ -106,47 +118,47 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
 
     # check if there are no replicates
     if not repd:
-        if verbose:
-            print("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro")
-            print("Simulation may take some minutes...")
+        logger.info("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro")
+        logger.info("Simulation may take some minutes...")
+
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
-        out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
+        out = sim_scanpro(data, clusters_col=clusters_col,
+                          n_reps=n_reps, n_sims=n_sims,
                           samples_col=samples_col, conds_col=conds_col, transform=transform,
-                          conditions=conditions, robust=robust, verbose=verbose)
+                          conditions=conditions, robust=robust, verbosity=verbosity)
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
     elif partially_repd:
-        s1 = "The following conditions don't have replicates! "
-        s2 = ", ".join(no_reps_list) + '\n'
-        s3 = "Both normal scanpro and sim_scanpro will be performed."
-        if verbose:
-            print(s1 + s2 + s3)
+        s = "The following conditions don't have replicates! "
+        s += ", ".join(no_reps_list) + '\n'
+        s += "Both normal scanpro and sim_scanpro will be performed."
+        logger.info(s)
+
         # add conditions as merged_samples column
         merged_samples_col = 'merged_samples'
         data[merged_samples_col] = data[conds_col]
 
         # run scanpro normally
-        if verbose:
-            print("Running scanpro with original replicates...")
+        logger.info("Running scanpro with original replicates...")
         out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
-                          conditions, robust, verbose)
+                          conditions, robust, verbosity)
 
         # run simulations
-        if verbose:
-            print("Running scanpro with simulated replicates...")
+        logger.info("Running scanpro with simulated replicates...")
+
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                               samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
-                              conditions=conditions, robust=robust, verbose=verbose)
+                              conditions=conditions, robust=robust, verbosity=verbosity)
 
         print("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
     # if all conditions have replicates, run scanpro normally
     else:
         out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
-                          conditions, robust, verbose)
+                          conditions, robust, verbosity)
 
     columns = list(out.results.columns)
     # add baseline proportions as first column
@@ -175,7 +187,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
 
 
 def run_scanpro(adata, clusters, samples, conds, transform='logit',
-                conditions=None, robust=True, verbose=True):
+                conditions=None, robust=True, verbosity=1):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
 
@@ -188,6 +200,8 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
+    logger.set_verbosity(verbosity)
+
     # check data type
     if type(adata).__name__ == "AnnData":
         adata = adata.obs
@@ -210,6 +224,7 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
             contrasts[cond_indices[1]] = -1
         else:
             coef = np.sort(cond_indices)
+
     # if no specific conditions are provided, consider all conditions
     else:
         # check number of conditions
@@ -219,16 +234,13 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
             coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
 
     if contrasts is not None:
-        if verbose:
-            print("There are 2 conditions. T-Test will be performed...")
+        logger.info("There are 2 conditions. T-Test will be performed...")
         out = t_test(props, prop_trans, design, contrasts, robust)
     else:
-        if verbose:
-            print("There are more than 2 conditions. ANOVA will be performed...")
+        logger.info("There are more than 2 conditions. ANOVA will be performed...")
         out = anova(props, prop_trans, design, coef, robust)
 
-    if verbose:
-        print('Done!')
+    logger.info("Done!")
 
     # create PyproResult object
     with warnings.catch_warnings():
@@ -244,7 +256,7 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
     return output_obj
 
 
-def anova(props, prop_trans, design, coef, robust=True, verbose=True):
+def anova(props, prop_trans, design, coef, robust=True, verbosity=1):
     """Test the significance of changes in cell proportion across 3 or more conditions using
     empirical bayes and moderated ANOVA.
 
@@ -257,14 +269,15 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
+    logger.set_verbosity(verbosity)
+
     # check if coef is a numpy array
     if not isinstance(coef, np.ndarray):
         coef = np.array(coef)
 
     # check if there are less than 3 clusters
-    if prop_trans.shape[1] < 3:
-        if verbose:
-            print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
+    if prop_trans.shape[1] < 3 and robust:
+        logger.info("Robust is set to True, but robust eBayes needs 3 or more clusters! Normal eBayes will be performed.")
         robust = False
 
     X = design.iloc[:, coef]
@@ -302,8 +315,8 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     return pd.DataFrame(res, columns=cols).set_index('Clusters')
 
 
-def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
-    """Test the significance of changes in cell proportion across 2 conditions using
+def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=True):
+    """ Test the significance of changes in cell proportion across 2 conditions using
     empirical bayes and moderated t-test.
 
     :param pandas.DataFrame props: True cell proportions.
@@ -315,10 +328,12 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
+
+    logger.set_verbosity(verbosity)
+
     # check if there are less than 3 clusters
-    if prop_trans.shape[1] < 3:
-        if verbose:
-            print("Robust eBayes needs 3 or more clusters! Normal eBayes will be performed")
+    if prop_trans.shape[1] < 3 and robust:
+        logger.info("Robust is set to True, but robust eBayes needs 3 or more clusters! Normal eBayes will be performed.")
         robust = False
 
     # fit linear model to each cluster to get coefficients estimates
@@ -336,6 +351,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
         # z = np.array(list(map(lambda x: x**contrasts ,fit_prop['coefficients']))).T
         z = (fit_prop['coefficients']**contrasts).T
         RR = np.prod(z, axis=0)
+
     # If confounding variables included in design matrix exclude them
     else:
         design = design.iloc[:, np.where(contrasts != 0)[0]]
@@ -365,7 +381,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
 def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
                 transform='arcsin', n_reps=8, n_sims=100,
-                conditions=None, robust=True, verbose=True):
+                conditions=None, robust=True, verbosity=1):
     """Run scanpro multiple times on same dataset and pool estimates together.
 
     :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
@@ -378,10 +394,13 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
-    :param bool verbose: defaults to True.
+    :param bool verbosity: Verbosity level, defaults to 1.
     :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
     and median p-values from all simulations.
     """
+
+    logger.set_verbosity(verbosity)
+
     # check datas type
     if type(data).__name__ == "AnnData":
         data = data.obs
@@ -403,12 +422,12 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     props_list = []
     prop_trans_list = []
 
-    if verbose:
-        print(f'Generating {n_reps} replicates and running {n_sims} simulations...')
+    logger.info(f'Generating {n_reps} replicates and running {n_sims} simulations...')
 
     # start timer
     start = time.time()
     for i in range(n_sims):
+
         # generate replicates
         rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col)
 
@@ -416,7 +435,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         try:
             out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
                                   conds=conds_col, transform=transform,
-                                  conditions=conditions, robust=robust, verbose=False)
+                                  conditions=conditions, robust=robust, verbosity=verbosity)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
@@ -442,8 +461,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     # end timer
     end = time.time()
     elapsed = end - start
-    if verbose:
-        print(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
+    logger.info(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
 
     # save design matrix
     design_sim = out_sim.design

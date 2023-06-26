@@ -157,7 +157,7 @@ def gauss_quad_prob(n, dist="uniform", ll=0, u=1, mu=0, sigma=1, alpha=1, beta=1
 
 
 def estimate_params_from_counts(x):
-    """Estimate paramters for beta distribution from acount matrix
+    """Estimate paramters for beta distribution from a count matrix
 
     :param _type_ x: _description_
     :return _type_: _description_
@@ -325,10 +325,12 @@ def convert_counts_to_df(counts, n_reps, n_conds):
 
     # create cells as index
     df = {'cells': [f'cell_{i+1}' for i in range(int(x.iloc[-1, -1]))]}
+
     # create samples
     samples_repeats = x['sum'][:-1].to_list()
     samples = [f'S{i+1}' for i in range(n_samples)]
     df['sample'] = np.repeat(samples, samples_repeats)
+
     # create clusters
     clusters = [name for name in counts.columns]  # len(true_proportions)
     clusters_repeats = {f'{sample}': [counts[cluster][sample] for cluster in counts.columns] for sample in counts.index}
@@ -336,6 +338,7 @@ def convert_counts_to_df(counts, n_reps, n_conds):
     for sample in counts.index:
         clusters_list += list(np.repeat(clusters, clusters_repeats[sample]))
     df['cluster'] = clusters_list
+
     # create conditions
     conditions = [f'cond_{i+1}' for i in range(n_conds)]
     conditions_repeats = [x['sum'][i:i + n_reps].sum() for i in range(0, n_samples, n_reps)]
