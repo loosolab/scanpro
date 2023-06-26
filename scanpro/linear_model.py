@@ -194,7 +194,7 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
         samples = data[samples].to_list()
         conds = data[conds].to_list()
 
-    group_coll = pd.crosstab(samples, conds, rownames=['Sample'], colnames=['Group'])
+    group_coll = pd.crosstab(samples, conds, rownames=['sample'], colnames=['group'])
     if reorder:
         group_coll = group_coll[reorder]
     design = group_coll.where(group_coll == 0, 1).astype('int')

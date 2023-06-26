@@ -9,13 +9,13 @@ from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import lm_fit, contrasts_fit, create_design
 from scanpro import ebayes
 from scanpro.sim_reps import generate_reps, combine, get_mean_sim
-from scanpro.result import PyproResult
+from scanpro.result import ScanproResult
 
 
 def scanpro(data, clusters_col, conds_col, samples_col=None,
             transform='logit', conditions=None, robust=True, n_sims=100, n_reps=8, verbose=True):
-    """Wrapper function for scanpro. The data must have replicates,
-    since propeller requires replicated data to run. If the data doesn't have
+    """ Wrapper function for scanpro. In order to run propeller, the
+    data must have replicates. If the data doesn't have
     replicates, the function {sim_scanpro} will generate artificial replicates
     using bootstrapping and run propeller multiple times. The values are then pooled
     to get robust estimation of p values.
@@ -33,7 +33,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param bool verbose: defaults to True.
     :raises ValueError: Data must have at least two conditions!
-    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster and p-values.
+    :return scanpro: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
     if type(data).__name__ == "AnnData":
         data = data.obs
@@ -44,6 +44,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     # add samples_col if given
     if samples_col is not None:
         columns.append(samples_col)
+
     columns_not_in_data = np.isin(columns, data.columns, invert=True)
     check_columns = any(columns_not_in_data)
     if check_columns:
@@ -76,16 +77,19 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     if samples_col is None:
         repd = False
         partially_repd = False
+
         # add conds_col as samples_col
-        samples_col = 'pseudo_samples'
+        samples_col = f"{conds_col} mean"
         data[samples_col] = data[conds_col]
 
     # otherwise, assume data is replicated
     else:
         repd = True
         partially_repd = False
+
         # change sample names to condition_sample to avoid duplicate sample names
-        data[samples_col] = data[conds_col].astype(str) + '_' + data[samples_col].astype(str)
+        # data[samples_col] = data[conds_col].astype(str) + '_' + data[samples_col].astype(str)
+
         # check if at least one condition doesnt have replicates
         no_reps_list = []
         for condition in conditions:
@@ -93,6 +97,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
             samples_list = data[data[conds_col] == condition][samples_col].unique()
             if len(samples_list) == 1:
                 no_reps_list.append(condition)
+
         # at least one condition doesn't have replicates
         if len(no_reps_list) > 0:
             # if all conditions don't have replicates, set repd to False
@@ -102,29 +107,26 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
             else:
                 partially_repd = True
 
-    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
-
     # check if there are no replicates
     if not repd:
         if verbose:
-            print("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro")
+            print("Your data doesn't have replicates! Artificial replicates will be simulated to run scanpro.")
+            if transform != "arcsin":
+                print("Consider setting transform='arcsin', as this produces more accurate results for simulated data.")
             print("Simulation may take some minutes...")
+
         # set transform to arcsin, since it produces more accurate results for simulations
-        transform = 'arcsin'
         out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
                           samples_col=samples_col, conds_col=conds_col, transform=transform,
                           conditions=conditions, robust=robust, verbose=verbose)
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
     elif partially_repd:
-        s1 = "The following conditions don't have replicates! "
+        s1 = "The following conditions don't have replicates: "
         s2 = ", ".join(no_reps_list) + '\n'
         s3 = "Both normal scanpro and sim_scanpro will be performed."
         if verbose:
             print(s1 + s2 + s3)
-        # add conditions as merged_samples column
-        merged_samples_col = 'merged_samples'
-        data[merged_samples_col] = data[conds_col]
 
         # run scanpro normally
         if verbose:
@@ -135,6 +137,11 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         # run simulations
         if verbose:
             print("Running scanpro with simulated replicates...")
+
+        # add conditions as merged_samples column
+        merged_samples_col = 'merged_samples'
+        data[merged_samples_col] = data[conds_col]
+
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
@@ -148,15 +155,16 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
         out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
                           conditions, robust, verbose)
 
-    columns = list(out.results.columns)
     # add baseline proportions as first column
-    out.results['Baseline_props'] = baseline_props.values
-    columns.insert(0, 'Baseline_props')
+    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
+    out.results['baseline_props'] = baseline_props.values
+    columns = list(out.results.columns)
+    columns = ["baseline_props"] + [column for column in columns if column != 'baseline_props']  # put baseline_props first
 
     # rearrange dataframe columns
     out.results = out.results[columns]
 
-    # add connditions to object
+    # add conditions to object
     out.conditions = conditions
 
     # if data is not replicated, add results also as sim_results for plotting
@@ -174,7 +182,7 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     return out
 
 
-def run_scanpro(adata, clusters, samples, conds, transform='logit',
+def run_scanpro(data, clusters, samples, conds, transform='logit',
                 conditions=None, robust=True, verbose=True):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
@@ -189,14 +197,14 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
     # check data type
-    if type(adata).__name__ == "AnnData":
-        adata = adata.obs
+    if type(data).__name__ == "AnnData":
+        data = data.obs
 
     # calculate proportions and transformed proportions
-    counts, props, prop_trans = get_transformed_props(adata, sample_col=samples, cluster_col=clusters, transform=transform)
+    counts, props, prop_trans = get_transformed_props(data, sample_col=samples, cluster_col=clusters, transform=transform)
 
     # create design matrix
-    design = create_design(data=adata, samples=samples, conds=conds, reindex=props.index)
+    design = create_design(data=data, samples=samples, conds=conds, reindex=props.index)
 
     contrasts = None
     coef = None
@@ -230,11 +238,11 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
     if verbose:
         print('Done!')
 
-    # create PyproResult object
+    # create scanpro object
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
 
-        output_obj = PyproResult()
+        output_obj = ScanproResult()
         output_obj.results = out
         output_obj.counts = counts
         output_obj.props = props
@@ -245,7 +253,7 @@ def run_scanpro(adata, clusters, samples, conds, transform='logit',
 
 
 def anova(props, prop_trans, design, coef, robust=True, verbose=True):
-    """Test the significance of changes in cell proportion across 3 or more conditions using
+    """ Test the significance of changes in cell proportion across 3 or more conditions using
     empirical bayes and moderated ANOVA.
 
     :param pandas.DataFrame props: True cell proportions.
@@ -291,15 +299,15 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
 
     # save results to dictionary
     res = {}
-    res['Clusters'] = props.columns.to_list()
+    res['clusters'] = props.columns.to_list()
     for i, cond in enumerate(X.columns):
-        res['Mean_props_' + cond] = fit_prop['coefficients'].T[i]
-    res['F_statistics'] = fit['F']['stat'].flatten()
+        res['mean_props_' + cond] = fit_prop['coefficients'].T[i]
+    res['f_statistics'] = fit['F']['stat'].flatten()
     res['p_values'] = p_values
-    res['Adjusted_p_values'] = fdr[1]
+    res['adjusted_p_values'] = fdr[1]
     cols = list(res.keys())
 
-    return pd.DataFrame(res, columns=cols).set_index('Clusters')
+    return pd.DataFrame(res, columns=cols).set_index('clusters')
 
 
 def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
@@ -350,17 +358,17 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
     # save results to dictionary
     res = {}
-    res['Clusters'] = props.columns.to_list()
+    res['clusters'] = props.columns.to_list()
     for i, cond in enumerate(design.columns):
-        res['Mean_props_' + cond] = fit_prop['coefficients'].T[i]
+        res['mean_props_' + cond] = fit_prop['coefficients'].T[i]
 
-    res['Prop_ratio'] = RR
+    res['prop_ratio'] = RR
     res['t_statistics'] = fit_cont['t'].flatten()
     res['p_values'] = p_values
-    res['Adjusted_p_values'] = fdr[1]
+    res['adjusted_p_values'] = fdr[1]
     cols = list(res.keys())
 
-    return pd.DataFrame(res, columns=cols).set_index('Clusters')
+    return pd.DataFrame(res, columns=cols).set_index('clusters')
 
 
 def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
@@ -379,7 +387,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbose: defaults to True.
-    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
+    :return scanpro: A scanpro object containing estimated mean proportions for each cluster
     and median p-values from all simulations.
     """
     # check datas type
@@ -402,6 +410,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     counts_list = []
     props_list = []
     prop_trans_list = []
+    design_list = []
 
     if verbose:
         print(f'Generating {n_reps} replicates and running {n_sims} simulations...')
@@ -427,6 +436,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         counts_list.append(out_sim.counts)
         props_list.append(out_sim.props)
         prop_trans_list.append(out_sim.prop_trans)
+        design_list.append(out_sim.design)
 
         # get adjusted p values for simulation
         try:  # check if all clusters are simulated, if a cluster is missing, rerun simulation
@@ -446,7 +456,9 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         print(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
 
     # save design matrix
-    design_sim = out_sim.design
+    # make sure to include all simulations as some clusters may be missing in some simulations
+    design_sim = pd.concat(design_list)
+    design_sim = design_sim[~design_sim.index.duplicated(keep='first')].sort_index()  # remove all but first occurence of index
 
     # combine coefficients
     combined_coefs = combine(fit=coefficients, conds=conditions, n_clusters=n_clusters, n_conds=n_conds, n_sims=n_sims)
@@ -457,20 +469,20 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     prop_trans_mean = get_mean_sim(prop_trans_list)
 
     # get clusters names
-    res['Clusters'] = list(counts.columns)
+    res['clusters'] = list(counts.columns)
     for i, condition in enumerate(coefficients.keys()):
-        res['Mean_props_' + condition] = combined_coefs[i]
+        res['mean_props_' + condition] = combined_coefs[i]
     # calculate median of p values from all runs
     res['p_values'] = np.median(p_values, axis=0)
 
     # create dataframe for results
-    out = pd.DataFrame(res).set_index('Clusters')
+    out = pd.DataFrame(res).set_index('clusters')
 
-    # create PyproResult object
+    # create scanpro object
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=UserWarning, message="Pandas doesn't allow columns to be created via a new attribute name*")
 
-        output_obj = PyproResult()
+        output_obj = ScanproResult()
         output_obj.results = out
         output_obj.counts = counts  # original counts
         output_obj.sim_counts = counts_mean  # mean of all simulated counts

@@ -38,9 +38,9 @@ def generate_reps(data, n_reps=8, sample_col='sample'):
     reps = []
     for sample in samples_list:  # loop over samples
         # choose n_min cells randomly
-        reduce = np.random.choice(indices[sample], n_min, replace=False)
+        reduce = np.random.choice(indices[sample], n_min, replace=False)  # unique indices of cells
         samples_datas[sample] = samples_datas[sample].iloc[reduce, :]
-        n = n_min
+        n = n_min  # number of cells in a sample before subtracting
         cells_indices = np.arange(n)  # all cells in a sample
         for i in range(n_reps):
             x = range(n)
