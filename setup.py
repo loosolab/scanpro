@@ -1,6 +1,16 @@
+import re
 from setuptools import find_packages  # has to be imported befor distutils
-
 from numpy.distutils.core import Extension, setup
+
+
+def find_version(file_path):
+    version_file = open(file_path).read()
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    if version_match:
+        return version_match.group(1)
+    else:
+        raise RuntimeError(f"Unable to find version string in {file_path}.")
+
 
 flib = Extension(name='scanpro.gaussq2',
                  extra_compile_args=['-O3'],
@@ -9,7 +19,7 @@ flib = Extension(name='scanpro.gaussq2',
 
 setup(
     name='scanpro',
-    version='0.4.0',
+    version=find_version('scanpro/_version.py'),
     packages=find_packages(include=['scanpro', 'scanpro.*']),
     install_requires=['pandas',
                       'statsmodels',
