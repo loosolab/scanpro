@@ -10,6 +10,10 @@ flib = Extension(name='scanpro.gaussq2',
 setup(
     name='scanpro',
     version='0.4.0',
+    description='Single cell analysis of proportions'
+    author='Yousef Alayoubi',
+    author_email='yousef.alayoubi@mpi-bn.mpg.de',
+    license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
     install_requires=['pandas',
                       'statsmodels',
