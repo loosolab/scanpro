@@ -2,7 +2,7 @@ import pytest
 
 import numpy as np
 import pandas as pd
-from scanpro import scanpro
+from scanpro import scanpro, run_scanpro, anova, t_test, sim_scanpro
 from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import create_design
 from scanpro.utils import simulate_cell_counts, convert_counts_to_df
