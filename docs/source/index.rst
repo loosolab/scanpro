@@ -1,7 +1,9 @@
 Scanpro
 ==========================================================
 
-Scanpro offers a python implementation of the propeller method (Phipson et al., 2022) to test the significance of changes in cell proportions across different conditions from single cell clustering data. Scanpro also supports datasets without replicates by simulating artificial replicates using bootstrapping, and integrates seamlessly into existing frameworks using the AnnData format.
+Scanpro is a modular tool for proportion analysis, seamlessly integrating into widely accepted frameworks in the python environment. Scanpro is fast, accurate, support datasets without replicates, and is intended to be used by bioinformatics experts and beginners
+
+Scanpro's source code is available on github: https://github.com/loosolab/scanpro
 
 .. toctree::
    :maxdepth: 2

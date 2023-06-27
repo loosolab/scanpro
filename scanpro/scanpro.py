@@ -20,12 +20,10 @@ def scanpro(data, clusters_col, conds_col, samples_col=None,
     using bootstrapping and run propeller multiple times. The values are then pooled
     to get robust estimation of p values.
 
-    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
-    condition and cluster/celltype information.
+    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample, condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition information are stored.
-    :param str samples_col: Column in data or data.obs where sample information are stored, if None,
-    dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
+    :param str samples_col: Column in data or data.obs where sample information are stored, if None, dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
@@ -251,11 +249,11 @@ def anova(props, prop_trans, design, coef, robust=True, verbose=True):
     :param pandas.DataFrame props: True cell proportions.
     :param pandas.DataFrame prop_trans: Normalized cell proportions.
     :param pandas.DataFrame design: Design matrix where rows are samples and columns are
-    coefficients of condtions of interest to be estimated.
+        coefficients of condtions of interest to be estimated.
     :param numpy.ndarray coef: Array specifiying columns of interest in the design matrix.
     :param bool robust: Robust empirical bayes estimation of posterior variances.
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
-    F-statistics, p-values and adjusted p-values.
+        F-statistics, p-values and adjusted p-values.
     """
     # check if coef is a numpy array
     if not isinstance(coef, np.ndarray):
@@ -308,12 +306,10 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbose=True):
 
     :param pandas.DataFrame props: True cell proportions.
     :param pandas.DataFrame prop_trans: Normalized cell proportions.
-    :param pandas.DataFrame design: Design matrix where rows are samples and columns are
-    coefficients of condtions of interest to be estimated.
+    :param pandas.DataFrame design: Design matrix where rows are samples and columns are coefficients of condtions of interest to be estimated.
     :param list contrasts: A list specifiying 2 conditions in the design matrix to be tested; [1, -1].
     :param bool robust: Robust empirical bayes estimation of posterior variances.
-    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
-    F-statistics, p-values and adjusted p-values.
+    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition, F-statistics, p-values and adjusted p-values.
     """
     # check if there are less than 3 clusters
     if prop_trans.shape[1] < 3:
@@ -369,7 +365,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     """Run scanpro multiple times on same dataset and pool estimates together.
 
     :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
-    condition and cluster/celltype information.
+        condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition informtaion are stored.
     :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to None.
@@ -380,7 +376,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbose: defaults to True.
     :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
-    and median p-values from all simulations.
+        and median p-values from all simulations.
     """
     # check datas type
     if type(data).__name__ == "AnnData":
