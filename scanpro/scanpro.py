@@ -10,11 +10,12 @@ from scanpro.linear_model import lm_fit, contrasts_fit, create_design
 from scanpro import ebayes
 from scanpro.sim_reps import generate_reps, combine, get_mean_sim
 from scanpro.result import ScanproResult
-from scanpro.logging import logger  # import logger from logging.py
+from scanpro.logging import ScanproLogger
 
 
 def scanpro(data, clusters_col, conds_col,
             samples_col=None,
+            cofactors=None,
             conditions=None,
             transform='logit',
             robust=True,
@@ -32,6 +33,7 @@ def scanpro(data, clusters_col, conds_col,
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition information are stored.
     :param str samples_col: Column in data or data.obs where sample information are stored, if None,
+    :param list cofactors: List of cofactors to include in the model, defaults to None.
     dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
@@ -45,7 +47,7 @@ def scanpro(data, clusters_col, conds_col,
     :return scanpro: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
 
-    logger.set_verbosity(verbosity)
+    logger = ScanproLogger(verbosity)  # create logger instance
     np.random.seed(seed)  # set seed for reproducibility (only relevant for simulated data)
 
     # Data must be Anndata or dataframe
@@ -56,9 +58,17 @@ def scanpro(data, clusters_col, conds_col,
             raise ValueError("Data must be an AnnData or DataFrame object.")
     data = data.copy()  # make sure original data is not modified
 
+    # Check format of cofactors
+    if cofactors is not None:
+        if isinstance(cofactors, str):
+            cofactors = [cofactors]
+        elif not isinstance(cofactors, list):  # if not a string, must be list
+            raise ValueError("Cofactors must be a list of strings.")
+
     # check if samples_col and conds_col are in data
     columns = [clusters_col, conds_col]
     columns += [samples_col] if samples_col is not None else []    # add samples_col if given
+    columns += cofactors if cofactors is not None else []        # add cofactors if given
     columns_not_in_data = [col for col in columns if col not in data.columns]
     if len(columns_not_in_data) > 0:
         s = "The following columns could not be found in data: "
@@ -81,7 +91,7 @@ def scanpro(data, clusters_col, conds_col,
 
     else:
         # if no conditions are specified, get all conditions
-        conditions = data[conds_col].unique()
+        conditions = data[conds_col].unique().tolist()
 
     # check if there are 2 conditions or more
     if len(conditions) < 2:
@@ -121,6 +131,7 @@ def scanpro(data, clusters_col, conds_col,
             else:
                 partially_repd = True
 
+    # ---------------- Run Scanpro depending on replicates -------------- #
     # check if there are no replicates
     if not repd:
 
@@ -130,7 +141,7 @@ def scanpro(data, clusters_col, conds_col,
         logger.info("Simulation may take some minutes...")
 
         # set transform to arcsin, since it produces more accurate results for simulations
-        out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
+        out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, cofactors=cofactors,
                           samples_col=samples_col, conds_col=conds_col, transform=transform,
                           conditions=conditions, robust=robust, verbosity=verbosity)
 
@@ -147,24 +158,24 @@ def scanpro(data, clusters_col, conds_col,
 
         # run scanpro normally
         logger.info("Running scanpro with original replicates...")
-        out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
-                          conditions, robust, verbosity)
+        out = run_scanpro(data, clusters=clusters_col, samples=samples_col, conds=conds_col, cofactors=cofactors,
+                          transform=transform, conditions=conditions, robust=robust, verbosity=verbosity)
 
         # run simulations
         logger.info("Running scanpro with simulated replicates...")
 
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
-        out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col,
+        out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, cofactors=cofactors,
                               samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
                               conditions=conditions, robust=robust, verbosity=verbosity)
 
-        print("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
+        logger.info("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
     # if all conditions have replicates, run scanpro normally
     else:
-        out = run_scanpro(data, clusters_col, samples_col, conds_col, transform,
-                          conditions, robust, verbosity)
+        out = run_scanpro(data, clusters=clusters_col, samples=samples_col, conds=conds_col, cofactors=cofactors,
+                          transform=transform, conditions=conditions, robust=robust, verbosity=verbosity)
 
     # add baseline proportions as first column
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
@@ -176,6 +187,7 @@ def scanpro(data, clusters_col, conds_col,
     out.results = out.results[columns]
 
     # add conditions to object
+    out.conds_col = conds_col
     out.conditions = conditions
 
     # if data is not replicated, add results also as sim_results for plotting
@@ -194,6 +206,7 @@ def scanpro(data, clusters_col, conds_col,
 
 
 def run_scanpro(data, clusters, samples, conds, transform='logit',
+                cofactors=None,
                 conditions=None, robust=True, verbosity=1):
     """Test the significance of changes in cell proportions across conditions in single-cell data. The function
     uses empirical bayes to moderate statistical tests to give robust estimation of significance.
@@ -207,44 +220,37 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
     """
-    logger.set_verbosity(verbosity)
+
+    logger = ScanproLogger(verbosity)
 
     # check data type
     if type(data).__name__ == "AnnData":
         data = data.obs
 
+    if cofactors is None:
+        cofactors = []
+
     # calculate proportions and transformed proportions
     counts, props, prop_trans = get_transformed_props(data, sample_col=samples, cluster_col=clusters, transform=transform)
 
     # create design matrix
-    design = create_design(data=data, samples=samples, conds=conds, reindex=props.index)
+    conditions = np.unique(data[conds])
+    design = create_design(data=data, sample_col=samples, conds_col=conds, conditions=conditions, cofactors=cofactors)
 
-    contrasts = None
-    coef = None
+    # run t-test / anova
+    if len(conditions) == 2:
 
-    if conditions is not None:
-        # get indices of giving conditions in design matrix
-        cond_indices = design.columns.get_indexer(conditions)
-        if len(cond_indices) == 2:  # if only two conditions, make contrasts list
-            contrasts = np.zeros(len(design.columns))
-            contrasts[cond_indices[0]] = 1
-            contrasts[cond_indices[1]] = -1
-        else:
-            coef = np.sort(cond_indices)
-
-    # if no specific conditions are provided, consider all conditions
-    else:
-        # check number of conditions
-        if design.shape[1] == 2:
-            contrasts = [1, -1]  # columns in design matrix to be tested
-        elif design.shape[1] > 2:
-            coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
-
-    if contrasts is not None:
         logger.info("There are 2 conditions. T-Test will be performed...")
+        contrasts = np.zeros(len(design.columns))
+        contrasts[0] = 1
+        contrasts[1] = -1
+        # the rest of the columns in design will be used as cofactors
+
         out = t_test(props, prop_trans, design, contrasts, robust)
+
     else:
         logger.info("There are more than 2 conditions. ANOVA will be performed...")
+        coef = np.arange(len(conditions))
         out = anova(props, prop_trans, design, coef, robust)
 
     logger.info("Done!")
@@ -259,6 +265,11 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
         output_obj.props = props
         output_obj.prop_trans = prop_trans
         output_obj.design = design
+        output_obj.conditions = conditions
+
+        # sample info
+        sample_info = data[[samples, conds] + cofactors].drop_duplicates().reset_index(drop=True)
+        output_obj.sample_info = sample_info
 
     return output_obj
 
@@ -276,7 +287,8 @@ def anova(props, prop_trans, design, coef, robust=True, verbosity=1):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
-    logger.set_verbosity(verbosity)
+
+    logger = ScanproLogger(verbosity)
 
     # check if coef is a numpy array
     if not isinstance(coef, np.ndarray):
@@ -322,7 +334,7 @@ def anova(props, prop_trans, design, coef, robust=True, verbosity=1):
     return pd.DataFrame(res, columns=cols).set_index('clusters')
 
 
-def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=True):
+def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
     """ Test the significance of changes in cell proportion across 2 conditions using
     empirical bayes and moderated t-test.
 
@@ -335,8 +347,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=True):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
-
-    logger.set_verbosity(verbosity)
+    logger = ScanproLogger(verbosity)
 
     # check if there are less than 3 clusters
     if prop_trans.shape[1] < 3 and robust:
@@ -387,6 +398,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=True):
 
 
 def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
+                cofactors=None,
                 transform='arcsin', n_reps=8, n_sims=100,
                 conditions=None, robust=True, verbosity=1):
     """Run scanpro multiple times on same dataset and pool estimates together.
@@ -406,7 +418,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     and median p-values from all simulations.
     """
 
-    logger.set_verbosity(verbosity)
+    logger = ScanproLogger(verbosity)
 
     # check datas type
     if type(data).__name__ == "AnnData":
@@ -418,7 +430,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col,
                                                       cluster_col=clusters_col, transform=transform)
     # get original design matrix
-    design = create_design(data=data, samples=samples_col, conds=conds_col, reindex=props.index)
+    design = create_design(data=data, sample_col=conds_col, conds_col=conds_col, cofactors=cofactors)
 
     # initiate lists to save results
     res = {}

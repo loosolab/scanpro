@@ -25,6 +25,7 @@ setup(
                       'statsmodels',
                       'matplotlib',
                       'statannotations==0.4',  # statannotations doesn't support seaborn >= 0.12
+                      'patsy',  # for creating design matrices
                       # 'seaborn',
                       ],
     ext_modules=[flib])

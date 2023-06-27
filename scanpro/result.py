@@ -28,9 +28,13 @@ class ScanproResult():
 
         # Establish the samples per group
         sample_col = design.index.name
-        design_melt = design.reset_index().melt(id_vars=sample_col)
+        design_melt = design.reset_index().melt(id_vars=sample_col, var_name=self.conds_col)
         design_melt = design_melt[design_melt["value"] == 1]
         design_melt = design_melt.drop(columns="value")
+
+        # Subset groups to those in the sample_info
+        all_conditions = self.sample_info[self.conds_col].unique().tolist()
+        design_melt = design_melt[design_melt[self.conds_col].isin(all_conditions)]
 
         # Merge the proportions with the design matrix
         prop_merged = props.merge(design_melt, left_index=True, right_on=sample_col)
@@ -54,24 +58,24 @@ class ScanproResult():
         simulated = True if hasattr(self, "sim_results") else False
         results = self.sim_results if simulated else self.results
         design = self.sim_design if simulated else self.design
+        conds_col = self.conds_col
 
         # if no clusters are specified, plot all clusters
-        all_clusters = self.props.columns.tolist()
         if clusters is None:
-            clusters = all_clusters
-            # get all p_values
-            p_values = round(results.iloc[:, -1], 3).to_list()
+            clusters = self.props.columns.tolist()
         else:
             if not isinstance(clusters, list):
                 clusters = [clusters]
+
             # check if provided clusters are in data
             check = all(item in self.props.columns for item in clusters)
             if not check:
                 s1 = "The following clusters could not be found in data: "
                 s2 = ', '.join([clusters[i] for i in np.where(np.isin(clusters, self.props.columns, invert=True))[0]])
                 raise ValueError(s1 + s2)
-            # get p_values of specified clusters
-            p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()   # the last column contains the p_values
+
+        # get p_values of clusters
+        p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()   # the last column contains the p_values
 
         sample_col = design.index.name
         n_conds = len(self.design.columns)
@@ -108,28 +112,31 @@ class ScanproResult():
             ax2 = None  # for simulated data in stripplot
             if kind == 'stripplot':
 
-                sns.stripplot(data=prop_merged, y=cluster, x="group", jitter=True, ax=ax, alpha=0)  # initialize by plotting invisible points (alpha=0) to get the full axes limits
+                sns.stripplot(data=prop_merged, y=cluster, x=conds_col, jitter=True, ax=ax, alpha=0)  # initialize by plotting invisible points (alpha=0) to get the full axes limits
 
-                for simulated_bool, prop_table in prop_merged.sort_values("simulated").groupby("simulated"):  # sortby ensures that original data is plotted first
+                for simulated_bool in [False, True]:  # ensures that original data is plotted first
+                    prop_table = prop_merged[prop_merged["simulated"] == simulated_bool]
+
                     if simulated_bool:
                         marker = "s"  # square marker for simulated data
                         sample2marker = {sample: marker for sample in prop_table[sample_col]}  # for adjusting legend later
 
                         # Create second axes to enable second legend
                         ax2 = ax.twinx()
+                        ax2.set_ylim(ax.get_ylim())  # set ylims to be the same as in the first axes
                         ax2.set_yticks([])  # remove yticks
                         axes2.append(ax2)
-                        sns.stripplot(data=prop_table, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
 
                     else:
-                        sns.stripplot(data=prop_table, y=cluster, x="group", hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7)
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7)
 
             elif kind == 'boxplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
-                sns.boxplot(data=prop_table, y=cluster, x="group", color="white", showfliers=False, ax=ax)
+                sns.boxplot(data=prop_table, y=cluster, x=conds_col, color="white", showfliers=False, ax=ax)
             elif kind == 'barplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
-                sns.barplot(data=prop_table, y=cluster, x="group", hue=sample_col, ax=ax)
+                sns.barplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, ax=ax)
                 ax.legend_.remove()
 
             ax.set_title(cluster)
@@ -160,7 +167,7 @@ class ScanproResult():
                 ax_p = ax2
 
             # add p values to plot
-            annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x="group", verbose=False)
+            annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x=conds_col, verbose=False)
             (annot
              .configure(test=None, line_width=line_width, verbose=False)
              .set_custom_annotations([p_value])

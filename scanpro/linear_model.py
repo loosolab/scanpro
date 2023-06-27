@@ -2,6 +2,7 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 from scanpro.utils import vecmat, del_index, cov_to_corr
+from patsy import dmatrix
 
 
 def lm_fit(X, y):
@@ -161,10 +162,10 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     return fit
 
 
-def create_design(samples, conds, cofactors=None, data=None, reorder=False, reindex=False, intercept=False,
-                  before_reindex=True):
+def create_design(data, sample_col, conds_col, cofactors=None, conditions=[]):
     """Create design matrix where rows=samples and columns=conditions, to use for fitting linear models to clusters.
 
+    :param [pd.DataFrame, anndata.Anndata] data: A dataframe where sample_col, conds_col and cofactors are columns
     :param [list, numpy.array or str] samples: If data is provided, samples is the columns name where
     samples are saved, otherwise samples is a list or array of samples.
     :param [list, numpy.array or str] conds: If data is provided, conds is the columns name where
@@ -183,44 +184,41 @@ def create_design(samples, conds, cofactors=None, data=None, reorder=False, rein
     :raises ValueError: _description_
     :return pandas.DataFrame: Design matrix as pandas dataframe.
     """
+
     # check if data is either anndata or pandas dataframe
-    if data is not None:
-        if not type(data).__name__ == "AnnData" and not isinstance(data, pd.DataFrame):
-            raise TypeError("Only anndata objects and pandas dataframes are supported!")
+    if type(data).__name__ == "AnnData":
+        data = data.obs
+    elif not isinstance(data, pd.DataFrame):  # if data is not anndata or pandas dataframe
+        raise TypeError("Only anndata objects and pandas dataframes are supported!")
+    data = data.copy()
 
-        if type(data).__name__ == "AnnData":
-            data = data.obs
+    if cofactors is None:
+        cofactors = []
 
-        samples = data[samples].to_list()
-        conds = data[conds].to_list()
+    # Get conditions to use
+    if conditions is None:
+        conditions = data[conds_col].unique().tolist()
 
-    group_coll = pd.crosstab(samples, conds, rownames=['sample'], colnames=['group'])
-    if reorder:
-        group_coll = group_coll[reorder]
-    design = group_coll.where(group_coll == 0, 1).astype('int')
+    # Build sample matrix
+    sample_info = data[[sample_col, conds_col] + cofactors].drop_duplicates().reset_index(drop=True)
+    sample_info = sample_info.loc[:, ~sample_info.columns.duplicated()].copy()  # remove duplicated columns; e.g. if sample_col == conds_col
+    sample_info.sort_values(sample_col, inplace=True)
+    sample_info.set_index(sample_col, inplace=True)
 
-    if cofactors is not None:
-        # reorder rows before adding cofactors columns
-        if reindex is not False and not before_reindex:
-            design = design.reindex(reindex)
-        # check type of cofactor
-        if isinstance(cofactors, dict):
-            for key, values in cofactors.items():
-                factor, _ = pd.factorize(values)
-                design[key] = factor
-        if isinstance(cofactors, list) or isinstance(cofactors, np.ndarray):
-            # if cofactor is a list, it should contain columns names which are found in data
-            if data is None:
-                s = "When passing cofactors as list, please provide anndata object or pandas dataframe as data!"
-                s += " Otherwise provide a dictionary where keys are names of cofactors and values are lists"
-                raise ValueError(s)
-            # add to design matrix
-            for name in cofactors:
-                factor, _ = pd.factorize(data[name])
-                design[name] = factor
+    # Add condition back as column since it was lost when setting index
+    if sample_col == conds_col:
+        sample_info[conds_col] = sample_info.index
 
-    if reindex is not False:
-        # reorder rows
-        design = design.reindex(reindex)
+    # Subset to conditions
+    sample_info = sample_info[sample_info[conds_col].isin(conditions)]
+
+    # build formula
+    formula = "~0 + " + " + ".join([conds_col] + cofactors)
+
+    # build design matrix
+    design = dmatrix(formula, sample_info, return_type='dataframe')
+
+    # Rename columns from "conds_col[cond]" to "cond"
+    design.columns = [col.replace(conds_col, "")[1:-1] if conds_col in col else col for col in design.columns]
 
     return design

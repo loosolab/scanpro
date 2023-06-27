@@ -8,7 +8,7 @@ class ScanproLogger(logging.Logger):
                         1: logging.INFO,
                         2: logging.DEBUG}
 
-    def __init__(self):
+    def __init__(self, verbosity=0):
 
         # Create custom logger logging all five levels
         super().__init__('Scanpro')
@@ -19,11 +19,13 @@ class ScanproLogger(logging.Logger):
         h.setFormatter(logging.Formatter('[%(levelname)s] %(message)s'))
         self.addHandler(h)
 
+        self.set_verbosity(verbosity)
+
     def set_verbosity(self, verbosity):
         """Set the verbosity level of the logger."""
 
         if verbosity not in self.verbosity_levels:
             raise ValueError(f"Invalid verbosity level: {verbosity}. Verbosity must be 0, 1 or 2.")
-        self.setLevel(self.verbosity_levels[verbosity])
 
-logger = ScanproLogger()  # create logger instance
+        for h in self.handlers:
+            h.setLevel(self.verbosity_levels[verbosity])
