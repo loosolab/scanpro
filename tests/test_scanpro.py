@@ -43,7 +43,7 @@ def counts_df_3():
 def test_import():
     """ Test if scanpro is imported correctly """
 
-    assert scanpro.__name__ == "scanpro.scanpro"
+    assert scanpro.__name__ == "scanpro"
 
 
 @pytest.mark.parametrize("transform, samples", [("logit", None),
