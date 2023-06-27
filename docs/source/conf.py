@@ -38,7 +38,9 @@ extensions = ['sphinx.ext.autodoc',
               ]
 
 napoleon_numpy_docstring = True
+autosummary_generate = True  # Turn on sphinx.ext.autosummary
 autodoc_member_order = 'bysource'
+# add_module_names = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']

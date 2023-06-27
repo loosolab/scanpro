@@ -12,6 +12,11 @@ To use Scanpro, import the module and run the scanpro function.
     out.results
 
 To plot results, run
+
 .. code-block:: python
 
     out.plot()
+
+    # For boxplots, use the parameter <kind>
+
+    out.plot(kinde='boxplot')
