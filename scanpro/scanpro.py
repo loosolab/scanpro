@@ -10,7 +10,7 @@ from scanpro.linear_model import lm_fit, contrasts_fit, create_design
 from scanpro import ebayes
 from scanpro.sim_reps import generate_reps, combine, get_mean_sim
 from scanpro.result import ScanproResult
-from scanpro.logging import ScanproLogger as logger
+from scanpro.logging import logger  # import logger from logging.py
 
 
 def scanpro(data, clusters_col, conds_col,
@@ -20,7 +20,8 @@ def scanpro(data, clusters_col, conds_col,
             robust=True,
             n_sims=100,
             n_reps=8,
-            verbosity=1):
+            verbosity=1,
+            seed=1):
     """Wrapper function for scanpro. The data must have replicates,
     since propeller requires replicated data to run. If the data doesn't have
     replicates, the function {sim_scanpro} will generate artificial replicates
@@ -38,12 +39,14 @@ def scanpro(data, clusters_col, conds_col,
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
-    :param bool verbose: defaults to True.
+    :param int seed: Seed for random number generator, defaults to 1.
+
     :raises ValueError: Data must have at least two conditions!
     :return scanpro: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
 
     logger.set_verbosity(verbosity)
+    np.random.seed(seed)  # set seed for reproducibility (only relevant for simulated data)
 
     # Data must be Anndata or dataframe
     if type(data).__name__ == "AnnData":
@@ -440,7 +443,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         try:
             out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
                                   conds=conds_col, transform=transform,
-                                  conditions=conditions, robust=robust, verbosity=verbosity)
+                                  conditions=conditions, robust=robust, verbosity=0)  # verbosity is 0 to prevent prints from individual simulations
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
