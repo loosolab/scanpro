@@ -112,6 +112,7 @@ class ScanproResult():
 
                 for simulated_bool, prop_table in prop_merged.sort_values("simulated").groupby("simulated"):  # sortby ensures that original data is plotted first
                     if simulated_bool:
+                        prop_table = prop_table.sort_index()  # to be compatible with original data
                         marker = "s"  # square marker for simulated data
                         sample2marker = {sample: marker for sample in prop_table[sample_col]}  # for adjusting legend later
 
@@ -156,8 +157,9 @@ class ScanproResult():
             max_prop = prop_merged.groupby("simulated")[cluster].max().sort_values(ascending=False)
             sim_bool_max = max_prop.index[0]
             ax_p = ax
-            if sim_bool_max:  # if simulated has the highest value, use ax2 for p-values
-                ax_p = ax2
+            if ax2 is not None:
+                if sim_bool_max:  # if simulated has the highest value, use ax2 for p-values
+                    ax_p = ax2
 
             # add p values to plot
             annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x="group", verbose=False)
