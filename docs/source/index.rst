@@ -13,4 +13,5 @@ Scanpro's source code is available on github: https://github.com/loosolab/scanpr
    quickstart
    proportion_analysis
    API
+   result_class
    changelog
