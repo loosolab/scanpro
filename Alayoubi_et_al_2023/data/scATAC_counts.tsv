@@ -1,0 +1,26 @@
+sample_name	sex	tissue	Astrocytes	Astrocytes/Oligodendrocytes	Cardiomyocytes	Cardiomyocytes/Endothelial cells	Chromaffin cells	ENS glia	ENS neurons	Endocardial cells	Epicardial fat cells	Epithelial cells	Erythroblasts	Excitatory neurons	Goblet cells	Hematopoietic stem cells	Hepatoblasts	Inhibitory neurons	Intestinal epithelial cells	Limbic system neurons	Lymphatic endothelial cells	Lymphoid and Myeloid cells	Lymphoid cells	Megakaryocytes	Mesothelial cells	Myeloid cells	Parietal and chief cells	SKOR2_NPSR1 positive cells	Satellite cells	Schwann cells	Skeletal muscle cells	Smooth muscle cells	Stellate cells	Stromal cells	Vascular endothelial cells
+sample_10_muscle	male	muscle	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	483	0	0	0	0	0	0	3030	349	4713	441	0	2680	963
+sample_12_heart	male	heart	0	0	10976	873	0	0	0	490	52	0	226	0	0	0	0	0	0	0	64	0	457	0	0	341	0	0	0	127	0	503	0	2140	891
+sample_14_heart	male	heart	0	0	8573	887	0	0	0	666	54	0	221	0	0	0	0	0	0	0	61	0	332	0	0	404	0	0	0	160	0	259	0	1785	623
+sample_19_intestine	female	intestine	0	0	0	0	384	264	560	0	0	0	0	0	0	0	0	0	8619	0	88	0	999	0	43	562	0	0	0	0	0	252	0	2140	149
+sample_21_intestine	male	intestine	0	0	0	0	283	609	1031	0	0	0	0	0	0	0	0	0	6469	0	307	0	3915	0	81	1066	0	0	0	0	0	1123	0	4190	445
+sample_23_muscle	male	muscle	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	341	0	0	0	0	0	0	2169	453	2509	385	0	2271	977
+sample_28_intestine	female	intestine	0	0	0	0	89	213	557	0	0	0	0	0	0	0	0	0	1327	0	73	0	2897	0	56	839	0	0	0	0	0	290	0	1409	116
+sample_32_heart	male	heart	0	0	9161	1006	0	0	0	375	20	0	205	0	0	0	0	0	0	0	57	0	265	0	0	279	0	0	0	109	0	663	0	2003	1283
+sample_35_liver	male	liver	0	0	0	0	0	0	0	0	0	0	24454	0	0	210	7409	0	0	0	0	0	2103	283	0	1575	0	0	0	0	0	0	977	0	2097
+sample_36_brain	male	brain	3365	2302	0	0	0	0	0	0	0	0	0	15174	0	0	0	4748	0	956	0	0	0	0	0	0	0	1183	0	0	0	0	0	0	358
+sample_37_liver	male	liver	0	0	0	0	0	0	0	0	0	0	25772	0	0	394	10697	0	0	0	0	0	1421	632	0	2069	0	0	0	0	0	0	2284	0	2213
+sample_39_heart	male	heart	0	0	15819	773	0	0	0	2026	238	0	1617	0	0	0	0	0	0	0	276	0	4347	0	0	1618	0	0	0	376	0	649	0	6061	1410
+sample_40_liver	male	liver	0	0	0	0	0	0	0	0	0	0	16382	0	0	244	11481	0	0	0	0	0	603	354	0	1711	0	0	0	0	0	0	2586	0	1516
+sample_42_heart	female	heart	0	0	524	56	0	0	0	34	2	0	12	0	0	0	0	0	0	0	4	0	18	0	0	17	0	0	0	8	0	23	0	80	32
+sample_43_liver	female	liver	0	0	0	0	0	0	0	0	0	0	16410	0	0	166	3497	0	0	0	0	0	1028	273	0	790	0	0	0	0	0	0	587	0	802
+sample_46_liver	male	liver	0	0	0	0	0	0	0	0	0	0	16477	0	0	116	1983	0	0	0	0	0	532	220	0	577	0	0	0	0	0	0	421	0	783
+sample_49_stomach	female	stomach	0	0	0	0	0	80	0	0	0	311	0	0	770	0	0	0	0	0	0	0	0	0	0	0	401	0	0	0	0	0	0	360	146
+sample_62_stomach	male	stomach	0	0	0	0	0	81	0	0	0	259	0	0	432	0	0	0	0	0	0	0	0	0	0	0	109	0	0	0	0	0	0	411	110
+sample_64_brain	male	brain	112	47	0	0	0	0	0	0	0	0	0	832	0	0	0	137	0	9	0	0	0	0	0	0	0	30	0	0	0	0	0	0	73
+sample_66_brain	female	brain	779	416	0	0	0	0	0	0	0	0	0	6032	0	0	0	1358	0	118	0	0	0	0	0	0	0	218	0	0	0	0	0	0	73
+sample_69_brain	female	brain	1062	565	0	0	0	0	0	0	0	0	0	7673	0	0	0	1576	0	153	0	0	0	0	0	0	0	281	0	0	0	0	0	0	84
+sample_6_brain	female	brain	1651	898	0	0	0	0	0	0	0	0	0	12818	0	0	0	2777	0	228	0	0	0	0	0	0	0	558	0	0	0	0	0	0	958
+sample_71_brain	male	brain	1325	845	0	0	0	0	0	0	0	0	0	6204	0	0	0	1801	0	487	0	0	0	0	0	0	0	572	0	0	0	0	0	0	180
+sample_7_liver	female	liver	0	0	0	0	0	0	0	0	0	0	21065	0	0	214	4709	0	0	0	0	0	522	296	0	1307	0	0	0	0	0	0	1023	0	1073
+sample_9_liver	male	liver	0	0	0	0	0	0	0	0	0	0	12716	0	0	114	2564	0	0	0	0	0	274	145	0	418	0	0	0	0	0	0	449	0	432

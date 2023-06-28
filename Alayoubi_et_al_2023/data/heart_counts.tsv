@@ -1,0 +1,10 @@
+Sample	Condition	Sex	Cardiomyocytes	Endothelial cells	Epicardial cells	Erythroid	Fibroblast	Immune cells	Neurons	Smooth muscle cells
+a1	adult	male	1856	599	343	0	1034	449	57	22
+a2	adult	male	564	466	493	0	1230	530	43	49
+a3	adult	male	383	165	92	0	495	519	14	13
+f1	fetal	male	5475	735	564	43	1029	287	109	54
+f2	fetal	male	8580	715	425	49	755	274	130	20
+f3	fetal	female	5140	1298	404	31	1201	196	110	136
+y1	young	male	1073	511	613	0	1622	337	207	59
+y2	young	female	2221	462	280	0	1688	808	71	28
+y3	young	male	4456	550	260	0	805	731	133	49
