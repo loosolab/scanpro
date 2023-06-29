@@ -103,8 +103,8 @@ def scanpro(data, clusters_col, conds_col,
         partially_repd = False
 
         # add conds_col as samples_col
-        samples_col = f"{conds_col} mean"
-        data[samples_col] = data[conds_col]
+        samples_col = conds_col
+        #data[samples_col] = data[conds_col]
 
     # otherwise, assume data is replicated
     else:
@@ -142,7 +142,7 @@ def scanpro(data, clusters_col, conds_col,
 
         # set transform to arcsin, since it produces more accurate results for simulations
         out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, cofactors=cofactors,
-                          samples_col=samples_col, conds_col=conds_col, transform=transform,
+                          conds_col=conds_col, transform=transform,
                           conditions=conditions, robust=robust, verbosity=verbosity)
 
     # if at least on condition doesn't have replicate, merge samples and bootstrap
@@ -167,7 +167,7 @@ def scanpro(data, clusters_col, conds_col,
         # set transform to arcsin, since it produces more accurate results for simulations
         transform = 'arcsin'
         out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, cofactors=cofactors,
-                              samples_col=merged_samples_col, conds_col=conds_col, transform=transform,
+                              conds_col=conds_col, transform=transform,
                               conditions=conditions, robust=robust, verbosity=verbosity)
 
         logger.info("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
@@ -179,12 +179,8 @@ def scanpro(data, clusters_col, conds_col,
 
     # add baseline proportions as first column
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
-    out.results['baseline_props'] = baseline_props.values
-    columns = list(out.results.columns)
-    columns = ["baseline_props"] + [column for column in columns if column != 'baseline_props']  # put baseline_props first
-
-    # rearrange dataframe columns
-    out.results = out.results[columns]
+    baseline_props = baseline_props.reindex(out.results.index)  # reindex to match order of clusters in out.results
+    out.results.insert(0, 'baseline_props', baseline_props.values) # put baseline_props first
 
     # add conditions to object
     out.conds_col = conds_col
@@ -253,6 +249,7 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
         coef = np.arange(len(conditions))
         out = anova(props, prop_trans, design, coef, robust)
 
+    out.index.name = conds
     logger.info("Done!")
 
     # create scanpro object
@@ -265,11 +262,8 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
         output_obj.props = props
         output_obj.prop_trans = prop_trans
         output_obj.design = design
+        output_obj.all_conditions = data[conds].unique().tolist()
         output_obj.conditions = conditions
-
-        # sample info
-        sample_info = data[[samples, conds] + cofactors].drop_duplicates().reset_index(drop=True)
-        output_obj.sample_info = sample_info
 
     return output_obj
 
@@ -397,7 +391,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
     return pd.DataFrame(res, columns=cols).set_index('clusters')
 
 
-def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
+def sim_scanpro(data, clusters_col, conds_col,
                 cofactors=None,
                 transform='arcsin', n_reps=8, n_sims=100,
                 conditions=None, robust=True, verbosity=1):
@@ -407,7 +401,6 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition informtaion are stored.
-    :param str samples_col: Column in data or data.obs where sample informtaion are stored, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
@@ -427,13 +420,13 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     n_conds = len(conditions)
 
     # get original counts and proportions
-    counts, props, prop_trans = get_transformed_props(data, sample_col=samples_col,
+    counts, props, prop_trans = get_transformed_props(data, sample_col=conds_col,
                                                       cluster_col=clusters_col, transform=transform)
+
     # get original design matrix
     design = create_design(data=data, sample_col=conds_col, conds_col=conds_col, cofactors=cofactors)
 
     # initiate lists to save results
-    res = {}
     n_clusters = len(data[clusters_col].unique())
     coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
     p_values = np.zeros((n_sims, n_clusters))
@@ -449,7 +442,8 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     for i in range(n_sims):
 
         # generate replicates
-        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=samples_col)
+        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col)
+        samples_col = conds_col + "_replicates"
 
         # run propeller
         try:
@@ -497,15 +491,17 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
     props_mean = get_mean_sim(props_list)
     prop_trans_mean = get_mean_sim(prop_trans_list)
 
-    # get clusters names
-    res['clusters'] = list(counts.columns)
+    # Setup information for results
+    res = {}
+    res[conds_col] = list(counts.columns)
     for i, condition in enumerate(coefficients.keys()):
         res['mean_props_' + condition] = combined_coefs[i]
+
     # calculate median of p values from all runs
     res['p_values'] = np.median(p_values, axis=0)
 
     # create dataframe for results
-    out = pd.DataFrame(res).set_index('clusters')
+    out = pd.DataFrame(res).set_index(conds_col)
 
     # create scanpro object
     with warnings.catch_warnings():
@@ -521,6 +517,7 @@ def sim_scanpro(data, clusters_col, conds_col, samples_col=None,
         output_obj.sim_prop_trans = prop_trans_mean
         output_obj.design = design
         output_obj.sim_design = design_sim
+        output_obj.all_conditions = data[conds_col].unique().tolist()
         output_obj.conditions = conditions
 
     # remove temporary samples column

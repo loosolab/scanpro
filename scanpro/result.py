@@ -31,13 +31,14 @@ class ScanproResult():
         design_melt = design.reset_index().melt(id_vars=sample_col, var_name=self.conds_col)
         design_melt = design_melt[design_melt["value"] == 1]
         design_melt = design_melt.drop(columns="value")
+        design_melt = design_melt.loc[:,~design_melt.columns.duplicated()].copy() # remove duplicate columns, e.g. if sample_col == conds_col
 
-        # Subset groups to those in the sample_info
-        all_conditions = self.sample_info[self.conds_col].unique().tolist()
-        design_melt = design_melt[design_melt[self.conds_col].isin(all_conditions)]
+        # Subset conditions to those in all_conditions (to not include covariates in the plot)
+        design_melt = design_melt[design_melt[self.conds_col].isin(self.all_conditions)]
 
         # Merge the proportions with the design matrix
-        prop_merged = props.merge(design_melt, left_index=True, right_on=sample_col)
+        prop_merged = props.merge(design_melt, left_index=True, right_on=sample_col, how="left")
+        prop_merged.index = props.index
 
         return prop_merged
 
@@ -54,11 +55,12 @@ class ScanproResult():
         :param bool simulated: If True, simulated results will be plotted, defaults to False
         :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
+
         # get results dataframe
         simulated = True if hasattr(self, "sim_results") else False
         results = self.sim_results if simulated else self.results
         design = self.sim_design if simulated else self.design
-        conds_col = self.conds_col
+        conds_col = results.index.name
 
         # if no clusters are specified, plot all clusters
         if clusters is None:
@@ -75,8 +77,10 @@ class ScanproResult():
                 raise ValueError(s1 + s2)
 
         # get p_values of clusters
-        p_values = round(results.loc[clusters].iloc[:, -1], 3).to_list()   # the last column contains the p_values
+        p_values = results.loc[clusters].iloc[:, -1].to_list()   # the last column contains the p_values
+        p_values_fmt = [str(round(p, 3)) if p > 0.001 else f"{p:.2e}" for p in p_values]  # format to scientific notation for small p-values
 
+        # Collect props for original data
         sample_col = design.index.name
         n_conds = len(self.design.columns)
         prop_merged = self._merge_design_props()
@@ -84,8 +88,12 @@ class ScanproResult():
 
         # If the results contain simulated proportions, add these proportions to prop_merged
         if simulated:
+            prop_merged[sample_col] = prop_merged.index
+
             prop_merged_simulated = self._merge_design_props(simulated=True)
+            prop_merged_simulated[sample_col] = prop_merged_simulated.index
             prop_merged_simulated["simulated"] = True
+
             prop_merged = pd.concat([prop_merged, prop_merged_simulated])
 
         # Create a figure with n_columns
@@ -114,7 +122,7 @@ class ScanproResult():
 
                 sns.stripplot(data=prop_merged, y=cluster, x=conds_col, jitter=True, ax=ax, alpha=0)  # initialize by plotting invisible points (alpha=0) to get the full axes limits
 
-                for simulated_bool in [False, True]:  # ensures that original data is plotted first
+                for simulated_bool in [True, False]:
                     prop_table = prop_merged[prop_merged["simulated"] == simulated_bool]
 
                     if simulated_bool:
@@ -123,13 +131,17 @@ class ScanproResult():
 
                         # Create second axes to enable second legend
                         ax2 = ax.twinx()
+                        ax.set_zorder(ax2.get_zorder() + 1)  # put original ax in front of ax2
+                        ax.set_frame_on(False)               # ensure that ax2 is still visible behind ax
+
                         ax2.set_ylim(ax.get_ylim())  # set ylims to be the same as in the first axes
                         ax2.set_yticks([])  # remove yticks
                         axes2.append(ax2)
                         sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
 
                     else:
-                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7)
+                        lw = 1 if simulated else 0   #original data is has a border, simulated data does not
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7, linewidth=lw)
 
             elif kind == 'boxplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
@@ -144,7 +156,7 @@ class ScanproResult():
             ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')
 
             # get p-value as string
-            p_value = f"p={p_values[i]}"
+            p_value = f"p={p_values_fmt[i]}"
             # check number of compared conditions
             n_compared_conds = len(self.conditions)
             if n_compared_conds == 2:
@@ -189,8 +201,10 @@ class ScanproResult():
 
             # Plot first legend
             ax = axes[n_columns - 1]
-            l1 = ax.legend(title=sample_col, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False, ncols=2)
+            legend_title = sample_col if not simulated else conds_col    # for original data is samples == conditions if simulated
+            l1 = ax.legend(title=legend_title, bbox_to_anchor=(1.05, 1), loc="upper left", frameon=False, ncols=2)
 
+            # Plot legend for simulated data
             if kind == "stripplot" and simulated:
 
                 # Plot second legend to get size
@@ -233,10 +247,10 @@ class ScanproResult():
 
         if x == 'samples':
             ax = self.props.plot(kind='bar', stacked=stacked)
-            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), title="clusters")
+            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), title=self.props.index.name, frameon=False)
         elif x == 'clusters':
             ax = self.props.T.plot(kind='bar', stacked=stacked)
-            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), title="samples")
+            ax.legend(loc='center left', bbox_to_anchor=(1.0, 0.5), title=self.props.T.index.name, frameon=False)
 
         # set labels
         ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')

@@ -162,7 +162,7 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     return fit
 
 
-def create_design(data, sample_col, conds_col, cofactors=None, conditions=[]):
+def create_design(data, sample_col, conds_col, cofactors=None, conditions=None):
     """Create design matrix where rows=samples and columns=conditions, to use for fitting linear models to clusters.
 
     :param [pd.DataFrame, anndata.Anndata] data: A dataframe where sample_col, conds_col and cofactors are columns
@@ -200,16 +200,12 @@ def create_design(data, sample_col, conds_col, cofactors=None, conditions=[]):
         conditions = data[conds_col].unique().tolist()
 
     # Build sample matrix
-    sample_info = data[[sample_col, conds_col] + cofactors].drop_duplicates().reset_index(drop=True)
-    sample_info = sample_info.loc[:, ~sample_info.columns.duplicated()].copy()  # remove duplicated columns; e.g. if sample_col == conds_col
+    cols = [sample_col, conds_col] if sample_col != conds_col else [conds_col]  # prevent duplicated columns
+    sample_info = data[cols + cofactors].drop_duplicates()
     sample_info.sort_values(sample_col, inplace=True)
-    sample_info.set_index(sample_col, inplace=True)
+    sample_info.set_index(sample_col, drop=False, inplace=True)
 
-    # Add condition back as column since it was lost when setting index
-    if sample_col == conds_col:
-        sample_info[conds_col] = sample_info.index
-
-    # Subset to conditions
+    # Subset to specific conditions
     sample_info = sample_info[sample_info[conds_col].isin(conditions)]
 
     # build formula

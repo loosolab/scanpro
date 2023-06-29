@@ -234,6 +234,7 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     # generate sample proportions
     true_p = np.zeros((len(props), total_reps))  # for each condition we will generate n_reps samples
     cluster_names = ['c' + str(i) for i in range(1, len(props) + 1)]
+
     if isinstance(a, int) or isinstance(a, float):
         a = [a]
     for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
@@ -303,6 +304,7 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     counts_sim = counts_sim.T
 
     return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=clusters_names)
+
 
 
 def convert_counts_to_df(counts, n_reps, n_conds):

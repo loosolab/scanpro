@@ -21,11 +21,15 @@ def generate_reps(data, n_reps=8, sample_col='sample'):
         data = data.obs
 
     samples_list = data[sample_col].unique()
+
     # subset data for each sample
     samples_datas = {}
     for sample in samples_list:
         # subset data for each sample
         samples_datas[sample] = data[data[sample_col] == sample]
+
+    # name of column to store replicates
+    replicate_col = sample_col + "_replicates"
 
     indices = {}
     for sample in samples_list:
@@ -47,7 +51,7 @@ def generate_reps(data, n_reps=8, sample_col='sample'):
             n_rep = np.random.choice(x)  # number of cells for replicate
             rep_cells = np.random.choice(cells_indices, n_rep, replace=False)  # choose n_rep cells
             rep = samples_datas[sample].iloc[rep_cells, :]  # get only chosen cells as a dataframe
-            rep.loc[:, sample_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
+            rep.loc[:, replicate_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
             reps.append(rep)
 
             n -= n_rep  # substract number of cells of replicate from total number of cells
