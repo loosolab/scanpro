@@ -3,6 +3,7 @@ import pandas as pd
 import statsmodels.api as sm
 from scanpro.utils import vecmat, del_index, cov_to_corr
 from patsy import dmatrix
+import re
 
 
 def lm_fit(X, y):
@@ -15,6 +16,7 @@ def lm_fit(X, y):
     n_clusters = len(y.columns)  # number of clusters
     n_cond = len(X.columns)  # number of conditions
     fit = {}
+
     # loop over clusters and fit linear model for each cluster seperately
     for i, cluster in enumerate(y.columns):
         M = y.iloc[:, i]  # get proportions for only one cluster
@@ -153,6 +155,7 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
             RUC = R @ vecmat(fit['stdev'][i], contrasts)
             U[i] = np.sqrt(o @ RUC**2)
         fit['stdev'] = U
+
     # Replace NAs if necessary
     if na_coef:
         i = fit['stdev'] > 1e20
@@ -162,23 +165,23 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     return fit
 
 
-def create_design(data, sample_col, conds_col, cofactors=None, conditions=None):
+def create_design(data, sample_col, conds_col, covariates=None):
     """Create design matrix where rows=samples and columns=conditions, to use for fitting linear models to clusters.
 
-    :param [pd.DataFrame, anndata.Anndata] data: A dataframe where sample_col, conds_col and cofactors are columns
+    :param [pd.DataFrame, anndata.Anndata] data: A dataframe where sample_col, conds_col and covariates are columns
     :param [list, numpy.array or str] samples: If data is provided, samples is the columns name where
     samples are saved, otherwise samples is a list or array of samples.
     :param [list, numpy.array or str] conds: If data is provided, conds is the columns name where
     conditions are saved, otherwise conds is a list or array of conditions corresponding to samples.
-    :param [str or dict] cofactors: If data is provided, cofactors is a string (or list of strings) where
-    cofactors are saved, otherwise provide a dictionary with keys as cofactors names and values are lists
-    of cofacotrs corresponding to samples, defaults to None.
+    :param [str or dict] covariates: If data is provided, covariates is a string (or list of strings) where
+    covariates are saved, otherwise provide a dictionary with keys as covariates names and values are lists
+    of covariates corresponding to samples, defaults to None.
     :param anndata.Anndata or pandas.DataFrame data: A dataframe where samples and conditions are columns,
     if data is anndata, samples and conditions must be columns in adata.obs, defaults to None.
     :param bool or list reorder: Reorder columns of data matrix to match the list provided, defaults to False.
     :param bool or list reindex: Reorder rows of data matrix to match the list provided, defaults to False.
     :param bool intercept: If True, an intercept is added as first column in the design matrix, defaults to False
-    :param bool before_reindex: If True, cofactors are added to design matrix before reordering rows,
+    :param bool before_reindex: If True, covariates are added to design matrix before reordering rows,
     make sure that provided list match the samples, defaults to True.
     :raises TypeError: _description_
     :raises ValueError: _description_
@@ -192,29 +195,22 @@ def create_design(data, sample_col, conds_col, cofactors=None, conditions=None):
         raise TypeError("Only anndata objects and pandas dataframes are supported!")
     data = data.copy()
 
-    if cofactors is None:
-        cofactors = []
-
-    # Get conditions to use
-    if conditions is None:
-        conditions = data[conds_col].unique().tolist()
+    if covariates is None:
+        covariates = []
 
     # Build sample matrix
     cols = [sample_col, conds_col] if sample_col != conds_col else [conds_col]  # prevent duplicated columns
-    sample_info = data[cols + cofactors].drop_duplicates()
+    sample_info = data[cols + covariates].drop_duplicates()
     sample_info.sort_values(sample_col, inplace=True)
     sample_info.set_index(sample_col, drop=False, inplace=True)
 
-    # Subset to specific conditions
-    sample_info = sample_info[sample_info[conds_col].isin(conditions)]
-
     # build formula
-    formula = "~0 + " + " + ".join([conds_col] + cofactors)
+    formula = "~0 + " + " + ".join([conds_col] + covariates)
 
     # build design matrix
     design = dmatrix(formula, sample_info, return_type='dataframe')
 
     # Rename columns from "conds_col[cond]" to "cond"
-    design.columns = [col.replace(conds_col, "")[1:-1] if conds_col in col else col for col in design.columns]
+    design.columns = [re.match(".+\[(T\.){0,1}(.+)\]", col).group(2) for col in design.columns]
 
     return design

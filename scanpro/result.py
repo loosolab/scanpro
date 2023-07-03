@@ -31,7 +31,7 @@ class ScanproResult():
         design_melt = design.reset_index().melt(id_vars=sample_col, var_name=self.conds_col)
         design_melt = design_melt[design_melt["value"] == 1]
         design_melt = design_melt.drop(columns="value")
-        design_melt = design_melt.loc[:,~design_melt.columns.duplicated()].copy() # remove duplicate columns, e.g. if sample_col == conds_col
+        design_melt = design_melt.loc[:, ~design_melt.columns.duplicated()].copy()  # remove duplicate columns, e.g. if sample_col == conds_col
 
         # Subset conditions to those in all_conditions (to not include covariates in the plot)
         design_melt = design_melt[design_melt[self.conds_col].isin(self.all_conditions)]
@@ -60,7 +60,7 @@ class ScanproResult():
         simulated = True if hasattr(self, "sim_results") else False
         results = self.sim_results if simulated else self.results
         design = self.sim_design if simulated else self.design
-        conds_col = results.index.name
+        conds_col = self.conds_col
 
         # if no clusters are specified, plot all clusters
         if clusters is None:
@@ -96,6 +96,12 @@ class ScanproResult():
 
             prop_merged = pd.concat([prop_merged, prop_merged_simulated])
 
+        # Sort the dataframe by the order of the conditions in the design matrix
+        prop_merged.reset_index(drop=True, inplace=True)
+        column_order = {col: i for i, col in enumerate(self.design.columns)}
+        prop_merged["_order"] = prop_merged[conds_col].map(column_order)
+        prop_merged.sort_values(["_order", sample_col], inplace=True)  # first by condition order, then sample order
+
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
         n_rows = math.ceil(len(clusters) / n_columns)
@@ -122,7 +128,7 @@ class ScanproResult():
 
                 sns.stripplot(data=prop_merged, y=cluster, x=conds_col, jitter=True, ax=ax, alpha=0)  # initialize by plotting invisible points (alpha=0) to get the full axes limits
 
-                for simulated_bool in [True, False]:
+                for simulated_bool in [False, True]:
                     prop_table = prop_merged[prop_merged["simulated"] == simulated_bool]
 
                     if simulated_bool:
@@ -140,8 +146,9 @@ class ScanproResult():
                         sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
 
                     else:
-                        lw = 1 if simulated else 0   #original data is has a border, simulated data does not
-                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7, linewidth=lw)
+                        lw = 1 if simulated else 0   # original data is has a border, simulated data does not
+                        color = "black" if simulated else None  # original data is black, simulated data is colored
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7, linewidth=lw, color=color)
 
             elif kind == 'boxplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
