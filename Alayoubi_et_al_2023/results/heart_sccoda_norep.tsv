@@ -1,0 +1,17 @@
+Covariate	Cell Type	pct_credible_effect
+Condition[T.fetal]	Cardiomyocytes	100.0
+Condition[T.fetal]	Endothelial cells	0.0
+Condition[T.fetal]	Epicardial cells	0.0
+Condition[T.fetal]	Erythroid	0.0
+Condition[T.fetal]	Fibroblast	0.0
+Condition[T.fetal]	Immune cells	40.0
+Condition[T.fetal]	Neurons	0.0
+Condition[T.fetal]	Smooth muscle cells	0.0
+Condition[T.young]	Cardiomyocytes	0.0
+Condition[T.young]	Endothelial cells	0.0
+Condition[T.young]	Epicardial cells	0.0
+Condition[T.young]	Erythroid	0.0
+Condition[T.young]	Fibroblast	0.0
+Condition[T.young]	Immune cells	0.0
+Condition[T.young]	Neurons	0.0
+Condition[T.young]	Smooth muscle cells	0.0

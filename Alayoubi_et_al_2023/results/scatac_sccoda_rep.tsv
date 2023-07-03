@@ -1,0 +1,16 @@
+Covariate	Cell Type	credible_effect
+tissue[T.muscle]	Cardiomyocytes	True
+tissue[T.muscle]	Cardiomyocytes/Endothelial cells	True
+tissue[T.muscle]	Endocardial cells	True
+tissue[T.muscle]	Epicardial fat cells	False
+tissue[T.muscle]	Erythroblasts	True
+tissue[T.muscle]	Lymphatic endothelial cells	True
+tissue[T.muscle]	Lymphoid and Myeloid cells	True
+tissue[T.muscle]	Lymphoid cells	True
+tissue[T.muscle]	Myeloid cells	True
+tissue[T.muscle]	Satellite cells	True
+tissue[T.muscle]	Schwann cells	False
+tissue[T.muscle]	Skeletal muscle cells	True
+tissue[T.muscle]	Smooth muscle cells	False
+tissue[T.muscle]	Stromal cells	False
+tissue[T.muscle]	Vascular endothelial cells	False
