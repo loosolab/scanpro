@@ -111,7 +111,7 @@ def scanpro(data, clusters_col, conds_col,
         partially_repd = False
 
         # Check that sample names are unique across conditions; else change sample names to condition_sample
-        sample_info = data[[conds_col, samples_col]]
+        sample_info = data[[conds_col, samples_col]].drop_duplicates()
         samples = sample_info[samples_col].unique()
         if len(samples) != len(sample_info):
             logger.warning("Sample names are not unique across conditions! Changing sample names to <condition>_<sample>.")
@@ -180,8 +180,9 @@ def scanpro(data, clusters_col, conds_col,
         out = run_scanpro(data, clusters=clusters_col, samples=samples_col, conds=conds_col, covariates=covariates,
                           transform=transform, conditions=conditions, robust=robust, verbosity=verbosity)
 
-    # add baseline proportions as first column
-    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
+    # add baseline proportions as first column; only use cells in conditions
+    data_sub = data[data[conds_col].isin(conditions)]
+    baseline_props = data_sub[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
     baseline_props = baseline_props.reindex(out.results.index)  # reindex to match order of clusters in out.results
     out.results.insert(0, 'baseline_props', baseline_props.values)  # put baseline_props first
 
@@ -249,6 +250,11 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
     props_sub = props.loc[included_samples, :]
     prop_trans_sub = prop_trans.loc[included_samples, :]
 
+    # Remove celltypes not present in included samples
+    nonzero_idx = props_sub.sum(axis=0) != 0
+    props_sub = props_sub.loc[:, nonzero_idx]
+    prop_trans_sub = prop_trans_sub.loc[:, nonzero_idx]
+
     # run t-test / anova
     if len(conditions) == 2:
 
@@ -258,12 +264,12 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
         contrasts[1] = -1
         # the rest of the columns in design will be used as covariates
 
-        out = t_test(props_sub, prop_trans_sub, design_sub, contrasts, robust)
+        out = t_test(props_sub, prop_trans_sub, design_sub, contrasts, robust, verbosity)
 
     else:
         logger.info("There are more than 2 conditions. ANOVA will be performed...")
         coef = np.arange(len(conditions))
-        out = anova(props_sub, prop_trans_sub, design_sub, coef, robust)
+        out = anova(props_sub, prop_trans_sub, design_sub, coef, robust, verbosity)
 
     out.index.name = clusters
     logger.info("Done!")
@@ -357,6 +363,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
     F-statistics, p-values and adjusted p-values.
     """
+
     logger = ScanproLogger(verbosity)
 
     # check if there are less than 3 clusters
@@ -377,7 +384,10 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
     if len(contrasts) == 2:
         fit_prop = lm_fit(X=design, y=props)
         # z = np.array(list(map(lambda x: x**contrasts ,fit_prop['coefficients']))).T
-        z = (fit_prop['coefficients']**contrasts).T
+
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=RuntimeWarning)
+            z = (fit_prop['coefficients']**contrasts).T
         RR = np.prod(z, axis=0)
 
     # If confounding variables included in design matrix exclude them
@@ -385,7 +395,9 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
         design = design.iloc[:, np.where(contrasts != 0)[0]]
         fit_prop = lm_fit(X=design, y=props)
         new_cont = contrasts[contrasts != 0]
-        z = (fit_prop['coefficients']**new_cont).T
+        with warnings.catch_warnings():
+            warnings.filterwarnings("ignore", category=RuntimeWarning)
+            z = (fit_prop['coefficients']**new_cont).T
         RR = np.prod(z, axis=0)
 
     # adjust p_values using benjamin hochberg method
@@ -433,8 +445,6 @@ def sim_scanpro(data, clusters_col, conds_col,
     if type(data).__name__ == "AnnData":
         data = data.obs
 
-    n_conds = len(conditions)
-
     # get original counts and proportions
     counts, props, prop_trans = get_transformed_props(data, sample_col=conds_col,
                                                       cluster_col=clusters_col, transform=transform)
@@ -442,23 +452,21 @@ def sim_scanpro(data, clusters_col, conds_col,
     # get original design matrix
     design = create_design(data=data, sample_col=conds_col, conds_col=conds_col, covariates=covariates)
 
-    # initiate lists to save results
-    n_clusters = len(data[clusters_col].unique())
-    coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
-    p_values = np.zeros((n_sims, n_clusters))
-    counts_list = []
-    props_list = []
-    prop_trans_list = []
-    design_list = []
+    # Create subset of data only including conditions of interest
+    if conditions is not None:
+        data_sub = data[data[conds_col].isin(conditions)]
+    else:
+        data_sub = data
 
     logger.info(f'Generating {n_reps} replicates and running {n_sims} simulations...')
 
     # start timer
+    result_objects = []
     start = time.time()
     for i in range(n_sims):
 
         # generate replicates
-        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col)
+        rep_data = generate_reps(data=data_sub, n_reps=n_reps, sample_col=conds_col)
         samples_col = conds_col + "_replicates"
 
         # run propeller
@@ -466,58 +474,52 @@ def sim_scanpro(data, clusters_col, conds_col,
             out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
                                   conds=conds_col, transform=transform,
                                   conditions=conditions, robust=robust, verbosity=0)  # verbosity is 0 to prevent prints from individual simulations
+
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
             i -= 1
             continue
 
-        # save counts, props and prop_trans
-        counts_list.append(out_sim.counts)
-        props_list.append(out_sim.props)
-        prop_trans_list.append(out_sim.prop_trans)
-        design_list.append(out_sim.design)
+        # save results object
+        result_objects.append(out_sim)
 
-        # get adjusted p values for simulation
-        try:  # check if all clusters are simulated, if a cluster is missing, rerun simulation
-            p_values[i] = out_sim.results.iloc[:, -1].to_list()
-        except ValueError:
-            i -= 1
-            continue
-
-        # get coefficients estimates from linear model fit
-        for k, cluster in enumerate(out_sim.results.index):
-            for j, condition in enumerate(conditions):
-                coefficients[condition][i, k] = out_sim.results.iloc[k, j]
     # end timer
     end = time.time()
     elapsed = end - start
     logger.info(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
+
+    # Combine results from all simulations
+    combined_results = pd.concat([result_object.results.reset_index() for result_object in result_objects])
+
+    # Setup information for results
+    prop_columns = [col for col in combined_results.columns if 'mean_props' in col]
+    out = combined_results.groupby(clusters_col)[prop_columns + ["adjusted_p_values"]].median()
+    out.rename(columns={"adjusted_p_values": "p_values"}, inplace=True)
+
+    # Collect results from all simulations
+    design_list = [obj.design for obj in result_objects]
+    counts_list = [obj.counts for obj in result_objects]
+    props_list = [obj.props for obj in result_objects]
+    prop_trans_list = [obj.prop_trans for obj in result_objects]
+
+    # get coefficients estimates from linear model fit
+    n_clusters = len(data[clusters_col].unique())
+    coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
+    for obj in result_objects:
+        for k, cluster in enumerate(obj.results.index):
+            for j, condition in enumerate(conditions):
+                coefficients[condition][i, k] = obj.results.iloc[k, j]
 
     # save design matrix
     # make sure to include all simulations as some clusters may be missing in some simulations
     design_sim = pd.concat(design_list)
     design_sim = design_sim[~design_sim.index.duplicated(keep='first')].sort_index()  # remove all but first occurence of index
 
-    # combine coefficients
-    combined_coefs = combine(fit=coefficients, conds=conditions, n_clusters=n_clusters, n_conds=n_conds, n_sims=n_sims)
-
     # get mean counts, proportions and transformed proportions from all simulations
     counts_mean = get_mean_sim(counts_list)
     props_mean = get_mean_sim(props_list)
     prop_trans_mean = get_mean_sim(prop_trans_list)
-
-    # Setup information for results
-    res = {}
-    res[conds_col] = list(counts.columns)
-    for i, condition in enumerate(coefficients.keys()):
-        res['mean_props_' + condition] = combined_coefs[i]
-
-    # calculate median of p values from all runs
-    res['p_values'] = np.median(p_values, axis=0)
-
-    # create dataframe for results
-    out = pd.DataFrame(res).set_index(conds_col)
 
     # create scanpro object
     with warnings.catch_warnings():
