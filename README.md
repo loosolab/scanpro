@@ -3,7 +3,7 @@ Scanpro offers a python implementation of the propeller method [(Phipson et al.,
 across different conditions from single cell clustering data. Scanpro also supports datasets without replicates by simulating artificial replicates using bootstrapping, and integrates seamlessly into existing frameworks using the AnnData format.
 
 
-<img align="middle" height=300 width=500 src="docs/source/figures/scanpro_workflow.png">
+<img align="middle" height=300 width=750 src="docs/source/figures/scanpro_workflow.png">
 
 ## Install
 To install scanpro: 
