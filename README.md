@@ -2,7 +2,8 @@
 Scanpro offers a python implementation of the propeller method [(Phipson et al., 2022)](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456) to test the significance of changes in cell proportions
 across different conditions from single cell clustering data. Scanpro also supports datasets without replicates by simulating artificial replicates using bootstrapping, and integrates seamlessly into existing frameworks using the AnnData format.
 
-![](docs/source/figures/scanpro_workflow.png)
+
+<img align="middle" height=300 width=500 src="docs/_figures/tfcomb_logo.png">
 
 ## Install
 To install scanpro: 
