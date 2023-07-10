@@ -184,6 +184,7 @@ def scanpro(data, clusters_col, conds_col,
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
     baseline_props = baseline_props.reindex(out.results.index)  # reindex to match order of clusters in out.results
     out.results.insert(0, 'baseline_props', baseline_props.values)  # put baseline_props first
+    out.results.index.names = ['clusters']  # rename index column
 
     # add conditions to object
     out.conds_col = conds_col
