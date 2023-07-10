@@ -233,7 +233,7 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     # generate sample proportions
     true_p = np.zeros((len(props), total_reps))  # for each condition we will generate n_reps samples
-    cluster_names = ['c' + str(i) for i in range(1, len(props) + 1)]
+    clusters_names = ['c' + str(i) for i in range(1, len(props) + 1)]
 
     if isinstance(a, int) or isinstance(a, float):
         a = [a]
@@ -252,8 +252,13 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     counts_sim = counts_sim.T
     samples_names = ['S' + str(i) for i in range(1, total_reps + 1)]
+    conds_names = np.repeat([f"cond_{i}" for i in range(1, n_conds + 1)], total_reps / n_conds)
 
-    return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=pd.Index(cluster_names))
+    counts = pd.DataFrame(counts_sim, columns=pd.Index(clusters_names))
+    counts["samples"] = samples_names
+    counts["group"] = conds_names
+
+    return counts
 
 
 def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
@@ -302,8 +307,12 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
         counts_sim[i, :] = binom.rvs(n=num_cells, p=true_p[i, :], size=total_reps)
 
     counts_sim = counts_sim.T
+    counts = pd.DataFrame(counts_sim, columns=clusters_names)
+    counts["samples"] = samples_names
+    conds_names = np.repeat([f"cond_{i}" for i in range(1, n_conds + 1)], total_reps / n_conds)
+    counts["group"] = conds_names
 
-    return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=clusters_names)
+    return counts
 
 
 
