@@ -180,11 +180,27 @@ def scanpro(data, clusters_col, conds_col,
         out = run_scanpro(data, clusters=clusters_col, samples=samples_col, conds=conds_col, covariates=covariates,
                           transform=transform, conditions=conditions, robust=robust, verbosity=verbosity)
 
-    # add baseline proportions as first column; only use cells in conditions
-    data_sub = data[data[conds_col].isin(conditions)]
-    baseline_props = data_sub[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
+    # Add additional clusters not included due to 0-counts in samples
+    all_clusters = data[clusters_col].unique()
+    missing_clusters = set(all_clusters) - set(out.results.index.unique())
+
+    zero_rows = pd.DataFrame(np.nan, index=list(missing_clusters), columns=out.results.columns)
+    out.results = pd.concat([out.results, zero_rows])
+    for col in out.results.columns:
+        if "p_values" in col:
+            out.results[col].fillna(1, inplace=True)
+        elif "mean_props" in col:
+            out.results[col].fillna(0, inplace=True)
+        elif "prop_ratio" in col:
+            out.results[col].fillna(0, inplace=True)
+
+    # add baseline proportions as first column
+    baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
     baseline_props = baseline_props.reindex(out.results.index)  # reindex to match order of clusters in out.results
     out.results.insert(0, 'baseline_props', baseline_props.values)  # put baseline_props first
+
+    # Sort by p-values (small to large)
+    out.results.sort_values(out.results.columns[-1])
 
     # add conditions to object
     out.conds_col = conds_col
@@ -451,13 +467,6 @@ def sim_scanpro(data, clusters_col, conds_col,
 
     # get original design matrix
     design = create_design(data=data, sample_col=conds_col, conds_col=conds_col, covariates=covariates)
-
-    # Create subset of data only including conditions of interest
-    if conditions is not None:
-        data_sub = data[data[conds_col].isin(conditions)]
-    else:
-        data_sub = data
-
     logger.info(f'Generating {n_reps} replicates and running {n_sims} simulations...')
 
     # start timer
@@ -466,7 +475,7 @@ def sim_scanpro(data, clusters_col, conds_col,
     for i in range(n_sims):
 
         # generate replicates
-        rep_data = generate_reps(data=data_sub, n_reps=n_reps, sample_col=conds_col)
+        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col)
         samples_col = conds_col + "_replicates"
 
         # run propeller
