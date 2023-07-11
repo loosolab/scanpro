@@ -1,0 +1,113 @@
+	tool	pct_sig	cluster	method
+0	scanpro	0.37	Cardiomyocytes	logit_4_reps
+1	scanpro	0.0	Endothelial cells	logit_4_reps
+2	scanpro	0.01	Epicardial cells	logit_4_reps
+3	scanpro	0.46	Fibroblast	logit_4_reps
+4	scanpro	0.03	Immune cells	logit_4_reps
+5	scanpro	0.05	Neurons	logit_4_reps
+6	scanpro	0.44	Smooth muscle cells	logit_4_reps
+7	scanpro	0.38	Cardiomyocytes	arcsin_4_reps
+8	scanpro	0.02	Endothelial cells	arcsin_4_reps
+9	scanpro	0.01	Epicardial cells	arcsin_4_reps
+10	scanpro	0.53	Fibroblast	arcsin_4_reps
+11	scanpro	0.02	Immune cells	arcsin_4_reps
+12	scanpro	0.01	Neurons	arcsin_4_reps
+13	scanpro	0.19	Smooth muscle cells	arcsin_4_reps
+14	scanpro	0.82	Cardiomyocytes	logit_8_reps
+15	scanpro	0.03	Endothelial cells	logit_8_reps
+16	scanpro	0.04	Epicardial cells	logit_8_reps
+17	scanpro	0.88	Fibroblast	logit_8_reps
+18	scanpro	0.04	Immune cells	logit_8_reps
+19	scanpro	0.06	Neurons	logit_8_reps
+20	scanpro	0.85	Smooth muscle cells	logit_8_reps
+21	scanpro	0.83	Cardiomyocytes	arcsin_8_reps
+22	scanpro	0.04	Endothelial cells	arcsin_8_reps
+23	scanpro	0.03	Epicardial cells	arcsin_8_reps
+24	scanpro	0.91	Fibroblast	arcsin_8_reps
+25	scanpro	0.03	Immune cells	arcsin_8_reps
+26	scanpro	0.03	Neurons	arcsin_8_reps
+27	scanpro	0.75	Smooth muscle cells	arcsin_8_reps
+28	scanpro	0.83	Cardiomyocytes	logit_10_reps
+29	scanpro	0.01	Endothelial cells	logit_10_reps
+30	scanpro	0.03	Epicardial cells	logit_10_reps
+31	scanpro	0.97	Fibroblast	logit_10_reps
+32	scanpro	0.08	Immune cells	logit_10_reps
+33	scanpro	0.02	Neurons	logit_10_reps
+34	scanpro	0.89	Smooth muscle cells	logit_10_reps
+35	scanpro	0.84	Cardiomyocytes	arcsin_10_reps
+36	scanpro	0.04	Endothelial cells	arcsin_10_reps
+37	scanpro	0.03	Epicardial cells	arcsin_10_reps
+38	scanpro	0.96	Fibroblast	arcsin_10_reps
+39	scanpro	0.04	Immune cells	arcsin_10_reps
+40	scanpro	0.02	Neurons	arcsin_10_reps
+41	scanpro	0.77	Smooth muscle cells	arcsin_10_reps
+42	scanpro	0.99	Cardiomyocytes	logit_20_reps
+43	scanpro	0.01	Endothelial cells	logit_20_reps
+44	scanpro	0.04	Epicardial cells	logit_20_reps
+45	scanpro	1.0	Fibroblast	logit_20_reps
+46	scanpro	0.03	Immune cells	logit_20_reps
+47	scanpro	0.04	Neurons	logit_20_reps
+48	scanpro	1.0	Smooth muscle cells	logit_20_reps
+49	scanpro	0.99	Cardiomyocytes	arcsin_20_reps
+50	scanpro	0.03	Endothelial cells	arcsin_20_reps
+51	scanpro	0.01	Epicardial cells	arcsin_20_reps
+52	scanpro	1.0	Fibroblast	arcsin_20_reps
+53	scanpro	0.03	Immune cells	arcsin_20_reps
+54	scanpro	0.02	Neurons	arcsin_20_reps
+55	scanpro	1.0	Smooth muscle cells	arcsin_20_reps
+56	scanpro_norep	0.97	Cardiomyocytes	logit_4_reps
+57	scanpro_norep	0.43	Endothelial cells	logit_4_reps
+58	scanpro_norep	0.53	Epicardial cells	logit_4_reps
+59	scanpro_norep	0.97	Fibroblast	logit_4_reps
+60	scanpro_norep	0.71	Immune cells	logit_4_reps
+61	scanpro_norep	0.46	Neurons	logit_4_reps
+62	scanpro_norep	0.94	Smooth muscle cells	logit_4_reps
+63	scanpro_norep	0.99	Cardiomyocytes	arcsin_4_reps
+64	scanpro_norep	0.42	Endothelial cells	arcsin_4_reps
+65	scanpro_norep	0.51	Epicardial cells	arcsin_4_reps
+66	scanpro_norep	0.97	Fibroblast	arcsin_4_reps
+67	scanpro_norep	0.7	Immune cells	arcsin_4_reps
+68	scanpro_norep	0.35	Neurons	arcsin_4_reps
+69	scanpro_norep	0.89	Smooth muscle cells	arcsin_4_reps
+70	scanpro_norep	1.0	Cardiomyocytes	logit_8_reps
+71	scanpro_norep	0.09	Endothelial cells	logit_8_reps
+72	scanpro_norep	0.18	Epicardial cells	logit_8_reps
+73	scanpro_norep	1.0	Fibroblast	logit_8_reps
+74	scanpro_norep	0.44	Immune cells	logit_8_reps
+75	scanpro_norep	0.02	Neurons	logit_8_reps
+76	scanpro_norep	0.83	Smooth muscle cells	logit_8_reps
+77	scanpro_norep	1.0	Cardiomyocytes	arcsin_8_reps
+78	scanpro_norep	0.0	Endothelial cells	arcsin_8_reps
+79	scanpro_norep	0.08	Epicardial cells	arcsin_8_reps
+80	scanpro_norep	0.99	Fibroblast	arcsin_8_reps
+81	scanpro_norep	0.16	Immune cells	arcsin_8_reps
+82	scanpro_norep	0.0	Neurons	arcsin_8_reps
+83	scanpro_norep	0.3	Smooth muscle cells	arcsin_8_reps
+84	scanpro_norep	0.99	Cardiomyocytes	logit_10_reps
+85	scanpro_norep	0.03	Endothelial cells	logit_10_reps
+86	scanpro_norep	0.09	Epicardial cells	logit_10_reps
+87	scanpro_norep	1.0	Fibroblast	logit_10_reps
+88	scanpro_norep	0.23	Immune cells	logit_10_reps
+89	scanpro_norep	0.0	Neurons	logit_10_reps
+90	scanpro_norep	0.55	Smooth muscle cells	logit_10_reps
+91	scanpro_norep	0.99	Cardiomyocytes	arcsin_10_reps
+92	scanpro_norep	0.0	Endothelial cells	arcsin_10_reps
+93	scanpro_norep	0.0	Epicardial cells	arcsin_10_reps
+94	scanpro_norep	0.97	Fibroblast	arcsin_10_reps
+95	scanpro_norep	0.02	Immune cells	arcsin_10_reps
+96	scanpro_norep	0.0	Neurons	arcsin_10_reps
+97	scanpro_norep	0.04	Smooth muscle cells	arcsin_10_reps
+98	scanpro_norep	0.97	Cardiomyocytes	logit_20_reps
+99	scanpro_norep	0.0	Endothelial cells	logit_20_reps
+100	scanpro_norep	0.01	Epicardial cells	logit_20_reps
+101	scanpro_norep	1.0	Fibroblast	logit_20_reps
+102	scanpro_norep	0.05	Immune cells	logit_20_reps
+103	scanpro_norep	0.0	Neurons	logit_20_reps
+104	scanpro_norep	0.17	Smooth muscle cells	logit_20_reps
+105	scanpro_norep	0.6	Cardiomyocytes	arcsin_20_reps
+106	scanpro_norep	0.0	Endothelial cells	arcsin_20_reps
+107	scanpro_norep	0.0	Epicardial cells	arcsin_20_reps
+108	scanpro_norep	0.65	Fibroblast	arcsin_20_reps
+109	scanpro_norep	0.0	Immune cells	arcsin_20_reps
+110	scanpro_norep	0.0	Neurons	arcsin_20_reps
+111	scanpro_norep	0.0	Smooth muscle cells	arcsin_20_reps
