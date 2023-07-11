@@ -27,5 +27,4 @@ class ScanproLogger(logging.Logger):
         if verbosity not in self.verbosity_levels:
             raise ValueError(f"Invalid verbosity level: {verbosity}. Verbosity must be 0, 1 or 2.")
 
-        for h in self.handlers:
-            h.setLevel(self.verbosity_levels[verbosity])
+        self.setLevel(self.verbosity_levels[verbosity])

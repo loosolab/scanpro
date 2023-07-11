@@ -21,18 +21,19 @@ def get_transformed_props(data, sample_col='sample', cluster_col='cluster', tran
 
     # get counts for each cluster in each sample
     counts = pd.crosstab(index=data[sample_col], columns=data[cluster_col])
+    props = counts.div(counts.sum(axis=1), axis=0)
 
     # true proportions for each cluster in each sample -> counts(cluster_in_sample)/sum(counts_in_sample)
-    props = counts.div(counts.sum(axis=1), axis=0)
+    pseudo_counts = counts + 0.01
+    # pseudo_counts = counts + 0.5  # to avoid "f(a) and f(b) must have different signs" error
+    pseudo_props = pseudo_counts.div(pseudo_counts.sum(axis=1), axis=0)
 
     # transform props
     if transform == 'logit':
-        pseudo_counts = counts + 0.5  # to avoid "f(a) and f(b) must have different signs" error
-        pseudo_props = pseudo_counts.div(pseudo_counts.sum(axis=1), axis=0)
         prop_trans = np.log(pseudo_props / (1 - pseudo_props))
 
     elif transform == 'arcsin':
-        prop_trans = np.arcsin(np.sqrt(props))
+        prop_trans = np.arcsin(np.sqrt(pseudo_props))
 
     return counts, props, prop_trans
 

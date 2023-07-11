@@ -6,6 +6,7 @@ import seaborn as sns
 import pandas as pd
 import math
 import numpy as np
+import itertools
 from statannotations.Annotator import Annotator
 
 
@@ -64,7 +65,7 @@ class ScanproResult():
 
         # if no clusters are specified, plot all clusters
         if clusters is None:
-            clusters = self.props.columns.tolist()
+            clusters = self.results.index.tolist()
         else:
             if not isinstance(clusters, list):
                 clusters = [clusters]
@@ -79,6 +80,7 @@ class ScanproResult():
         # get p_values of clusters
         p_values = results.loc[clusters].iloc[:, -1].to_list()   # the last column contains the p_values
         p_values_fmt = [str(round(p, 3)) if p > 0.001 else f"{p:.2e}" for p in p_values]  # format to scientific notation for small p-values
+        p_values_fmt = ["0.0" if p == "0.00e+00" else p for p in p_values_fmt]  # format 0-values
 
         # Collect props for original data
         sample_col = design.index.name
@@ -128,7 +130,7 @@ class ScanproResult():
 
                 sns.stripplot(data=prop_merged, y=cluster, x=conds_col, jitter=True, ax=ax, alpha=0)  # initialize by plotting invisible points (alpha=0) to get the full axes limits
 
-                for simulated_bool in [False, True]:
+                for simulated_bool in prop_merged["simulated"].unique():
                     prop_table = prop_merged[prop_merged["simulated"] == simulated_bool]
 
                     if simulated_bool:
@@ -142,17 +144,24 @@ class ScanproResult():
 
                         ax2.set_ylim(ax.get_ylim())  # set ylims to be the same as in the first axes
                         ax2.set_yticks([])  # remove yticks
+                        ax2.set_ylabel("")  # remove ylabel
                         axes2.append(ax2)
-                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax2, marker=marker, size=7)
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax2, marker=marker, size=7)
 
+                        if legend is False:
+                            ax2.legend_.remove()  # using legend=False in sns.stripplot only exists from seaborn>=0.12.0
                     else:
                         lw = 1 if simulated else 0   # original data is has a border, simulated data does not
                         color = "black" if simulated else None  # original data is black, simulated data is colored
-                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, legend=legend, jitter=True, ax=ax, marker="o", size=7, linewidth=lw, color=color)
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax, marker="o", size=7, linewidth=lw, color=color)
+
+                        if legend is False:
+                            ax.legend_.remove()  # using legend=False in sns.stripplot only exists from seaborn>=0.12.0
 
             elif kind == 'boxplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
                 sns.boxplot(data=prop_table, y=cluster, x=conds_col, color="white", showfliers=False, ax=ax)
+
             elif kind == 'barplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
                 sns.barplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, ax=ax)
@@ -162,21 +171,37 @@ class ScanproResult():
             ax.set(ylabel='Proportions')
             ax.set_xticks(ax.get_xticks(), ax.get_xticklabels(), rotation=45, ha='right', rotation_mode='anchor')
 
+            # check number of compared conditions
+            n_conds = len(self.all_conditions)
+            n_compared_conds = len(self.conditions)
+            labels = [label.get_text() for label in ax.get_xticklabels() if label.get_text() in self.conditions]
+
             # get p-value as string
             p_value = f"p={p_values_fmt[i]}"
-            # check number of compared conditions
-            n_compared_conds = len(self.conditions)
+            if n_compared_conds > 2:
+                p_value = "ANOVA " + p_value
+            else:
+                p_value = "t-test " + p_value
+
+            # Collect pairs to compare
             if n_compared_conds == 2:
                 # pairs to plot p values
-                pairs = [(self.conditions[0], self.conditions[-1])]
+                pairs = [(labels[0], labels[-1])]
                 line_width = 1.5
+                pvalues = [p_value]
+
+            elif n_compared_conds < n_conds:
+
+                # choose comparison of first and last label of labels to have p-value in the centre
+                pairs = [(labels[0], labels[-1])] + list(itertools.combinations(labels[:-1], 2))
+                pvalues = [p_value] + [""] * (len(pairs) - 1)
+                line_width = 1.5
+
             else:
-                # get x axis labels from plot
-                labels = [label.get_text() for label in ax.get_xticklabels()]
                 # choose first and last label to have p-value in the centre
                 pairs = [(labels[0], labels[-1])]
-                # if more than 2 conditions, don't plot horizontal bar
-                line_width = 0
+                pvalues = [p_value]
+                line_width = 0  # if comparing all conditions,  don't plot horizontal bar
 
             # get y-axis with maximum value plotted
             max_prop = prop_merged.groupby("simulated")[cluster].max().sort_values(ascending=False)
@@ -189,8 +214,15 @@ class ScanproResult():
             annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x=conds_col, verbose=False)
             (annot
              .configure(test=None, line_width=line_width, verbose=False)
-             .set_custom_annotations([p_value])
+             .set_custom_annotations(pvalues)
              .annotate())
+            
+            # If more than one contrast; move all pairs to the same level
+            if len(pairs) > 1:
+                top_y = ax_p._children[-2]._y
+                for element in ax_p._children:
+                    if type(element).__name__ == "Line2D":
+                        element.set_ydata(top_y)
 
             # If stripplot and simulated, adjust y limit to be the same for both axes (original and simulated data)
             if ax2 is not None:
@@ -200,6 +232,7 @@ class ScanproResult():
 
                 ax.set_ylim(new_ylim)
                 ax2.set_ylim(new_ylim)
+                ax2.set_ylabel("")
 
         plt.subplots_adjust(wspace=0.5, hspace=0.6)
 
