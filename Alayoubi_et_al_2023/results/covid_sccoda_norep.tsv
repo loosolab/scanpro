@@ -1,0 +1,21 @@
+Covariate	Cell Type	pct_credible_effect
+group[T.M]	B	10.0
+group[T.M]	Epithelial	10.0
+group[T.M]	Macrophages	10.0
+group[T.M]	Mast	0.0
+group[T.M]	NK	0.0
+group[T.M]	Neutrophil	0.0
+group[T.M]	Plasma	0.0
+group[T.M]	T	20.0
+group[T.M]	mDC	0.0
+group[T.M]	pDC	10.0
+group[T.S]	B	10.0
+group[T.S]	Epithelial	0.0
+group[T.S]	Macrophages	0.0
+group[T.S]	Mast	0.0
+group[T.S]	NK	10.0
+group[T.S]	Neutrophil	10.0
+group[T.S]	Plasma	10.0
+group[T.S]	T	10.0
+group[T.S]	mDC	10.0
+group[T.S]	pDC	10.0

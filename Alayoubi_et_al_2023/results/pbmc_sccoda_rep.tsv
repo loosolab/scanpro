@@ -1,6 +1,6 @@
 Covariate	Cell Type	credible_effect
-Sex[T.male]	BC	False
+Sex[T.male]	BC	True
 Sex[T.male]	DC	False
-Sex[T.male]	MC	False
-Sex[T.male]	NK	True
+Sex[T.male]	MC	True
+Sex[T.male]	NK	False
 Sex[T.male]	TC	True

@@ -1,9 +1,9 @@
-	scanpro	scanpro_norep
-logit_4_reps	18.0	6.0
+	rep	norep
+logit_4_reps	18.0	9.0
 arcsin_4_reps	9.0	7.000000000000001
-logit_8_reps	59.0	31.0
-arcsin_8_reps	54.0	18.0
-logit_10_reps	62.0	31.0
-arcsin_10_reps	55.00000000000001	4.0
-logit_20_reps	88.0	17.0
-arcsin_20_reps	91.0	0.0
+logit_8_reps	59.0	14.000000000000002
+arcsin_8_reps	54.0	36.0
+logit_10_reps	63.0	4.0
+arcsin_10_reps	55.00000000000001	24.0
+logit_20_reps	88.0	1.0
+arcsin_20_reps	91.0	7.000000000000001

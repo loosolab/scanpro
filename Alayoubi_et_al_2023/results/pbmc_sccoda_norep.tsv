@@ -1,6 +1,6 @@
 Covariate	Cell Type	pct_credible_effect
-Sex[T.male]	BC	10.0
+Sex[T.male]	BC	30.0
 Sex[T.male]	DC	20.0
 Sex[T.male]	MC	0.0
-Sex[T.male]	NK	80.0
-Sex[T.male]	TC	60.0
+Sex[T.male]	NK	60.0
+Sex[T.male]	TC	50.0
