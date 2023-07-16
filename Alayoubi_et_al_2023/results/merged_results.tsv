@@ -255,333 +255,267 @@
 253	pbmc	sccoda	rep		Monocytes				False	0.0	False	
 254	pbmc	sccoda	rep		NK cells				True	1.0	True	
 255	pbmc	sccoda	rep		T cells				False	0.0	False	
-256	scatac	scanpro	norep		Astrocytes	0.0187750704008547	0.0	2.4360712405635527e-10	True	9.613310015328473		
-257	scatac	scanpro	norep		Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.5551222477047405e-07	True	6.808235465533102		
-258	scatac	scanpro	norep		Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		
-259	scatac	scanpro	norep		Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	3.975455172716632e-06	True	5.400613139288766		
-260	scatac	scanpro	norep		Chromaffin cells	0.0017113519680547	0.0	0.0001602105548954	True	3.795308875381444		
-261	scatac	scanpro	norep		ENS glia	0.0028228252700585	0.0389924893753926	1.8929605456659527e-09	True	8.722858437794327		
-262	scatac	scanpro	norep		ENS neurons	0.0048624127346317	0.0	1.958178505130229e-07	True	6.708147720980554		
-263	scatac	scanpro	norep		Endocardial cells	0.0081289218482601	0.0	2.34885240689467e-06	True	5.629144271806914		
-264	scatac	scanpro	norep		Epicardial fat cells	0.0008285116670741	0.0	0.0471481037695006	True	1.326535769289379		
-265	scatac	scanpro	norep		Epithelial cells	0.0012903050552793	0.1583044659478941	2.0083506617011675e-11	True	10.697160456294965		
-266	scatac	scanpro	norep		Erythroblasts	0.3068594427693115	0.0	0.0	True	20.0		
-267	scatac	scanpro	norep		Excitatory neurons	0.1103165548402285	0.0	0.0	True	20.0		
-268	scatac	scanpro	norep		Goblet cells	0.0027209590814838	0.3482744000023084	1.2212453270876722e-15	True	14.91319708503278		
-269	scatac	scanpro	norep		Hematopoietic stem cells	0.0033004645098199	0.0	0.0258122022096684	True	1.588174941341172		
-270	scatac	scanpro	norep		Hepatoblasts	0.0958447649833845	0.0	2.640106620716523e-12	True	11.5783785337916		
-271	scatac	scanpro	norep		Inhibitory neurons	0.0280630031057869	0.0	5.88578075166879e-12	True	11.230195919625782		
-272	scatac	scanpro	norep		Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		
-273	scatac	scanpro	norep		Limbic system neurons	0.0044164651979825	0.0	6.379947058731089e-05	True	4.195182925071369		
-274	scatac	scanpro	norep		Lymphatic endothelial cells	0.0021052345638768	0.0	0.00040356669445	True	3.3940846824089252		
-275	scatac	scanpro	norep		Lymphoid and Myeloid cells	0.0018652830974565	0.0	3.465162130553145e-06	True	5.460276440487298		
-276	scatac	scanpro	norep		Lymphoid cells	0.0446241816749517	0.0	0.0	True	20.0		
-277	scatac	scanpro	norep		Megakaryocytes	0.0049869158540008	0.0	0.0033329206466105	True	2.4771750263182994		
-278	scatac	scanpro	norep		Mesothelial cells	0.0004074647542987	0.0	0.0332820928692187	True	1.4777893718952955		
-279	scatac	scanpro	norep		Myeloid cells	0.0307251061672054	0.0	2.351253451197503e-12	True	11.628700553978542		
-280	scatac	scanpro	norep		Parietal and chief cells	0.0011544834705131	0.1376931254806968	3.463210316813668e-11	True	10.460521133440981		
-281	scatac	scanpro	norep		SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	4.585368874068487e-06	True	5.338625721383584		
-282	scatac	scanpro	norep		Satellite cells	0.0117689403199956	0.0	1.1334319726161302e-12	True	11.945604540649077		
-283	scatac	scanpro	norep		Schwann cells	0.0035811624516701	0.0	4.1250187469144e-07	True	6.3845740733775775		
-284	scatac	scanpro	norep		Skeletal muscle cells	0.0163483914196977	0.0	5.037636974236648e-15	True	14.297773132146835		
-285	scatac	scanpro	norep		Smooth muscle cells	0.0103858238484593	0.0	1.2088069434312843e-10	True	9.917643054058482		
-286	scatac	scanpro	norep		Stellate cells	0.0188497722724762	0.0	1.2005818564722296e-05	True	4.920608224109857		
-287	scatac	scanpro	norep		Stromal cells	0.0577920843180398	0.2179757981241648	0.0	True	20.0		
-288	scatac	scanpro	norep		Vascular endothelial cells	0.0402643088039551	0.062434297811252	0.2254967513744644	False	0.6468597104170922		
-289	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
-290	scatac	scanpro	norep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	1.2206489863331174e-07	True	6.913409205191102		heart-intestine-muscle
-291	scatac	scanpro	norep	arcsin	Chromaffin cells	0.0017113519680547	0.0	0.0001255994530984	True	3.9010122516566583		heart-intestine-muscle
-292	scatac	scanpro	norep	arcsin	ENS glia	0.0028228252700585	0.0	9.346404399630208e-07	True	6.02935543187919		heart-intestine-muscle
-293	scatac	scanpro	norep	arcsin	ENS neurons	0.0048624127346317	0.0	6.020041806323714e-09	True	8.220400492763329		heart-intestine-muscle
-294	scatac	scanpro	norep	arcsin	Endocardial cells	0.0081289218482601	0.0	2.280910190325787e-07	True	6.6418918145102		heart-intestine-muscle
-295	scatac	scanpro	norep	arcsin	Epicardial fat cells	0.0008285116670741	0.0	0.0559599598153007	False	1.2521226060458182		heart-intestine-muscle
-296	scatac	scanpro	norep	arcsin	Erythroblasts	0.3068594427693115	0.0	2.221111522112314e-06	True	5.653429634958035		heart-intestine-muscle
-297	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		heart-intestine-muscle
-298	scatac	scanpro	norep	arcsin	Lymphatic endothelial cells	0.0021052345638768	0.0	0.0185992727602926	True	1.730504036554478		heart-intestine-muscle
-299	scatac	scanpro	norep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	0.0340126116490268	4.790487961561476e-07	True	6.319620246873521		heart-intestine-muscle
-300	scatac	scanpro	norep	arcsin	Lymphoid cells	0.0446241816749517	0.0	2.623375590834106e-11	True	10.581139526661135		heart-intestine-muscle
-301	scatac	scanpro	norep	arcsin	Mesothelial cells	0.0004074647542987	0.0	0.0644775456944631	False	1.1905915020906461		heart-intestine-muscle
-302	scatac	scanpro	norep	arcsin	Myeloid cells	0.0307251061672054	0.0	1.3448911025855844e-05	True	4.8713128795729705		heart-intestine-muscle
-303	scatac	scanpro	norep	arcsin	Satellite cells	0.0117689403199956	0.2344040115364345	0.0	True	20.0		heart-intestine-muscle
-304	scatac	scanpro	norep	arcsin	Schwann cells	0.0035811624516701	0.0315261883190866	5.797394198873522e-05	True	4.236767168393241		heart-intestine-muscle
-305	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0163483914196977	0.3250901485511064	0.0	True	20.0		heart-intestine-muscle
-306	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0103858238484593	0.0327719746650299	0.3281351725022872	False	0.483947215499474		heart-intestine-muscle
-307	scatac	scanpro	norep	arcsin	Stromal cells	0.0577920843180398	0.2257812125115817	0.1887729889080805	False	0.7240601477889831		heart-intestine-muscle
-308	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0402643088039551	0.0813506878569945	0.0057197553279737	True	2.242622548476833		heart-intestine-muscle
-309	scatac	scanpro	norep	arcsin	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-intestine-muscle
-310	scatac	scanpro	norep	arcsin	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-intestine-muscle
-311	scatac	scanpro	norep	arcsin	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-intestine-muscle
-312	scatac	scanpro	norep	arcsin	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-intestine-muscle
-313	scatac	scanpro	norep	arcsin	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-intestine-muscle
-314	scatac	scanpro	norep	arcsin	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-intestine-muscle
-315	scatac	scanpro	norep	arcsin	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-intestine-muscle
-316	scatac	scanpro	norep	arcsin	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-intestine-muscle
-317	scatac	scanpro	norep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-intestine-muscle
-318	scatac	scanpro	norep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-intestine-muscle
-319	scatac	scanpro	norep	arcsin	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-intestine-muscle
-320	scatac	scanpro	norep	arcsin	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-intestine-muscle
-321	scatac	scanpro	norep	arcsin	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-intestine-muscle
-322	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.1019861643078984	0.0	3.8403969928935617e-11	True	10.415623879040966		heart-muscle
-323	scatac	scanpro	norep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0015576244757021	True	2.8075372371564584		heart-muscle
-324	scatac	scanpro	norep	arcsin	Endocardial cells	0.0081289218482601	0.0	0.0014392823448439	True	2.841854001907998		heart-muscle
-325	scatac	scanpro	norep	arcsin	Epicardial fat cells	0.0008285116670741	0.0	0.1085671431746509	False	0.9643015900049522		heart-muscle
-326	scatac	scanpro	norep	arcsin	Erythroblasts	0.3068594427693115	0.0	0.0035112140180701	True	2.4545426982947935		heart-muscle
-327	scatac	scanpro	norep	arcsin	Lymphatic endothelial cells	0.0021052345638768	0.0	0.1049324686991341	False	0.9790901095657548		heart-muscle
-328	scatac	scanpro	norep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	0.0340126116490268	0.002691120318474	True	2.570066884740446		heart-muscle
-329	scatac	scanpro	norep	arcsin	Lymphoid cells	0.0446241816749517	0.0	0.0005933250162145	True	3.22670734022672		heart-muscle
-330	scatac	scanpro	norep	arcsin	Myeloid cells	0.0307251061672054	0.0	0.0028473190234132	True	2.545563870279864		heart-muscle
-331	scatac	scanpro	norep	arcsin	Satellite cells	0.0117689403199956	0.2344040115364345	3.971218327070201e-06	True	5.401076235918902		heart-muscle
-332	scatac	scanpro	norep	arcsin	Schwann cells	0.0035811624516701	0.0315261883190866	0.079593594532434	False	1.0991218816486752		heart-muscle
-333	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0163483914196977	0.3250901485511064	2.58124395635184e-07	True	6.588170947842572		heart-muscle
-334	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0103858238484593	0.0327719746650299	0.3487122484764618	False	0.45753279781382694		heart-muscle
-335	scatac	scanpro	norep	arcsin	Stromal cells	0.0577920843180398	0.2257812125115817	0.141087040382508	False	0.8505128767406989		heart-muscle
-336	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0402643088039551	0.0813506878569945	0.1988357531317851	False	0.7015055213886402		heart-muscle
-337	scatac	scanpro	norep	arcsin	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-muscle
-338	scatac	scanpro	norep	arcsin	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-muscle
-339	scatac	scanpro	norep	arcsin	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-muscle
-340	scatac	scanpro	norep	arcsin	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-muscle
-341	scatac	scanpro	norep	arcsin	Chromaffin cells	0.0017113519680547	0.0	1.0	False	-0.0		heart-muscle
-342	scatac	scanpro	norep	arcsin	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-muscle
-343	scatac	scanpro	norep	arcsin	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-muscle
-344	scatac	scanpro	norep	arcsin	ENS glia	0.0028228252700585	0.0	1.0	False	-0.0		heart-muscle
-345	scatac	scanpro	norep	arcsin	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-muscle
-346	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.0371585218989668	0.0	1.0	False	-0.0		heart-muscle
-347	scatac	scanpro	norep	arcsin	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-muscle
-348	scatac	scanpro	norep	arcsin	Mesothelial cells	0.0004074647542987	0.0	1.0	False	-0.0		heart-muscle
-349	scatac	scanpro	norep	arcsin	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-muscle
-350	scatac	scanpro	norep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-muscle
-351	scatac	scanpro	norep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-muscle
-352	scatac	scanpro	norep	arcsin	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-muscle
-353	scatac	scanpro	norep	arcsin	ENS neurons	0.0048624127346317	0.0	1.0	False	-0.0		heart-muscle
-354	scatac	scanpro	norep	arcsin	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-muscle
-355	scatac	scanpro	norep	logit	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
-356	scatac	scanpro	norep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	6.63994820665054e-07	True	6.177835308230416		heart-intestine-muscle
-357	scatac	scanpro	norep	logit	Chromaffin cells	0.0017113519680547	0.0	5.4634825502925774e-05	True	4.262530439669534		heart-intestine-muscle
-358	scatac	scanpro	norep	logit	ENS glia	0.0028228252700585	0.0	7.152007315935904e-06	True	5.145572049963122		heart-intestine-muscle
-359	scatac	scanpro	norep	logit	ENS neurons	0.0048624127346317	0.0	1.742516928526783e-07	True	6.758822994044841		heart-intestine-muscle
-360	scatac	scanpro	norep	logit	Endocardial cells	0.0081289218482601	0.0	1.0345331226600609e-07	True	6.985255599963732		heart-intestine-muscle
-361	scatac	scanpro	norep	logit	Epicardial fat cells	0.0008285116670741	0.0	0.0135965871262883	True	1.8665700900288331		heart-intestine-muscle
-362	scatac	scanpro	norep	logit	Erythroblasts	0.3068594427693115	0.0	6.852250400177537e-06	True	5.164166775095263		heart-intestine-muscle
-363	scatac	scanpro	norep	logit	Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		heart-intestine-muscle
-364	scatac	scanpro	norep	logit	Lymphatic endothelial cells	0.0021052345638768	0.0	0.003967306968271	True	2.4015041949207303		heart-intestine-muscle
-365	scatac	scanpro	norep	logit	Lymphoid and Myeloid cells	0.0018652830974565	0.0339204587873679	1.2382146901135371e-06	True	5.907204047845806		heart-intestine-muscle
-366	scatac	scanpro	norep	logit	Lymphoid cells	0.0446241816749517	0.0	9.483969165557936e-12	True	11.02300986667717		heart-intestine-muscle
-367	scatac	scanpro	norep	logit	Mesothelial cells	0.0004074647542987	0.0	0.016662146895398	True	1.7782690410592596		heart-intestine-muscle
-368	scatac	scanpro	norep	logit	Myeloid cells	0.0307251061672054	0.0	2.454265950962369e-07	True	6.6100783777226315		heart-intestine-muscle
-369	scatac	scanpro	norep	logit	Satellite cells	0.0117689403199956	0.2347104066014659	2.7977620220553945e-14	True	13.55318922940946		heart-intestine-muscle
-370	scatac	scanpro	norep	logit	Schwann cells	0.0035811624516701	0.0313336365172289	1.6259164711448136e-05	True	4.788901769352458		heart-intestine-muscle
-371	scatac	scanpro	norep	logit	Skeletal muscle cells	0.0163483914196977	0.3248167640416533	7.401486830834377e-16	True	15.130681029246684		heart-intestine-muscle
-372	scatac	scanpro	norep	logit	Smooth muscle cells	0.0103858238484593	0.0329947066969911	0.586101543299804	False	0.23202713504952538		heart-intestine-muscle
-373	scatac	scanpro	norep	logit	Stromal cells	0.0577920843180398	0.2261821046771208	0.5378444773014379	False	0.26934328644168826		heart-intestine-muscle
-374	scatac	scanpro	norep	logit	Vascular endothelial cells	0.0402643088039551	0.0809674177378502	0.1465914850551211	False	0.8338912554859806		heart-intestine-muscle
-375	scatac	scanpro	norep	logit	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-intestine-muscle
-376	scatac	scanpro	norep	logit	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-intestine-muscle
-377	scatac	scanpro	norep	logit	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-intestine-muscle
-378	scatac	scanpro	norep	logit	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-intestine-muscle
-379	scatac	scanpro	norep	logit	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-intestine-muscle
-380	scatac	scanpro	norep	logit	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-intestine-muscle
-381	scatac	scanpro	norep	logit	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-intestine-muscle
-382	scatac	scanpro	norep	logit	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-intestine-muscle
-383	scatac	scanpro	norep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-intestine-muscle
-384	scatac	scanpro	norep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-intestine-muscle
-385	scatac	scanpro	norep	logit	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-intestine-muscle
-386	scatac	scanpro	norep	logit	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-intestine-muscle
-387	scatac	scanpro	norep	logit	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-intestine-muscle
-388	scatac	scanpro	norep	logit	Cardiomyocytes	0.1019861643078984	0.0	2.498942553688685e-12	True	11.60224372742808		heart-muscle
-389	scatac	scanpro	norep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	2.5744002683908e-06	True	5.589323927968229		heart-muscle
-390	scatac	scanpro	norep	logit	Endocardial cells	0.0081289218482601	0.0	3.904431344169232e-06	True	5.408442209436595		heart-muscle
-391	scatac	scanpro	norep	logit	Epicardial fat cells	0.0008285116670741	0.0	0.0219205331075267	True	1.6591488880142318		heart-muscle
-392	scatac	scanpro	norep	logit	Erythroblasts	0.3068594427693115	0.0	4.493377370785636e-05	True	4.347427106186056		heart-muscle
-393	scatac	scanpro	norep	logit	Lymphatic endothelial cells	0.0021052345638768	0.0	0.0126026371981063	True	1.899538565934552		heart-muscle
-394	scatac	scanpro	norep	logit	Lymphoid and Myeloid cells	0.0018652830974565	0.0336089911806399	1.1254171081004192e-05	True	4.948686487176397		heart-muscle
-395	scatac	scanpro	norep	logit	Lymphoid cells	0.0446241816749517	0.0	1.3717220523698932e-06	True	5.862733879409763		heart-muscle
-396	scatac	scanpro	norep	logit	Myeloid cells	0.0307251061672054	0.0	1.2996944171503126e-05	True	4.886158746574569		heart-muscle
-397	scatac	scanpro	norep	logit	Satellite cells	0.0117689403199956	0.2347104066014659	5.289628200335341e-10	True	9.276574852769608		heart-muscle
-398	scatac	scanpro	norep	logit	Schwann cells	0.0035811624516701	0.0313336365172289	0.1644392578560701	False	0.7839944919363293		heart-muscle
-399	scatac	scanpro	norep	logit	Skeletal muscle cells	0.0163483914196977	0.3249122513339362	3.8428375127589975e-11	True	10.415347978482316		heart-muscle
-400	scatac	scanpro	norep	logit	Smooth muscle cells	0.0103858238484593	0.0329947066969911	0.4614186097595833	False	0.3359048936621035		heart-muscle
-401	scatac	scanpro	norep	logit	Stromal cells	0.0577920843180398	0.2253803203460425	0.3404831373812798	False	0.4679043918968758		heart-muscle
-402	scatac	scanpro	norep	logit	Vascular endothelial cells	0.0402643088039551	0.0809674177378503	0.360386045166556	False	0.4432320340761497		heart-muscle
-403	scatac	scanpro	norep	logit	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-muscle
-404	scatac	scanpro	norep	logit	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-muscle
-405	scatac	scanpro	norep	logit	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-muscle
-406	scatac	scanpro	norep	logit	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-muscle
-407	scatac	scanpro	norep	logit	Chromaffin cells	0.0017113519680547	0.0	1.0	False	-0.0		heart-muscle
-408	scatac	scanpro	norep	logit	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-muscle
-409	scatac	scanpro	norep	logit	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-muscle
-410	scatac	scanpro	norep	logit	ENS glia	0.0028228252700585	0.0	1.0	False	-0.0		heart-muscle
-411	scatac	scanpro	norep	logit	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-muscle
-412	scatac	scanpro	norep	logit	Intestinal epithelial cells	0.0371585218989668	0.0	1.0	False	-0.0		heart-muscle
-413	scatac	scanpro	norep	logit	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-muscle
-414	scatac	scanpro	norep	logit	Mesothelial cells	0.0004074647542987	0.0	1.0	False	-0.0		heart-muscle
-415	scatac	scanpro	norep	logit	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-muscle
-416	scatac	scanpro	norep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-muscle
-417	scatac	scanpro	norep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-muscle
-418	scatac	scanpro	norep	logit	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-muscle
-419	scatac	scanpro	norep	logit	ENS neurons	0.0048624127346317	0.0	1.0	False	-0.0		heart-muscle
-420	scatac	scanpro	norep	logit	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-muscle
-421	scatac	scanpro	rep		Astrocytes	0.0187750704008547	0.0	0.0	True	20.0		
-422	scatac	scanpro	rep		Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	0.0	True	20.0		
-423	scatac	scanpro	rep		Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		
-424	scatac	scanpro	rep		Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0	True	20.0		
-425	scatac	scanpro	rep		Chromaffin cells	0.0017113519680547	0.0	0.0	True	20.0		
-426	scatac	scanpro	rep		ENS glia	0.0028228252700585	0.0	0.0	True	20.0		
-427	scatac	scanpro	rep		ENS neurons	0.0048624127346317	0.0	0.0	True	20.0		
-428	scatac	scanpro	rep		Endocardial cells	0.0081289218482601	0.0	0.0	True	20.0		
-429	scatac	scanpro	rep		Epicardial fat cells	0.0008285116670741	0.0	0.0	True	20.0		
-430	scatac	scanpro	rep		Epithelial cells	0.0012903050552793	0.0	0.0	True	20.0		
-431	scatac	scanpro	rep		Erythroblasts	0.3068594427693115	0.0	0.0	True	20.0		
-432	scatac	scanpro	rep		Excitatory neurons	0.1103165548402285	0.0	0.0	True	20.0		
-433	scatac	scanpro	rep		Goblet cells	0.0027209590814838	0.0	0.0	True	20.0		
-434	scatac	scanpro	rep		Hematopoietic stem cells	0.0033004645098199	0.0	0.0	True	20.0		
-435	scatac	scanpro	rep		Hepatoblasts	0.0958447649833845	0.0	0.0	True	20.0		
-436	scatac	scanpro	rep		Inhibitory neurons	0.0280630031057869	0.0	0.0	True	20.0		
-437	scatac	scanpro	rep		Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		
-438	scatac	scanpro	rep		Limbic system neurons	0.0044164651979825	0.0	0.0	True	20.0		
-439	scatac	scanpro	rep		Lymphatic endothelial cells	0.0021052345638768	0.0	0.0	True	20.0		
-440	scatac	scanpro	rep		Lymphoid and Myeloid cells	0.0018652830974565	0.0	0.0	True	20.0		
-441	scatac	scanpro	rep		Lymphoid cells	0.0446241816749517	0.0	0.0	True	20.0		
-442	scatac	scanpro	rep		Megakaryocytes	0.0049869158540008	0.0	0.0	True	20.0		
-443	scatac	scanpro	rep		Mesothelial cells	0.0004074647542987	0.0	0.0	True	20.0		
-444	scatac	scanpro	rep		Myeloid cells	0.0307251061672054	0.0	0.0	True	20.0		
-445	scatac	scanpro	rep		Parietal and chief cells	0.0011544834705131	0.0	0.0	True	20.0		
-446	scatac	scanpro	rep		SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	0.0	True	20.0		
-447	scatac	scanpro	rep		Satellite cells	0.0117689403199956	0.0	0.0	True	20.0		
-448	scatac	scanpro	rep		Schwann cells	0.0035811624516701	0.0	0.0	True	20.0		
-449	scatac	scanpro	rep		Skeletal muscle cells	0.0163483914196977	0.0	0.0	True	20.0		
-450	scatac	scanpro	rep		Smooth muscle cells	0.0103858238484593	0.0	0.0	True	20.0		
-451	scatac	scanpro	rep		Stellate cells	0.0188497722724762	0.0	0.0	True	20.0		
-452	scatac	scanpro	rep		Stromal cells	0.0577920843180398	0.0	0.0	True	20.0		
-453	scatac	scanpro	rep		Vascular endothelial cells	0.0402643088039551	0.0149768172607036	0.0149768172607036	True	1.8245804692116294		
-454	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
-455	scatac	scanpro	rep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0	True	20.0		heart-intestine-muscle
-456	scatac	scanpro	rep	arcsin	Chromaffin cells	0.0017113519680547	0.0	0.0	True	20.0		heart-intestine-muscle
-457	scatac	scanpro	rep	arcsin	ENS glia	0.0028228252700585	0.0	0.0	True	20.0		heart-intestine-muscle
-458	scatac	scanpro	rep	arcsin	ENS neurons	0.0048624127346317	0.0	0.0	True	20.0		heart-intestine-muscle
-459	scatac	scanpro	rep	arcsin	Endocardial cells	0.0081289218482601	0.0	0.0	True	20.0		heart-intestine-muscle
-460	scatac	scanpro	rep	arcsin	Epicardial fat cells	0.0008285116670741	2.522482223099587e-11	3.3633096307994486e-11	True	10.473233149111874		heart-intestine-muscle
-461	scatac	scanpro	rep	arcsin	Erythroblasts	0.3068594427693115	1.930666737592901e-11	2.7580953394184298e-11	True	10.559390725590303		heart-intestine-muscle
-462	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.0371585218989668	9.958700530887655e-14	1.659783421814609e-13	True	12.779948577530554		heart-intestine-muscle
-463	scatac	scanpro	rep	arcsin	Lymphatic endothelial cells	0.0021052345638768	1.3704593015972932e-12	2.1083989255342973e-12	True	11.676047213778768		heart-intestine-muscle
-464	scatac	scanpro	rep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	0.0	0.0	True	20.0		heart-intestine-muscle
-465	scatac	scanpro	rep	arcsin	Lymphoid cells	0.0446241816749517	4.8139709100891714e-05	5.067337800093865e-05	True	4.29522014370088		heart-intestine-muscle
-466	scatac	scanpro	rep	arcsin	Mesothelial cells	0.0004074647542987	0.0	0.0	True	20.0		heart-intestine-muscle
-467	scatac	scanpro	rep	arcsin	Myeloid cells	0.0307251061672054	1.750047884385708e-10	2.1875598554821352e-10	True	9.660040055082808		heart-intestine-muscle
-468	scatac	scanpro	rep	arcsin	Satellite cells	0.0117689403199956	0.0	0.0	True	20.0		heart-intestine-muscle
-469	scatac	scanpro	rep	arcsin	Schwann cells	0.0035811624516701	0.0	0.0	True	20.0		heart-intestine-muscle
-470	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0163483914196977	0.0	0.0	True	20.0		heart-intestine-muscle
-471	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0103858238484593	0.4322599905282365	0.4322599905282365	False	0.3642549603880044		heart-intestine-muscle
-472	scatac	scanpro	rep	arcsin	Stromal cells	0.0577920843180398	3.054729600548978e-05	3.394144000609975e-05	True	4.469269736165766		heart-intestine-muscle
-473	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0402643088039551	6.1922468264086206e-09	7.284996266363083e-09	True	8.137570666474407		heart-intestine-muscle
-474	scatac	scanpro	rep	arcsin	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-intestine-muscle
-475	scatac	scanpro	rep	arcsin	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-intestine-muscle
-476	scatac	scanpro	rep	arcsin	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-intestine-muscle
-477	scatac	scanpro	rep	arcsin	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-intestine-muscle
-478	scatac	scanpro	rep	arcsin	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-intestine-muscle
-479	scatac	scanpro	rep	arcsin	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-intestine-muscle
-480	scatac	scanpro	rep	arcsin	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-intestine-muscle
-481	scatac	scanpro	rep	arcsin	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-intestine-muscle
-482	scatac	scanpro	rep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-intestine-muscle
-483	scatac	scanpro	rep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-intestine-muscle
-484	scatac	scanpro	rep	arcsin	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-intestine-muscle
-485	scatac	scanpro	rep	arcsin	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-intestine-muscle
-486	scatac	scanpro	rep	arcsin	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-intestine-muscle
-487	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.1019861643078984	5.197730639608267e-06	1.9491489898531003e-05	True	4.710154962833119		heart-muscle
-488	scatac	scanpro	rep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0004994639688543	0.0009364949416018	True	3.0284945640873113		heart-muscle
-489	scatac	scanpro	rep	arcsin	Endocardial cells	0.0081289218482601	0.0002175270766564	0.0006523255369309	True	3.185535619590209		heart-muscle
-490	scatac	scanpro	rep	arcsin	Epicardial fat cells	0.0008285116670741	0.0041371333812115	0.0051714167265143	True	2.286390464213345		heart-muscle
-491	scatac	scanpro	rep	arcsin	Erythroblasts	0.3068594427693115	0.0039241849226712	0.0051714167265143	True	2.286390464213345		heart-muscle
-492	scatac	scanpro	rep	arcsin	Lymphatic endothelial cells	0.0021052345638768	0.0002609302147723	0.0006523255369309	True	3.185535619590209		heart-muscle
-493	scatac	scanpro	rep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	7.1046959834302915e-09	5.328521987572719e-08	True	7.273393237813283		heart-muscle
-494	scatac	scanpro	rep	arcsin	Lymphoid cells	0.0446241816749517	0.0267384205363637	0.0308520236958043	True	1.5107163437508118		heart-muscle
-495	scatac	scanpro	rep	arcsin	Myeloid cells	0.0307251061672054	0.0004862787087928	0.0009364949416018	True	3.0284945640873113		heart-muscle
-496	scatac	scanpro	rep	arcsin	Satellite cells	0.0117689403199956	2.389884063404941e-11	3.584826095107412e-10	True	9.44553190771365		heart-muscle
-497	scatac	scanpro	rep	arcsin	Schwann cells	0.0035811624516701	0.0009320926068135	0.0015534876780226	True	2.8086921871389805		heart-muscle
-498	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0163483914196977	4.567545341087601e-07	2.2837726705438005e-06	True	5.641347128465588		heart-muscle
-499	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0103858238484593	0.1810719671338589	0.1810719671338589	False	0.7421487802846966		heart-muscle
-500	scatac	scanpro	rep	arcsin	Stromal cells	0.0577920843180398	0.0040604880505493	0.0051714167265143	True	2.286390464213345		heart-muscle
-501	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0402643088039551	0.0382342719277677	0.0409652913511797	True	1.3875839520273443		heart-muscle
-502	scatac	scanpro	rep	arcsin	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-muscle
-503	scatac	scanpro	rep	arcsin	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-muscle
-504	scatac	scanpro	rep	arcsin	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-muscle
-505	scatac	scanpro	rep	arcsin	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-muscle
-506	scatac	scanpro	rep	arcsin	Chromaffin cells	0.0017113519680547	1.0	1.0	False	-0.0		heart-muscle
-507	scatac	scanpro	rep	arcsin	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-muscle
-508	scatac	scanpro	rep	arcsin	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-muscle
-509	scatac	scanpro	rep	arcsin	ENS glia	0.0028228252700585	1.0	1.0	False	-0.0		heart-muscle
-510	scatac	scanpro	rep	arcsin	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-muscle
-511	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.0371585218989668	1.0	1.0	False	-0.0		heart-muscle
-512	scatac	scanpro	rep	arcsin	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-muscle
-513	scatac	scanpro	rep	arcsin	Mesothelial cells	0.0004074647542987	1.0	1.0	False	-0.0		heart-muscle
-514	scatac	scanpro	rep	arcsin	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-muscle
-515	scatac	scanpro	rep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-muscle
-516	scatac	scanpro	rep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-muscle
-517	scatac	scanpro	rep	arcsin	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-muscle
-518	scatac	scanpro	rep	arcsin	ENS neurons	0.0048624127346317	1.0	1.0	False	-0.0		heart-muscle
-519	scatac	scanpro	rep	arcsin	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-muscle
-520	scatac	scanpro	rep	logit	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
-521	scatac	scanpro	rep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0	True	20.0		heart-intestine-muscle
-522	scatac	scanpro	rep	logit	Chromaffin cells	0.0017113519680547	0.0	0.0	True	20.0		heart-intestine-muscle
-523	scatac	scanpro	rep	logit	ENS glia	0.0028228252700585	0.0	0.0	True	20.0		heart-intestine-muscle
-524	scatac	scanpro	rep	logit	ENS neurons	0.0048624127346317	0.0	0.0	True	20.0		heart-intestine-muscle
-525	scatac	scanpro	rep	logit	Endocardial cells	0.0081289218482601	0.0	0.0	True	20.0		heart-intestine-muscle
-526	scatac	scanpro	rep	logit	Epicardial fat cells	0.0008285116670741	0.0	0.0	True	20.0		heart-intestine-muscle
-527	scatac	scanpro	rep	logit	Erythroblasts	0.3068594427693115	0.0	0.0	True	20.0		heart-intestine-muscle
-528	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		heart-intestine-muscle
-529	scatac	scanpro	rep	logit	Lymphatic endothelial cells	0.0021052345638768	0.0	0.0	True	20.0		heart-intestine-muscle
-530	scatac	scanpro	rep	logit	Lymphoid and Myeloid cells	0.0018652830974565	0.0	0.0	True	20.0		heart-intestine-muscle
-531	scatac	scanpro	rep	logit	Lymphoid cells	0.0446241816749517	0.0	0.0	True	20.0		heart-intestine-muscle
-532	scatac	scanpro	rep	logit	Mesothelial cells	0.0004074647542987	0.0	0.0	True	20.0		heart-intestine-muscle
-533	scatac	scanpro	rep	logit	Myeloid cells	0.0307251061672054	0.0	0.0	True	20.0		heart-intestine-muscle
-534	scatac	scanpro	rep	logit	Satellite cells	0.0117689403199956	0.0	0.0	True	20.0		heart-intestine-muscle
-535	scatac	scanpro	rep	logit	Schwann cells	0.0035811624516701	0.0	0.0	True	20.0		heart-intestine-muscle
-536	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0163483914196977	0.0	0.0	True	20.0		heart-intestine-muscle
-537	scatac	scanpro	rep	logit	Smooth muscle cells	0.0103858238484593	0.552125560354868	0.552125560354868	False	0.257962146965785		heart-intestine-muscle
-538	scatac	scanpro	rep	logit	Stromal cells	0.0577920843180398	0.046314696515884	0.0487523121219832	True	1.312004782672988		heart-intestine-muscle
-539	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0402643088039551	1.756649108841657e-06	1.9518323431573967e-06	True	5.709557489727061		heart-intestine-muscle
-540	scatac	scanpro	rep	logit	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-intestine-muscle
-541	scatac	scanpro	rep	logit	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-intestine-muscle
-542	scatac	scanpro	rep	logit	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-intestine-muscle
-543	scatac	scanpro	rep	logit	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-intestine-muscle
-544	scatac	scanpro	rep	logit	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-intestine-muscle
-545	scatac	scanpro	rep	logit	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-intestine-muscle
-546	scatac	scanpro	rep	logit	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-intestine-muscle
-547	scatac	scanpro	rep	logit	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-intestine-muscle
-548	scatac	scanpro	rep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-intestine-muscle
-549	scatac	scanpro	rep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-intestine-muscle
-550	scatac	scanpro	rep	logit	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-intestine-muscle
-551	scatac	scanpro	rep	logit	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-intestine-muscle
-552	scatac	scanpro	rep	logit	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-intestine-muscle
-553	scatac	scanpro	rep	logit	Cardiomyocytes	0.1019861643078984	6.668412779729029e-11	1.0002619169593543e-09	True	8.999886265803642		heart-muscle
-554	scatac	scanpro	rep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	2.654946819181416e-09	9.577229213546162e-09	True	8.018760118407812		heart-muscle
-555	scatac	scanpro	rep	logit	Endocardial cells	0.0081289218482601	9.943950114418907e-10	7.457962585814181e-09	True	8.127379799684178		heart-muscle
-556	scatac	scanpro	rep	logit	Epicardial fat cells	0.0008285116670741	7.779120133687723e-08	1.4585850250664482e-07	True	6.836068249544715		heart-muscle
-557	scatac	scanpro	rep	logit	Erythroblasts	0.3068594427693115	9.2329657912594e-09	2.30824144781485e-08	True	7.636718764853748		heart-muscle
-558	scatac	scanpro	rep	logit	Lymphatic endothelial cells	0.0021052345638768	3.1924097378487206e-09	9.577229213546162e-09	True	8.018760118407812		heart-muscle
-559	scatac	scanpro	rep	logit	Lymphoid and Myeloid cells	0.0018652830974565	2.567271213001536e-06	3.5008243813657317e-06	True	5.45582967504382		heart-muscle
-560	scatac	scanpro	rep	logit	Lymphoid cells	0.0446241816749517	6.716768044386301e-08	1.439307438082779e-07	True	6.841846430245482		heart-muscle
-561	scatac	scanpro	rep	logit	Myeloid cells	0.0307251061672054	1.6657662194430523e-09	8.328831097215262e-09	True	8.07941594500982		heart-muscle
-562	scatac	scanpro	rep	logit	Satellite cells	0.0117689403199956	6.564772336775125e-07	9.847158505162689e-07	True	6.0066890713865595		heart-muscle
-563	scatac	scanpro	rep	logit	Schwann cells	0.0035811624516701	0.0013243618107621	0.0016554522634526	True	2.7810833380276043		heart-muscle
-564	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0163483914196977	5.34317563016518e-07	8.905292716941966e-07	True	6.050351800707944		heart-muscle
-565	scatac	scanpro	rep	logit	Smooth muscle cells	0.0103858238484593	0.2538583594166437	0.2538583594166437	False	0.5954085309446419		heart-muscle
-566	scatac	scanpro	rep	logit	Stromal cells	0.0577920843180398	0.0328897237352773	0.0379496812330123	True	1.4207918677085587		heart-muscle
-567	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0402643088039551	0.0754882564748289	0.0808802747944596	False	1.0921573818790395		heart-muscle
-568	scatac	scanpro	rep	logit	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-muscle
-569	scatac	scanpro	rep	logit	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-muscle
-570	scatac	scanpro	rep	logit	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-muscle
-571	scatac	scanpro	rep	logit	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-muscle
-572	scatac	scanpro	rep	logit	Chromaffin cells	0.0017113519680547	1.0	1.0	False	-0.0		heart-muscle
-573	scatac	scanpro	rep	logit	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-muscle
-574	scatac	scanpro	rep	logit	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-muscle
-575	scatac	scanpro	rep	logit	ENS glia	0.0028228252700585	1.0	1.0	False	-0.0		heart-muscle
-576	scatac	scanpro	rep	logit	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-muscle
-577	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.0371585218989668	1.0	1.0	False	-0.0		heart-muscle
-578	scatac	scanpro	rep	logit	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-muscle
-579	scatac	scanpro	rep	logit	Mesothelial cells	0.0004074647542987	1.0	1.0	False	-0.0		heart-muscle
-580	scatac	scanpro	rep	logit	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-muscle
-581	scatac	scanpro	rep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-muscle
-582	scatac	scanpro	rep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-muscle
-583	scatac	scanpro	rep	logit	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-muscle
-584	scatac	scanpro	rep	logit	ENS neurons	0.0048624127346317	1.0	1.0	False	-0.0		heart-muscle
-585	scatac	scanpro	rep	logit	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-muscle
+256	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
+257	scatac	scanpro	norep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	1.2206489863331174e-07	True	6.913409205191102		heart-intestine-muscle
+258	scatac	scanpro	norep	arcsin	Chromaffin cells	0.0017113519680547	0.0	0.0001255994530984	True	3.9010122516566583		heart-intestine-muscle
+259	scatac	scanpro	norep	arcsin	ENS glia	0.0028228252700585	0.0	9.346404399630208e-07	True	6.02935543187919		heart-intestine-muscle
+260	scatac	scanpro	norep	arcsin	ENS neurons	0.0048624127346317	0.0	6.020041806323714e-09	True	8.220400492763329		heart-intestine-muscle
+261	scatac	scanpro	norep	arcsin	Endocardial cells	0.0081289218482601	0.0	2.280910190325787e-07	True	6.6418918145102		heart-intestine-muscle
+262	scatac	scanpro	norep	arcsin	Epicardial fat cells	0.0008285116670741	0.0	0.0559599598153007	False	1.2521226060458182		heart-intestine-muscle
+263	scatac	scanpro	norep	arcsin	Erythroblasts	0.3068594427693115	0.0	2.221111522112314e-06	True	5.653429634958035		heart-intestine-muscle
+264	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		heart-intestine-muscle
+265	scatac	scanpro	norep	arcsin	Lymphatic endothelial cells	0.0021052345638768	0.0	0.0185992727602926	True	1.730504036554478		heart-intestine-muscle
+266	scatac	scanpro	norep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	0.0340126116490268	4.790487961561476e-07	True	6.319620246873521		heart-intestine-muscle
+267	scatac	scanpro	norep	arcsin	Lymphoid cells	0.0446241816749517	0.0	2.623375590834106e-11	True	10.581139526661135		heart-intestine-muscle
+268	scatac	scanpro	norep	arcsin	Mesothelial cells	0.0004074647542987	0.0	0.0644775456944631	False	1.1905915020906461		heart-intestine-muscle
+269	scatac	scanpro	norep	arcsin	Myeloid cells	0.0307251061672054	0.0	1.3448911025855844e-05	True	4.8713128795729705		heart-intestine-muscle
+270	scatac	scanpro	norep	arcsin	Satellite cells	0.0117689403199956	0.2344040115364345	0.0	True	20.0		heart-intestine-muscle
+271	scatac	scanpro	norep	arcsin	Schwann cells	0.0035811624516701	0.0315261883190866	5.797394198873522e-05	True	4.236767168393241		heart-intestine-muscle
+272	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0163483914196977	0.3250901485511064	0.0	True	20.0		heart-intestine-muscle
+273	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0103858238484593	0.0327719746650299	0.3281351725022872	False	0.483947215499474		heart-intestine-muscle
+274	scatac	scanpro	norep	arcsin	Stromal cells	0.0577920843180398	0.2257812125115817	0.1887729889080805	False	0.7240601477889831		heart-intestine-muscle
+275	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0402643088039551	0.0813506878569945	0.0057197553279737	True	2.242622548476833		heart-intestine-muscle
+276	scatac	scanpro	norep	arcsin	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-intestine-muscle
+277	scatac	scanpro	norep	arcsin	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-intestine-muscle
+278	scatac	scanpro	norep	arcsin	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-intestine-muscle
+279	scatac	scanpro	norep	arcsin	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-intestine-muscle
+280	scatac	scanpro	norep	arcsin	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-intestine-muscle
+281	scatac	scanpro	norep	arcsin	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-intestine-muscle
+282	scatac	scanpro	norep	arcsin	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-intestine-muscle
+283	scatac	scanpro	norep	arcsin	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-intestine-muscle
+284	scatac	scanpro	norep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-intestine-muscle
+285	scatac	scanpro	norep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-intestine-muscle
+286	scatac	scanpro	norep	arcsin	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-intestine-muscle
+287	scatac	scanpro	norep	arcsin	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-intestine-muscle
+288	scatac	scanpro	norep	arcsin	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-intestine-muscle
+289	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.1019861643078984	0.0	3.8403969928935617e-11	True	10.415623879040966		heart-muscle
+290	scatac	scanpro	norep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0015576244757021	True	2.8075372371564584		heart-muscle
+291	scatac	scanpro	norep	arcsin	Endocardial cells	0.0081289218482601	0.0	0.0014392823448439	True	2.841854001907998		heart-muscle
+292	scatac	scanpro	norep	arcsin	Epicardial fat cells	0.0008285116670741	0.0	0.1085671431746509	False	0.9643015900049522		heart-muscle
+293	scatac	scanpro	norep	arcsin	Erythroblasts	0.3068594427693115	0.0	0.0035112140180701	True	2.4545426982947935		heart-muscle
+294	scatac	scanpro	norep	arcsin	Lymphatic endothelial cells	0.0021052345638768	0.0	0.1049324686991341	False	0.9790901095657548		heart-muscle
+295	scatac	scanpro	norep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	0.0340126116490268	0.002691120318474	True	2.570066884740446		heart-muscle
+296	scatac	scanpro	norep	arcsin	Lymphoid cells	0.0446241816749517	0.0	0.0005933250162145	True	3.22670734022672		heart-muscle
+297	scatac	scanpro	norep	arcsin	Myeloid cells	0.0307251061672054	0.0	0.0028473190234132	True	2.545563870279864		heart-muscle
+298	scatac	scanpro	norep	arcsin	Satellite cells	0.0117689403199956	0.2344040115364345	3.971218327070201e-06	True	5.401076235918902		heart-muscle
+299	scatac	scanpro	norep	arcsin	Schwann cells	0.0035811624516701	0.0315261883190866	0.079593594532434	False	1.0991218816486752		heart-muscle
+300	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0163483914196977	0.3250901485511064	2.58124395635184e-07	True	6.588170947842572		heart-muscle
+301	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0103858238484593	0.0327719746650299	0.3487122484764618	False	0.45753279781382694		heart-muscle
+302	scatac	scanpro	norep	arcsin	Stromal cells	0.0577920843180398	0.2257812125115817	0.141087040382508	False	0.8505128767406989		heart-muscle
+303	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0402643088039551	0.0813506878569945	0.1988357531317851	False	0.7015055213886402		heart-muscle
+304	scatac	scanpro	norep	arcsin	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-muscle
+305	scatac	scanpro	norep	arcsin	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-muscle
+306	scatac	scanpro	norep	arcsin	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-muscle
+307	scatac	scanpro	norep	arcsin	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-muscle
+308	scatac	scanpro	norep	arcsin	Chromaffin cells	0.0017113519680547	0.0	1.0	False	-0.0		heart-muscle
+309	scatac	scanpro	norep	arcsin	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-muscle
+310	scatac	scanpro	norep	arcsin	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-muscle
+311	scatac	scanpro	norep	arcsin	ENS glia	0.0028228252700585	0.0	1.0	False	-0.0		heart-muscle
+312	scatac	scanpro	norep	arcsin	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-muscle
+313	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.0371585218989668	0.0	1.0	False	-0.0		heart-muscle
+314	scatac	scanpro	norep	arcsin	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-muscle
+315	scatac	scanpro	norep	arcsin	Mesothelial cells	0.0004074647542987	0.0	1.0	False	-0.0		heart-muscle
+316	scatac	scanpro	norep	arcsin	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-muscle
+317	scatac	scanpro	norep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-muscle
+318	scatac	scanpro	norep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-muscle
+319	scatac	scanpro	norep	arcsin	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-muscle
+320	scatac	scanpro	norep	arcsin	ENS neurons	0.0048624127346317	0.0	1.0	False	-0.0		heart-muscle
+321	scatac	scanpro	norep	arcsin	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-muscle
+322	scatac	scanpro	norep	logit	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
+323	scatac	scanpro	norep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	6.63994820665054e-07	True	6.177835308230416		heart-intestine-muscle
+324	scatac	scanpro	norep	logit	Chromaffin cells	0.0017113519680547	0.0	5.4634825502925774e-05	True	4.262530439669534		heart-intestine-muscle
+325	scatac	scanpro	norep	logit	ENS glia	0.0028228252700585	0.0	7.152007315935904e-06	True	5.145572049963122		heart-intestine-muscle
+326	scatac	scanpro	norep	logit	ENS neurons	0.0048624127346317	0.0	1.742516928526783e-07	True	6.758822994044841		heart-intestine-muscle
+327	scatac	scanpro	norep	logit	Endocardial cells	0.0081289218482601	0.0	1.0345331226600609e-07	True	6.985255599963732		heart-intestine-muscle
+328	scatac	scanpro	norep	logit	Epicardial fat cells	0.0008285116670741	0.0	0.0135965871262883	True	1.8665700900288331		heart-intestine-muscle
+329	scatac	scanpro	norep	logit	Erythroblasts	0.3068594427693115	0.0	6.852250400177537e-06	True	5.164166775095263		heart-intestine-muscle
+330	scatac	scanpro	norep	logit	Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		heart-intestine-muscle
+331	scatac	scanpro	norep	logit	Lymphatic endothelial cells	0.0021052345638768	0.0	0.003967306968271	True	2.4015041949207303		heart-intestine-muscle
+332	scatac	scanpro	norep	logit	Lymphoid and Myeloid cells	0.0018652830974565	0.0339204587873679	1.2382146901135371e-06	True	5.907204047845806		heart-intestine-muscle
+333	scatac	scanpro	norep	logit	Lymphoid cells	0.0446241816749517	0.0	9.483969165557936e-12	True	11.02300986667717		heart-intestine-muscle
+334	scatac	scanpro	norep	logit	Mesothelial cells	0.0004074647542987	0.0	0.016662146895398	True	1.7782690410592596		heart-intestine-muscle
+335	scatac	scanpro	norep	logit	Myeloid cells	0.0307251061672054	0.0	2.454265950962369e-07	True	6.6100783777226315		heart-intestine-muscle
+336	scatac	scanpro	norep	logit	Satellite cells	0.0117689403199956	0.2347104066014659	2.7977620220553945e-14	True	13.55318922940946		heart-intestine-muscle
+337	scatac	scanpro	norep	logit	Schwann cells	0.0035811624516701	0.0313336365172289	1.6259164711448136e-05	True	4.788901769352458		heart-intestine-muscle
+338	scatac	scanpro	norep	logit	Skeletal muscle cells	0.0163483914196977	0.3248167640416533	7.401486830834377e-16	True	15.130681029246684		heart-intestine-muscle
+339	scatac	scanpro	norep	logit	Smooth muscle cells	0.0103858238484593	0.0329947066969911	0.586101543299804	False	0.23202713504952538		heart-intestine-muscle
+340	scatac	scanpro	norep	logit	Stromal cells	0.0577920843180398	0.2261821046771208	0.5378444773014379	False	0.26934328644168826		heart-intestine-muscle
+341	scatac	scanpro	norep	logit	Vascular endothelial cells	0.0402643088039551	0.0809674177378502	0.1465914850551211	False	0.8338912554859806		heart-intestine-muscle
+342	scatac	scanpro	norep	logit	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-intestine-muscle
+343	scatac	scanpro	norep	logit	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-intestine-muscle
+344	scatac	scanpro	norep	logit	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-intestine-muscle
+345	scatac	scanpro	norep	logit	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-intestine-muscle
+346	scatac	scanpro	norep	logit	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-intestine-muscle
+347	scatac	scanpro	norep	logit	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-intestine-muscle
+348	scatac	scanpro	norep	logit	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-intestine-muscle
+349	scatac	scanpro	norep	logit	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-intestine-muscle
+350	scatac	scanpro	norep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-intestine-muscle
+351	scatac	scanpro	norep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-intestine-muscle
+352	scatac	scanpro	norep	logit	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-intestine-muscle
+353	scatac	scanpro	norep	logit	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-intestine-muscle
+354	scatac	scanpro	norep	logit	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-intestine-muscle
+355	scatac	scanpro	norep	logit	Cardiomyocytes	0.1019861643078984	0.0	2.498942553688685e-12	True	11.60224372742808		heart-muscle
+356	scatac	scanpro	norep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	2.5744002683908e-06	True	5.589323927968229		heart-muscle
+357	scatac	scanpro	norep	logit	Endocardial cells	0.0081289218482601	0.0	3.904431344169232e-06	True	5.408442209436595		heart-muscle
+358	scatac	scanpro	norep	logit	Epicardial fat cells	0.0008285116670741	0.0	0.0219205331075267	True	1.6591488880142318		heart-muscle
+359	scatac	scanpro	norep	logit	Erythroblasts	0.3068594427693115	0.0	4.493377370785636e-05	True	4.347427106186056		heart-muscle
+360	scatac	scanpro	norep	logit	Lymphatic endothelial cells	0.0021052345638768	0.0	0.0126026371981063	True	1.899538565934552		heart-muscle
+361	scatac	scanpro	norep	logit	Lymphoid and Myeloid cells	0.0018652830974565	0.0336089911806399	1.1254171081004192e-05	True	4.948686487176397		heart-muscle
+362	scatac	scanpro	norep	logit	Lymphoid cells	0.0446241816749517	0.0	1.3717220523698932e-06	True	5.862733879409763		heart-muscle
+363	scatac	scanpro	norep	logit	Myeloid cells	0.0307251061672054	0.0	1.2996944171503126e-05	True	4.886158746574569		heart-muscle
+364	scatac	scanpro	norep	logit	Satellite cells	0.0117689403199956	0.2347104066014659	5.289628200335341e-10	True	9.276574852769608		heart-muscle
+365	scatac	scanpro	norep	logit	Schwann cells	0.0035811624516701	0.0313336365172289	0.1644392578560701	False	0.7839944919363293		heart-muscle
+366	scatac	scanpro	norep	logit	Skeletal muscle cells	0.0163483914196977	0.3249122513339362	3.8428375127589975e-11	True	10.415347978482316		heart-muscle
+367	scatac	scanpro	norep	logit	Smooth muscle cells	0.0103858238484593	0.0329947066969911	0.4614186097595833	False	0.3359048936621035		heart-muscle
+368	scatac	scanpro	norep	logit	Stromal cells	0.0577920843180398	0.2253803203460425	0.3404831373812798	False	0.4679043918968758		heart-muscle
+369	scatac	scanpro	norep	logit	Vascular endothelial cells	0.0402643088039551	0.0809674177378503	0.360386045166556	False	0.4432320340761497		heart-muscle
+370	scatac	scanpro	norep	logit	Parietal and chief cells	0.0011544834705131	0.0	1.0	False	-0.0		heart-muscle
+371	scatac	scanpro	norep	logit	Astrocytes	0.0187750704008547	0.0	1.0	False	-0.0		heart-muscle
+372	scatac	scanpro	norep	logit	Epithelial cells	0.0012903050552793	0.0	1.0	False	-0.0		heart-muscle
+373	scatac	scanpro	norep	logit	Goblet cells	0.0027209590814838	0.0	1.0	False	-0.0		heart-muscle
+374	scatac	scanpro	norep	logit	Chromaffin cells	0.0017113519680547	0.0	1.0	False	-0.0		heart-muscle
+375	scatac	scanpro	norep	logit	Inhibitory neurons	0.0280630031057869	0.0	1.0	False	-0.0		heart-muscle
+376	scatac	scanpro	norep	logit	Hematopoietic stem cells	0.0033004645098199	0.0	1.0	False	-0.0		heart-muscle
+377	scatac	scanpro	norep	logit	ENS glia	0.0028228252700585	0.0	1.0	False	-0.0		heart-muscle
+378	scatac	scanpro	norep	logit	Stellate cells	0.0188497722724762	0.0	1.0	False	-0.0		heart-muscle
+379	scatac	scanpro	norep	logit	Intestinal epithelial cells	0.0371585218989668	0.0	1.0	False	-0.0		heart-muscle
+380	scatac	scanpro	norep	logit	Excitatory neurons	0.1103165548402285	0.0	1.0	False	-0.0		heart-muscle
+381	scatac	scanpro	norep	logit	Mesothelial cells	0.0004074647542987	0.0	1.0	False	-0.0		heart-muscle
+382	scatac	scanpro	norep	logit	Megakaryocytes	0.0049869158540008	0.0	1.0	False	-0.0		heart-muscle
+383	scatac	scanpro	norep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	0.0	1.0	False	-0.0		heart-muscle
+384	scatac	scanpro	norep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	0.0	1.0	False	-0.0		heart-muscle
+385	scatac	scanpro	norep	logit	Limbic system neurons	0.0044164651979825	0.0	1.0	False	-0.0		heart-muscle
+386	scatac	scanpro	norep	logit	ENS neurons	0.0048624127346317	0.0	1.0	False	-0.0		heart-muscle
+387	scatac	scanpro	norep	logit	Hepatoblasts	0.0958447649833845	0.0	1.0	False	-0.0		heart-muscle
+388	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
+389	scatac	scanpro	rep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0	True	20.0		heart-intestine-muscle
+390	scatac	scanpro	rep	arcsin	Chromaffin cells	0.0017113519680547	0.0	0.0	True	20.0		heart-intestine-muscle
+391	scatac	scanpro	rep	arcsin	ENS glia	0.0028228252700585	0.0	0.0	True	20.0		heart-intestine-muscle
+392	scatac	scanpro	rep	arcsin	ENS neurons	0.0048624127346317	0.0	0.0	True	20.0		heart-intestine-muscle
+393	scatac	scanpro	rep	arcsin	Endocardial cells	0.0081289218482601	0.0	0.0	True	20.0		heart-intestine-muscle
+394	scatac	scanpro	rep	arcsin	Epicardial fat cells	0.0008285116670741	2.522482223099587e-11	3.3633096307994486e-11	True	10.473233149111874		heart-intestine-muscle
+395	scatac	scanpro	rep	arcsin	Erythroblasts	0.3068594427693115	1.930666737592901e-11	2.7580953394184298e-11	True	10.559390725590303		heart-intestine-muscle
+396	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.0371585218989668	9.958700530887655e-14	1.659783421814609e-13	True	12.779948577530554		heart-intestine-muscle
+397	scatac	scanpro	rep	arcsin	Lymphatic endothelial cells	0.0021052345638768	1.3704593015972932e-12	2.1083989255342973e-12	True	11.676047213778768		heart-intestine-muscle
+398	scatac	scanpro	rep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	0.0	0.0	True	20.0		heart-intestine-muscle
+399	scatac	scanpro	rep	arcsin	Lymphoid cells	0.0446241816749517	4.8139709100891714e-05	5.067337800093865e-05	True	4.29522014370088		heart-intestine-muscle
+400	scatac	scanpro	rep	arcsin	Mesothelial cells	0.0004074647542987	0.0	0.0	True	20.0		heart-intestine-muscle
+401	scatac	scanpro	rep	arcsin	Myeloid cells	0.0307251061672054	1.750047884385708e-10	2.1875598554821352e-10	True	9.660040055082808		heart-intestine-muscle
+402	scatac	scanpro	rep	arcsin	Satellite cells	0.0117689403199956	0.0	0.0	True	20.0		heart-intestine-muscle
+403	scatac	scanpro	rep	arcsin	Schwann cells	0.0035811624516701	0.0	0.0	True	20.0		heart-intestine-muscle
+404	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0163483914196977	0.0	0.0	True	20.0		heart-intestine-muscle
+405	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0103858238484593	0.4322599905282365	0.4322599905282365	False	0.3642549603880044		heart-intestine-muscle
+406	scatac	scanpro	rep	arcsin	Stromal cells	0.0577920843180398	3.054729600548978e-05	3.394144000609975e-05	True	4.469269736165766		heart-intestine-muscle
+407	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0402643088039551	6.1922468264086206e-09	7.284996266363083e-09	True	8.137570666474407		heart-intestine-muscle
+408	scatac	scanpro	rep	arcsin	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-intestine-muscle
+409	scatac	scanpro	rep	arcsin	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-intestine-muscle
+410	scatac	scanpro	rep	arcsin	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-intestine-muscle
+411	scatac	scanpro	rep	arcsin	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-intestine-muscle
+412	scatac	scanpro	rep	arcsin	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-intestine-muscle
+413	scatac	scanpro	rep	arcsin	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-intestine-muscle
+414	scatac	scanpro	rep	arcsin	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-intestine-muscle
+415	scatac	scanpro	rep	arcsin	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-intestine-muscle
+416	scatac	scanpro	rep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-intestine-muscle
+417	scatac	scanpro	rep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-intestine-muscle
+418	scatac	scanpro	rep	arcsin	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-intestine-muscle
+419	scatac	scanpro	rep	arcsin	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-intestine-muscle
+420	scatac	scanpro	rep	arcsin	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-intestine-muscle
+421	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.1019861643078984	5.197730639608267e-06	1.9491489898531003e-05	True	4.710154962833119		heart-muscle
+422	scatac	scanpro	rep	arcsin	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0004994639688543	0.0009364949416018	True	3.0284945640873113		heart-muscle
+423	scatac	scanpro	rep	arcsin	Endocardial cells	0.0081289218482601	0.0002175270766564	0.0006523255369309	True	3.185535619590209		heart-muscle
+424	scatac	scanpro	rep	arcsin	Epicardial fat cells	0.0008285116670741	0.0041371333812115	0.0051714167265143	True	2.286390464213345		heart-muscle
+425	scatac	scanpro	rep	arcsin	Erythroblasts	0.3068594427693115	0.0039241849226712	0.0051714167265143	True	2.286390464213345		heart-muscle
+426	scatac	scanpro	rep	arcsin	Lymphatic endothelial cells	0.0021052345638768	0.0002609302147723	0.0006523255369309	True	3.185535619590209		heart-muscle
+427	scatac	scanpro	rep	arcsin	Lymphoid and Myeloid cells	0.0018652830974565	7.1046959834302915e-09	5.328521987572719e-08	True	7.273393237813283		heart-muscle
+428	scatac	scanpro	rep	arcsin	Lymphoid cells	0.0446241816749517	0.0267384205363637	0.0308520236958043	True	1.5107163437508118		heart-muscle
+429	scatac	scanpro	rep	arcsin	Myeloid cells	0.0307251061672054	0.0004862787087928	0.0009364949416018	True	3.0284945640873113		heart-muscle
+430	scatac	scanpro	rep	arcsin	Satellite cells	0.0117689403199956	2.389884063404941e-11	3.584826095107412e-10	True	9.44553190771365		heart-muscle
+431	scatac	scanpro	rep	arcsin	Schwann cells	0.0035811624516701	0.0009320926068135	0.0015534876780226	True	2.8086921871389805		heart-muscle
+432	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0163483914196977	4.567545341087601e-07	2.2837726705438005e-06	True	5.641347128465588		heart-muscle
+433	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0103858238484593	0.1810719671338589	0.1810719671338589	False	0.7421487802846966		heart-muscle
+434	scatac	scanpro	rep	arcsin	Stromal cells	0.0577920843180398	0.0040604880505493	0.0051714167265143	True	2.286390464213345		heart-muscle
+435	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0402643088039551	0.0382342719277677	0.0409652913511797	True	1.3875839520273443		heart-muscle
+436	scatac	scanpro	rep	arcsin	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-muscle
+437	scatac	scanpro	rep	arcsin	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-muscle
+438	scatac	scanpro	rep	arcsin	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-muscle
+439	scatac	scanpro	rep	arcsin	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-muscle
+440	scatac	scanpro	rep	arcsin	Chromaffin cells	0.0017113519680547	1.0	1.0	False	-0.0		heart-muscle
+441	scatac	scanpro	rep	arcsin	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-muscle
+442	scatac	scanpro	rep	arcsin	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-muscle
+443	scatac	scanpro	rep	arcsin	ENS glia	0.0028228252700585	1.0	1.0	False	-0.0		heart-muscle
+444	scatac	scanpro	rep	arcsin	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-muscle
+445	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.0371585218989668	1.0	1.0	False	-0.0		heart-muscle
+446	scatac	scanpro	rep	arcsin	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-muscle
+447	scatac	scanpro	rep	arcsin	Mesothelial cells	0.0004074647542987	1.0	1.0	False	-0.0		heart-muscle
+448	scatac	scanpro	rep	arcsin	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-muscle
+449	scatac	scanpro	rep	arcsin	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-muscle
+450	scatac	scanpro	rep	arcsin	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-muscle
+451	scatac	scanpro	rep	arcsin	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-muscle
+452	scatac	scanpro	rep	arcsin	ENS neurons	0.0048624127346317	1.0	1.0	False	-0.0		heart-muscle
+453	scatac	scanpro	rep	arcsin	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-muscle
+454	scatac	scanpro	rep	logit	Cardiomyocytes	0.1019861643078984	0.0	0.0	True	20.0		heart-intestine-muscle
+455	scatac	scanpro	rep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	0.0	0.0	True	20.0		heart-intestine-muscle
+456	scatac	scanpro	rep	logit	Chromaffin cells	0.0017113519680547	0.0	0.0	True	20.0		heart-intestine-muscle
+457	scatac	scanpro	rep	logit	ENS glia	0.0028228252700585	0.0	0.0	True	20.0		heart-intestine-muscle
+458	scatac	scanpro	rep	logit	ENS neurons	0.0048624127346317	0.0	0.0	True	20.0		heart-intestine-muscle
+459	scatac	scanpro	rep	logit	Endocardial cells	0.0081289218482601	0.0	0.0	True	20.0		heart-intestine-muscle
+460	scatac	scanpro	rep	logit	Epicardial fat cells	0.0008285116670741	0.0	0.0	True	20.0		heart-intestine-muscle
+461	scatac	scanpro	rep	logit	Erythroblasts	0.3068594427693115	0.0	0.0	True	20.0		heart-intestine-muscle
+462	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.0371585218989668	0.0	0.0	True	20.0		heart-intestine-muscle
+463	scatac	scanpro	rep	logit	Lymphatic endothelial cells	0.0021052345638768	0.0	0.0	True	20.0		heart-intestine-muscle
+464	scatac	scanpro	rep	logit	Lymphoid and Myeloid cells	0.0018652830974565	0.0	0.0	True	20.0		heart-intestine-muscle
+465	scatac	scanpro	rep	logit	Lymphoid cells	0.0446241816749517	0.0	0.0	True	20.0		heart-intestine-muscle
+466	scatac	scanpro	rep	logit	Mesothelial cells	0.0004074647542987	0.0	0.0	True	20.0		heart-intestine-muscle
+467	scatac	scanpro	rep	logit	Myeloid cells	0.0307251061672054	0.0	0.0	True	20.0		heart-intestine-muscle
+468	scatac	scanpro	rep	logit	Satellite cells	0.0117689403199956	0.0	0.0	True	20.0		heart-intestine-muscle
+469	scatac	scanpro	rep	logit	Schwann cells	0.0035811624516701	0.0	0.0	True	20.0		heart-intestine-muscle
+470	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0163483914196977	0.0	0.0	True	20.0		heart-intestine-muscle
+471	scatac	scanpro	rep	logit	Smooth muscle cells	0.0103858238484593	0.552125560354868	0.552125560354868	False	0.257962146965785		heart-intestine-muscle
+472	scatac	scanpro	rep	logit	Stromal cells	0.0577920843180398	0.046314696515884	0.0487523121219832	True	1.312004782672988		heart-intestine-muscle
+473	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0402643088039551	1.756649108841657e-06	1.9518323431573967e-06	True	5.709557489727061		heart-intestine-muscle
+474	scatac	scanpro	rep	logit	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-intestine-muscle
+475	scatac	scanpro	rep	logit	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-intestine-muscle
+476	scatac	scanpro	rep	logit	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-intestine-muscle
+477	scatac	scanpro	rep	logit	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-intestine-muscle
+478	scatac	scanpro	rep	logit	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-intestine-muscle
+479	scatac	scanpro	rep	logit	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-intestine-muscle
+480	scatac	scanpro	rep	logit	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-intestine-muscle
+481	scatac	scanpro	rep	logit	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-intestine-muscle
+482	scatac	scanpro	rep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-intestine-muscle
+483	scatac	scanpro	rep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-intestine-muscle
+484	scatac	scanpro	rep	logit	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-intestine-muscle
+485	scatac	scanpro	rep	logit	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-intestine-muscle
+486	scatac	scanpro	rep	logit	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-intestine-muscle
+487	scatac	scanpro	rep	logit	Cardiomyocytes	0.1019861643078984	6.668412779729029e-11	1.0002619169593543e-09	True	8.999886265803642		heart-muscle
+488	scatac	scanpro	rep	logit	Cardiomyocytes/Endothelial cells	0.0081379766205778	2.654946819181416e-09	9.577229213546162e-09	True	8.018760118407812		heart-muscle
+489	scatac	scanpro	rep	logit	Endocardial cells	0.0081289218482601	9.943950114418907e-10	7.457962585814181e-09	True	8.127379799684178		heart-muscle
+490	scatac	scanpro	rep	logit	Epicardial fat cells	0.0008285116670741	7.779120133687723e-08	1.4585850250664482e-07	True	6.836068249544715		heart-muscle
+491	scatac	scanpro	rep	logit	Erythroblasts	0.3068594427693115	9.2329657912594e-09	2.30824144781485e-08	True	7.636718764853748		heart-muscle
+492	scatac	scanpro	rep	logit	Lymphatic endothelial cells	0.0021052345638768	3.1924097378487206e-09	9.577229213546162e-09	True	8.018760118407812		heart-muscle
+493	scatac	scanpro	rep	logit	Lymphoid and Myeloid cells	0.0018652830974565	2.567271213001536e-06	3.5008243813657317e-06	True	5.45582967504382		heart-muscle
+494	scatac	scanpro	rep	logit	Lymphoid cells	0.0446241816749517	6.716768044386301e-08	1.439307438082779e-07	True	6.841846430245482		heart-muscle
+495	scatac	scanpro	rep	logit	Myeloid cells	0.0307251061672054	1.6657662194430523e-09	8.328831097215262e-09	True	8.07941594500982		heart-muscle
+496	scatac	scanpro	rep	logit	Satellite cells	0.0117689403199956	6.564772336775125e-07	9.847158505162689e-07	True	6.0066890713865595		heart-muscle
+497	scatac	scanpro	rep	logit	Schwann cells	0.0035811624516701	0.0013243618107621	0.0016554522634526	True	2.7810833380276043		heart-muscle
+498	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0163483914196977	5.34317563016518e-07	8.905292716941966e-07	True	6.050351800707944		heart-muscle
+499	scatac	scanpro	rep	logit	Smooth muscle cells	0.0103858238484593	0.2538583594166437	0.2538583594166437	False	0.5954085309446419		heart-muscle
+500	scatac	scanpro	rep	logit	Stromal cells	0.0577920843180398	0.0328897237352773	0.0379496812330123	True	1.4207918677085587		heart-muscle
+501	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0402643088039551	0.0754882564748289	0.0808802747944596	False	1.0921573818790395		heart-muscle
+502	scatac	scanpro	rep	logit	Parietal and chief cells	0.0011544834705131	1.0	1.0	False	-0.0		heart-muscle
+503	scatac	scanpro	rep	logit	Astrocytes	0.0187750704008547	1.0	1.0	False	-0.0		heart-muscle
+504	scatac	scanpro	rep	logit	Epithelial cells	0.0012903050552793	1.0	1.0	False	-0.0		heart-muscle
+505	scatac	scanpro	rep	logit	Goblet cells	0.0027209590814838	1.0	1.0	False	-0.0		heart-muscle
+506	scatac	scanpro	rep	logit	Chromaffin cells	0.0017113519680547	1.0	1.0	False	-0.0		heart-muscle
+507	scatac	scanpro	rep	logit	Inhibitory neurons	0.0280630031057869	1.0	1.0	False	-0.0		heart-muscle
+508	scatac	scanpro	rep	logit	Hematopoietic stem cells	0.0033004645098199	1.0	1.0	False	-0.0		heart-muscle
+509	scatac	scanpro	rep	logit	ENS glia	0.0028228252700585	1.0	1.0	False	-0.0		heart-muscle
+510	scatac	scanpro	rep	logit	Stellate cells	0.0188497722724762	1.0	1.0	False	-0.0		heart-muscle
+511	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.0371585218989668	1.0	1.0	False	-0.0		heart-muscle
+512	scatac	scanpro	rep	logit	Excitatory neurons	0.1103165548402285	1.0	1.0	False	-0.0		heart-muscle
+513	scatac	scanpro	rep	logit	Mesothelial cells	0.0004074647542987	1.0	1.0	False	-0.0		heart-muscle
+514	scatac	scanpro	rep	logit	Megakaryocytes	0.0049869158540008	1.0	1.0	False	-0.0		heart-muscle
+515	scatac	scanpro	rep	logit	Astrocytes/Oligodendrocytes	0.0114837149919865	1.0	1.0	False	-0.0		heart-muscle
+516	scatac	scanpro	rep	logit	SKOR2_NPSR1 positive cells	0.0064334157317614	1.0	1.0	False	-0.0		heart-muscle
+517	scatac	scanpro	rep	logit	Limbic system neurons	0.0044164651979825	1.0	1.0	False	-0.0		heart-muscle
+518	scatac	scanpro	rep	logit	ENS neurons	0.0048624127346317	1.0	1.0	False	-0.0		heart-muscle
+519	scatac	scanpro	rep	logit	Hepatoblasts	0.0958447649833845	1.0	1.0	False	-0.0		heart-muscle
