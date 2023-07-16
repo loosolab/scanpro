@@ -1,17 +1,17 @@
 Covariate	Cell Type	credible_effect
-Condition[T.fetal]	Cardiomyocytes	True
-Condition[T.fetal]	Endothelial cells	False
-Condition[T.fetal]	Epicardial cells	False
-Condition[T.fetal]	Erythroid	False
-Condition[T.fetal]	Fibroblast	False
-Condition[T.fetal]	Immune cells	False
-Condition[T.fetal]	Neurons	False
-Condition[T.fetal]	Smooth muscle cells	False
-Condition[T.young]	Cardiomyocytes	False
-Condition[T.young]	Endothelial cells	False
-Condition[T.young]	Epicardial cells	False
-Condition[T.young]	Erythroid	False
-Condition[T.young]	Fibroblast	False
-Condition[T.young]	Immune cells	False
-Condition[T.young]	Neurons	False
-Condition[T.young]	Smooth muscle cells	False
+Condition[T.Fetal]	Cardiomyocytes	True
+Condition[T.Fetal]	Endothelial cells	False
+Condition[T.Fetal]	Epicardial cells	False
+Condition[T.Fetal]	Erythroid	True
+Condition[T.Fetal]	Fibroblast	False
+Condition[T.Fetal]	Immune cells	True
+Condition[T.Fetal]	Neurons	False
+Condition[T.Fetal]	Smooth muscle cells	False
+Condition[T.Young]	Cardiomyocytes	False
+Condition[T.Young]	Endothelial cells	False
+Condition[T.Young]	Epicardial cells	False
+Condition[T.Young]	Erythroid	False
+Condition[T.Young]	Fibroblast	False
+Condition[T.Young]	Immune cells	False
+Condition[T.Young]	Neurons	False
+Condition[T.Young]	Smooth muscle cells	False

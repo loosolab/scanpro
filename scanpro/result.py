@@ -216,7 +216,7 @@ class ScanproResult():
              .configure(test=None, line_width=line_width, verbose=False)
              .set_custom_annotations(pvalues)
              .annotate())
-            
+
             # If more than one contrast; move all pairs to the same level
             if len(pairs) > 1:
                 top_y = ax_p._children[-2]._y
