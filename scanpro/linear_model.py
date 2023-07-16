@@ -201,7 +201,6 @@ def create_design(data, sample_col, conds_col, covariates=None):
     # Build sample matrix
     cols = [sample_col, conds_col] if sample_col != conds_col else [conds_col]  # prevent duplicated columns
     sample_info = data[cols + covariates].drop_duplicates()
-    sample_info.sort_values(sample_col, inplace=True)
     sample_info.set_index(sample_col, drop=False, inplace=True)
 
     # build formula
@@ -212,5 +211,10 @@ def create_design(data, sample_col, conds_col, covariates=None):
 
     # Rename columns from "conds_col[cond]" to "cond"
     design.columns = [re.match(".+\[(T\.){0,1}(.+)\]", col).group(2) for col in design.columns]
+
+    # Reorder columns to be in the same order as the input condition order
+    conditions = sample_info[conds_col].unique().tolist()
+    sorted_columns = sorted(design.columns, key=lambda x: conditions.index(x) if x in conditions else np.inf)
+    design = design[sorted_columns]
 
     return design
