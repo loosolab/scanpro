@@ -88,10 +88,10 @@ def ebayes(fit, proportion=0.01, stdev_coef_lim=[0.1, 4], robust=False, winsor_t
         fit['F'] = F_stat
         df1 = F_stat['df1']
         df2 = F_stat['df2']
-        if df2 > 1e6:
-            fit['F']['F_p_value'] = 1 - chi2.cdf(df1 * fit['F']['stat'], df=df1)  # to calculate upper tail [x,inf) since cdf calculates lower tail [0,x]
+        if df2[0] > 1e6:
+            fit['F']['F_p_value'] = 1 - chi2.cdf(df1 * fit['F']['stat'].flatten(), df=df1)  # to calculate upper tail [x,inf) since cdf calculates lower tail [0,x]
         else:
-            fit['F']['F_p_value'] = 1 - f.cdf(fit['F'], df1, df2)
+            fit['F']['F_p_value'] = 1 - f.cdf(fit['F']['stat'].flatten(), df1, df2)
 
     return fit
 
@@ -270,6 +270,7 @@ def classify_tests_f(fit, df=np.Inf):
         fit['cov_coef'][j] = 1
     cor_matrix = cov_to_corr(fit['cov_coef'])
 
+    df = fit['df_total'] + fit['df_prior']
     tstat = fit['t']
     n_tests = fit['t'].shape[1]
 
