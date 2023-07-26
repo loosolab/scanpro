@@ -6,7 +6,7 @@
 `$ pip install .`
 
 ## Install sccoda
-`$ pip install sccoda `
+`$ pip install pertpy`
 
 ## Install propeller from the speckle package
 `$ pip install rpy2`
