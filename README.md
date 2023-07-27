@@ -5,7 +5,12 @@ across different conditions from single cell clustering data. Scanpro also suppo
 <img src="docs/source/figures/scanpro_workflow.png" width=75% height=55%>
 
 ## Install
-To install scanpro: 
+### PyPi
+COMING SOON!!
+
+`pip install scanpro`
+
+### From source: 
 - clone the repository
 ```
 git clone https://gitlab.gwdg.de/loosolab/software/scanpro.git
