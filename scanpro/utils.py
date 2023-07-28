@@ -315,7 +315,6 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     return counts
 
 
-
 def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, column_name="Cluster"):
     """ Convert a cell count matrix to a dataframe in long format.
 
@@ -329,25 +328,25 @@ def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, colu
 
     counts = counts.copy()
 
-    #If not given, try to get prop_cols and meta_cols automatically
+    # If not given, try to get prop_cols and meta_cols automatically
     if prop_cols is None:
         dtypes = counts.dtypes.astype(str)
         prop_cols = [col for i, col in enumerate(counts.columns) if "float" in dtypes[i] or "int" in dtypes[i]]
-        
+
     if meta_cols is None:
         meta_cols = [col for col in counts.columns if col not in prop_cols]
 
     # Multiply proportions with n_cells
     counts[prop_cols] *= n_cells
     counts[prop_cols] = counts[prop_cols].astype(int)
-    
+
     # Melt into long format (similar to adata.obs)
-    counts_melt = pd.melt(counts, id_vars=meta_cols, value_vars=prop_cols, 
+    counts_melt = pd.melt(counts, id_vars=meta_cols, value_vars=prop_cols,
                           var_name=column_name, value_name="count")
 
     # Duplicate rows based on number of cells
     counts_long = counts_melt.loc[counts_melt.index.repeat(counts_melt["count"])].reset_index(drop=True)
     counts_long.drop(columns="count", inplace=True)
     counts_long.index = ["cell_" + str(i) for i in range(1, len(counts_long) + 1)]
-    
+
     return counts_long

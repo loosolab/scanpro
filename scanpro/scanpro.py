@@ -8,7 +8,7 @@ from statsmodels.tools.tools import add_constant
 from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import lm_fit, contrasts_fit, create_design
 from scanpro import ebayes
-from scanpro.sim_reps import generate_reps, combine, get_mean_sim
+from scanpro.sim_reps import generate_reps, get_mean_sim
 from scanpro.result import ScanproResult
 from scanpro.logging import ScanproLogger
 

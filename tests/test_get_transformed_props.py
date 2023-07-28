@@ -16,7 +16,7 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts = convert_counts_to_df(counts, column_name='cluster')
 
     return counts
 
@@ -94,8 +94,9 @@ def test_get_transformed_props(counts_df, transform, props_test, trans_props_tes
 def test_get_transformed_props_counts(counts_matrix, transform, normalize, props_test,
                                       trans_props_norm_test, trans_props_arcsin_test):
     """Test get_transformed_props_counts function"""
-    props, trans_props = get_transformed_props_counts(counts_matrix, transform=transform, normalize=normalize)
-
+    props, trans_props = get_transformed_props_counts(counts_matrix, transform=transform,
+                                                      sample_col='sample', meta_cols=['group'],
+                                                      normalize=normalize)
     # check if dataframes are produces
     assert all([isinstance(res, pd.DataFrame) for res in [props, trans_props]])
     # check if dataframes have the right index and columns

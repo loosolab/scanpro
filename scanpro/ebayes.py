@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.stats import t, f, chi2
+from scipy.stats import t, f
 from scanpro.utils import pmin, pmax, is_fullrank, cov_to_corr, matvec
 from scanpro.fitFDist import fit_f_dist_robust, fit_f_dist
 

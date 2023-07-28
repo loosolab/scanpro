@@ -210,7 +210,7 @@ def create_design(data, sample_col, conds_col, covariates=None):
     design = dmatrix(formula, sample_info, return_type='dataframe')
 
     # Rename columns from "conds_col[cond]" to "cond"
-    design.columns = [re.match(".+\[(T\.){0,1}(.+)\]", col).group(2) for col in design.columns]
+    design.columns = [re.match(r".+\[(T\.){0,1}(.+)\]", col).group(2) for col in design.columns]
 
     # Reorder columns to be in the same order as the input condition order
     conditions = sample_info[conds_col].unique().tolist()

@@ -16,7 +16,7 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts_df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts_df = convert_counts_to_df(counts, column_name='cluster')
 
     return counts_df
 
