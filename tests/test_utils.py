@@ -214,7 +214,7 @@ def test_simulate_cell_counts(n_reps):
     n_samples = n_reps * 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
     assert isinstance(counts, pd.DataFrame)
-    assert 'samples' in counts.columns and 'group' in counts.columns
+    assert 'sample' in counts.columns and 'group' in counts.columns
     # check if number of samples is correct
     assert len(counts['sample']) == n_samples
     # check if number of clusters is correct
@@ -252,6 +252,6 @@ def test_convert_counts_to_df(n_reps, n_conds):
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=n_conds)
     df = convert_counts_to_df(counts, column_name='cluster')
 
-    assert (column in df.columns for column in ['samples', 'cluster', 'group'])
-    assert len(df['samples'].unique()) == n_samples
+    assert (column in df.columns for column in ['sample', 'cluster', 'group'])
+    assert len(df['sample'].unique()) == n_samples
     assert len(df['group'].unique()) == n_conds

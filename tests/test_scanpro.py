@@ -84,8 +84,8 @@ def test_anova(counts_df_3, transform):
     counts, props, prop_trans = get_transformed_props(counts_df_3, sample_col='sample',
                                                       cluster_col='cluster', transform=transform)
     # create design matrix
-    design = create_design(data=counts_df_3, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df_3, sample_col='sample',
+                           conds_col='group')
 
     coef = np.arange(len(design.columns))
 
@@ -103,8 +103,8 @@ def test_t_test(counts_df, transform):
     counts, props, prop_trans = get_transformed_props(counts_df, sample_col='sample',
                                                       cluster_col='cluster', transform=transform)
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
 
     contrasts = [1, -1]
     # run anova

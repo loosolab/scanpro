@@ -29,8 +29,8 @@ def test_create_design(counts_df):
     _, props, _ = get_transformed_props(counts_df, sample_col='sample',
                                         cluster_col='cluster')
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
 
     assert isinstance(design, pd.DataFrame)
     # check columns -> conditions
@@ -45,8 +45,8 @@ def test_lm_fit(counts_df):
     _, props, prop_trans = get_transformed_props(counts_df, sample_col='sample',
                                                  cluster_col='cluster')
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
     # run lm_fit function
     fit = lm_fit(design, prop_trans)
 
@@ -65,8 +65,8 @@ def test_contrasts_fit(counts_df):
     _, props, prop_trans = get_transformed_props(counts_df, sample_col='sample',
                                                  cluster_col='cluster')
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
     # run lm_fit function
     fit = lm_fit(design, prop_trans)
     # run contrasts_fit function

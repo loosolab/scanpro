@@ -42,9 +42,10 @@ def counts_list(counts_df):
     """List of simulated counts matrices as pandas dataframes"""
     np.random.seed(10)
 
-    n_sims = 5
-    n_reps = 4
-    samples_col = 'tmp_samples'
+    n_sims = 3
+    n_reps = 2
+    samples_col = 'sample'
+    rep_samples_col = 'sample_replicates'
     conds_col = 'group'
     clusters_col = 'cluster'
     transform = 'arcsin'
@@ -60,9 +61,9 @@ def counts_list(counts_df):
 
         # run propeller
         try:
-            out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
+            out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=rep_samples_col,
                                   conds=conds_col, transform=transform,
-                                  conditions=None, robust=True, verbose=False)
+                                  conditions=None, robust=True, verbosity=0)
         # workaround brentq error "f(a) and f(b) must have different signs"
         # rerun simulation instead of crashing
         except ValueError:
@@ -78,14 +79,14 @@ def counts_list(counts_df):
 @pytest.fixture
 def exp_mean_counts():
     """Expected output of get_mean_sim using counts_list"""
-    exp_values = np.array([[76.2, 275.2, 858.2, 2157.4, 2093.],
-                           [33.4, 132.2, 399.8, 981.8, 956.6],
-                           [12.8, 56.4, 161.8, 399., 368.],
-                           [11.2, 47.2, 138.6, 352.6, 341.4],
-                           [41., 250.6, 761.4, 1277.4, 2008.4],
-                           [28.8, 168.4, 489.8, 868.4, 1354.],
-                           [21.6, 113.6, 347.8, 612.8, 944.8],
-                           [5.4, 41.4, 119.6, 206.8, 327.]])
+    exp_values = np.array([[23., 103.66666667, 274., 784., 644.33333333],
+                           [15.66666667, 74., 199., 538.66666667, 449.],
+                           [23., 79.66666667, 285.33333333, 639.33333333, 677.33333333],
+                           [14.66666667, 53.66666667, 197.66666667, 415., 465.66666667],
+                           [25.33333333, 154.33333333, 310.33333333, 895.66666667, 878.66666667],
+                           [8.66666667, 47.66666667, 101., 280., 279.66666667],
+                           [17., 99.66666667, 408.33333333, 458.66666667, 1093.],
+                           [7.66666667, 48.33333333, 171., 209.66666667, 466.]])
 
     return exp_values
 
@@ -99,7 +100,7 @@ def test_generate_reps(counts_df):
     # expected pseudo samples output
     pseudo_samples = [sample + '_rep_' + str(i + 1) for sample in counts_df['sample'].unique() for i in range(n_reps)]
 
-    assert all([x in repd_df['sample'].unique() for x in pseudo_samples])
+    assert all([x in repd_df['sample_replicates'].unique() for x in pseudo_samples])
 
 
 def test_combine(coefficients):
