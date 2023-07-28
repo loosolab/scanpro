@@ -19,7 +19,7 @@ def test_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=3)
-    df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=3)
+    df = convert_counts_to_df(counts, column_name='cluster')
 
     return df
 
@@ -32,7 +32,8 @@ def test_fit(test_df):
                                                  cluster_col='cluster', transform='logit')
 
     # create design matrix
-    design = create_design(data=test_df, samples='sample', conds='group', reindex=props.index)
+    design = create_design(data=test_df, sample_col='sample',
+                           conds_col='group')
 
     coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
 
@@ -101,7 +102,7 @@ def test_fit_f_dist_robust(test_params):
     out = fit_f_dist_robust(var, df, covariate=None, winsor_tail_p=[0.05, 0.1])
 
     assert all([stat in out.keys() for stat in ['scale', 'df2', 'df2_shrunk']])
-    assert np.isclose(0.11209644570775239, out['scale'])
+    assert np.isclose(0.11231000019035423, out['scale'])
     assert np.isinf(out['df2'])
     assert all(np.isinf(out['df2_shrunk']))
 
@@ -113,7 +114,7 @@ def test_fit_f_dist(test_params):
     out = fit_f_dist(var, df, covariate=None)
 
     assert all([stat in out.keys() for stat in ['scale', 'df2']])
-    assert np.isclose(0.11209644570775239, out['scale'])
+    assert np.isclose(0.11231000019035423, out['scale'])
     assert np.isinf(out['df2'])
 
 

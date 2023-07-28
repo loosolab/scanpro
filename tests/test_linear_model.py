@@ -18,7 +18,7 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts = convert_counts_to_df(counts, column_name='cluster')
 
     return counts
 
@@ -29,8 +29,8 @@ def test_create_design(counts_df):
     _, props, _ = get_transformed_props(counts_df, sample_col='sample',
                                         cluster_col='cluster')
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
 
     assert isinstance(design, pd.DataFrame)
     # check columns -> conditions
@@ -45,8 +45,8 @@ def test_lm_fit(counts_df):
     _, props, prop_trans = get_transformed_props(counts_df, sample_col='sample',
                                                  cluster_col='cluster')
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
     # run lm_fit function
     fit = lm_fit(design, prop_trans)
 
@@ -65,8 +65,8 @@ def test_contrasts_fit(counts_df):
     _, props, prop_trans = get_transformed_props(counts_df, sample_col='sample',
                                                  cluster_col='cluster')
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
     # run lm_fit function
     fit = lm_fit(design, prop_trans)
     # run contrasts_fit function

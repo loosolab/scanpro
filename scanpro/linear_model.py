@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 from scanpro.utils import vecmat, del_index, cov_to_corr
+from patsy import dmatrix
+import re
 
 
 def lm_fit(X, y):
@@ -14,6 +16,7 @@ def lm_fit(X, y):
     n_clusters = len(y.columns)  # number of clusters
     n_cond = len(X.columns)  # number of conditions
     fit = {}
+
     # loop over clusters and fit linear model for each cluster seperately
     for i, cluster in enumerate(y.columns):
         M = y.iloc[:, i]  # get proportions for only one cluster
@@ -152,6 +155,7 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
             RUC = R @ vecmat(fit['stdev'][i], contrasts)
             U[i] = np.sqrt(o @ RUC**2)
         fit['stdev'] = U
+
     # Replace NAs if necessary
     if na_coef:
         i = fit['stdev'] > 1e20
@@ -161,66 +165,56 @@ def contrasts_fit(fit_prop, contrasts=None, coefficients=None):
     return fit
 
 
-def create_design(samples, conds, cofactors=None, data=None, reorder=False, reindex=False, intercept=False,
-                  before_reindex=True):
+def create_design(data, sample_col, conds_col, covariates=None):
     """Create design matrix where rows=samples and columns=conditions, to use for fitting linear models to clusters.
 
+    :param [pd.DataFrame, anndata.Anndata] data: A dataframe where sample_col, conds_col and covariates are columns
     :param [list, numpy.array or str] samples: If data is provided, samples is the columns name where
     samples are saved, otherwise samples is a list or array of samples.
     :param [list, numpy.array or str] conds: If data is provided, conds is the columns name where
     conditions are saved, otherwise conds is a list or array of conditions corresponding to samples.
-    :param [str or dict] cofactors: If data is provided, cofactors is a string (or list of strings) where
-    cofactors are saved, otherwise provide a dictionary with keys as cofactors names and values are lists
-    of cofacotrs corresponding to samples, defaults to None.
+    :param [str or dict] covariates: If data is provided, covariates is a string (or list of strings) where
+    covariates are saved, otherwise provide a dictionary with keys as covariates names and values are lists
+    of covariates corresponding to samples, defaults to None.
     :param anndata.Anndata or pandas.DataFrame data: A dataframe where samples and conditions are columns,
     if data is anndata, samples and conditions must be columns in adata.obs, defaults to None.
     :param bool or list reorder: Reorder columns of data matrix to match the list provided, defaults to False.
     :param bool or list reindex: Reorder rows of data matrix to match the list provided, defaults to False.
     :param bool intercept: If True, an intercept is added as first column in the design matrix, defaults to False
-    :param bool before_reindex: If True, cofactors are added to design matrix before reordering rows,
+    :param bool before_reindex: If True, covariates are added to design matrix before reordering rows,
     make sure that provided list match the samples, defaults to True.
     :raises TypeError: _description_
     :raises ValueError: _description_
     :return pandas.DataFrame: Design matrix as pandas dataframe.
     """
+
     # check if data is either anndata or pandas dataframe
-    if data is not None:
-        if not type(data).__name__ == "AnnData" and not isinstance(data, pd.DataFrame):
-            raise TypeError("Only anndata objects and pandas dataframes are supported!")
+    if type(data).__name__ == "AnnData":
+        data = data.obs
+    elif not isinstance(data, pd.DataFrame):  # if data is not anndata or pandas dataframe
+        raise TypeError("Only anndata objects and pandas dataframes are supported!")
+    data = data.copy()
 
-        if type(data).__name__ == "AnnData":
-            data = data.obs
+    if covariates is None:
+        covariates = []
 
-        samples = data[samples].to_list()
-        conds = data[conds].to_list()
+    # Build sample matrix
+    cols = [sample_col, conds_col] if sample_col != conds_col else [conds_col]  # prevent duplicated columns
+    sample_info = data[cols + covariates].drop_duplicates()
+    sample_info.set_index(sample_col, drop=False, inplace=True)
 
-    group_coll = pd.crosstab(samples, conds, rownames=['sample'], colnames=['group'])
-    if reorder:
-        group_coll = group_coll[reorder]
-    design = group_coll.where(group_coll == 0, 1).astype('int')
+    # build formula
+    formula = "~0 + " + " + ".join([conds_col] + covariates)
 
-    if cofactors is not None:
-        # reorder rows before adding cofactors columns
-        if reindex is not False and not before_reindex:
-            design = design.reindex(reindex)
-        # check type of cofactor
-        if isinstance(cofactors, dict):
-            for key, values in cofactors.items():
-                factor, _ = pd.factorize(values)
-                design[key] = factor
-        if isinstance(cofactors, list) or isinstance(cofactors, np.ndarray):
-            # if cofactor is a list, it should contain columns names which are found in data
-            if data is None:
-                s = "When passing cofactors as list, please provide anndata object or pandas dataframe as data!"
-                s += " Otherwise provide a dictionary where keys are names of cofactors and values are lists"
-                raise ValueError(s)
-            # add to design matrix
-            for name in cofactors:
-                factor, _ = pd.factorize(data[name])
-                design[name] = factor
+    # build design matrix
+    design = dmatrix(formula, sample_info, return_type='dataframe')
 
-    if reindex is not False:
-        # reorder rows
-        design = design.reindex(reindex)
+    # Rename columns from "conds_col[cond]" to "cond"
+    design.columns = [re.match(r".+\[(T\.){0,1}(.+)\]", col).group(2) for col in design.columns]
+
+    # Reorder columns to be in the same order as the input condition order
+    conditions = sample_info[conds_col].unique().tolist()
+    sorted_columns = sorted(design.columns, key=lambda x: conditions.index(x) if x in conditions else np.inf)
+    design = design[sorted_columns]
 
     return design

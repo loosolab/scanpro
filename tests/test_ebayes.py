@@ -19,7 +19,7 @@ def test_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=3)
-    df = convert_counts_to_df(counts, n_reps=n_reps, n_conds=3)
+    df = convert_counts_to_df(counts, column_name='cluster')
 
     return df
 
@@ -32,7 +32,8 @@ def test_fit(test_df):
                                                  cluster_col='cluster', transform='logit')
 
     # create design matrix
-    design = create_design(data=test_df, samples='sample', conds='group', reindex=props.index)
+    design = create_design(data=test_df, sample_col='sample',
+                           conds_col='group')
 
     coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest
 
@@ -134,10 +135,17 @@ def test_classify_tests_f(test_fit):
     winsor_tail_p = [0.05, 0.1]
     n_clusters = 5
     # calculate prior/post variance and prior degrees of freedom using empirical bayes
-    _, var_post, _ = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
+    _, var_post, df_prior = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
+
+    df_total = df_residual + df_prior
+    df_pooled = np.nansum(df_residual)
+    df_total = pmin(df_total, df_pooled)
+    test_fit['df_total'] = df_total
+    test_fit['df_prior'] = df_prior
 
     # calcualte t-staisctics
     test_fit['t'] = coefficients / stdev / np.reshape(np.sqrt(var_post), (n_clusters, 1))
+
     out = classify_tests_f(test_fit)
 
     assert isinstance(out, dict)
