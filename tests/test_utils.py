@@ -39,7 +39,7 @@ def counts_matrix():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts.set_index('samples', inplace=True)
+    counts.set_index('sample', inplace=True)
     counts.drop('group', axis=1, inplace=True)
     return counts
 
@@ -180,8 +180,8 @@ def test_estimate_beta_params(counts_matrix):
     """Test estimat_beta_params function"""
     props, _ = get_transformed_props_counts(counts_matrix)
 
-    exp_a = np.array([0.76492002, 0.79233183, 0.78666146, 0.59952976])
-    exp_b = np.array([3.05968009, 3.16932733, 3.14664585, 2.39811905])
+    exp_a = np.array([0.764902, 0.792314, 0.786638, 0.599517])
+    exp_b = np.array([3.059607, 3.169258, 3.146551, 2.398066])
 
     out = estimate_beta_params(props)
 
@@ -216,9 +216,9 @@ def test_simulate_cell_counts(n_reps):
     assert isinstance(counts, pd.DataFrame)
     assert 'samples' in counts.columns and 'group' in counts.columns
     # check if number of samples is correct
-    assert len(counts['samples']) == n_samples
+    assert len(counts['sample']) == n_samples
     # check if number of clusters is correct
-    counts.drop(['samples', 'group'], inplace=True, axis=1)
+    counts.drop(['sample', 'group'], inplace=True, axis=1)
     assert len(counts.columns) == n_clusters
 
 
@@ -233,7 +233,11 @@ def test_simulate_cell_counts_2(n_reps, true_props, beta_params):
                                     a, b_grps, n_conds=2, n=20, mu=5000)
 
     assert isinstance(counts, pd.DataFrame)
-    assert len(counts.index) == n_samples
+    assert 'sample' in counts.columns and 'group' in counts.columns
+    # check if number of samples is correct
+    assert len(counts['sample']) == n_samples
+    # check if number of clusters is correct
+    counts.drop(['sample', 'group'], inplace=True, axis=1)
     assert len(counts.columns) == n_clusters
 
 

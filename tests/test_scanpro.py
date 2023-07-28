@@ -53,7 +53,7 @@ def test_import():
 def test_scanpro(counts_df, transform, samples):
     """Test scanpro wrapper function"""
     out = scanpro.scanpro(counts_df, 'cluster', 'group', samples_col=samples,
-                          transform=transform, verbose=False)
+                          transform=transform, verbosity=0)
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     if samples is None:
@@ -71,7 +71,7 @@ def test_run_scanpro(counts_df_3, transform, conditions):
     """Test run_scanpro function"""
     out = scanpro.run_scanpro(counts_df_3, clusters='cluster', samples='sample',
                               conds='group', conditions=conditions,
-                              transform=transform, verbose=False)
+                              transform=transform, verbosity=0)
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert all(x in out.results.columns for x in ['p_values', 'adjusted_p_values'])
@@ -90,7 +90,7 @@ def test_anova(counts_df_3, transform):
     coef = np.arange(len(design.columns))
 
     # run anova
-    out = scanpro.anova(props, prop_trans, design, coef, verbose=False)
+    out = scanpro.anova(props, prop_trans, design, coef, verbosity=0)
 
     assert isinstance(out, pd.DataFrame)
     assert all(x in out.columns for x in ['p_values', 'adjusted_p_values'])
@@ -108,7 +108,7 @@ def test_t_test(counts_df, transform):
 
     contrasts = [1, -1]
     # run anova
-    out = scanpro.t_test(props, prop_trans, design, contrasts, verbose=False)
+    out = scanpro.t_test(props, prop_trans, design, contrasts, verbosity=0)
 
     assert isinstance(out, pd.DataFrame)
     assert all(x in out.columns for x in ['p_values', 'adjusted_p_values'])
@@ -117,10 +117,9 @@ def test_t_test(counts_df, transform):
 def test_sim_scanpro(counts_df):
     """Test sim_scanpro function"""
     out = scanpro.sim_scanpro(counts_df, 'cluster', 'group',
-                              samples_col='merged_samples',
                               transform='arcsin', n_reps=8, n_sims=100,
                               conditions=['cond_1', 'cond_2'],
-                              robust=True, verbose=False)
+                              robust=True, verbosity=0)
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns

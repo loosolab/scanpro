@@ -255,7 +255,7 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     conds_names = np.repeat([f"cond_{i}" for i in range(1, n_conds + 1)], total_reps / n_conds)
 
     counts = pd.DataFrame(counts_sim, columns=pd.Index(clusters_names))
-    counts["samples"] = samples_names
+    counts["sample"] = samples_names
     counts["group"] = conds_names
 
     return counts
@@ -308,7 +308,7 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     counts_sim = counts_sim.T
     counts = pd.DataFrame(counts_sim, columns=clusters_names)
-    counts["samples"] = samples_names
+    counts["sample"] = samples_names
     conds_names = np.repeat([f"cond_{i}" for i in range(1, n_conds + 1)], total_reps / n_conds)
     counts["group"] = conds_names
 

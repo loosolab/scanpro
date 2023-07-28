@@ -74,7 +74,8 @@ def trans_props_arcsin_test():
 @pytest.mark.parametrize("transform", ["logit", "arcsin"])
 def test_get_transformed_props(counts_df, transform, props_test, trans_props_test, trans_props_arcsin_test):
     """Test get_transformed_props function"""
-    counts, props, trans_props = get_transformed_props(counts_df, transform=transform)
+    counts, props, trans_props = get_transformed_props(counts_df, transform=transform,
+                                                       sample_col='sample')
 
     # check if dataframes are produces
     assert all([isinstance(res, pd.DataFrame) for res in [counts, props, trans_props]])
