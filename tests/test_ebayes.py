@@ -32,7 +32,7 @@ def test_fit(test_df):
                                                  cluster_col='cluster', transform='logit')
 
     # create design matrix
-    design = create_design(data=test_df, samples_col='sample',
+    design = create_design(data=test_df, sample_col='sample',
                            conds_col='group')
 
     coef = np.arange(len(design.columns))  # columns of the design matrix corresponding to conditions of interest

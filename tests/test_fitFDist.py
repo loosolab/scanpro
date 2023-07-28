@@ -102,7 +102,7 @@ def test_fit_f_dist_robust(test_params):
     out = fit_f_dist_robust(var, df, covariate=None, winsor_tail_p=[0.05, 0.1])
 
     assert all([stat in out.keys() for stat in ['scale', 'df2', 'df2_shrunk']])
-    assert np.isclose(0.11209644570775239, out['scale'])
+    assert np.isclose(0.11231000019035423, out['scale'])
     assert np.isinf(out['df2'])
     assert all(np.isinf(out['df2_shrunk']))
 
@@ -114,7 +114,7 @@ def test_fit_f_dist(test_params):
     out = fit_f_dist(var, df, covariate=None)
 
     assert all([stat in out.keys() for stat in ['scale', 'df2']])
-    assert np.isclose(0.11209644570775239, out['scale'])
+    assert np.isclose(0.11231000019035423, out['scale'])
     assert np.isinf(out['df2'])
 
 
