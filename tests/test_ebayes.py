@@ -135,10 +135,17 @@ def test_classify_tests_f(test_fit):
     winsor_tail_p = [0.05, 0.1]
     n_clusters = 5
     # calculate prior/post variance and prior degrees of freedom using empirical bayes
-    _, var_post, _ = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
+    _, var_post, df_prior = squeeze_var(sigma**2, df_residual, robust=True, winsor_tail_p=winsor_tail_p)
+
+    df_total = df_residual + df_prior
+    df_pooled = np.nansum(df_residual)
+    df_total = pmin(df_total, df_pooled)
+    test_fit['df_total'] = df_total
+    test_fit['df_prior'] = df_prior
 
     # calcualte t-staisctics
     test_fit['t'] = coefficients / stdev / np.reshape(np.sqrt(var_post), (n_clusters, 1))
+
     out = classify_tests_f(test_fit)
 
     assert isinstance(out, dict)
