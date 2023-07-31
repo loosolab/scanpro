@@ -58,3 +58,4 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**.ipynb_checkpoints']
 #
 # html_theme = 'alabaster'
 html_theme = 'sphinx_rtd_theme'
+html_logo = "figures/scanpro_logo.png"
