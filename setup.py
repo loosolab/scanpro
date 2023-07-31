@@ -1,6 +1,7 @@
 import re
 from setuptools import find_packages  # has to be imported befor distutils
 from numpy.distutils.core import Extension, setup
+from distutils.command.sdist import sdist
 
 
 def find_version(file_path):
@@ -25,6 +26,7 @@ setup(
     author_email='yousef.alayoubi@mpi-bn.mpg.de',
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
+    cmdclass={'sdist': sdist},
     install_requires=['pandas',
                       'statsmodels',
                       'matplotlib',
