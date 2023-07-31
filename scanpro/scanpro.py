@@ -29,10 +29,12 @@ def scanpro(data, clusters_col, conds_col,
     using bootstrapping and run propeller multiple times. The values are then pooled
     to get robust estimation of p values.
 
-    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample, condition and cluster/celltype information.
+    :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample,
+        condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition information are stored.
-    :param str samples_col: Column in data or data.obs where sample information are stored, if None, dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
+    :param str samples_col: Column in data or data.obs where sample information are stored,
+        if None, dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
     :param list covariates: List of covariates to include in the model, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
@@ -43,7 +45,7 @@ def scanpro(data, clusters_col, conds_col,
     :param int seed: Seed for random number generator, defaults to 1.
 
     :raises ValueError: Data must have at least two conditions!
-    :return scanpro: A scanpro object containing estimated mean proportions for each cluster and p-values.
+    :return ScanproResult: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
 
     logger = ScanproLogger(verbosity)  # create logger instance
@@ -233,7 +235,7 @@ def run_scanpro(data, clusters, samples, conds, transform='logit',
     :param str transform: Method of normalization of proportions (logit or arcsin), defaults to 'logit'
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
-    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each cluster and p-values.
+    :return ScanproResult: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
 
     logger = ScanproLogger(verbosity)
@@ -372,10 +374,12 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
 
     :param pandas.DataFrame props: True cell proportions.
     :param pandas.DataFrame prop_trans: Normalized cell proportions.
-    :param pandas.DataFrame design: Design matrix where rows are samples and columns are coefficients of condtions of interest to be estimated.
+    :param pandas.DataFrame design: Design matrix where rows are samples and columns are
+        coefficients of condtions of interest to be estimated.
     :param list contrasts: A list specifiying 2 conditions in the design matrix to be tested; [1, -1].
     :param bool robust: Robust empirical bayes estimation of posterior variances.
-    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition, F-statistics, p-values and adjusted p-values.
+    :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
+        F-statistics, p-values and adjusted p-values.
     """
 
     logger = ScanproLogger(verbosity)
@@ -450,7 +454,7 @@ def sim_scanpro(data, clusters_col, conds_col,
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbosity: Verbosity level, defaults to 1.
     :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
-    and median p-values from all simulations.
+        and median p-values from all simulations.
     """
 
     logger = ScanproLogger(verbosity)
