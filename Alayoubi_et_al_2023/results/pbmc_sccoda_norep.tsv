@@ -1,0 +1,6 @@
+Covariate	Cell Type	credible_effect
+Sex[T.Male]	B cells	False
+Sex[T.Male]	Dendritic cells	False
+Sex[T.Male]	Monocytes	False
+Sex[T.Male]	NK cells	False
+Sex[T.Male]	T cells	False

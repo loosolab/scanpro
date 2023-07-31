@@ -6,7 +6,7 @@
 
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:latest 
+image: python:latest
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -33,10 +33,6 @@ default:
 #    - source venv/bin/activate
 #    - apt update
 
-# flake8 ignore rules:
-# E501 = Line too long
-# W503 = Line break occurred before a binary operator
-
 #this is a a rule that always passes for branches without jobs being run - otherwise some branches cannot be merged
 pass:
   inherit:
@@ -46,20 +42,23 @@ pass:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
 
+# flake8 ignore rules:
+# E501 = Line too long
+# W503 = Line break occurred before a binary operator
 linting:
   stage: test
   tags:
     - coverage
   script:
     - pip install flake8
-    - flake8 pypropeller setup.py tests --ignore=E501,W503
+    - flake8 scanpro setup.py tests --ignore=E501,W503 --extend-exclude=scanpro/__init__.py  # exclude __init__ due to version import
   allow_failure: false
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
       changes:
       - setup.py
       - tests/*.py
-      - pypropeller/*.py
+      - scanpro/*.py
 
 tests:
   stage: test
@@ -69,16 +68,76 @@ tests:
   script:
     - pip install pytest
     - pip install pytest-cov
+    - pip install pytest-html
     - pip install .  # install package
-    - pytest --cov-report=term --cov=./pypropeller . --junitxml=pytest.xml    
+    - cd tests/      # move to prevent pytest from loading local modules
+    - pytest --import-mode=importlib --cov-report=term --cov=scanpro . --junitxml=../pytest.xml --cov-report html:../htmlcov
   artifacts:
     when: always
     paths:
       - pytest.xml
+      - htmlcov
     reports:
       junit: pytest.xml
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event" # all MR
       changes:
       - tests/*.py
-      - pypropeller/*.py
+      - scanpro/*.py
+
+
+# -------- Sphinx documentation -------- #
+build-pages:
+  script:
+    - apt-get update -qq && apt-get install -qq -y pandoc
+    - pip install sphinx sphinxcontrib-images sphinx-rtd-theme==1.2.0  # sphinx-rtd-theme==1.2.1 has an issue with wide tables
+    - pip freeze | grep sphinx
+    - pip install .  # install package
+    - cd docs
+    - make html
+  artifacts:
+    paths:
+      - docs/build/html/
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" # after accepted MR to main
+    - when: manual  # otherwise manual
+      allow_failure: True  # manual is not required
+
+# Deploy pages to test docs for branch
+deploy-pages-MR:
+  needs: 
+    - job: build-pages
+      artifacts: True
+  inherit:
+    default: false
+  environment:
+    name: pages/$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+    url: "https://loosolab.pages.gwdg.de/-/software/pypropeller/-/jobs/$CI_JOB_ID/artifacts/docs/build/html/index.html"
+  artifacts:
+    paths:
+      - docs/build/html/
+  script: 
+    - ls -l docs/
+    - echo "deploy"
+  artifacts:
+    paths:
+      - docs/build/html/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      allow_failure: True
+  
+# Deploy documentation to public pages if it was the main branch
+pages:
+  stage: deploy
+  needs:
+    - job: build-pages
+      artifacts: True
+  inherit:
+    default: false
+  script:
+    - mv docs/build/html/ public/
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" # after accepted MR to main

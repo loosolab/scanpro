@@ -1,9 +1,15 @@
 # Scanpro: robust proportion analysis for single cell resolution data
-This is a modular tool for proportion analysis, seamlessly integrating into widely accepted frameworks in the python environment. Scanpro is fast, accurate, support datasets without replicates, and is intended to be used by bioinformatics experts and beginners
+Scanpro is a modular tool for proportion analysis, seamlessly integrating into widely accepted frameworks in the python environment. Scanpro is fast, accurate, support datasets without replicates, and is intended to be used by bioinformatics experts and beginners.
 
+<img src="docs/source/figures/scanpro_workflow.png" width=75% height=55%>
 
 ## Install
-To install pypropeller: 
+### PyPi
+COMING SOON!!
+
+`pip install scanpro`
+
+### From source: 
 - clone the repository
 ```
 git clone https://gitlab.gwdg.de/loosolab/software/scanpro.git

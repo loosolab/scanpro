@@ -1,0 +1,21 @@
+Covariate	Cell Type	credible_effect
+Group[T.Mild]	B cells	False
+Group[T.Mild]	Epithelial	False
+Group[T.Mild]	Macrophages	False
+Group[T.Mild]	Mast	False
+Group[T.Mild]	NK cells	True
+Group[T.Mild]	Neutrophil	False
+Group[T.Mild]	Plasma	False
+Group[T.Mild]	T cells	True
+Group[T.Mild]	mDC	False
+Group[T.Mild]	pDC	False
+Group[T.Severe]	B cells	False
+Group[T.Severe]	Epithelial	False
+Group[T.Severe]	Macrophages	False
+Group[T.Severe]	Mast	False
+Group[T.Severe]	NK cells	False
+Group[T.Severe]	Neutrophil	True
+Group[T.Severe]	Plasma	True
+Group[T.Severe]	T cells	False
+Group[T.Severe]	mDC	False
+Group[T.Severe]	pDC	False
