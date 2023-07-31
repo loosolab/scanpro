@@ -1,6 +1,5 @@
 # Scanpro: robust proportion analysis for single cell resolution data
-Scanpro offers a python implementation of the propeller method [(Phipson et al., 2022)](https://academic.oup.com/bioinformatics/article/38/20/4720/6675456) to test the significance of changes in cell proportions
-across different conditions from single cell clustering data. Scanpro also supports datasets without replicates by simulating artificial replicates using bootstrapping, and integrates seamlessly into existing frameworks using the AnnData format.
+Scanpro is a modular tool for proportion analysis, seamlessly integrating into widely accepted frameworks in the python environment. Scanpro is fast, accurate, support datasets without replicates, and is intended to be used by bioinformatics experts and beginners.
 
 <img src="docs/source/figures/scanpro_workflow.png" width=75% height=55%>
 

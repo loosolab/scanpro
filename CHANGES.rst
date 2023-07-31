@@ -1,3 +1,3 @@
-0.4 ()
+0.1 ()
 --------------------
-- Initial release
+- Initial release to PyPi
