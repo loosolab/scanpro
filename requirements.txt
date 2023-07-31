@@ -1,0 +1,7 @@
+pandoc
+sphinx
+nbsphinx
+nbsphinx-link
+sphinx_rtd_theme
+matplotlib
+numpy
