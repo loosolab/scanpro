@@ -32,9 +32,8 @@ def scanpro(data, clusters_col, conds_col,
     :param anndata.AnnData or pandas.DataFrame data: Single cell data with columns containing sample, condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition information are stored.
-    :param str samples_col: Column in data or data.obs where sample information are stored, if None,
+    :param str samples_col: Column in data or data.obs where sample information are stored, if None, dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
     :param list covariates: List of covariates to include in the model, defaults to None.
-    dataset is assumed to be not replicated and conds_col will be set as samples_col, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.

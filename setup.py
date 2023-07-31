@@ -21,7 +21,7 @@ setup(
     name='scanpro',
     version=find_version('scanpro/_version.py'),
     description='Single-Cell Analysis of Proportions',
-    author='Yousef Alayoubi',
+    author='Loosolab',
     author_email='yousef.alayoubi@mpi-bn.mpg.de',
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),

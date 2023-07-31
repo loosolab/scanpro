@@ -1,5 +1,5 @@
 from importlib import import_module
-
+from ._version import __version__
 
 # Set functions to be available directly from upper scanpro, i.e. "from scanpro import scanpro"
 global_classes = ["scanpro.scanpro.scanpro",
@@ -18,4 +18,3 @@ for c in global_classes:
     attribute = getattr(module, attribute_name)
 
     globals()[attribute_name] = attribute
-from ._version import __version__
