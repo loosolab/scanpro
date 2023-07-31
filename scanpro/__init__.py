@@ -18,3 +18,4 @@ for c in global_classes:
     attribute = getattr(module, attribute_name)
 
     globals()[attribute_name] = attribute
+from ._version import __version__

@@ -19,7 +19,7 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts = convert_counts_to_df(counts, column_name='cluster')
     counts['merged_samples'] = counts['group'].astype(str)
 
     return counts
@@ -35,7 +35,7 @@ def counts_df_3():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=3)
-    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=3)
+    counts = convert_counts_to_df(counts, column_name='cluster')
 
     return counts
 
@@ -53,7 +53,7 @@ def test_import():
 def test_scanpro(counts_df, transform, samples):
     """Test scanpro wrapper function"""
     out = scanpro(counts_df, 'cluster', 'group', samples_col=samples,
-                  transform=transform, verbose=False)
+                  transform=transform, verbosity=0)
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     if samples is None:
@@ -71,7 +71,7 @@ def test_run_scanpro(counts_df_3, transform, conditions):
     """Test run_scanpro function"""
     out = run_scanpro(counts_df_3, clusters='cluster', samples='sample',
                       conds='group', conditions=conditions,
-                      transform=transform, verbose=False)
+                      transform=transform, verbosity=0)
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert all(x in out.results.columns for x in ['p_values', 'adjusted_p_values'])
@@ -84,13 +84,13 @@ def test_anova(counts_df_3, transform):
     counts, props, prop_trans = get_transformed_props(counts_df_3, sample_col='sample',
                                                       cluster_col='cluster', transform=transform)
     # create design matrix
-    design = create_design(data=counts_df_3, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df_3, sample_col='sample',
+                           conds_col='group')
 
     coef = np.arange(len(design.columns))
 
     # run anova
-    out = anova(props, prop_trans, design, coef, verbose=False)
+    out = anova(props, prop_trans, design, coef, verbosity=0)
 
     assert isinstance(out, pd.DataFrame)
     assert all(x in out.columns for x in ['p_values', 'adjusted_p_values'])
@@ -103,12 +103,12 @@ def test_t_test(counts_df, transform):
     counts, props, prop_trans = get_transformed_props(counts_df, sample_col='sample',
                                                       cluster_col='cluster', transform=transform)
     # create design matrix
-    design = create_design(data=counts_df, samples='sample',
-                           conds='group', reindex=props.index)
+    design = create_design(data=counts_df, sample_col='sample',
+                           conds_col='group')
 
     contrasts = [1, -1]
     # run anova
-    out = t_test(props, prop_trans, design, contrasts, verbose=False)
+    out = t_test(props, prop_trans, design, contrasts, verbosity=0)
 
     assert isinstance(out, pd.DataFrame)
     assert all(x in out.columns for x in ['p_values', 'adjusted_p_values'])
@@ -116,11 +116,10 @@ def test_t_test(counts_df, transform):
 
 def test_sim_scanpro(counts_df):
     """Test sim_scanpro function"""
-    out = sim_scanpro(counts_df, 'cluster', 'group',
-                      samples_col='merged_samples',
-                      transform='arcsin', n_reps=8, n_sims=100,
-                      conditions=['cond_1', 'cond_2'],
-                      robust=True, verbose=False)
+    out = scanpro.sim_scanpro(counts_df, 'cluster', 'group',
+                              transform='arcsin', n_reps=8, n_sims=100,
+                              conditions=['cond_1', 'cond_2'],
+                              robust=True, verbosity=0)
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert "p_values" in out.results.columns

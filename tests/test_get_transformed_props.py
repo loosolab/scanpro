@@ -16,7 +16,7 @@ def counts_df():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts = convert_counts_to_df(counts, n_reps=n_reps, n_conds=2)
+    counts = convert_counts_to_df(counts, column_name='cluster')
 
     return counts
 
@@ -38,28 +38,28 @@ def counts_matrix():
 @pytest.fixture
 def props_test():
     """Expected proportions for simulated cell """
-    return np.array([[0.01289277, 0.05649425, 0.1505218, 0.42445285, 0.35563834],
-                     [0.01438255, 0.04647627, 0.16713463, 0.36741347, 0.40459308],
-                     [0.01132485, 0.06817793, 0.13852158, 0.39436046, 0.38761518],
-                     [0.00841187, 0.05029807, 0.19508579, 0.22988102, 0.51632325]])
+    return np.array([[0.012891, 0.05649289, 0.15052133, 0.42445498, 0.35563981],
+                     [0.01438092, 0.04647492, 0.16713434, 0.36741494, 0.40459488],
+                     [0.01132257, 0.06817634, 0.13852084, 0.3943628, 0.38761744],
+                     [0.00841029, 0.05029683, 0.19508575, 0.22988127, 0.51632586]])
 
 
 @pytest.fixture
 def trans_props_test():
     """Expected logit transformed proportions"""
-    return np.array([[-4.33130943, -2.81421441, -1.73033476, -0.30494678, -0.59466117],
-                     [-4.22164446, -3.01973566, -1.60597098, -0.54363854, -0.386728],
-                     [-4.45947489, -2.61379766, -1.82732004, -0.42949965, -0.45781407],
-                     [-4.76042982, -2.93691657, -1.41728364, -1.20905132, 0.06480467]])
+    return np.array([[-4.33811208, -2.81546357, -1.73051439, -0.30452023, -0.59434586],
+                     [-4.22725287, -3.02122251, -1.60607237, -0.54332916, -0.38636323],
+                     [-4.46936679, -2.61502097, -1.82762389, -0.42901961, -0.45734783],
+                     [-4.76966403, -2.93818151, -1.41729627, -1.20898315, 0.06531621]])
 
 
 @pytest.fixture
 def trans_props_norm_test():
     """Expected logit transformed proportions with normalized counts"""
-    return np.array([[-1.29365443, -1.36616217, -1.53106414, -1.16019453, -1.62109072],
-                     [-1.15096333, -1.60444235, -1.40114551, -1.34457824, -1.46349993],
-                     [-1.45557582, -1.12355567, -1.6306987, -1.25517664, -1.51659992],
-                     [-1.71481121, -1.40811218, -1.09697477, -1.81199221, -1.04481185]])
+    return np.array([[-1.29362251, -1.36615509, -1.53111778, -1.16011929, -1.62118045],
+                     [-1.15089098, -1.60451909, -1.4011504, -1.34456474, -1.46352584],
+                     [-1.45560766, -1.12344548, -1.63081786, -1.25511981, -1.516661],
+                     [-1.71493395, -1.40811953, -1.09688514, -1.81215733, -1.04470727]])
 
 
 @pytest.fixture
@@ -74,7 +74,8 @@ def trans_props_arcsin_test():
 @pytest.mark.parametrize("transform", ["logit", "arcsin"])
 def test_get_transformed_props(counts_df, transform, props_test, trans_props_test, trans_props_arcsin_test):
     """Test get_transformed_props function"""
-    counts, props, trans_props = get_transformed_props(counts_df, transform=transform)
+    counts, props, trans_props = get_transformed_props(counts_df, transform=transform,
+                                                       sample_col='sample')
 
     # check if dataframes are produces
     assert all([isinstance(res, pd.DataFrame) for res in [counts, props, trans_props]])
@@ -94,8 +95,9 @@ def test_get_transformed_props(counts_df, transform, props_test, trans_props_tes
 def test_get_transformed_props_counts(counts_matrix, transform, normalize, props_test,
                                       trans_props_norm_test, trans_props_arcsin_test):
     """Test get_transformed_props_counts function"""
-    props, trans_props = get_transformed_props_counts(counts_matrix, transform=transform, normalize=normalize)
-
+    props, trans_props = get_transformed_props_counts(counts_matrix, transform=transform,
+                                                      sample_col='sample', meta_cols=['group'],
+                                                      normalize=normalize)
     # check if dataframes are produces
     assert all([isinstance(res, pd.DataFrame) for res in [props, trans_props]])
     # check if dataframes have the right index and columns

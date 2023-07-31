@@ -157,7 +157,7 @@ def gauss_quad_prob(n, dist="uniform", ll=0, u=1, mu=0, sigma=1, alpha=1, beta=1
 
 
 def estimate_params_from_counts(x):
-    """Estimate paramters for beta distribution from acount matrix
+    """Estimate paramters for beta distribution from a count matrix
 
     :param _type_ x: _description_
     :return _type_: _description_
@@ -233,7 +233,8 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     # generate sample proportions
     true_p = np.zeros((len(props), total_reps))  # for each condition we will generate n_reps samples
-    cluster_names = ['c' + str(i) for i in range(1, len(props) + 1)]
+    clusters_names = ['c' + str(i) for i in range(1, len(props) + 1)]
+
     if isinstance(a, int) or isinstance(a, float):
         a = [a]
     for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
@@ -251,8 +252,13 @@ def simulate_cell_counts(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     counts_sim = counts_sim.T
     samples_names = ['S' + str(i) for i in range(1, total_reps + 1)]
+    conds_names = np.repeat([f"cond_{i}" for i in range(1, n_conds + 1)], total_reps / n_conds)
 
-    return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=pd.Index(cluster_names))
+    counts = pd.DataFrame(counts_sim, columns=pd.Index(clusters_names))
+    counts["sample"] = samples_names
+    counts["group"] = conds_names
+
+    return counts
 
 
 def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
@@ -301,44 +307,46 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
         counts_sim[i, :] = binom.rvs(n=num_cells, p=true_p[i, :], size=total_reps)
 
     counts_sim = counts_sim.T
+    counts = pd.DataFrame(counts_sim, columns=clusters_names)
+    counts["sample"] = samples_names
+    conds_names = np.repeat([f"cond_{i}" for i in range(1, n_conds + 1)], total_reps / n_conds)
+    counts["group"] = conds_names
 
-    return pd.DataFrame(counts_sim, index=pd.Index(samples_names), columns=clusters_names)
+    return counts
 
 
-def convert_counts_to_df(counts, n_reps, n_conds):
-    """Convert a cell count matrix to a dataframe.
+def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, column_name="Cluster"):
+    """ Convert a cell count matrix to a dataframe in long format.
 
-    :param pandas.DataFrame counts: A cluster*sample cell count matrix.
-    :param int n_reps: Number of replicates for each condition.
-    :param int n_conds: Number of conditions.
-    :return pandas.DataFrame: A Dataframe with sample, cluster and condition columns.
+    :param pandas.DataFrame counts: cluster*sample cell count matrix.
+    :param list prop_cols: List of column names where counts are, defaults to None
+    :param list meta_cols: List of column names where additional info are, defaults to None
+    :param int n_cells: _description_, defaults to 1
+    :param str column_name: Column name in new dataframe where clusters are saved, defaults to "Cluster"
+    :return pandas.DataFrame: A dataframe in a long format.
     """
-    x = counts.copy()
 
-    n_samples = len(counts.index)
+    counts = counts.copy()
 
-    # get sum of cells in samples and clusters
-    # total sum per row and column
-    x.loc['sum', :] = x.sum(axis=0)
-    # total sum per row:
-    x.loc[:, 'sum'] = x.sum(axis=1)
+    # If not given, try to get prop_cols and meta_cols automatically
+    if prop_cols is None:
+        dtypes = counts.dtypes.astype(str)
+        prop_cols = [col for i, col in enumerate(counts.columns) if "float" in dtypes[i] or "int" in dtypes[i]]
 
-    # create cells as index
-    df = {'cells': [f'cell_{i+1}' for i in range(int(x.iloc[-1, -1]))]}
-    # create samples
-    samples_repeats = x['sum'][:-1].to_list()
-    samples = [f'S{i+1}' for i in range(n_samples)]
-    df['sample'] = np.repeat(samples, samples_repeats)
-    # create clusters
-    clusters = [name for name in counts.columns]  # len(true_proportions)
-    clusters_repeats = {f'{sample}': [counts[cluster][sample] for cluster in counts.columns] for sample in counts.index}
-    clusters_list = []
-    for sample in counts.index:
-        clusters_list += list(np.repeat(clusters, clusters_repeats[sample]))
-    df['cluster'] = clusters_list
-    # create conditions
-    conditions = [f'cond_{i+1}' for i in range(n_conds)]
-    conditions_repeats = [x['sum'][i:i + n_reps].sum() for i in range(0, n_samples, n_reps)]
-    df['group'] = np.repeat(conditions, conditions_repeats)
+    if meta_cols is None:
+        meta_cols = [col for col in counts.columns if col not in prop_cols]
 
-    return pd.DataFrame(df).set_index('cells')
+    # Multiply proportions with n_cells
+    counts[prop_cols] *= n_cells
+    counts[prop_cols] = counts[prop_cols].astype(int)
+
+    # Melt into long format (similar to adata.obs)
+    counts_melt = pd.melt(counts, id_vars=meta_cols, value_vars=prop_cols,
+                          var_name=column_name, value_name="count")
+
+    # Duplicate rows based on number of cells
+    counts_long = counts_melt.loc[counts_melt.index.repeat(counts_melt["count"])].reset_index(drop=True)
+    counts_long.drop(columns="count", inplace=True)
+    counts_long.index = ["cell_" + str(i) for i in range(1, len(counts_long) + 1)]
+
+    return counts_long
