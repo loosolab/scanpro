@@ -453,7 +453,7 @@ def sim_scanpro(data, clusters_col, conds_col,
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param bool verbosity: Verbosity level, defaults to 1.
-    :return PyproResult: A PyproResult object containing estimated mean proportions for each cluster
+    :return ScanproResults: A ScanproResult object containing estimated mean proportions for each cluster
         and median p-values from all simulations.
     """
 
