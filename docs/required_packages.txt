@@ -4,3 +4,4 @@ nbsphinx
 sphinx_rtd_theme
 nbsphinx-link
 numpy
+pandas
