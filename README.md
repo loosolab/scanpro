@@ -5,7 +5,6 @@ Scanpro is a modular tool for proportion analysis, seamlessly integrating into w
 
 ## Install
 ### PyPi
-COMING SOON!!
 
 `pip install scanpro`
 
