@@ -1,9 +1,9 @@
 ## Create conda environment
-```$ mamba create -n scanpro_analysis python=3.9 r-base=4.3 r-devtools r-seurat ipykernel ```   
+```$ mamba create -n scanpro_analysis python=3.9 r-base=4.3 'seaborn>=0.12.2' r-devtools r-seurat 'matplotlib<=3.7.1' ipykernel ```
 ```$ conda activate scanpro_analysis ```
 
 ## Install scanpro
-`$ pip install .`
+`$ pip install scanpro`
 
 ## Install sccoda
 `$ pip install pertpy`
