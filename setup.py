@@ -1,7 +1,15 @@
 import re
-from setuptools import find_packages  # has to be imported befor distutils
-from numpy.distutils.core import Extension, setup
+from setuptools import find_packages, dist  # has to be imported befor distutils
 from distutils.command.sdist import sdist
+
+
+# Test if numpy is installed
+try:
+    from numpy.distutils.core import Extension, setup
+except:
+    # Else, fetch numpy if needed
+    dist.Distribution().fetch_build_eggs(['numpy'])
+    from numpy.distutils.core import Extension, setup
 
 
 def find_version(file_path):
@@ -29,7 +37,7 @@ setup(
     cmdclass={'sdist': sdist},
     install_requires=['pandas',
                       'statsmodels',
-                      'matplotlib',
+                      'matplotlib==3.7.1',
                       'statannotations>=0.4',  # statannotations doesn't support seaborn >= 0.12
                       'patsy',  # for creating design matrices
                       # 'seaborn',
