@@ -3,7 +3,8 @@ How to install Scanpro
 
 **PyPi install**
 
-COMING SOON
+.. code-block:: console
+    pip install scanpro
 
 **From source**
 
