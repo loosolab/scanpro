@@ -124,6 +124,7 @@ class ScanproResult():
                 legend = False
 
             # Plot the proportions to axis
+            x_order = prop_merged[conds_col].unique()
             ax = axes[i]
             ax2 = None  # for simulated data in stripplot
             if kind == 'stripplot':
@@ -147,14 +148,16 @@ class ScanproResult():
                         ax2.set_yticks([])  # remove yticks
                         ax2.set_ylabel("")  # remove ylabel
                         axes2.append(ax2)
-                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax2, marker=marker, size=7)
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax2,
+                                      marker=marker, size=7, order=x_order)
 
                         if legend is False:
                             ax2.legend_.remove()  # using legend=False in sns.stripplot only exists from seaborn>=0.12.0
                     else:
                         lw = 1 if simulated else 0   # original data is has a border, simulated data does not
                         color = "black" if simulated else None  # original data is black, simulated data is colored
-                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax, marker="o", size=7, linewidth=lw, color=color)
+                        sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax,
+                                      marker="o", size=7, linewidth=lw, color=color, order=x_order)
 
                         if legend is False:
                             ax.legend_.remove()  # using legend=False in sns.stripplot only exists from seaborn>=0.12.0

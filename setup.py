@@ -6,7 +6,7 @@ from distutils.command.sdist import sdist
 # Test if numpy is installed
 try:
     from numpy.distutils.core import Extension, setup
-except:
+except Exception:
     # Else, fetch numpy if needed
     dist.Distribution().fetch_build_eggs(['numpy'])
     from numpy.distutils.core import Extension, setup
@@ -41,6 +41,7 @@ setup(
     long_description_content_type='text/markdown',
     author='Loosolab',
     author_email='yousef.alayoubi@mpi-bn.mpg.de',
+    url='https://github.com/loosolab/scanpro',
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
     cmdclass={'sdist': sdist},
