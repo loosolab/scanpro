@@ -47,13 +47,14 @@ class ScanproResult():
              kind='stripplot',
              clusters=None,
              n_columns=3,
+             figsize=None,
              save=False):
         """Plot proportions pro condition
 
         :param str kind: Kind of plot (stripplot, barplot and boxplot), defaults to 'stripplot'
         :param list or str clusters: Specify clusters to plot, if None, all clusters will be plotted, defaults to None
         :param int n_columns: Number of columns in the figure, defaults to 3
-        :param bool simulated: If True, simulated results will be plotted, defaults to False
+        :param tuple figsize: Figure size, defaults to None (size is automatic)
         :param str save: Path to save plot, add extension at the end e.g. 'path/to/file.png', defaults to False
         """
 
@@ -110,7 +111,10 @@ class ScanproResult():
         width = n_conds // 2 if n_conds > 8 else 3
         hight = (n_conds // 2) + 1 if n_conds > 8 else 4
 
-        fig, axes = plt.subplots(nrows=n_rows, ncols=n_columns, figsize=(width * n_columns, hight * n_rows))
+        if figsize is None:
+            figsize = (width * n_columns, hight * n_rows)
+
+        fig, axes = plt.subplots(nrows=n_rows, ncols=n_columns, figsize=figsize)
 
         # Fill in the plot
         axes = axes.flatten() if len(clusters) > 1 else [axes]
