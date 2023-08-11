@@ -1,6 +1,31 @@
-Covariate	Cell Type	credible_effect
-Sex[T.Male]	B cells	False
-Sex[T.Male]	Dendritic cells	False
-Sex[T.Male]	Monocytes	False
-Sex[T.Male]	NK cells	False
-Sex[T.Male]	T cells	False
+Covariate	Cell Type	credible_effect	fdr
+Sex[T.Male]	B cells	False	0.01
+Sex[T.Male]	Dendritic cells	False	0.01
+Sex[T.Male]	Monocytes	False	0.01
+Sex[T.Male]	NK cells	False	0.01
+Sex[T.Male]	T cells	False	0.01
+Sex[T.Male]	B cells	False	0.05
+Sex[T.Male]	Dendritic cells	False	0.05
+Sex[T.Male]	Monocytes	False	0.05
+Sex[T.Male]	NK cells	False	0.05
+Sex[T.Male]	T cells	False	0.05
+Sex[T.Male]	B cells	False	0.1
+Sex[T.Male]	Dendritic cells	False	0.1
+Sex[T.Male]	Monocytes	False	0.1
+Sex[T.Male]	NK cells	False	0.1
+Sex[T.Male]	T cells	False	0.1
+Sex[T.Male]	B cells	False	0.2
+Sex[T.Male]	Dendritic cells	False	0.2
+Sex[T.Male]	Monocytes	False	0.2
+Sex[T.Male]	NK cells	False	0.2
+Sex[T.Male]	T cells	False	0.2
+Sex[T.Male]	B cells	False	0.3
+Sex[T.Male]	Dendritic cells	False	0.3
+Sex[T.Male]	Monocytes	False	0.3
+Sex[T.Male]	NK cells	False	0.3
+Sex[T.Male]	T cells	True	0.3
+Sex[T.Male]	B cells	False	0.4
+Sex[T.Male]	Dendritic cells	True	0.4
+Sex[T.Male]	Monocytes	False	0.4
+Sex[T.Male]	NK cells	False	0.4
+Sex[T.Male]	T cells	True	0.4

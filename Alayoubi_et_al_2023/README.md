@@ -1,5 +1,5 @@
 ## Create conda environment
-```$ mamba create -n scanpro_analysis python=3.9 r-base=4.3 'seaborn>=0.12.2' r-devtools r-seurat 'matplotlib<=3.7.1' ipykernel ```
+```$ mamba create -n scanpro_analysis python=3.9 r-base=4.3 r-devtools r-seurat 'matplotlib<=3.7.1' ipykernel ipywidgets```
 ```$ conda activate scanpro_analysis ```
 
 ## Install scanpro
@@ -19,3 +19,6 @@ devtools::install_github("phipsonlab/speckle")
 
 ## Register the kernel for jupyter notebooks
 `$ python -m ipykernel install --user --name scanpro_analysis `
+
+## Install specific seaborn version for the plots in the notebooks
+`pip install seaborn==0.12.2`

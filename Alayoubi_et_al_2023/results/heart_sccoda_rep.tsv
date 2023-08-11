@@ -1,17 +1,97 @@
-Covariate	Cell Type	credible_effect
-Condition[T.Fetal]	Cardiomyocytes	True
-Condition[T.Fetal]	Endothelial cells	False
-Condition[T.Fetal]	Epicardial cells	False
-Condition[T.Fetal]	Erythroid	True
-Condition[T.Fetal]	Fibroblast	False
-Condition[T.Fetal]	Immune cells	True
-Condition[T.Fetal]	Neurons	False
-Condition[T.Fetal]	Smooth muscle cells	False
-Condition[T.Young]	Cardiomyocytes	False
-Condition[T.Young]	Endothelial cells	False
-Condition[T.Young]	Epicardial cells	False
-Condition[T.Young]	Erythroid	False
-Condition[T.Young]	Fibroblast	False
-Condition[T.Young]	Immune cells	False
-Condition[T.Young]	Neurons	False
-Condition[T.Young]	Smooth muscle cells	False
+Covariate	Cell Type	credible_effect	fdr
+Condition[T.Fetal]	Cardiomyocytes	True	0.01
+Condition[T.Fetal]	Endothelial cells	False	0.01
+Condition[T.Fetal]	Epicardial cells	False	0.01
+Condition[T.Fetal]	Erythroid	False	0.01
+Condition[T.Fetal]	Fibroblast	False	0.01
+Condition[T.Fetal]	Immune cells	False	0.01
+Condition[T.Fetal]	Neurons	False	0.01
+Condition[T.Fetal]	Smooth muscle cells	False	0.01
+Condition[T.Young]	Cardiomyocytes	False	0.01
+Condition[T.Young]	Endothelial cells	False	0.01
+Condition[T.Young]	Epicardial cells	False	0.01
+Condition[T.Young]	Erythroid	False	0.01
+Condition[T.Young]	Fibroblast	False	0.01
+Condition[T.Young]	Immune cells	False	0.01
+Condition[T.Young]	Neurons	False	0.01
+Condition[T.Young]	Smooth muscle cells	False	0.01
+Condition[T.Fetal]	Cardiomyocytes	True	0.05
+Condition[T.Fetal]	Endothelial cells	False	0.05
+Condition[T.Fetal]	Epicardial cells	False	0.05
+Condition[T.Fetal]	Erythroid	False	0.05
+Condition[T.Fetal]	Fibroblast	False	0.05
+Condition[T.Fetal]	Immune cells	False	0.05
+Condition[T.Fetal]	Neurons	False	0.05
+Condition[T.Fetal]	Smooth muscle cells	False	0.05
+Condition[T.Young]	Cardiomyocytes	False	0.05
+Condition[T.Young]	Endothelial cells	False	0.05
+Condition[T.Young]	Epicardial cells	False	0.05
+Condition[T.Young]	Erythroid	False	0.05
+Condition[T.Young]	Fibroblast	False	0.05
+Condition[T.Young]	Immune cells	False	0.05
+Condition[T.Young]	Neurons	False	0.05
+Condition[T.Young]	Smooth muscle cells	False	0.05
+Condition[T.Fetal]	Cardiomyocytes	True	0.1
+Condition[T.Fetal]	Endothelial cells	False	0.1
+Condition[T.Fetal]	Epicardial cells	False	0.1
+Condition[T.Fetal]	Erythroid	False	0.1
+Condition[T.Fetal]	Fibroblast	False	0.1
+Condition[T.Fetal]	Immune cells	False	0.1
+Condition[T.Fetal]	Neurons	False	0.1
+Condition[T.Fetal]	Smooth muscle cells	False	0.1
+Condition[T.Young]	Cardiomyocytes	False	0.1
+Condition[T.Young]	Endothelial cells	False	0.1
+Condition[T.Young]	Epicardial cells	False	0.1
+Condition[T.Young]	Erythroid	False	0.1
+Condition[T.Young]	Fibroblast	False	0.1
+Condition[T.Young]	Immune cells	False	0.1
+Condition[T.Young]	Neurons	False	0.1
+Condition[T.Young]	Smooth muscle cells	False	0.1
+Condition[T.Fetal]	Cardiomyocytes	True	0.2
+Condition[T.Fetal]	Endothelial cells	False	0.2
+Condition[T.Fetal]	Epicardial cells	False	0.2
+Condition[T.Fetal]	Erythroid	True	0.2
+Condition[T.Fetal]	Fibroblast	False	0.2
+Condition[T.Fetal]	Immune cells	True	0.2
+Condition[T.Fetal]	Neurons	False	0.2
+Condition[T.Fetal]	Smooth muscle cells	False	0.2
+Condition[T.Young]	Cardiomyocytes	False	0.2
+Condition[T.Young]	Endothelial cells	False	0.2
+Condition[T.Young]	Epicardial cells	False	0.2
+Condition[T.Young]	Erythroid	False	0.2
+Condition[T.Young]	Fibroblast	False	0.2
+Condition[T.Young]	Immune cells	False	0.2
+Condition[T.Young]	Neurons	False	0.2
+Condition[T.Young]	Smooth muscle cells	False	0.2
+Condition[T.Fetal]	Cardiomyocytes	True	0.3
+Condition[T.Fetal]	Endothelial cells	True	0.3
+Condition[T.Fetal]	Epicardial cells	False	0.3
+Condition[T.Fetal]	Erythroid	True	0.3
+Condition[T.Fetal]	Fibroblast	False	0.3
+Condition[T.Fetal]	Immune cells	True	0.3
+Condition[T.Fetal]	Neurons	False	0.3
+Condition[T.Fetal]	Smooth muscle cells	False	0.3
+Condition[T.Young]	Cardiomyocytes	True	0.3
+Condition[T.Young]	Endothelial cells	False	0.3
+Condition[T.Young]	Epicardial cells	False	0.3
+Condition[T.Young]	Erythroid	False	0.3
+Condition[T.Young]	Fibroblast	False	0.3
+Condition[T.Young]	Immune cells	False	0.3
+Condition[T.Young]	Neurons	False	0.3
+Condition[T.Young]	Smooth muscle cells	False	0.3
+Condition[T.Fetal]	Cardiomyocytes	True	0.4
+Condition[T.Fetal]	Endothelial cells	True	0.4
+Condition[T.Fetal]	Epicardial cells	False	0.4
+Condition[T.Fetal]	Erythroid	True	0.4
+Condition[T.Fetal]	Fibroblast	False	0.4
+Condition[T.Fetal]	Immune cells	True	0.4
+Condition[T.Fetal]	Neurons	False	0.4
+Condition[T.Fetal]	Smooth muscle cells	False	0.4
+Condition[T.Young]	Cardiomyocytes	True	0.4
+Condition[T.Young]	Endothelial cells	True	0.4
+Condition[T.Young]	Epicardial cells	True	0.4
+Condition[T.Young]	Erythroid	True	0.4
+Condition[T.Young]	Fibroblast	True	0.4
+Condition[T.Young]	Immune cells	True	0.4
+Condition[T.Young]	Neurons	True	0.4
+Condition[T.Young]	Smooth muscle cells	False	0.4
