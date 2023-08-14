@@ -26,7 +26,7 @@ To run the tool import and call the function `scanpro`:
 ```
 from scanpro import scanpro
 
-out = scanpro.scanpro(adata, clusters_col='clusters', conds_col='condition', samples_col='sample')
+out = scanpro(adata, clusters_col='clusters', conds_col='condition', samples_col='sample')
 
 ```
 
