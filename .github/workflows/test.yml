@@ -39,6 +39,6 @@ jobs:
           PLATFORM: ${{ matrix.os }}
           DISPLAY: :42
       run: |
-        pytest -v --color=yes --import-mode=importlib --cov-report=term --cov=scanpro . --cov-report html:../htmlcov
-    - name: Upload coverage
-      uses: codecov/codecov-action@v3
+        pytest -v --color=yes --import-mode=importlib --cov-report=term --cov --cov-report html:htmlcov
+    #- name: Upload coverage
+    #  uses: codecov/codecov-action@v3
