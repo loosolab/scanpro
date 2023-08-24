@@ -19,17 +19,18 @@ jobs:
           .cache/pip
           venv/
         key: default
-    - run: apt-get update -qq
-    - run: apt-get install gfortran -qq -y
-    - run: python --version
-    - run: apt-get update -qq && apt-get install -qq -y pandoc
-    - run: pip install sphinx sphinxcontrib-images sphinx-rtd-theme==1.2.0
-    - run: pip install nbsphinx
-    - run: pip install nbsphinx_link
-    - run: pip freeze | grep sphinx
-    - run: pip install .
-    - run: cd docs
-    - run: make html
+    - run: |
+        sudo apt-get update -qq
+        sudo apt-get install gfortran -qq -y
+        python --version
+        apt-get update -qq && apt-get install -qq -y pandoc
+        pip install sphinx sphinxcontrib-images sphinx-rtd-theme==1.2.0
+        pip install nbsphinx
+        pip install nbsphinx_link
+        pip freeze | grep sphinx
+        pip install .
+        cd docs
+        make html
     - uses: actions/upload-artifact@v3.1.1
       if: success()
       with:
