@@ -1,0 +1,44 @@
+name: Tests
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false
+        matrix:
+          include:
+            - python: "3.10"
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - name: Set up Python ${{ matrix.python }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python }}
+        cache: "pip"
+        cache-dependency-path: "**/pyproject.toml"
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install gfortran -qq -y
+        python -m pip install --upgrade pip wheel
+        python --version
+        pip install flake8 pytest pytest-cov pytest-html
+        pip install .
+    - name: Linting
+      run: flake8 scanpro setup.py tests --ignore=E501,W503 --extend-exclude=scanpro/__init__.py
+    - name: Test
+      env:
+          MPLBACKEND: agg
+          PLATFORM: ${{ matrix.os }}
+          DISPLAY: :42
+      run: |
+        pytest -v --color=yes --import-mode=importlib --cov-report=term --cov --cov-report html:htmlcov
+    #- name: Upload coverage
+    #  uses: codecov/codecov-action@v3

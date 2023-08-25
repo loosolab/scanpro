@@ -1,0 +1,37 @@
+name: Build docs
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+jobs:
+  build-pages:
+    runs-on: ubuntu-latest
+    env:
+      PIP_CACHE_DIR: "${{ github.workspace }}/.cache/pip"
+    steps:
+    - uses: actions/checkout@v3.5.0
+    - uses: actions/cache@v3.3.1
+      with:
+        path: |-
+          .cache/pip
+          venv/
+        key: default
+    - run: |
+        sudo apt-get update -qq
+        sudo apt-get install gfortran pandoc -qq -y
+        python --version
+        pip install sphinx sphinxcontrib-images sphinx-rtd-theme==1.2.0
+        pip install nbsphinx
+        pip install nbsphinx_link
+        pip freeze | grep sphinx
+        pip install .
+        cd docs
+        make html
+    - uses: actions/upload-artifact@v3.1.1
+      if: success()
+      with:
+        name: "${{ github.job }}"
+        path: docs/build/html/
