@@ -37,6 +37,9 @@ class ScanproResult():
         # Subset conditions to those in all_conditions (to not include covariates in the plot)
         design_melt = design_melt[design_melt[self.conds_col].isin(self.all_conditions)]
 
+        if self.covariates:
+            design_melt.drop_duplicates(inplace=True)
+
         # Merge the proportions with the design matrix
         prop_merged = props.merge(design_melt, left_index=True, right_on=sample_col, how="left")
         prop_merged.index = props.index
@@ -63,6 +66,10 @@ class ScanproResult():
         results = self.sim_results if simulated else self.results
         design = self.sim_design if simulated else self.design
         conds_col = self.conds_col
+
+        # drop covariates from design matrix
+        if self.covariates:
+            design = design[self.all_conditions]
 
         # if no clusters are specified, plot all clusters
         if clusters is None:

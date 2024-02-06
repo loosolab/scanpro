@@ -8,7 +8,7 @@ warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 
 
-def generate_reps(data, n_reps=8, sample_col='sample'):
+def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
     """Generate replicates by splitting original samples using bootstrapping.
 
     :param anndata.AnnData or pandas.DataFrame data: Dataframe or adata.obs whith single cell info.
@@ -52,6 +52,13 @@ def generate_reps(data, n_reps=8, sample_col='sample'):
             rep_cells = np.random.choice(cells_indices, n_rep, replace=False)  # choose n_rep cells
             rep = samples_datas[sample].iloc[rep_cells, :]  # get only chosen cells as a dataframe
             rep.loc[:, replicate_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
+            # add covariate column to avoid one replicate having multiple covariate values
+            if covariates:
+                if len(rep) > 0:
+                    for cov in covariates:
+                        x = range(len(rep[cov].unique()))
+                        j = np.random.choice(x)
+                        rep[cov] = [rep[cov].value_counts().index[j]] * rep.shape[0]
             reps.append(rep)
 
             n -= n_rep  # substract number of cells of replicate from total number of cells

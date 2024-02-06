@@ -207,6 +207,7 @@ def scanpro(data, clusters_col, conds_col,
     # add conditions to object
     out.conds_col = conds_col
     out.conditions = conditions
+    out.covariates = covariates
 
     # if data is not replicated, add results also as sim_results for plotting
     if not repd:
@@ -477,13 +478,13 @@ def sim_scanpro(data, clusters_col, conds_col,
     for i in range(n_sims):
 
         # generate replicates
-        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col)
+        rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col, covariates=covariates)
         samples_col = conds_col + "_replicates"
 
         # run propeller
         try:
             out_sim = run_scanpro(rep_data, clusters=clusters_col, samples=samples_col,
-                                  conds=conds_col, transform=transform,
+                                  conds=conds_col, covariates=covariates, transform=transform,
                                   conditions=conditions, robust=robust, verbosity=0)  # verbosity is 0 to prevent prints from individual simulations
 
         # workaround brentq error "f(a) and f(b) must have different signs"
