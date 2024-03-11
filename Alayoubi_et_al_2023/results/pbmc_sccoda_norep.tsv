@@ -23,9 +23,9 @@ Sex[T.Male]	B cells	False	0.3
 Sex[T.Male]	Dendritic cells	False	0.3
 Sex[T.Male]	Monocytes	False	0.3
 Sex[T.Male]	NK cells	False	0.3
-Sex[T.Male]	T cells	True	0.3
+Sex[T.Male]	T cells	False	0.3
 Sex[T.Male]	B cells	False	0.4
-Sex[T.Male]	Dendritic cells	True	0.4
+Sex[T.Male]	Dendritic cells	False	0.4
 Sex[T.Male]	Monocytes	False	0.4
-Sex[T.Male]	NK cells	False	0.4
-Sex[T.Male]	T cells	True	0.4
+Sex[T.Male]	NK cells	True	0.4
+Sex[T.Male]	T cells	False	0.4

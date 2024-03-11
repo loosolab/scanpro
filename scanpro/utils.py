@@ -293,7 +293,7 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     try:
         clusters_names = props.index
     except AttributeError:
-        clusters_names = [f'c{i+1}' for i in range(len(props))]
+        clusters_names = [f'c{i + 1}' for i in range(len(props))]
 
     # draw cluster proportions from a beta distribution
     for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
