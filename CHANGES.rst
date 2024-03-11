@@ -1,3 +1,8 @@
+0.2.1 (14.08.2023)
+-------------------
+- Add covariate testing with unreplicated datasets
+
+
 0.2 (14.08.2023)
 -------------------
 - Fix wrong order of conditions in pseudoreplicate stripplot

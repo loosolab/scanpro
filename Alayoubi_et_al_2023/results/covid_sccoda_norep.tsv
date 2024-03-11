@@ -63,7 +63,7 @@ Group[T.Moderate]	B cells	False	0.2
 Group[T.Moderate]	Epithelial	False	0.2
 Group[T.Moderate]	Macrophages	False	0.2
 Group[T.Moderate]	Mast	False	0.2
-Group[T.Moderate]	NK cells	True	0.2
+Group[T.Moderate]	NK cells	False	0.2
 Group[T.Moderate]	Neutrophil	False	0.2
 Group[T.Moderate]	Plasma	False	0.2
 Group[T.Moderate]	T cells	True	0.2
@@ -88,7 +88,7 @@ Group[T.Moderate]	Neutrophil	False	0.3
 Group[T.Moderate]	Plasma	False	0.3
 Group[T.Moderate]	T cells	True	0.3
 Group[T.Moderate]	mDC	False	0.3
-Group[T.Moderate]	pDC	True	0.3
+Group[T.Moderate]	pDC	False	0.3
 Group[T.Severe]	B cells	False	0.3
 Group[T.Severe]	Epithelial	False	0.3
 Group[T.Severe]	Macrophages	False	0.3
@@ -96,7 +96,7 @@ Group[T.Severe]	Mast	False	0.3
 Group[T.Severe]	NK cells	False	0.3
 Group[T.Severe]	Neutrophil	True	0.3
 Group[T.Severe]	Plasma	True	0.3
-Group[T.Severe]	T cells	True	0.3
+Group[T.Severe]	T cells	False	0.3
 Group[T.Severe]	mDC	False	0.3
 Group[T.Severe]	pDC	False	0.3
 Group[T.Moderate]	B cells	True	0.4
@@ -105,9 +105,9 @@ Group[T.Moderate]	Macrophages	True	0.4
 Group[T.Moderate]	Mast	False	0.4
 Group[T.Moderate]	NK cells	True	0.4
 Group[T.Moderate]	Neutrophil	True	0.4
-Group[T.Moderate]	Plasma	True	0.4
+Group[T.Moderate]	Plasma	False	0.4
 Group[T.Moderate]	T cells	True	0.4
-Group[T.Moderate]	mDC	True	0.4
+Group[T.Moderate]	mDC	False	0.4
 Group[T.Moderate]	pDC	True	0.4
 Group[T.Severe]	B cells	False	0.4
 Group[T.Severe]	Epithelial	False	0.4

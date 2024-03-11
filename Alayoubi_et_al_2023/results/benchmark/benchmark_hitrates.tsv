@@ -1,161 +1,225 @@
-	method	mu	hit_rate	mean_counts	trans
-0	logit_2_reps	250	0.0	1957.24	logit
-1	arcsin_2_reps	250	5.0	1957.24	arcsin
-2	logit_4_reps	250	0.0	1957.24	logit
-3	arcsin_4_reps	250	2.0	1957.24	arcsin
-4	logit_8_reps	250	0.0	1957.24	logit
-5	arcsin_8_reps	250	0.0	1957.24	arcsin
-6	logit_10_reps	250	0.0	1957.24	logit
-7	arcsin_10_reps	250	0.0	1957.24	arcsin
-8	logit_14_reps	250	0.0	1957.24	logit
-9	arcsin_14_reps	250	0.0	1957.24	arcsin
-10	logit_2_reps	500	6.0	3945.37	logit
-11	arcsin_2_reps	500	15.0	3945.37	arcsin
-12	logit_4_reps	500	0.0	3945.37	logit
-13	arcsin_4_reps	500	2.0	3945.37	arcsin
-14	logit_8_reps	500	0.0	3945.37	logit
-15	arcsin_8_reps	500	0.0	3945.37	arcsin
-16	logit_10_reps	500	0.0	3945.37	logit
-17	arcsin_10_reps	500	0.0	3945.37	arcsin
-18	logit_14_reps	500	0.0	3945.37	logit
-19	arcsin_14_reps	500	0.0	3945.37	arcsin
-20	logit_2_reps	750	12.0	5913.71	logit
-21	arcsin_2_reps	750	14.000000000000002	5913.71	arcsin
-22	logit_4_reps	750	5.0	5913.71	logit
-23	arcsin_4_reps	750	5.0	5913.71	arcsin
-24	logit_8_reps	750	0.0	5913.71	logit
-25	arcsin_8_reps	750	0.0	5913.71	arcsin
-26	logit_10_reps	750	0.0	5913.71	logit
-27	arcsin_10_reps	750	0.0	5913.71	arcsin
-28	logit_14_reps	750	0.0	5913.71	logit
-29	arcsin_14_reps	750	0.0	5913.71	arcsin
-30	logit_2_reps	1000	20.0	7876.67	logit
-31	arcsin_2_reps	1000	17.0	7876.67	arcsin
-32	logit_4_reps	1000	4.0	7876.67	logit
-33	arcsin_4_reps	1000	12.0	7876.67	arcsin
-34	logit_8_reps	1000	0.0	7876.67	logit
-35	arcsin_8_reps	1000	0.0	7876.67	arcsin
-36	logit_10_reps	1000	0.0	7876.67	logit
-37	arcsin_10_reps	1000	0.0	7876.67	arcsin
-38	logit_14_reps	1000	0.0	7876.67	logit
-39	arcsin_14_reps	1000	0.0	7876.67	arcsin
-40	logit_2_reps	1250	14.000000000000002	9835.37	logit
-41	arcsin_2_reps	1250	9.0	9835.37	arcsin
-42	logit_4_reps	1250	9.0	9835.37	logit
-43	arcsin_4_reps	1250	14.000000000000002	9835.37	arcsin
-44	logit_8_reps	1250	0.0	9835.37	logit
-45	arcsin_8_reps	1250	0.0	9835.37	arcsin
-46	logit_10_reps	1250	1.0	9835.37	logit
-47	arcsin_10_reps	1250	0.0	9835.37	arcsin
-48	logit_14_reps	1250	0.0	9835.37	logit
-49	arcsin_14_reps	1250	0.0	9835.37	arcsin
-50	logit_2_reps	1500	7.000000000000001	11808.26	logit
-51	arcsin_2_reps	1500	6.0	11808.26	arcsin
-52	logit_4_reps	1500	7.000000000000001	11808.26	logit
-53	arcsin_4_reps	1500	15.0	11808.26	arcsin
-54	logit_8_reps	1500	1.0	11808.26	logit
-55	arcsin_8_reps	1500	1.0	11808.26	arcsin
-56	logit_10_reps	1500	0.0	11808.26	logit
-57	arcsin_10_reps	1500	0.0	11808.26	arcsin
-58	logit_14_reps	1500	0.0	11808.26	logit
-59	arcsin_14_reps	1500	1.0	11808.26	arcsin
-60	logit_2_reps	2000	8.0	15735.6	logit
-61	arcsin_2_reps	2000	6.0	15735.6	arcsin
-62	logit_4_reps	2000	12.0	15735.6	logit
-63	arcsin_4_reps	2000	15.0	15735.6	arcsin
-64	logit_8_reps	2000	2.0	15735.6	logit
-65	arcsin_8_reps	2000	3.0	15735.6	arcsin
-66	logit_10_reps	2000	1.0	15735.6	logit
-67	arcsin_10_reps	2000	0.0	15735.6	arcsin
-68	logit_14_reps	2000	0.0	15735.6	logit
-69	arcsin_14_reps	2000	0.0	15735.6	arcsin
-70	logit_2_reps	2500	6.0	19675.16	logit
-71	arcsin_2_reps	2500	5.0	19675.16	arcsin
-72	logit_4_reps	2500	11.0	19675.16	logit
-73	arcsin_4_reps	2500	12.0	19675.16	arcsin
-74	logit_8_reps	2500	4.0	19675.16	logit
-75	arcsin_8_reps	2500	10.0	19675.16	arcsin
-76	logit_10_reps	2500	4.0	19675.16	logit
-77	arcsin_10_reps	2500	3.0	19675.16	arcsin
-78	logit_14_reps	2500	0.0	19675.16	logit
-79	arcsin_14_reps	2500	0.0	19675.16	arcsin
-80	logit_2_reps	3500	3.0	27532.11	logit
-81	arcsin_2_reps	3500	1.0	27532.11	arcsin
-82	logit_4_reps	3500	9.0	27532.11	logit
-83	arcsin_4_reps	3500	7.000000000000001	27532.11	arcsin
-84	logit_8_reps	3500	4.0	27532.11	logit
-85	arcsin_8_reps	3500	12.0	27532.11	arcsin
-86	logit_10_reps	3500	1.0	27532.11	logit
-87	arcsin_10_reps	3500	1.0	27532.11	arcsin
-88	logit_14_reps	3500	1.0	27532.11	logit
-89	arcsin_14_reps	3500	2.0	27532.11	arcsin
-90	logit_2_reps	5000	1.0	39343.57	logit
-91	arcsin_2_reps	5000	1.0	39343.57	arcsin
-92	logit_4_reps	5000	6.0	39343.57	logit
-93	arcsin_4_reps	5000	5.0	39343.57	arcsin
-94	logit_8_reps	5000	8.0	39343.57	logit
-95	arcsin_8_reps	5000	18.0	39343.57	arcsin
-96	logit_10_reps	5000	1.0	39343.57	logit
-97	arcsin_10_reps	5000	8.0	39343.57	arcsin
-98	logit_14_reps	5000	1.0	39343.57	logit
-99	arcsin_14_reps	5000	4.0	39343.57	arcsin
-100	logit_2_reps	6000	1.0	47203.26	logit
-101	arcsin_2_reps	6000	1.0	47203.26	arcsin
-102	logit_4_reps	6000	6.0	47203.26	logit
-103	arcsin_4_reps	6000	3.0	47203.26	arcsin
-104	logit_8_reps	6000	11.0	47203.26	logit
-105	arcsin_8_reps	6000	18.0	47203.26	arcsin
-106	logit_10_reps	6000	4.0	47203.26	logit
-107	arcsin_10_reps	6000	13.0	47203.26	arcsin
-108	logit_14_reps	6000	0.0	47203.26	logit
-109	arcsin_14_reps	6000	5.0	47203.26	arcsin
-110	logit_2_reps	7000	1.0	55074.06	logit
-111	arcsin_2_reps	7000	1.0	55074.06	arcsin
-112	logit_4_reps	7000	3.0	55074.06	logit
-113	arcsin_4_reps	7000	2.0	55074.06	arcsin
-114	logit_8_reps	7000	7.000000000000001	55074.06	logit
-115	arcsin_8_reps	7000	23.0	55074.06	arcsin
-116	logit_10_reps	7000	5.0	55074.06	logit
-117	arcsin_10_reps	7000	15.0	55074.06	arcsin
-118	logit_14_reps	7000	2.0	55074.06	logit
-119	arcsin_14_reps	7000	4.0	55074.06	arcsin
-120	logit_2_reps	9000	0.0	70849.16	logit
-121	arcsin_2_reps	9000	0.0	70849.16	arcsin
-122	logit_4_reps	9000	3.0	70849.16	logit
-123	arcsin_4_reps	9000	2.0	70849.16	arcsin
-124	logit_8_reps	9000	17.0	70849.16	logit
-125	arcsin_8_reps	9000	26.0	70849.16	arcsin
-126	logit_10_reps	9000	5.0	70849.16	logit
-127	arcsin_10_reps	9000	14.000000000000002	70849.16	arcsin
-128	logit_14_reps	9000	1.0	70849.16	logit
-129	arcsin_14_reps	9000	8.0	70849.16	arcsin
-130	logit_2_reps	10000	0.0	78693.82	logit
-131	arcsin_2_reps	10000	0.0	78693.82	arcsin
-132	logit_4_reps	10000	3.0	78693.82	logit
-133	arcsin_4_reps	10000	2.0	78693.82	arcsin
-134	logit_8_reps	10000	15.0	78693.82	logit
-135	arcsin_8_reps	10000	27.0	78693.82	arcsin
-136	logit_10_reps	10000	10.0	78693.82	logit
-137	arcsin_10_reps	10000	19.0	78693.82	arcsin
-138	logit_14_reps	10000	2.0	78693.82	logit
-139	arcsin_14_reps	10000	14.000000000000002	78693.82	arcsin
-140	logit_2_reps	11000	0.0	86561.56	logit
-141	arcsin_2_reps	11000	0.0	86561.56	arcsin
-142	logit_4_reps	11000	2.0	86561.56	logit
-143	arcsin_4_reps	11000	2.0	86561.56	arcsin
-144	logit_8_reps	11000	14.000000000000002	86561.56	logit
-145	arcsin_8_reps	11000	24.0	86561.56	arcsin
-146	logit_10_reps	11000	15.0	86561.56	logit
-147	arcsin_10_reps	11000	18.0	86561.56	arcsin
-148	logit_14_reps	11000	3.0	86561.56	logit
-149	arcsin_14_reps	11000	12.0	86561.56	arcsin
-150	logit_2_reps	12500	0.0	98387.63	logit
-151	arcsin_2_reps	12500	0.0	98387.63	arcsin
-152	logit_4_reps	12500	2.0	98387.63	logit
-153	arcsin_4_reps	12500	2.0	98387.63	arcsin
-154	logit_8_reps	12500	18.0	98387.63	logit
-155	arcsin_8_reps	12500	34.0	98387.63	arcsin
-156	logit_10_reps	12500	10.0	98387.63	logit
-157	arcsin_10_reps	12500	24.0	98387.63	arcsin
-158	logit_14_reps	12500	3.0	98387.63	logit
-159	arcsin_14_reps	12500	15.0	98387.63	arcsin
+	method	mu	hit_rate	mean_count	mean_replicate_count	Transform
+0	logit_2_reps	250	0.0	1957.24	978.62	logit
+1	arcsin_2_reps	250	5.0	1957.24	978.62	arcsin
+2	logit_3_reps	250	0.0	1957.24	978.62	logit
+3	arcsin_3_reps	250	4.0	1957.24	978.62	arcsin
+4	logit_4_reps	250	0.0	1957.24	978.62	logit
+5	arcsin_4_reps	250	2.0	1957.24	978.62	arcsin
+6	logit_5_reps	250	0.0	1957.24	978.62	logit
+7	arcsin_5_reps	250	2.0	1957.24	978.62	arcsin
+8	logit_8_reps	250	0.0	1957.24	978.62	logit
+9	arcsin_8_reps	250	0.0	1957.24	978.62	arcsin
+10	logit_10_reps	250	0.0	1957.24	978.62	logit
+11	arcsin_10_reps	250	0.0	1957.24	978.62	arcsin
+12	logit_14_reps	250	0.0	1957.24	978.62	logit
+13	arcsin_14_reps	250	0.0	1957.24	978.62	arcsin
+14	logit_2_reps	500	6.0	3945.37	1972.685	logit
+15	arcsin_2_reps	500	15.0	3945.37	1972.685	arcsin
+16	logit_3_reps	500	3.0	3945.37	1972.685	logit
+17	arcsin_3_reps	500	9.0	3945.37	1972.685	arcsin
+18	logit_4_reps	500	0.0	3945.37	1972.685	logit
+19	arcsin_4_reps	500	2.0	3945.37	1972.685	arcsin
+20	logit_5_reps	500	2.0	3945.37	1972.685	logit
+21	arcsin_5_reps	500	4.0	3945.37	1972.685	arcsin
+22	logit_8_reps	500	0.0	3945.37	1972.685	logit
+23	arcsin_8_reps	500	0.0	3945.37	1972.685	arcsin
+24	logit_10_reps	500	0.0	3945.37	1972.685	logit
+25	arcsin_10_reps	500	0.0	3945.37	1972.685	arcsin
+26	logit_14_reps	500	0.0	3945.37	1972.685	logit
+27	arcsin_14_reps	500	0.0	3945.37	1972.685	arcsin
+28	logit_2_reps	750	12.0	5913.71	2956.855	logit
+29	arcsin_2_reps	750	14.000000000000002	5913.71	2956.855	arcsin
+30	logit_3_reps	750	4.0	5913.71	2956.855	logit
+31	arcsin_3_reps	750	17.0	5913.71	2956.855	arcsin
+32	logit_4_reps	750	5.0	5913.71	2956.855	logit
+33	arcsin_4_reps	750	5.0	5913.71	2956.855	arcsin
+34	logit_5_reps	750	4.0	5913.71	2956.855	logit
+35	arcsin_5_reps	750	7.000000000000001	5913.71	2956.855	arcsin
+36	logit_8_reps	750	0.0	5913.71	2956.855	logit
+37	arcsin_8_reps	750	0.0	5913.71	2956.855	arcsin
+38	logit_10_reps	750	0.0	5913.71	2956.855	logit
+39	arcsin_10_reps	750	0.0	5913.71	2956.855	arcsin
+40	logit_14_reps	750	0.0	5913.71	2956.855	logit
+41	arcsin_14_reps	750	0.0	5913.71	2956.855	arcsin
+42	logit_2_reps	1000	20.0	7876.67	3938.335	logit
+43	arcsin_2_reps	1000	17.0	7876.67	3938.335	arcsin
+44	logit_3_reps	1000	8.0	7876.67	3938.335	logit
+45	arcsin_3_reps	1000	18.0	7876.67	3938.335	arcsin
+46	logit_4_reps	1000	4.0	7876.67	3938.335	logit
+47	arcsin_4_reps	1000	12.0	7876.67	3938.335	arcsin
+48	logit_5_reps	1000	3.0	7876.67	3938.335	logit
+49	arcsin_5_reps	1000	7.000000000000001	7876.67	3938.335	arcsin
+50	logit_8_reps	1000	0.0	7876.67	3938.335	logit
+51	arcsin_8_reps	1000	0.0	7876.67	3938.335	arcsin
+52	logit_10_reps	1000	0.0	7876.67	3938.335	logit
+53	arcsin_10_reps	1000	0.0	7876.67	3938.335	arcsin
+54	logit_14_reps	1000	0.0	7876.67	3938.335	logit
+55	arcsin_14_reps	1000	0.0	7876.67	3938.335	arcsin
+56	logit_2_reps	1250	14.000000000000002	9835.37	4917.685	logit
+57	arcsin_2_reps	1250	9.0	9835.37	4917.685	arcsin
+58	logit_3_reps	1250	9.0	9835.37	4917.685	logit
+59	arcsin_3_reps	1250	18.0	9835.37	4917.685	arcsin
+60	logit_4_reps	1250	9.0	9835.37	4917.685	logit
+61	arcsin_4_reps	1250	14.000000000000002	9835.37	4917.685	arcsin
+62	logit_5_reps	1250	3.0	9835.37	4917.685	logit
+63	arcsin_5_reps	1250	11.0	9835.37	4917.685	arcsin
+64	logit_8_reps	1250	0.0	9835.37	4917.685	logit
+65	arcsin_8_reps	1250	0.0	9835.37	4917.685	arcsin
+66	logit_10_reps	1250	1.0	9835.37	4917.685	logit
+67	arcsin_10_reps	1250	0.0	9835.37	4917.685	arcsin
+68	logit_14_reps	1250	0.0	9835.37	4917.685	logit
+69	arcsin_14_reps	1250	0.0	9835.37	4917.685	arcsin
+70	logit_2_reps	1500	7.000000000000001	11808.26	5904.13	logit
+71	arcsin_2_reps	1500	6.0	11808.26	5904.13	arcsin
+72	logit_3_reps	1500	11.0	11808.26	5904.13	logit
+73	arcsin_3_reps	1500	10.0	11808.26	5904.13	arcsin
+74	logit_4_reps	1500	7.000000000000001	11808.26	5904.13	logit
+75	arcsin_4_reps	1500	15.0	11808.26	5904.13	arcsin
+76	logit_5_reps	1500	8.0	11808.26	5904.13	logit
+77	arcsin_5_reps	1500	12.0	11808.26	5904.13	arcsin
+78	logit_8_reps	1500	1.0	11808.26	5904.13	logit
+79	arcsin_8_reps	1500	1.0	11808.26	5904.13	arcsin
+80	logit_10_reps	1500	0.0	11808.26	5904.13	logit
+81	arcsin_10_reps	1500	0.0	11808.26	5904.13	arcsin
+82	logit_14_reps	1500	0.0	11808.26	5904.13	logit
+83	arcsin_14_reps	1500	1.0	11808.26	5904.13	arcsin
+84	logit_2_reps	2000	8.0	15735.6	7867.8	logit
+85	arcsin_2_reps	2000	6.0	15735.6	7867.8	arcsin
+86	logit_3_reps	2000	9.0	15735.6	7867.8	logit
+87	arcsin_3_reps	2000	7.000000000000001	15735.6	7867.8	arcsin
+88	logit_4_reps	2000	12.0	15735.6	7867.8	logit
+89	arcsin_4_reps	2000	15.0	15735.6	7867.8	arcsin
+90	logit_5_reps	2000	12.0	15735.6	7867.8	logit
+91	arcsin_5_reps	2000	14.000000000000002	15735.6	7867.8	arcsin
+92	logit_8_reps	2000	2.0	15735.6	7867.8	logit
+93	arcsin_8_reps	2000	3.0	15735.6	7867.8	arcsin
+94	logit_10_reps	2000	1.0	15735.6	7867.8	logit
+95	arcsin_10_reps	2000	0.0	15735.6	7867.8	arcsin
+96	logit_14_reps	2000	0.0	15735.6	7867.8	logit
+97	arcsin_14_reps	2000	0.0	15735.6	7867.8	arcsin
+98	logit_2_reps	2500	6.0	19675.16	9837.58	logit
+99	arcsin_2_reps	2500	5.0	19675.16	9837.58	arcsin
+100	logit_3_reps	2500	8.0	19675.16	9837.58	logit
+101	arcsin_3_reps	2500	6.0	19675.16	9837.58	arcsin
+102	logit_4_reps	2500	11.0	19675.16	9837.58	logit
+103	arcsin_4_reps	2500	12.0	19675.16	9837.58	arcsin
+104	logit_5_reps	2500	14.000000000000002	19675.16	9837.58	logit
+105	arcsin_5_reps	2500	22.0	19675.16	9837.58	arcsin
+106	logit_8_reps	2500	4.0	19675.16	9837.58	logit
+107	arcsin_8_reps	2500	10.0	19675.16	9837.58	arcsin
+108	logit_10_reps	2500	4.0	19675.16	9837.58	logit
+109	arcsin_10_reps	2500	3.0	19675.16	9837.58	arcsin
+110	logit_14_reps	2500	0.0	19675.16	9837.58	logit
+111	arcsin_14_reps	2500	0.0	19675.16	9837.58	arcsin
+112	logit_2_reps	3500	3.0	27532.11	13766.055	logit
+113	arcsin_2_reps	3500	1.0	27532.11	13766.055	arcsin
+114	logit_3_reps	3500	4.0	27532.11	13766.055	logit
+115	arcsin_3_reps	3500	4.0	27532.11	13766.055	arcsin
+116	logit_4_reps	3500	9.0	27532.11	13766.055	logit
+117	arcsin_4_reps	3500	7.000000000000001	27532.11	13766.055	arcsin
+118	logit_5_reps	3500	18.0	27532.11	13766.055	logit
+119	arcsin_5_reps	3500	17.0	27532.11	13766.055	arcsin
+120	logit_8_reps	3500	4.0	27532.11	13766.055	logit
+121	arcsin_8_reps	3500	12.0	27532.11	13766.055	arcsin
+122	logit_10_reps	3500	1.0	27532.11	13766.055	logit
+123	arcsin_10_reps	3500	1.0	27532.11	13766.055	arcsin
+124	logit_14_reps	3500	1.0	27532.11	13766.055	logit
+125	arcsin_14_reps	3500	2.0	27532.11	13766.055	arcsin
+126	logit_2_reps	5000	1.0	39343.57	19671.785	logit
+127	arcsin_2_reps	5000	1.0	39343.57	19671.785	arcsin
+128	logit_3_reps	5000	3.0	39343.57	19671.785	logit
+129	arcsin_3_reps	5000	1.0	39343.57	19671.785	arcsin
+130	logit_4_reps	5000	6.0	39343.57	19671.785	logit
+131	arcsin_4_reps	5000	5.0	39343.57	19671.785	arcsin
+132	logit_5_reps	5000	12.0	39343.57	19671.785	logit
+133	arcsin_5_reps	5000	10.0	39343.57	19671.785	arcsin
+134	logit_8_reps	5000	8.0	39343.57	19671.785	logit
+135	arcsin_8_reps	5000	18.0	39343.57	19671.785	arcsin
+136	logit_10_reps	5000	1.0	39343.57	19671.785	logit
+137	arcsin_10_reps	5000	8.0	39343.57	19671.785	arcsin
+138	logit_14_reps	5000	1.0	39343.57	19671.785	logit
+139	arcsin_14_reps	5000	4.0	39343.57	19671.785	arcsin
+140	logit_2_reps	6000	1.0	47203.26	23601.63	logit
+141	arcsin_2_reps	6000	1.0	47203.26	23601.63	arcsin
+142	logit_3_reps	6000	2.0	47203.26	23601.63	logit
+143	arcsin_3_reps	6000	1.0	47203.26	23601.63	arcsin
+144	logit_4_reps	6000	6.0	47203.26	23601.63	logit
+145	arcsin_4_reps	6000	3.0	47203.26	23601.63	arcsin
+146	logit_5_reps	6000	13.0	47203.26	23601.63	logit
+147	arcsin_5_reps	6000	8.0	47203.26	23601.63	arcsin
+148	logit_8_reps	6000	11.0	47203.26	23601.63	logit
+149	arcsin_8_reps	6000	18.0	47203.26	23601.63	arcsin
+150	logit_10_reps	6000	4.0	47203.26	23601.63	logit
+151	arcsin_10_reps	6000	13.0	47203.26	23601.63	arcsin
+152	logit_14_reps	6000	0.0	47203.26	23601.63	logit
+153	arcsin_14_reps	6000	5.0	47203.26	23601.63	arcsin
+154	logit_2_reps	7000	1.0	55074.06	27537.03	logit
+155	arcsin_2_reps	7000	1.0	55074.06	27537.03	arcsin
+156	logit_3_reps	7000	2.0	55074.06	27537.03	logit
+157	arcsin_3_reps	7000	2.0	55074.06	27537.03	arcsin
+158	logit_4_reps	7000	3.0	55074.06	27537.03	logit
+159	arcsin_4_reps	7000	2.0	55074.06	27537.03	arcsin
+160	logit_5_reps	7000	10.0	55074.06	27537.03	logit
+161	arcsin_5_reps	7000	7.000000000000001	55074.06	27537.03	arcsin
+162	logit_8_reps	7000	7.000000000000001	55074.06	27537.03	logit
+163	arcsin_8_reps	7000	23.0	55074.06	27537.03	arcsin
+164	logit_10_reps	7000	5.0	55074.06	27537.03	logit
+165	arcsin_10_reps	7000	15.0	55074.06	27537.03	arcsin
+166	logit_14_reps	7000	2.0	55074.06	27537.03	logit
+167	arcsin_14_reps	7000	4.0	55074.06	27537.03	arcsin
+168	logit_2_reps	9000	0.0	70849.16	35424.58	logit
+169	arcsin_2_reps	9000	0.0	70849.16	35424.58	arcsin
+170	logit_3_reps	9000	1.0	70849.16	35424.58	logit
+171	arcsin_3_reps	9000	1.0	70849.16	35424.58	arcsin
+172	logit_4_reps	9000	3.0	70849.16	35424.58	logit
+173	arcsin_4_reps	9000	2.0	70849.16	35424.58	arcsin
+174	logit_5_reps	9000	7.000000000000001	70849.16	35424.58	logit
+175	arcsin_5_reps	9000	6.0	70849.16	35424.58	arcsin
+176	logit_8_reps	9000	17.0	70849.16	35424.58	logit
+177	arcsin_8_reps	9000	26.0	70849.16	35424.58	arcsin
+178	logit_10_reps	9000	5.0	70849.16	35424.58	logit
+179	arcsin_10_reps	9000	14.000000000000002	70849.16	35424.58	arcsin
+180	logit_14_reps	9000	1.0	70849.16	35424.58	logit
+181	arcsin_14_reps	9000	8.0	70849.16	35424.58	arcsin
+182	logit_2_reps	10000	0.0	78693.82	39346.91	logit
+183	arcsin_2_reps	10000	0.0	78693.82	39346.91	arcsin
+184	logit_3_reps	10000	0.0	78693.82	39346.91	logit
+185	arcsin_3_reps	10000	0.0	78693.82	39346.91	arcsin
+186	logit_4_reps	10000	3.0	78693.82	39346.91	logit
+187	arcsin_4_reps	10000	2.0	78693.82	39346.91	arcsin
+188	logit_5_reps	10000	7.000000000000001	78693.82	39346.91	logit
+189	arcsin_5_reps	10000	6.0	78693.82	39346.91	arcsin
+190	logit_8_reps	10000	15.0	78693.82	39346.91	logit
+191	arcsin_8_reps	10000	27.0	78693.82	39346.91	arcsin
+192	logit_10_reps	10000	10.0	78693.82	39346.91	logit
+193	arcsin_10_reps	10000	19.0	78693.82	39346.91	arcsin
+194	logit_14_reps	10000	2.0	78693.82	39346.91	logit
+195	arcsin_14_reps	10000	14.000000000000002	78693.82	39346.91	arcsin
+196	logit_2_reps	11000	0.0	86561.56	43280.78	logit
+197	arcsin_2_reps	11000	0.0	86561.56	43280.78	arcsin
+198	logit_3_reps	11000	0.0	86561.56	43280.78	logit
+199	arcsin_3_reps	11000	0.0	86561.56	43280.78	arcsin
+200	logit_4_reps	11000	2.0	86561.56	43280.78	logit
+201	arcsin_4_reps	11000	2.0	86561.56	43280.78	arcsin
+202	logit_5_reps	11000	5.0	86561.56	43280.78	logit
+203	arcsin_5_reps	11000	5.0	86561.56	43280.78	arcsin
+204	logit_8_reps	11000	14.000000000000002	86561.56	43280.78	logit
+205	arcsin_8_reps	11000	24.0	86561.56	43280.78	arcsin
+206	logit_10_reps	11000	15.0	86561.56	43280.78	logit
+207	arcsin_10_reps	11000	18.0	86561.56	43280.78	arcsin
+208	logit_14_reps	11000	3.0	86561.56	43280.78	logit
+209	arcsin_14_reps	11000	12.0	86561.56	43280.78	arcsin
+210	logit_2_reps	12500	0.0	98387.63	49193.815	logit
+211	arcsin_2_reps	12500	0.0	98387.63	49193.815	arcsin
+212	logit_3_reps	12500	0.0	98387.63	49193.815	logit
+213	arcsin_3_reps	12500	0.0	98387.63	49193.815	arcsin
+214	logit_4_reps	12500	2.0	98387.63	49193.815	logit
+215	arcsin_4_reps	12500	2.0	98387.63	49193.815	arcsin
+216	logit_5_reps	12500	6.0	98387.63	49193.815	logit
+217	arcsin_5_reps	12500	4.0	98387.63	49193.815	arcsin
+218	logit_8_reps	12500	18.0	98387.63	49193.815	logit
+219	arcsin_8_reps	12500	34.0	98387.63	49193.815	arcsin
+220	logit_10_reps	12500	10.0	98387.63	49193.815	logit
+221	arcsin_10_reps	12500	24.0	98387.63	49193.815	arcsin
+222	logit_14_reps	12500	3.0	98387.63	49193.815	logit
+223	arcsin_14_reps	12500	15.0	98387.63	49193.815	arcsin
