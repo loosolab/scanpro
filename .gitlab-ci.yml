@@ -6,7 +6,7 @@
 
 # Official language image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/python/tags/
-image: python:latest
+image: python:3.11.8
 
 # Change pip's cache directory to be inside the project directory since we can
 # only cache local items.
@@ -27,7 +27,6 @@ default:
   before_script:
     - apt-get update -qq
     - apt-get install gfortran -qq -y
-    - apt-get install python3-distutils
     - python --version  # For debugging
 #    - pip install virtualenv
 #    - virtualenv venv
