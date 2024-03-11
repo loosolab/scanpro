@@ -1,6 +1,15 @@
 import re
-from setuptools import find_packages, dist, Extension, setup  # has to be imported befor distutils
+from setuptools import find_packages, dist  # has to be imported befor distutils
 from distutils.command.sdist import sdist
+
+
+# Test if numpy is installed
+try:
+    from numpy.distutils.core import Extension, setup
+except Exception:
+    # Else, fetch numpy if needed
+    dist.Distribution().fetch_build_eggs(['numpy'])
+    from numpy.distutils.core import Extension, setup
 
 
 def find_version(file_path):

@@ -27,6 +27,7 @@ default:
   before_script:
     - apt-get update -qq
     - apt-get install gfortran -qq -y
+    - apt-get install python3-distutils
     - python --version  # For debugging
 #    - pip install virtualenv
 #    - virtualenv venv
