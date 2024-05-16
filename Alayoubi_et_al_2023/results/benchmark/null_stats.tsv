@@ -1,4 +1,4 @@
-	specificity	fpr	accuracy	reps	trans	replicated
+	specificity	fpr	accuracy	n_reps	transform	replicated
 0	0.984	0.016	0.984	2	logit	rep
 1	0.974	0.026	0.974	2	arcsin	rep
 2	0.47	0.53	0.47	2	logit	norep
