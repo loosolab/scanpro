@@ -175,8 +175,8 @@ def scanpro(data, clusters_col, conds_col,
             # set transform to arcsin, since it produces more accurate results for simulations
             transform = 'arcsin'
             out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, covariates=covariates,
-                                conds_col=conds_col, transform=transform,
-                                conditions=conditions, robust=robust, verbosity=verbosity)
+                                  conds_col=conds_col, transform=transform,
+                                  conditions=conditions, robust=robust, verbosity=verbosity)
 
             logger.info("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
