@@ -292,9 +292,8 @@ class ScanproResult():
         if save:
             plt.savefig(fname=save, dpi=600, bbox_inches='tight')
 
-        if show == False:
-          return ax
-
+        if not show:
+            return ax
 
     def plot_samples(self, stacked=True,
                      x='samples',
