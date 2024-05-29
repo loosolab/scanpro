@@ -1,459 +1,752 @@
-	dataset	tool	replicates	transform	cluster	baseline_props	p-value	p-value_adjusted	significant	plot_value	FDR	credible_effect
-0	pbmc	propeller	rep	arcsin	NK cells	0.1464793253879535	0.028605156373885	0.143025781869425	False	0.8445856694273619		
-1	pbmc	propeller	rep	arcsin	T cells	0.566609913953715	0.1372988587987134	0.3432471469967837	False	0.4643930638470791		
-2	pbmc	propeller	rep	arcsin	Dendritic cells	0.0171118028445147	0.2808822854800721	0.4681371424667868	False	0.3296269001491286		
-3	pbmc	propeller	rep	arcsin	B cells	0.0983828343107411	0.6999199368627986	0.8748999210784982	False	0.05804162264529139		
-4	pbmc	propeller	rep	arcsin	Monocytes	0.1714161235030755	0.9294443186478047	0.9294443186478047	False	0.03177662292096074		
-5	heart	propeller	rep	arcsin	Erythroid	-0.0	0.0001131354933422	0.0009050839467379	True	3.0433111380166022		
-6	heart	propeller	rep	arcsin	Immune cells	0.1895878277260682	0.0111862347261373	0.0447449389045494	True	1.349256080574438		
-7	heart	propeller	rep	arcsin	Cardiomyocytes	0.2735465851980814	0.0250913677430132	0.0669103139813685	False	1.1745069321582942		
-8	heart	propeller	rep	arcsin	Fibroblast	0.2986893288564421	0.0485262025613257	0.0970524051226515	False	1.0129936975908878		
-9	heart	propeller	rep	arcsin	Neurons	0.0113808370676133	0.177224698432494	0.2835595174919904	False	0.5473557713196688		
-10	heart	propeller	rep	arcsin	Endothelial cells	0.1245384182607893	0.4343637907369136	0.5270675695111624	False	0.2781337051199791		
-11	heart	propeller	rep	arcsin	Epicardial cells	0.0931577088752663	0.4611841233222671	0.5270675695111624	False	0.2781337051199791		
-12	heart	propeller	rep	arcsin	Smooth muscle cells	0.0090992940157391	0.9218125428629488	0.9218125428629488	False	0.03535738683950259		
-13	heart	scanpro	norep	arcsin	Cardiomyocytes	0.5494643516808275	0.2908382508776244	4.040471886446184e-05	True	4.393567910703289		
-14	heart	scanpro	norep	arcsin	Endothelial cells	0.1016069449575175	0.1298321616742119	0.2432448840950641	False	0.6139562850067755		
-15	heart	scanpro	norep	arcsin	Epicardial cells	0.0641669745105282	0.0978976859761368	0.1274284458088414	False	0.894733613768041		
-16	heart	scanpro	norep	arcsin	Erythroid	0.0022718876985592	0.0	0.0268681826588795	True	1.5707617078843696		
-17	heart	scanpro	norep	arcsin	Fibroblast	0.1821019578869597	0.2896143561362249	0.0027825095074115	True	2.5555633430725724		
-18	heart	scanpro	norep	arcsin	Immune cells	0.07630217953454	0.1522318762590097	0.0007518219347921	True	3.1238850076722144		
-19	heart	scanpro	norep	arcsin	Neurons	0.0161433321019578	0.0098097506391679	0.3344867530330105	False	0.4756210772940241		
-20	heart	scanpro	norep	arcsin	Smooth muscle cells	0.0079423716291097	0.0080408762894242	0.6319387913913751	False	0.19932498476872568		
-21	pbmc	scanpro	norep	logit	B cells	0.0983828343107411	0.0937471185657419	0.4810681483686004	False	0.31779339688186525		
-22	pbmc	scanpro	norep	logit	Dendritic cells	0.0171118028445147	0.0173554878938908	0.3910605316542338	False	0.4077560136304088		
-23	pbmc	scanpro	norep	logit	Monocytes	0.1714161235030755	0.1718648031431461	0.4941882712009206	False	0.3061075661236708		
-24	pbmc	scanpro	norep	logit	NK cells	0.1464793253879535	0.1759394619417835	0.0708765483292394	False	1.1494974406422467		
-25	pbmc	scanpro	norep	logit	T cells	0.566609913953715	0.5361408097570894	0.1048042753896917	False	0.9796210003649082		
-26	pbmc	sccoda	norep		B cells				False	0.0	0.01	False
-27	pbmc	sccoda	norep		B cells				False	0.0	0.05	False
-28	pbmc	sccoda	norep		B cells				False	0.0	0.1	False
-29	pbmc	sccoda	norep		B cells				False	0.0	0.2	False
-30	pbmc	sccoda	norep		B cells				False	0.0	0.3	False
-31	pbmc	sccoda	norep		B cells				False	0.0	0.4	False
-32	pbmc	sccoda	norep		Dendritic cells				False	0.0	0.01	False
-33	pbmc	sccoda	norep		Dendritic cells				False	0.0	0.05	False
-34	pbmc	sccoda	norep		Dendritic cells				False	0.0	0.1	False
-35	pbmc	sccoda	norep		Dendritic cells				False	0.0	0.2	False
-36	pbmc	sccoda	norep		Dendritic cells				False	0.0	0.3	False
-37	pbmc	sccoda	norep		Dendritic cells				False	0.0	0.4	False
-38	pbmc	sccoda	norep		Monocytes				False	0.0	0.01	False
-39	pbmc	sccoda	norep		Monocytes				False	0.0	0.05	False
-40	pbmc	sccoda	norep		Monocytes				False	0.0	0.1	False
-41	pbmc	sccoda	norep		Monocytes				False	0.0	0.2	False
-42	pbmc	sccoda	norep		Monocytes				False	0.0	0.3	False
-43	pbmc	sccoda	norep		Monocytes				False	0.0	0.4	False
-44	pbmc	sccoda	norep		NK cells				False	0.0	0.01	False
-45	pbmc	sccoda	norep		NK cells				False	0.0	0.05	False
-46	pbmc	sccoda	norep		NK cells				False	0.0	0.1	False
-47	pbmc	sccoda	norep		NK cells				False	0.0	0.2	False
-48	pbmc	sccoda	norep		NK cells				False	0.0	0.3	False
-49	pbmc	sccoda	norep		NK cells				True	1.0	0.4	True
-50	pbmc	sccoda	norep		T cells				False	0.0	0.01	False
-51	pbmc	sccoda	norep		T cells				False	0.0	0.05	False
-52	pbmc	sccoda	norep		T cells				False	0.0	0.1	False
-53	pbmc	sccoda	norep		T cells				False	0.0	0.2	False
-54	pbmc	sccoda	norep		T cells				False	0.0	0.3	False
-55	pbmc	sccoda	norep		T cells				False	0.0	0.4	False
-56	humanMI	scanpro	norep	arcsin	Adipocyte	0.00272686983498	0.0013815819441493	0.3302571555940186	False	0.48114776386837654		
-57	humanMI	scanpro	norep	arcsin	Cardiomyocyte	0.3363487056492609	0.139486162554073	2.073022875679515e-05	True	4.683395905466888		
-58	humanMI	scanpro	norep	arcsin	Cycling cells	0.0155374227691024	0.0669455675489487	0.000152928838366	True	3.815510610321719		
-59	humanMI	scanpro	norep	arcsin	Endothelial	0.1704111160353502	0.1880928054051786	0.1531068060722279	False	0.8150055031364031		
-60	humanMI	scanpro	norep	arcsin	Fibroblast	0.2466644073098881	0.29643918808445	0.0626266259394465	False	1.2032409856378645		
-61	humanMI	scanpro	norep	arcsin	Lymphoid	0.0264031909069579	0.0346824341301492	0.093175772605651	False	1.030696997425963		
-62	humanMI	scanpro	norep	arcsin	Mast	0.0037487942855653	0.0028328153738222	0.5959959309763796	False	0.22475670529422243		
-63	humanMI	scanpro	norep	arcsin	Myeloid	0.1099194452410125	0.1888073431005373	0.0014989825915822	True	2.8242034107966107		
-64	humanMI	scanpro	norep	arcsin	Neuronal	0.0127010610287025	0.0042043597780624	0.186249205555592	False	0.729905571055151		
-65	humanMI	scanpro	norep	arcsin	Pericyte	0.0612737558330509	0.0473987485917763	0.4213799916598639	False	0.37532608979581483		
-66	humanMI	scanpro	norep	arcsin	Vsmcs	0.0142652311061289	0.0132756312777811	0.4167890131866761	False	0.3800837378258297		
-67	humanMI	scanpro	rep	logit	Adipocyte	0.00272686983498	0.9849565075560162	0.9849565075560162	False	0.006582946096751938		
-68	humanMI	scanpro	rep	logit	Cardiomyocyte	0.3363487056492609	0.0146696253904338	0.080682939647386	False	1.0932182868427538		
-69	humanMI	scanpro	rep	logit	Cycling cells	0.0155374227691024	3.399192248754454e-05	0.0003739111473629	True	3.4272315870896186		
-70	humanMI	scanpro	rep	logit	Endothelial	0.1704111160353502	0.2195743957223448	0.3019147941182242	False	0.5201156056039605		
-71	humanMI	scanpro	rep	logit	Fibroblast	0.2466644073098881	0.5200201467092302	0.5720221613801533	False	0.24258714537013795		
-72	humanMI	scanpro	rep	logit	Lymphoid	0.0264031909069579	0.04067134631101	0.0951895780521907	False	1.021410598277219		
-73	humanMI	scanpro	rep	logit	Mast	0.0037487942855653	0.212587884633603	0.3019147941182242	False	0.5201156056039605		
-74	humanMI	scanpro	rep	logit	Myeloid	0.1099194452410125	0.0255533704896941	0.0936956917955452	False	1.0282803778682164		
-75	humanMI	scanpro	rep	logit	Neuronal	0.0127010610287025	0.043267990023723	0.0951895780521907	False	1.021410598277219		
-76	humanMI	scanpro	rep	logit	Pericyte	0.0612737558330509	0.1832864112438623	0.3019147941182242	False	0.5201156056039605		
-77	humanMI	scanpro	rep	logit	Vsmcs	0.0142652311061289	0.3262145613956447	0.3987066861502324	False	0.39934648133333284		
-78	covid	sccoda	norep		B cells				False	0.0	0.01	False
-79	covid	sccoda	norep		B cells				False	0.0	0.05	False
-80	covid	sccoda	norep		B cells				False	0.0	0.1	False
-81	covid	sccoda	norep		B cells				False	0.0	0.2	False
-82	covid	sccoda	norep		B cells				False	0.0	0.3	False
-83	covid	sccoda	norep		B cells				True	1.0	0.4	True
-84	covid	sccoda	norep		Epithelial				False	0.0	0.01	False
-85	covid	sccoda	norep		Epithelial				False	0.0	0.05	False
-86	covid	sccoda	norep		Epithelial				False	0.0	0.1	False
-87	covid	sccoda	norep		Epithelial				False	0.0	0.2	False
-88	covid	sccoda	norep		Epithelial				True	1.0	0.3	True
-89	covid	sccoda	norep		Epithelial				True	1.0	0.4	True
-90	covid	sccoda	norep		Macrophages				False	0.0	0.01	False
-91	covid	sccoda	norep		Macrophages				False	0.0	0.05	False
-92	covid	sccoda	norep		Macrophages				False	0.0	0.1	False
-93	covid	sccoda	norep		Macrophages				False	0.0	0.2	False
-94	covid	sccoda	norep		Macrophages				True	1.0	0.3	True
-95	covid	sccoda	norep		Macrophages				True	1.0	0.4	True
-96	covid	sccoda	norep		Mast				False	0.0	0.01	False
-97	covid	sccoda	norep		Mast				False	0.0	0.05	False
-98	covid	sccoda	norep		Mast				False	0.0	0.1	False
-99	covid	sccoda	norep		Mast				False	0.0	0.2	False
-100	covid	sccoda	norep		Mast				False	0.0	0.3	False
-101	covid	sccoda	norep		Mast				False	0.0	0.4	False
-102	covid	sccoda	norep		NK cells				False	0.0	0.01	False
-103	covid	sccoda	norep		NK cells				False	0.0	0.05	False
-104	covid	sccoda	norep		NK cells				False	0.0	0.1	False
-105	covid	sccoda	norep		NK cells				False	0.0	0.2	False
-106	covid	sccoda	norep		NK cells				True	1.0	0.3	True
-107	covid	sccoda	norep		NK cells				True	1.0	0.4	True
-108	covid	sccoda	norep		Neutrophil				False	0.0	0.01	False
-109	covid	sccoda	norep		Neutrophil				False	0.0	0.05	False
-110	covid	sccoda	norep		Neutrophil				False	0.0	0.1	False
-111	covid	sccoda	norep		Neutrophil				True	1.0	0.2	True
-112	covid	sccoda	norep		Neutrophil				True	1.0	0.3	True
-113	covid	sccoda	norep		Neutrophil				True	1.0	0.4	True
-114	covid	sccoda	norep		Plasma				False	0.0	0.01	False
-115	covid	sccoda	norep		Plasma				False	0.0	0.05	False
-116	covid	sccoda	norep		Plasma				False	0.0	0.1	False
-117	covid	sccoda	norep		Plasma				True	1.0	0.2	True
-118	covid	sccoda	norep		Plasma				True	1.0	0.3	True
-119	covid	sccoda	norep		Plasma				True	1.0	0.4	True
-120	covid	sccoda	norep		T cells				False	0.0	0.01	False
-121	covid	sccoda	norep		T cells				False	0.0	0.05	False
-122	covid	sccoda	norep		T cells				False	0.0	0.1	False
-123	covid	sccoda	norep		T cells				True	1.0	0.2	True
-124	covid	sccoda	norep		T cells				True	1.0	0.3	True
-125	covid	sccoda	norep		T cells				True	1.0	0.4	True
-126	covid	sccoda	norep		mDC				False	0.0	0.01	False
-127	covid	sccoda	norep		mDC				False	0.0	0.05	False
-128	covid	sccoda	norep		mDC				False	0.0	0.1	False
-129	covid	sccoda	norep		mDC				False	0.0	0.2	False
-130	covid	sccoda	norep		mDC				False	0.0	0.3	False
-131	covid	sccoda	norep		mDC				True	1.0	0.4	True
-132	covid	sccoda	norep		pDC				False	0.0	0.01	False
-133	covid	sccoda	norep		pDC				False	0.0	0.05	False
-134	covid	sccoda	norep		pDC				False	0.0	0.1	False
-135	covid	sccoda	norep		pDC				False	0.0	0.2	False
-136	covid	sccoda	norep		pDC				False	0.0	0.3	False
-137	covid	sccoda	norep		pDC				True	1.0	0.4	True
-138	covid	scanpro	rep	logit	B cells	0.0033428046130703	0.103047141804741	0.1472102025782015	False	0.8320620896597608		
-139	covid	scanpro	rep	logit	Epithelial	0.0536520140397793	0.2427650729411707	0.2801274444566084	False	0.5526443406866572		
-140	covid	scanpro	rep	logit	Macrophages	0.7508698889277194	0.2521147000109476	0.2801274444566084	False	0.5526443406866572		
-141	covid	scanpro	rep	logit	Mast	0.0010636196496132	0.3349113736108906	0.3349113736108906	False	0.4750701035423208		
-142	covid	scanpro	rep	logit	NK cells	0.0164253263033139	0.0211311008085164	0.0704370026950547	False	1.1521991328395396		
-143	covid	scanpro	rep	logit	Neutrophil	0.0244176682418367	4.690857702271956e-10	4.6908577022719555e-09	True	8.328747741227945		
-144	covid	scanpro	rep	logit	Plasma	0.015817543646392	0.0010439077745573	0.0052195388727865	True	2.282367863635738		
-145	covid	scanpro	rep	logit	T cells	0.1172412745202315	0.0712253351898378	0.1275975194015094	False	0.8941577685671144		
-146	covid	scanpro	rep	logit	mDC	0.01486028596174	0.0765585116409056	0.1275975194015094	False	0.8941577685671144		
-147	covid	scanpro	rep	logit	pDC	0.0023095740963031	0.0364076273235981	0.0910190683089953	False	1.0408676143397677		
-148	pbmc	propeller	rep	logit	NK cells	0.1464793253879535	0.0098441721142403	0.0492208605712016	True	1.3078507974179197		
-149	pbmc	propeller	rep	logit	T cells	0.566609913953715	0.1509746417193069	0.3774366042982673	False	0.4231559836785905		
-150	pbmc	propeller	rep	logit	Dendritic cells	0.0171118028445147	0.2953712222810236	0.4922853704683727	False	0.30778307021802914		
-151	pbmc	propeller	rep	logit	B cells	0.0983828343107411	0.6512475952340007	0.8140594940425008	False	0.08934385433661914		
-152	pbmc	propeller	rep	logit	Monocytes	0.1714161235030755	0.9493551154888716	0.9493551154888716	False	0.02257130511850692		
-153	heart	sccoda	norep		Cardiomyocytes				False	0.0	0.01	False
-154	heart	sccoda	norep		Cardiomyocytes				True	1.0	0.05	True
-155	heart	sccoda	norep		Cardiomyocytes				True	1.0	0.1	True
-156	heart	sccoda	norep		Cardiomyocytes				True	1.0	0.2	True
-157	heart	sccoda	norep		Cardiomyocytes				True	1.0	0.3	True
-158	heart	sccoda	norep		Cardiomyocytes				True	1.0	0.4	True
-159	heart	sccoda	norep		Endothelial cells				False	0.0	0.01	False
-160	heart	sccoda	norep		Endothelial cells				False	0.0	0.05	False
-161	heart	sccoda	norep		Endothelial cells				False	0.0	0.1	False
-162	heart	sccoda	norep		Endothelial cells				False	0.0	0.2	False
-163	heart	sccoda	norep		Endothelial cells				True	1.0	0.3	True
-164	heart	sccoda	norep		Endothelial cells				True	1.0	0.4	True
-165	heart	sccoda	norep		Epicardial cells				False	0.0	0.01	False
-166	heart	sccoda	norep		Epicardial cells				False	0.0	0.05	False
-167	heart	sccoda	norep		Epicardial cells				False	0.0	0.1	False
-168	heart	sccoda	norep		Epicardial cells				False	0.0	0.2	False
-169	heart	sccoda	norep		Epicardial cells				False	0.0	0.3	False
-170	heart	sccoda	norep		Epicardial cells				True	1.0	0.4	True
-171	heart	sccoda	norep		Erythroid				False	0.0	0.01	False
-172	heart	sccoda	norep		Erythroid				False	0.0	0.05	False
-173	heart	sccoda	norep		Erythroid				False	0.0	0.1	False
-174	heart	sccoda	norep		Erythroid				True	1.0	0.2	True
-175	heart	sccoda	norep		Erythroid				True	1.0	0.3	True
-176	heart	sccoda	norep		Erythroid				True	1.0	0.4	True
-177	heart	sccoda	norep		Fibroblast				False	0.0	0.01	False
-178	heart	sccoda	norep		Fibroblast				False	0.0	0.05	False
-179	heart	sccoda	norep		Fibroblast				False	0.0	0.1	False
-180	heart	sccoda	norep		Fibroblast				True	1.0	0.2	True
-181	heart	sccoda	norep		Fibroblast				True	1.0	0.3	True
-182	heart	sccoda	norep		Fibroblast				True	1.0	0.4	True
-183	heart	sccoda	norep		Immune cells				False	0.0	0.01	False
-184	heart	sccoda	norep		Immune cells				False	0.0	0.05	False
-185	heart	sccoda	norep		Immune cells				True	1.0	0.1	True
-186	heart	sccoda	norep		Immune cells				True	1.0	0.2	True
-187	heart	sccoda	norep		Immune cells				True	1.0	0.3	True
-188	heart	sccoda	norep		Immune cells				True	1.0	0.4	True
-189	heart	sccoda	norep		Neurons				False	0.0	0.01	False
-190	heart	sccoda	norep		Neurons				False	0.0	0.05	False
-191	heart	sccoda	norep		Neurons				False	0.0	0.1	False
-192	heart	sccoda	norep		Neurons				False	0.0	0.2	False
-193	heart	sccoda	norep		Neurons				True	1.0	0.3	True
-194	heart	sccoda	norep		Neurons				True	1.0	0.4	True
-195	heart	sccoda	norep		Smooth muscle cells				False	0.0	0.01	False
-196	heart	sccoda	norep		Smooth muscle cells				False	0.0	0.05	False
-197	heart	sccoda	norep		Smooth muscle cells				False	0.0	0.1	False
-198	heart	sccoda	norep		Smooth muscle cells				False	0.0	0.2	False
-199	heart	sccoda	norep		Smooth muscle cells				False	0.0	0.3	False
-200	heart	sccoda	norep		Smooth muscle cells				False	0.0	0.4	False
-201	pbmc	scanpro	rep	logit	B cells	0.0983828343107411	0.65121013803382	0.8140126725422749	False	0.08936883396541627		
-202	pbmc	scanpro	rep	logit	Dendritic cells	0.0171118028445147	0.2942871992413807	0.4904786654023012	False	0.30937987859914856		
-203	pbmc	scanpro	rep	logit	Monocytes	0.1714161235030755	0.949430470049435	0.949430470049435	False	0.02253683459154973		
-204	pbmc	scanpro	rep	logit	NK cells	0.1464793253879535	0.0098741904271734	0.0493709521358673	True	1.3065284971805935		
-205	pbmc	scanpro	rep	logit	T cells	0.566609913953715	0.151178306199288	0.3779457654982199	False	0.42257051612766866		
-206	pbmc	sccoda	rep		B cells				False	0.0	0.01	False
-207	pbmc	sccoda	rep		B cells				False	0.0	0.05	False
-208	pbmc	sccoda	rep		B cells				False	0.0	0.1	False
-209	pbmc	sccoda	rep		B cells				False	0.0	0.2	False
-210	pbmc	sccoda	rep		B cells				False	0.0	0.3	False
-211	pbmc	sccoda	rep		B cells				False	0.0	0.4	False
-212	pbmc	sccoda	rep		Dendritic cells				False	0.0	0.01	False
-213	pbmc	sccoda	rep		Dendritic cells				False	0.0	0.05	False
-214	pbmc	sccoda	rep		Dendritic cells				False	0.0	0.1	False
-215	pbmc	sccoda	rep		Dendritic cells				False	0.0	0.2	False
-216	pbmc	sccoda	rep		Dendritic cells				False	0.0	0.3	False
-217	pbmc	sccoda	rep		Dendritic cells				False	0.0	0.4	False
-218	pbmc	sccoda	rep		Monocytes				False	0.0	0.01	False
-219	pbmc	sccoda	rep		Monocytes				False	0.0	0.05	False
-220	pbmc	sccoda	rep		Monocytes				False	0.0	0.1	False
-221	pbmc	sccoda	rep		Monocytes				False	0.0	0.2	False
-222	pbmc	sccoda	rep		Monocytes				False	0.0	0.3	False
-223	pbmc	sccoda	rep		Monocytes				False	0.0	0.4	False
-224	pbmc	sccoda	rep		NK cells				False	0.0	0.01	False
-225	pbmc	sccoda	rep		NK cells				False	0.0	0.05	False
-226	pbmc	sccoda	rep		NK cells				False	0.0	0.1	False
-227	pbmc	sccoda	rep		NK cells				False	0.0	0.2	False
-228	pbmc	sccoda	rep		NK cells				True	1.0	0.3	True
-229	pbmc	sccoda	rep		NK cells				True	1.0	0.4	True
-230	pbmc	sccoda	rep		T cells				False	0.0	0.01	False
-231	pbmc	sccoda	rep		T cells				False	0.0	0.05	False
-232	pbmc	sccoda	rep		T cells				False	0.0	0.1	False
-233	pbmc	sccoda	rep		T cells				False	0.0	0.2	False
-234	pbmc	sccoda	rep		T cells				False	0.0	0.3	False
-235	pbmc	sccoda	rep		T cells				True	1.0	0.4	True
-236	heart	sccoda	rep		Cardiomyocytes				True	1.0	0.01	True
-237	heart	sccoda	rep		Cardiomyocytes				True	1.0	0.05	True
-238	heart	sccoda	rep		Cardiomyocytes				True	1.0	0.1	True
-239	heart	sccoda	rep		Cardiomyocytes				True	1.0	0.2	True
-240	heart	sccoda	rep		Cardiomyocytes				True	1.0	0.3	True
-241	heart	sccoda	rep		Cardiomyocytes				True	1.0	0.4	True
-242	heart	sccoda	rep		Endothelial cells				False	0.0	0.01	False
-243	heart	sccoda	rep		Endothelial cells				False	0.0	0.05	False
-244	heart	sccoda	rep		Endothelial cells				False	0.0	0.1	False
-245	heart	sccoda	rep		Endothelial cells				False	0.0	0.2	False
-246	heart	sccoda	rep		Endothelial cells				True	1.0	0.3	True
-247	heart	sccoda	rep		Endothelial cells				True	1.0	0.4	True
-248	heart	sccoda	rep		Epicardial cells				False	0.0	0.01	False
-249	heart	sccoda	rep		Epicardial cells				False	0.0	0.05	False
-250	heart	sccoda	rep		Epicardial cells				False	0.0	0.1	False
-251	heart	sccoda	rep		Epicardial cells				False	0.0	0.2	False
-252	heart	sccoda	rep		Epicardial cells				False	0.0	0.3	False
-253	heart	sccoda	rep		Epicardial cells				True	1.0	0.4	True
-254	heart	sccoda	rep		Erythroid				False	0.0	0.01	False
-255	heart	sccoda	rep		Erythroid				False	0.0	0.05	False
-256	heart	sccoda	rep		Erythroid				False	0.0	0.1	False
-257	heart	sccoda	rep		Erythroid				True	1.0	0.2	True
-258	heart	sccoda	rep		Erythroid				True	1.0	0.3	True
-259	heart	sccoda	rep		Erythroid				True	1.0	0.4	True
-260	heart	sccoda	rep		Fibroblast				False	0.0	0.01	False
-261	heart	sccoda	rep		Fibroblast				False	0.0	0.05	False
-262	heart	sccoda	rep		Fibroblast				False	0.0	0.1	False
-263	heart	sccoda	rep		Fibroblast				False	0.0	0.2	False
-264	heart	sccoda	rep		Fibroblast				False	0.0	0.3	False
-265	heart	sccoda	rep		Fibroblast				True	1.0	0.4	True
-266	heart	sccoda	rep		Immune cells				False	0.0	0.01	False
-267	heart	sccoda	rep		Immune cells				False	0.0	0.05	False
-268	heart	sccoda	rep		Immune cells				False	0.0	0.1	False
-269	heart	sccoda	rep		Immune cells				True	1.0	0.2	True
-270	heart	sccoda	rep		Immune cells				True	1.0	0.3	True
-271	heart	sccoda	rep		Immune cells				True	1.0	0.4	True
-272	heart	sccoda	rep		Neurons				False	0.0	0.01	False
-273	heart	sccoda	rep		Neurons				False	0.0	0.05	False
-274	heart	sccoda	rep		Neurons				False	0.0	0.1	False
-275	heart	sccoda	rep		Neurons				False	0.0	0.2	False
-276	heart	sccoda	rep		Neurons				False	0.0	0.3	False
-277	heart	sccoda	rep		Neurons				True	1.0	0.4	True
-278	heart	sccoda	rep		Smooth muscle cells				False	0.0	0.01	False
-279	heart	sccoda	rep		Smooth muscle cells				False	0.0	0.05	False
-280	heart	sccoda	rep		Smooth muscle cells				False	0.0	0.1	False
-281	heart	sccoda	rep		Smooth muscle cells				False	0.0	0.2	False
-282	heart	sccoda	rep		Smooth muscle cells				False	0.0	0.3	False
-283	heart	sccoda	rep		Smooth muscle cells				False	0.0	0.4	False
-284	covid	sccoda	rep		B cells				False	0.0	0.01	False
-285	covid	sccoda	rep		B cells				False	0.0	0.05	False
-286	covid	sccoda	rep		B cells				False	0.0	0.1	False
-287	covid	sccoda	rep		B cells				False	0.0	0.2	False
-288	covid	sccoda	rep		B cells				False	0.0	0.3	False
-289	covid	sccoda	rep		B cells				True	1.0	0.4	True
-290	covid	sccoda	rep		Epithelial				False	0.0	0.01	False
-291	covid	sccoda	rep		Epithelial				False	0.0	0.05	False
-292	covid	sccoda	rep		Epithelial				False	0.0	0.1	False
-293	covid	sccoda	rep		Epithelial				True	1.0	0.2	True
-294	covid	sccoda	rep		Epithelial				True	1.0	0.3	True
-295	covid	sccoda	rep		Epithelial				True	1.0	0.4	True
-296	covid	sccoda	rep		Macrophages				False	0.0	0.01	False
-297	covid	sccoda	rep		Macrophages				False	0.0	0.05	False
-298	covid	sccoda	rep		Macrophages				False	0.0	0.1	False
-299	covid	sccoda	rep		Macrophages				False	0.0	0.2	False
-300	covid	sccoda	rep		Macrophages				False	0.0	0.3	False
-301	covid	sccoda	rep		Macrophages				False	0.0	0.4	False
-302	covid	sccoda	rep		Mast				False	0.0	0.01	False
-303	covid	sccoda	rep		Mast				False	0.0	0.05	False
-304	covid	sccoda	rep		Mast				False	0.0	0.1	False
-305	covid	sccoda	rep		Mast				False	0.0	0.2	False
-306	covid	sccoda	rep		Mast				False	0.0	0.3	False
-307	covid	sccoda	rep		Mast				False	0.0	0.4	False
-308	covid	sccoda	rep		NK cells				False	0.0	0.01	False
-309	covid	sccoda	rep		NK cells				False	0.0	0.05	False
-310	covid	sccoda	rep		NK cells				False	0.0	0.1	False
-311	covid	sccoda	rep		NK cells				True	1.0	0.2	True
-312	covid	sccoda	rep		NK cells				True	1.0	0.3	True
-313	covid	sccoda	rep		NK cells				True	1.0	0.4	True
-314	covid	sccoda	rep		Neutrophil				False	0.0	0.01	False
-315	covid	sccoda	rep		Neutrophil				False	0.0	0.05	False
-316	covid	sccoda	rep		Neutrophil				True	1.0	0.1	True
-317	covid	sccoda	rep		Neutrophil				True	1.0	0.2	True
-318	covid	sccoda	rep		Neutrophil				True	1.0	0.3	True
-319	covid	sccoda	rep		Neutrophil				True	1.0	0.4	True
-320	covid	sccoda	rep		Plasma				False	0.0	0.01	False
-321	covid	sccoda	rep		Plasma				False	0.0	0.05	False
-322	covid	sccoda	rep		Plasma				False	0.0	0.1	False
-323	covid	sccoda	rep		Plasma				False	0.0	0.2	False
-324	covid	sccoda	rep		Plasma				True	1.0	0.3	True
-325	covid	sccoda	rep		Plasma				True	1.0	0.4	True
-326	covid	sccoda	rep		T cells				False	0.0	0.01	False
-327	covid	sccoda	rep		T cells				True	1.0	0.05	True
-328	covid	sccoda	rep		T cells				True	1.0	0.1	True
-329	covid	sccoda	rep		T cells				True	1.0	0.2	True
-330	covid	sccoda	rep		T cells				True	1.0	0.3	True
-331	covid	sccoda	rep		T cells				True	1.0	0.4	True
-332	covid	sccoda	rep		mDC				False	0.0	0.01	False
-333	covid	sccoda	rep		mDC				False	0.0	0.05	False
-334	covid	sccoda	rep		mDC				False	0.0	0.1	False
-335	covid	sccoda	rep		mDC				False	0.0	0.2	False
-336	covid	sccoda	rep		mDC				False	0.0	0.3	False
-337	covid	sccoda	rep		mDC				True	1.0	0.4	True
-338	covid	sccoda	rep		pDC				False	0.0	0.01	False
-339	covid	sccoda	rep		pDC				False	0.0	0.05	False
-340	covid	sccoda	rep		pDC				False	0.0	0.1	False
-341	covid	sccoda	rep		pDC				False	0.0	0.2	False
-342	covid	sccoda	rep		pDC				True	1.0	0.3	True
-343	covid	sccoda	rep		pDC				True	1.0	0.4	True
-344	covid	propeller	rep	logit	Neutrophil	-0.0	3.546468068150331e-07	3.54646806815033e-06	True	5.450203946118155		
-345	covid	propeller	rep	logit	Plasma	0.0002244276070342	0.0020566728555593	0.0102833642777966	True	1.9878647794794695		
-346	covid	propeller	rep	logit	pDC	0.0011342771894175	0.010522183964379	0.0349347221823859	True	1.4567427061132743		
-347	covid	propeller	rep	logit	NK cells	0.0088943293216437	0.0139738888729543	0.0349347221823859	True	1.4567427061132743		
-348	covid	propeller	rep	logit	T cells	0.0945944805670891	0.0646874860149815	0.129374972029963	False	0.8881497310906711		
-349	covid	propeller	rep	logit	mDC	0.0237761815882123	0.1090338493231534	0.1673737881028153	False	0.7763125545485106		
-350	covid	propeller	rep	logit	B cells	0.0035032662274645	0.1171616516719707	0.1673737881028153	False	0.7763125545485106		
-351	covid	propeller	rep	logit	Epithelial	0.130245919439191	0.1901865585189803	0.2377331981487254	False	0.6239101671734933		
-352	covid	propeller	rep	logit	Macrophages	0.735289783112163	0.2239110706381647	0.2487900784868497	False	0.6041669428892927		
-353	covid	propeller	rep	logit	Mast	0.0023373349477843	0.5127128119260056	0.5127128119260056	False	0.29012583005473175		
-354	heart	scanpro	rep	arcsin	Cardiomyocytes	0.5494643516808275	0.0209085804150429	0.0557562144401145	False	1.2537067202683525		
-355	heart	scanpro	rep	arcsin	Endothelial cells	0.1016069449575175	0.4294224176640775	0.5218197507815122	False	0.28247948695850666		
-356	heart	scanpro	rep	arcsin	Epicardial cells	0.0641669745105282	0.4565922819338232	0.5218197507815122	False	0.28247948695850666		
-357	heart	scanpro	rep	arcsin	Erythroid	0.0022718876985592	6.267618995914326e-05	0.0005014095196731	True	3.299807424860751		
-358	heart	scanpro	rep	arcsin	Fibroblast	0.1821019578869597	0.0426659889889212	0.0853319779778425	False	1.0688881873931875		
-359	heart	scanpro	rep	arcsin	Immune cells	0.07630217953454	0.0086573960528537	0.034629584211415	True	1.460552722882308		
-360	heart	scanpro	rep	arcsin	Neurons	0.0161433321019578	0.1693273678417012	0.2709237885467219	False	0.5671528599317933		
-361	heart	scanpro	rep	arcsin	Smooth muscle cells	0.0079423716291097	0.9215478513345684	0.9215478513345684	False	0.03548210913616694		
-362	humanMI	scanpro	norep	logit	Adipocyte	0.00272686983498	0.0013815819441493	0.1763822482234017	False	0.7535451260441319		
-363	humanMI	scanpro	norep	logit	Cardiomyocyte	0.3363487056492609	0.1394415432150907	0.0034951678862215	True	2.4565319585997205		
-364	humanMI	scanpro	norep	logit	Cycling cells	0.0155374227691024	0.0669455675489487	0.0011214584470105	True	2.9502168135374314		
-365	humanMI	scanpro	norep	logit	Endothelial	0.1704111160353502	0.188122384685223	0.274828289898568	False	0.5609385645001411		
-366	humanMI	scanpro	norep	logit	Fibroblast	0.2466644073098881	0.295853666448596	0.2049269221763365	False	0.6884009826209394		
-367	humanMI	scanpro	norep	logit	Lymphoid	0.0264031909069579	0.0345982616463669	0.181235276469006	False	0.7417572653528077		
-368	humanMI	scanpro	norep	logit	Mast	0.0037487942855653	0.0028328153738222	0.5843438632256825	False	0.23333151255694806		
-369	humanMI	scanpro	norep	logit	Myeloid	0.1099194452410125	0.1888073431005373	0.0461151961660918	True	1.336155939608446		
-370	humanMI	scanpro	norep	logit	Neuronal	0.0127010610287025	0.0041470930143367	0.3100449412447185	False	0.5085753502948638		
-371	humanMI	scanpro	norep	logit	Pericyte	0.0612737558330509	0.0479999434272232	0.416507124033451	False	0.3803775659211627		
-372	humanMI	scanpro	norep	logit	Vsmcs	0.0142652311061289	0.0132756312777811	0.4857877003649897	False	0.3135534852724208		
-373	covid	propeller	rep	arcsin	pDC	0.0011342771894175	0.0078917263873758	0.0280102415872831	True	1.552683145386661		
-374	covid	propeller	rep	arcsin	Neutrophil	-0.0	0.0080067686664827	0.0280102415872831	True	1.552683145386661		
-375	covid	propeller	rep	arcsin	NK cells	0.0088943293216437	0.0084030724761849	0.0280102415872831	True	1.552683145386661		
-376	covid	propeller	rep	arcsin	T cells	0.0945944805670891	0.0233114893017098	0.0546653548747365	False	1.262287828211577		
-377	covid	propeller	rep	arcsin	mDC	0.0237761815882123	0.0273326774373682	0.0546653548747365	False	1.262287828211577		
-378	covid	propeller	rep	arcsin	B cells	0.0035032662274645	0.0802974489496821	0.1338290815828035	False	0.8734495024234564		
-379	covid	propeller	rep	arcsin	Plasma	0.0002244276070342	0.2917769272213346	0.4154449164441628	False	0.38148655086953687		
-380	covid	propeller	rep	arcsin	Macrophages	0.735289783112163	0.3323559331553303	0.4154449164441628	False	0.38148655086953687		
-381	covid	propeller	rep	arcsin	Epithelial	0.130245919439191	0.7429066370429074	0.8254518189365638	False	0.08330827113607914		
-382	covid	propeller	rep	arcsin	Mast	0.0023373349477843	0.954732485637606	0.954732485637606	False	0.02011829992056247		
-383	covid	scanpro	norep	arcsin	B cells	0.0033428046130703	0.0019757472995505	0.1252466842306002	False	0.9022337627813947		
-384	covid	scanpro	norep	arcsin	Epithelial	0.0536520140397793	0.045517174807345	0.1516304936118468	False	0.8192134512393665		
-385	covid	scanpro	norep	arcsin	Macrophages	0.7508698889277194	0.7269946500773976	0.0013322090895705	True	2.8754276075078313		
-386	covid	scanpro	norep	arcsin	Mast	0.0010636196496132	0.0005931638834735	0.658442264641639	False	0.18148230004437688		
-387	covid	scanpro	norep	arcsin	NK cells	0.0164253263033139	0.0152345057857146	0.0056459312942652	True	2.248264411117022		
-388	covid	scanpro	norep	arcsin	Neutrophil	0.0244176682418367	0.0389932609499081	1.8178475152952345e-05	True	4.740442549080634		
-389	covid	scanpro	norep	arcsin	Plasma	0.015817543646392	0.0230401838585774	0.0002547833268248	True	3.593828995900698		
-390	covid	scanpro	norep	arcsin	T cells	0.1172412745202315	0.1185925049556459	0.000140548525787	True	3.852173705345966		
-391	covid	scanpro	norep	arcsin	mDC	0.01486028596174	0.0073292104121651	0.2037727367532007	False	0.6908539217509764		
-392	covid	scanpro	norep	arcsin	pDC	0.0023095740963031	0.0012077335893163	0.0503424039511971	False	1.298066049856147		
-393	heart	scanpro	rep	logit	Cardiomyocytes	0.5494643516808275	0.0001235904129992	0.0003295744346646	True	3.4820464842161556		
-394	heart	scanpro	rep	logit	Endothelial cells	0.1016069449575175	0.7135154465567007	0.7135154465567007	False	0.1465966206127876		
-395	heart	scanpro	rep	logit	Epicardial cells	0.0641669745105282	0.4061566797315996	0.5415422396421329	False	0.26636766327124617		
-396	heart	scanpro	rep	logit	Erythroid	0.0022718876985592	1.1102230246251563e-16	8.881784197001252e-16	True	15.05149978319906		
-397	heart	scanpro	rep	logit	Fibroblast	0.1821019578869597	0.0100267793277304	0.0200535586554608	True	1.6978085473684477		
-398	heart	scanpro	rep	logit	Immune cells	0.07630217953454	1.004285586481135e-05	4.01714234592454e-05	True	4.396082778934435		
-399	heart	scanpro	rep	logit	Neurons	0.0161433321019578	0.2131379220534226	0.3410206752854762	False	0.46721928995120965		
-400	heart	scanpro	rep	logit	Smooth muscle cells	0.0079423716291097	0.6677589090275515	0.7135154465567007	False	0.1465966206127876		
-401	covid	scanpro	norep	logit	B cells	0.0033428046130703	0.0019582758110664	0.1597556738018911	False	0.7965437087120015		
-402	covid	scanpro	norep	logit	Epithelial	0.0536520140397793	0.0458190281775641	0.3195341814883867	False	0.4954826772934867		
-403	covid	scanpro	norep	logit	Macrophages	0.7508698889277194	0.72735926650694	0.0326083575919196	True	1.4866710750587904		
-404	covid	scanpro	norep	logit	Mast	0.0010636196496132	0.0005923029849984	0.4891102058285416	False	0.31059327504668793		
-405	covid	scanpro	norep	logit	NK cells	0.0164253263033139	0.0153010923013512	0.0131501375561552	True	1.8810697042413944		
-406	covid	scanpro	norep	logit	Neutrophil	0.0244176682418367	0.0389750081218066	5.33820905701532e-06	True	5.272604422206377		
-407	covid	scanpro	norep	logit	Plasma	0.015817543646392	0.0231229035919906	0.0001834379676557	True	3.7365107698830253		
-408	covid	scanpro	norep	logit	T cells	0.1172412745202315	0.118617261110221	0.008557900417857	True	2.0676327713957674		
-409	covid	scanpro	norep	logit	mDC	0.01486028596174	0.0074199377426077	0.298066420708433	False	0.5256869475583084		
-410	covid	scanpro	norep	logit	pDC	0.0023095740963031	0.0012454197195996	0.0467692057319724	True	1.3300400055276853		
-411	heart	propeller	rep	logit	Erythroid	-0.0	5.825756577236202e-21	4.6606052617889615e-20	True	19.331557678849553		
-412	heart	propeller	rep	logit	Immune cells	0.1895878277260682	9.39725554607512e-06	3.758902218430048e-05	True	4.424938971585629		
-413	heart	propeller	rep	logit	Cardiomyocytes	0.2735465851980814	0.0001152704487892	0.0003073878634379	True	3.512313283700301		
-414	heart	propeller	rep	logit	Fibroblast	0.2986893288564421	0.009747018892831	0.0194940377856621	True	1.7100981964693502		
-415	heart	propeller	rep	logit	Neurons	0.0113808370676133	0.2188770406077601	0.3502032649724163	False	0.4556798092722927		
-416	heart	propeller	rep	logit	Epicardial cells	0.0931577088752663	0.4026099454510176	0.5368132606013567	False	0.27017676456994255		
-417	heart	propeller	rep	logit	Smooth muscle cells	0.0090992940157391	0.6559361784594476	0.711703967977442	False	0.14770061283556796		
-418	heart	propeller	rep	logit	Endothelial cells	0.1245384182607893	0.711703967977442	0.711703967977442	False	0.14770061283556796		
-419	covid	scanpro	rep	arcsin	B cells	0.0033428046130703	0.0753726878380863	0.1256211463968106	False	0.9009372476176872		
-420	covid	scanpro	rep	arcsin	Epithelial	0.0536520140397793	0.7388828881905776	0.8209809868784195	False	0.08566690060211939		
-421	covid	scanpro	rep	arcsin	Macrophages	0.7508698889277194	0.3231293688155907	0.4039117110194884	False	0.39371355470966424		
-422	covid	scanpro	rep	arcsin	Mast	0.0010636196496132	0.9588022465954948	0.9588022465954948	False	0.018270957030036467		
-423	covid	scanpro	rep	arcsin	NK cells	0.0164253263033139	0.0070972524211326	0.0236575080704422	True	1.6260310030830623		
-424	covid	scanpro	rep	arcsin	Neutrophil	0.0244176682418367	0.0065600770958599	0.0236575080704422	True	1.6260310030830623		
-425	covid	scanpro	rep	arcsin	Plasma	0.015817543646392	0.2855602613616615	0.4039117110194884	False	0.39371355470966424		
-426	covid	scanpro	rep	arcsin	T cells	0.1172412745202315	0.0197653866477398	0.0491003085003791	True	1.308915779168449		
-427	covid	scanpro	rep	arcsin	mDC	0.01486028596174	0.0245501542501895	0.0491003085003791	True	1.308915779168449		
-428	covid	scanpro	rep	arcsin	pDC	0.0023095740963031	0.0060430048302712	0.0236575080704422	True	1.6260310030830623		
-429	heart	scanpro	norep	logit	Cardiomyocytes	0.5494643516808275	0.2908382508776244	0.0030703339679272	True	2.5128143826532945		
-430	heart	scanpro	norep	logit	Endothelial cells	0.1016069449575175	0.1298321616742119	0.3477903235356999	False	0.45868250540838074		
-431	heart	scanpro	norep	logit	Epicardial cells	0.0641669745105282	0.0978976859761368	0.2310362144501706	False	0.6363199400075753		
-432	heart	scanpro	norep	logit	Erythroid	0.0022718876985592	0.0	0.0032673784115879	True	2.485800564775403		
-433	heart	scanpro	norep	logit	Fibroblast	0.1821019578869597	0.2896143561362249	0.0273067860072502	True	1.563729413058965		
-434	heart	scanpro	norep	logit	Immune cells	0.07630217953454	0.1522318762590097	0.0097497944374205	True	2.011004540776856		
-435	heart	scanpro	norep	logit	Neurons	0.0161433321019578	0.0098097506391679	0.5096205356905286	False	0.2927530799714004		
-436	heart	scanpro	norep	logit	Smooth muscle cells	0.0079423716291097	0.0080408762894242	0.7108267923957273	False	0.14823621118422173		
-437	humanMI	scanpro	rep	arcsin	Adipocyte	0.00272686983498	0.3926328717102032	0.47473651251149	False	0.32354736492699876		
-438	humanMI	scanpro	rep	arcsin	Cardiomyocyte	0.3363487056492609	0.0060889234541354	0.0334890789977451	True	1.4750967960760542		
-439	humanMI	scanpro	rep	arcsin	Cycling cells	0.0155374227691024	0.0006453929490564	0.0070993224396205	True	2.1487830984324274		
-440	humanMI	scanpro	rep	arcsin	Endothelial	0.1704111160353502	0.1713661222782952	0.2692896207230353	False	0.5697803853541064		
-441	humanMI	scanpro	rep	arcsin	Fibroblast	0.2466644073098881	0.4315786477377182	0.47473651251149	False	0.32354736492699876		
-442	humanMI	scanpro	rep	arcsin	Lymphoid	0.0264031909069579	0.055003895923173	0.1512607137887258	False	0.8202738545297992		
-443	humanMI	scanpro	rep	arcsin	Mast	0.0037487942855653	0.4821769205272757	0.4821769205272757	False	0.3167935810334898		
-444	humanMI	scanpro	rep	arcsin	Myeloid	0.1099194452410125	0.0177904662045158	0.065231709416558	False	1.1855412405109165		
-445	humanMI	scanpro	rep	arcsin	Neuronal	0.0127010610287025	0.0864234734291963	0.1901316415442319	False	0.7209456022058329		
-446	humanMI	scanpro	rep	arcsin	Pericyte	0.0612737558330509	0.1522672807993022	0.2692896207230353	False	0.5697803853541064		
-447	humanMI	scanpro	rep	arcsin	Vsmcs	0.0142652311061289	0.2794531532798994	0.3842480857598616	False	0.41538828738319433		
-448	pbmc	scanpro	norep	arcsin	B cells	0.0983828343107411	0.0937471185657419	0.5144448676022844	False	0.28866116119127383		
-449	pbmc	scanpro	norep	arcsin	Dendritic cells	0.0171118028445147	0.0173554878938908	0.5012743413621961	False	0.2999245249700387		
-450	pbmc	scanpro	norep	arcsin	Monocytes	0.1714161235030755	0.1718648031431461	0.5295360553565887	False	0.2761044640563828		
-451	pbmc	scanpro	norep	arcsin	NK cells	0.1464793253879535	0.1759394619417835	0.0286559245293308	True	1.5427855752882578		
-452	pbmc	scanpro	norep	arcsin	T cells	0.566609913953715	0.5361408097570894	0.0519231481261512	False	1.2846389839201768		
-453	pbmc	scanpro	rep	arcsin	B cells	0.0983828343107411	0.6999210019878361	0.8749012524847951	False	0.05804096174459405		
-454	pbmc	scanpro	rep	arcsin	Dendritic cells	0.0171118028445147	0.2808815634132957	0.4681359390221595	False	0.3296280165955399		
-455	pbmc	scanpro	rep	arcsin	Monocytes	0.1714161235030755	0.9294434070469876	0.9294434070469876	False	0.03177704887805231		
-456	pbmc	scanpro	rep	arcsin	NK cells	0.1464793253879535	0.0286051738426502	0.1430258692132512	False	0.8445854042099328		
-457	pbmc	scanpro	rep	arcsin	T cells	0.566609913953715	0.1372984071296607	0.3432460178241518	False	0.46439449253848725		
+	dataset	tool	replicates	transform	cluster	baseline_props	p-value	p-value_adjusted	significant	plot_value	conditions	subset	FDR	credible_effect
+0	pbmc	propeller	rep	arcsin	NK cells	0.1464793253879535	0.028605156373885	0.143025781869425	False	0.8445856694273619				
+1	pbmc	propeller	rep	arcsin	T cells	0.566609913953715	0.1372988587987134	0.3432471469967837	False	0.4643930638470791				
+2	pbmc	propeller	rep	arcsin	Dendritic cells	0.0171118028445147	0.2808822854800721	0.4681371424667868	False	0.3296269001491286				
+3	pbmc	propeller	rep	arcsin	B cells	0.0983828343107411	0.6999199368627986	0.8748999210784982	False	0.05804162264529139				
+4	pbmc	propeller	rep	arcsin	Monocytes	0.1714161235030755	0.9294443186478047	0.9294443186478047	False	0.03177662292096074				
+5	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.0699708952882671	0.0	1.2212453270876722e-15	True	14.91319708503278	heart-intestine-muscle			
+6	scatac	scanpro	norep	arcsin	Chromaffin cells	0.007953320639496	0.0	0.0037647375429537	True	2.4242652950595653	heart-intestine-muscle			
+7	scatac	scanpro	norep	arcsin	Erythroblasts	0.2121227181377954	0.0	0.0008249959672977	True	3.0835481743405433	heart-intestine-muscle			
+8	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.0254938016593102	0.0	2.961519918187605e-14	True	13.528485342094497	heart-intestine-muscle			
+9	scatac	scanpro	norep	arcsin	Lymphoid cells	0.0357674232235099	0.0	4.014216970493756e-07	True	6.396399157373804	heart-intestine-muscle			
+10	scatac	scanpro	norep	arcsin	Myeloid cells	0.0404965506102049	0.0	0.000619367785019	True	3.2080513872135326	heart-intestine-muscle			
+11	scatac	scanpro	norep	arcsin	Satellite cells	0.0080744608484163	0.2485876434993884	4.242664112622899e-09	True	8.37236134952224	heart-intestine-muscle			
+12	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0112163408823355	0.3564686316471361	1.8824479012617226e-12	True	11.725277034520435	heart-intestine-muscle			
+13	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0109088311212302	0.033213891616903	0.4075530401353407	False	0.38981586290165	heart-intestine-muscle			
+14	scatac	scanpro	norep	arcsin	Stromal cells	0.1296899121267561	0.2336164352070891	0.1540987572800278	False	0.8122008636086584	heart-intestine-muscle			
+15	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0494826691847263	0.0915067986615348	0.0189587260679233	True	1.7221908484462136	heart-intestine-muscle			
+16	scatac	scanpro	norep	arcsin	Ureteric bud cells	0.0141190466576173	0.0	1.0	False	-0.0	heart-intestine-muscle			
+17	scatac	scanpro	norep	arcsin	Adrenocortical cells	0.0844362786970283	0.0	1.0	False	-0.0	heart-intestine-muscle			
+18	scatac	scanpro	norep	arcsin	Epithelial cells	0.0008852553728788	0.0	1.0	False	-0.0	heart-intestine-muscle			
+19	scatac	scanpro	norep	arcsin	Excitatory neurons	0.0756862282219412	0.0	1.0	False	-0.0	heart-intestine-muscle			
+20	scatac	scanpro	norep	arcsin	Inhibitory neurons	0.0192535278203149	0.0	1.0	False	-0.0	heart-intestine-muscle			
+21	scatac	scanpro	norep	arcsin	Retinal pigment cells	0.000891467691285	0.0	1.0	False	-0.0	heart-intestine-muscle			
+22	scatac	scanpro	norep	arcsin	Mesangial cells	0.0124355083695459	0.0	1.0	False	-0.0	heart-intestine-muscle			
+23	scatac	scanpro	norep	arcsin	Ganglion cells	0.0014831910194725	0.0	1.0	False	-0.0	heart-intestine-muscle			
+24	scatac	scanpro	norep	arcsin	Hepatoblasts	0.0657573903292839	0.0	1.0	False	-0.0	heart-intestine-muscle			
+25	scatac	scanpro	norep	arcsin	Thymocytes	0.0306593444140385	0.0	1.0	False	-0.0	heart-intestine-muscle			
+26	scatac	scanpro	norep	arcsin	Trophoblast giant cells	0.009380600793313	0.0	1.0	False	-0.0	heart-intestine-muscle			
+27	scatac	scanpro	norep	arcsin	Metanephric cells	0.0656999263840268	0.0	1.0	False	-0.0	heart-intestine-muscle			
+28	scatac	scanpro	norep	arcsin	Photoreceptor cells	0.0033872666109628	0.0	1.0	False	-0.0	heart-intestine-muscle			
+29	scatac	scanpro	norep	arcsin	Goblet cells	0.0018668016810533	0.0	1.0	False	-0.0	heart-intestine-muscle			
+30	scatac	scanpro	norep	arcsin	Astrocytes	0.0128812422151884	0.0	1.0	False	-0.0	heart-intestine-muscle			
+31	heart	propeller	rep	arcsin	Erythroid	-0.0	0.0001131354933422	0.0009050839467379	True	3.0433111380166022				
+32	heart	propeller	rep	arcsin	Immune cells	0.1895878277260682	0.0111862347261373	0.0447449389045494	True	1.349256080574438				
+33	heart	propeller	rep	arcsin	Cardiomyocytes	0.2735465851980814	0.0250913677430132	0.0669103139813685	False	1.1745069321582942				
+34	heart	propeller	rep	arcsin	Fibroblast	0.2986893288564421	0.0485262025613257	0.0970524051226515	False	1.0129936975908878				
+35	heart	propeller	rep	arcsin	Neurons	0.0113808370676133	0.177224698432494	0.2835595174919904	False	0.5473557713196688				
+36	heart	propeller	rep	arcsin	Endothelial cells	0.1245384182607893	0.4343637907369136	0.5270675695111624	False	0.2781337051199791				
+37	heart	propeller	rep	arcsin	Epicardial cells	0.0931577088752663	0.4611841233222671	0.5270675695111624	False	0.2781337051199791				
+38	heart	propeller	rep	arcsin	Smooth muscle cells	0.0090992940157391	0.9218125428629488	0.9218125428629488	False	0.03535738683950259				
+39	heart	scanpro	norep	arcsin	Cardiomyocytes	0.5494643516808275	0.2908382508776244	4.040471886446184e-05	True	4.393567910703289				
+40	heart	scanpro	norep	arcsin	Endothelial cells	0.1016069449575175	0.1298321616742119	0.2432448840950641	False	0.6139562850067755				
+41	heart	scanpro	norep	arcsin	Epicardial cells	0.0641669745105282	0.0978976859761368	0.1274284458088414	False	0.894733613768041				
+42	heart	scanpro	norep	arcsin	Erythroid	0.0022718876985592	0.0	0.0268681826588795	True	1.5707617078843696				
+43	heart	scanpro	norep	arcsin	Fibroblast	0.1821019578869597	0.2896143561362249	0.0027825095074115	True	2.5555633430725724				
+44	heart	scanpro	norep	arcsin	Immune cells	0.07630217953454	0.1522318762590097	0.0007518219347921	True	3.1238850076722144				
+45	heart	scanpro	norep	arcsin	Neurons	0.0161433321019578	0.0098097506391679	0.3344867530330105	False	0.4756210772940241				
+46	heart	scanpro	norep	arcsin	Smooth muscle cells	0.0079423716291097	0.0080408762894242	0.6319387913913751	False	0.19932498476872568				
+47	scatac	scanpro	norep		Adrenocortical cells	0.0844362786970283	0.0	2.4054832200211723e-16	True	15.61879766826781				
+48	scatac	scanpro	norep		Astrocytes	0.0128812422151884	0.0	5.794193710687265e-10	True	9.237006989616157				
+49	scatac	scanpro	norep		Cardiomyocytes	0.0699708952882671	0.0	2.62416351275037e-16	True	15.58100910737841				
+50	scatac	scanpro	norep		Chromaffin cells	0.007953320639496	0.0	1.405347282990021e-10	True	9.85221634163126				
+51	scatac	scanpro	norep		Epithelial cells	0.0008852553728788	0.0	7.47122831437776e-12	True	11.126607991718375				
+52	scatac	scanpro	norep		Erythroblasts	0.2121227181377954	0.0	2.4054832200211723e-16	True	15.61879766826781				
+53	scatac	scanpro	norep		Excitatory neurons	0.0756862282219412	0.0	2.4054832200211723e-16	True	15.61879766826781				
+54	scatac	scanpro	norep		Ganglion cells	0.0014831910194725	0.0	1.8557312549372748e-11	True	10.73148491763688				
+55	scatac	scanpro	norep		Goblet cells	0.0018668016810533	0.0	3.6082248300317592e-16	True	15.442706409212128				
+56	scatac	scanpro	norep		Hepatoblasts	0.0657573903292839	0.0	5.0857688430975635e-11	True	10.293643383139587				
+57	scatac	scanpro	norep		Inhibitory neurons	0.0192535278203149	0.0	2.2502756695056784e-10	True	9.64776427548348				
+58	scatac	scanpro	norep		Intestinal epithelial cells	0.0254938016593102	0.0	2.886579864025406e-16	True	15.539616422220186				
+59	scatac	scanpro	norep		Lymphoid cells	0.0357674232235099	0.0	2.4054832200211723e-16	True	15.61879766826781				
+60	scatac	scanpro	norep		Mesangial cells	0.0124355083695459	0.0	6.544660784555009e-08	True	7.184112858389576				
+61	scatac	scanpro	norep		Metanephric cells	0.0656999263840268	0.0	2.62416351275037e-16	True	15.58100910737841				
+62	scatac	scanpro	norep		Myeloid cells	0.0404965506102049	0.0	2.4054832200211723e-16	True	15.61879766826781				
+63	scatac	scanpro	norep		Photoreceptor cells	0.0033872666109628	0.0	2.62416351275037e-16	True	15.58100910737841				
+64	scatac	scanpro	norep		Retinal pigment cells	0.000891467691285	0.0	7.154995894010977e-10	True	9.145390611129766				
+65	scatac	scanpro	norep		Satellite cells	0.0080744608484163	0.0	5.605434245425338e-12	True	11.25139073755841				
+66	scatac	scanpro	norep		Skeletal muscle cells	0.0112163408823355	0.0	2.591260539475116e-13	True	12.586488918481653				
+67	scatac	scanpro	norep		Smooth muscle cells	0.0109088311212302	0.0	2.62416351275037e-16	True	15.58100910737841				
+68	scatac	scanpro	norep		Stromal cells	0.1296899121267561	0.0	2.4054832200211723e-16	True	15.61879766826781				
+69	scatac	scanpro	norep		Thymocytes	0.0306593444140385	0.9430508186856073	2.4054832200211723e-16	True	15.61879766826781				
+70	scatac	scanpro	norep		Trophoblast giant cells	0.009380600793313	0.0	6.5306322441341865e-12	True	11.185044771734585				
+71	scatac	scanpro	norep		Ureteric bud cells	0.0141190466576173	0.0	6.1089361105946755e-09	True	8.214034416848884				
+72	scatac	scanpro	norep		Vascular endothelial cells	0.0494826691847263	0.0569491813143927	1.3689687779622206e-06	True	5.863606456696797				
+73	pbmc	scanpro	norep	logit	B cells	0.0983828343107411	0.0937471185657419	0.4810681483686004	False	0.31779339688186525				
+74	pbmc	scanpro	norep	logit	Dendritic cells	0.0171118028445147	0.0173554878938908	0.3910605316542338	False	0.4077560136304088				
+75	pbmc	scanpro	norep	logit	Monocytes	0.1714161235030755	0.1718648031431461	0.4941882712009206	False	0.3061075661236708				
+76	pbmc	scanpro	norep	logit	NK cells	0.1464793253879535	0.1759394619417835	0.0708765483292394	False	1.1494974406422467				
+77	pbmc	scanpro	norep	logit	T cells	0.566609913953715	0.5361408097570894	0.1048042753896917	False	0.9796210003649082				
+78	scatac	scanpro	rep	logit	Cardiomyocytes	0.3425614744749768	5.10702591327572e-15	5.617728504603293e-14	True	13.250439253351205	heart-intestine-muscle	subset		
+79	scatac	scanpro	rep	logit	Chromaffin cells	0.0057482625952341	2.8446455080377572e-08	3.9113875735519166e-08	True	7.40766914832419	heart-intestine-muscle	subset		
+80	scatac	scanpro	rep	logit	Erythroblasts	0.0173436335710701	2.0408119638659628e-12	1.1224465801262795e-11	True	10.949834318929042	heart-intestine-muscle	subset		
+81	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.1248118128317036	2.041850688527802e-09	4.492071514761165e-09	True	8.347553338292387	heart-intestine-muscle	subset		
+82	scatac	scanpro	rep	logit	Lymphoid cells	0.1005945954165969	1.17963006029953e-09	3.243982665823708e-09	True	8.48892147510121	heart-intestine-muscle	subset		
+83	scatac	scanpro	rep	logit	Myeloid cells	0.0389756535227117	5.8051341511600185e-12	2.1285491887586737e-11	True	10.671916309236138	heart-intestine-muscle	subset		
+84	scatac	scanpro	rep	logit	Satellite cells	0.0395307106251615	6.053813894624227e-09	9.513136120123785e-09	True	8.02167628904157	heart-intestine-muscle	subset		
+85	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0549126355327787	4.332220804315057e-09	7.942404807910938e-09	True	8.100047981618442	heart-intestine-muscle	subset		
+86	scatac	scanpro	rep	logit	Smooth muscle cells	0.0348849587128758	0.6199895945168005	0.6199895945168005	False	0.20761559934345122	heart-intestine-muscle	subset		
+87	scatac	scanpro	rep	logit	Stromal cells	0.1882555999939172	0.0887047583250608	0.0975752341575669	False	1.0106603978410547	heart-intestine-muscle	subset		
+88	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0523806627229732	0.0007373933681245	0.000901258561041	True	3.045150596896418	heart-intestine-muscle	subset		
+89	pbmc	sccoda	norep		B cells				False	0.0			0.01	False
+90	pbmc	sccoda	norep		B cells				False	0.0			0.05	False
+91	pbmc	sccoda	norep		B cells				False	0.0			0.1	False
+92	pbmc	sccoda	norep		B cells				False	0.0			0.2	False
+93	pbmc	sccoda	norep		B cells				False	0.0			0.3	False
+94	pbmc	sccoda	norep		B cells				False	0.0			0.4	False
+95	pbmc	sccoda	norep		Dendritic cells				False	0.0			0.01	False
+96	pbmc	sccoda	norep		Dendritic cells				False	0.0			0.05	False
+97	pbmc	sccoda	norep		Dendritic cells				False	0.0			0.1	False
+98	pbmc	sccoda	norep		Dendritic cells				False	0.0			0.2	False
+99	pbmc	sccoda	norep		Dendritic cells				False	0.0			0.3	False
+100	pbmc	sccoda	norep		Dendritic cells				False	0.0			0.4	False
+101	pbmc	sccoda	norep		Monocytes				False	0.0			0.01	False
+102	pbmc	sccoda	norep		Monocytes				False	0.0			0.05	False
+103	pbmc	sccoda	norep		Monocytes				False	0.0			0.1	False
+104	pbmc	sccoda	norep		Monocytes				False	0.0			0.2	False
+105	pbmc	sccoda	norep		Monocytes				False	0.0			0.3	False
+106	pbmc	sccoda	norep		Monocytes				False	0.0			0.4	False
+107	pbmc	sccoda	norep		NK cells				False	0.0			0.01	False
+108	pbmc	sccoda	norep		NK cells				False	0.0			0.05	False
+109	pbmc	sccoda	norep		NK cells				False	0.0			0.1	False
+110	pbmc	sccoda	norep		NK cells				False	0.0			0.2	False
+111	pbmc	sccoda	norep		NK cells				False	0.0			0.3	False
+112	pbmc	sccoda	norep		NK cells				True	1.0			0.4	True
+113	pbmc	sccoda	norep		T cells				False	0.0			0.01	False
+114	pbmc	sccoda	norep		T cells				False	0.0			0.05	False
+115	pbmc	sccoda	norep		T cells				False	0.0			0.1	False
+116	pbmc	sccoda	norep		T cells				False	0.0			0.2	False
+117	pbmc	sccoda	norep		T cells				False	0.0			0.3	False
+118	pbmc	sccoda	norep		T cells				False	0.0			0.4	False
+119	humanMI	scanpro	norep	arcsin	Adipocyte	0.00272686983498	0.0013815819441493	0.3302571555940186	False	0.48114776386837654				
+120	humanMI	scanpro	norep	arcsin	Cardiomyocyte	0.3363487056492609	0.139486162554073	2.073022875679515e-05	True	4.683395905466888				
+121	humanMI	scanpro	norep	arcsin	Cycling cells	0.0155374227691024	0.0669455675489487	0.000152928838366	True	3.815510610321719				
+122	humanMI	scanpro	norep	arcsin	Endothelial	0.1704111160353502	0.1880928054051786	0.1531068060722279	False	0.8150055031364031				
+123	humanMI	scanpro	norep	arcsin	Fibroblast	0.2466644073098881	0.29643918808445	0.0626266259394465	False	1.2032409856378645				
+124	humanMI	scanpro	norep	arcsin	Lymphoid	0.0264031909069579	0.0346824341301492	0.093175772605651	False	1.030696997425963				
+125	humanMI	scanpro	norep	arcsin	Mast	0.0037487942855653	0.0028328153738222	0.5959959309763796	False	0.22475670529422243				
+126	humanMI	scanpro	norep	arcsin	Myeloid	0.1099194452410125	0.1888073431005373	0.0014989825915822	True	2.8242034107966107				
+127	humanMI	scanpro	norep	arcsin	Neuronal	0.0127010610287025	0.0042043597780624	0.186249205555592	False	0.729905571055151				
+128	humanMI	scanpro	norep	arcsin	Pericyte	0.0612737558330509	0.0473987485917763	0.4213799916598639	False	0.37532608979581483				
+129	humanMI	scanpro	norep	arcsin	Vsmcs	0.0142652311061289	0.0132756312777811	0.4167890131866761	False	0.3800837378258297				
+130	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.0699708952882671	0.0	3.077011253335386e-11	True	10.511870915435178	heart-muscle			
+131	scatac	scanpro	norep	arcsin	Erythroblasts	0.2121227181377954	0.0	0.0089706723982865	True	2.0471750031185576	heart-muscle			
+132	scatac	scanpro	norep	arcsin	Lymphoid cells	0.0357674232235099	0.0	0.0009597617939255	True	3.0178365423985816	heart-muscle			
+133	scatac	scanpro	norep	arcsin	Myeloid cells	0.0404965506102049	0.0	0.0038060600200394	True	2.419524367345271	heart-muscle			
+134	scatac	scanpro	norep	arcsin	Satellite cells	0.0080744608484163	0.2485876434993884	2.924944442388664e-06	True	5.5338823786734865	heart-muscle			
+135	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0112163408823355	0.3564686316471361	5.163679538364504e-08	True	7.287040718194639	heart-muscle			
+136	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0109088311212302	0.033213891616903	0.5563186966695214	False	0.25467634411461676	heart-muscle			
+137	scatac	scanpro	norep	arcsin	Stromal cells	0.1296899121267561	0.2336164352070891	0.1433902300541606	False	0.8434804384737528	heart-muscle			
+138	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0494826691847263	0.0915067986615348	0.2204815397154407	False	0.6566277669006216	heart-muscle			
+139	scatac	scanpro	norep	arcsin	Ureteric bud cells	0.0141190466576173	0.0	1.0	False	-0.0	heart-muscle			
+140	scatac	scanpro	norep	arcsin	Adrenocortical cells	0.0844362786970283	0.0	1.0	False	-0.0	heart-muscle			
+141	scatac	scanpro	norep	arcsin	Epithelial cells	0.0008852553728788	0.0	1.0	False	-0.0	heart-muscle			
+142	scatac	scanpro	norep	arcsin	Excitatory neurons	0.0756862282219412	0.0	1.0	False	-0.0	heart-muscle			
+143	scatac	scanpro	norep	arcsin	Inhibitory neurons	0.0192535278203149	0.0	1.0	False	-0.0	heart-muscle			
+144	scatac	scanpro	norep	arcsin	Retinal pigment cells	0.000891467691285	0.0	1.0	False	-0.0	heart-muscle			
+145	scatac	scanpro	norep	arcsin	Chromaffin cells	0.007953320639496	0.0	1.0	False	-0.0	heart-muscle			
+146	scatac	scanpro	norep	arcsin	Mesangial cells	0.0124355083695459	0.0	1.0	False	-0.0	heart-muscle			
+147	scatac	scanpro	norep	arcsin	Ganglion cells	0.0014831910194725	0.0	1.0	False	-0.0	heart-muscle			
+148	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.0254938016593102	0.0	1.0	False	-0.0	heart-muscle			
+149	scatac	scanpro	norep	arcsin	Thymocytes	0.0306593444140385	0.0	1.0	False	-0.0	heart-muscle			
+150	scatac	scanpro	norep	arcsin	Hepatoblasts	0.0657573903292839	0.0	1.0	False	-0.0	heart-muscle			
+151	scatac	scanpro	norep	arcsin	Trophoblast giant cells	0.009380600793313	0.0	1.0	False	-0.0	heart-muscle			
+152	scatac	scanpro	norep	arcsin	Metanephric cells	0.0656999263840268	0.0	1.0	False	-0.0	heart-muscle			
+153	scatac	scanpro	norep	arcsin	Photoreceptor cells	0.0033872666109628	0.0	1.0	False	-0.0	heart-muscle			
+154	scatac	scanpro	norep	arcsin	Goblet cells	0.0018668016810533	0.0	1.0	False	-0.0	heart-muscle			
+155	scatac	scanpro	norep	arcsin	Astrocytes	0.0128812422151884	0.0	1.0	False	-0.0	heart-muscle			
+156	humanMI	scanpro	rep	logit	Adipocyte	0.00272686983498	0.9849565075560162	0.9849565075560162	False	0.006582946096751938				
+157	humanMI	scanpro	rep	logit	Cardiomyocyte	0.3363487056492609	0.0146696253904338	0.080682939647386	False	1.0932182868427538				
+158	humanMI	scanpro	rep	logit	Cycling cells	0.0155374227691024	3.399192248754454e-05	0.0003739111473629	True	3.4272315870896186				
+159	humanMI	scanpro	rep	logit	Endothelial	0.1704111160353502	0.2195743957223448	0.3019147941182242	False	0.5201156056039605				
+160	humanMI	scanpro	rep	logit	Fibroblast	0.2466644073098881	0.5200201467092302	0.5720221613801533	False	0.24258714537013795				
+161	humanMI	scanpro	rep	logit	Lymphoid	0.0264031909069579	0.04067134631101	0.0951895780521907	False	1.021410598277219				
+162	humanMI	scanpro	rep	logit	Mast	0.0037487942855653	0.212587884633603	0.3019147941182242	False	0.5201156056039605				
+163	humanMI	scanpro	rep	logit	Myeloid	0.1099194452410125	0.0255533704896941	0.0936956917955452	False	1.0282803778682164				
+164	humanMI	scanpro	rep	logit	Neuronal	0.0127010610287025	0.043267990023723	0.0951895780521907	False	1.021410598277219				
+165	humanMI	scanpro	rep	logit	Pericyte	0.0612737558330509	0.1832864112438623	0.3019147941182242	False	0.5201156056039605				
+166	humanMI	scanpro	rep	logit	Vsmcs	0.0142652311061289	0.3262145613956447	0.3987066861502324	False	0.39934648133333284				
+167	covid	sccoda	norep		B cells				False	0.0			0.01	False
+168	covid	sccoda	norep		B cells				False	0.0			0.05	False
+169	covid	sccoda	norep		B cells				False	0.0			0.1	False
+170	covid	sccoda	norep		B cells				False	0.0			0.2	False
+171	covid	sccoda	norep		B cells				False	0.0			0.3	False
+172	covid	sccoda	norep		B cells				True	1.0			0.4	True
+173	covid	sccoda	norep		Epithelial				False	0.0			0.01	False
+174	covid	sccoda	norep		Epithelial				False	0.0			0.05	False
+175	covid	sccoda	norep		Epithelial				False	0.0			0.1	False
+176	covid	sccoda	norep		Epithelial				False	0.0			0.2	False
+177	covid	sccoda	norep		Epithelial				True	1.0			0.3	True
+178	covid	sccoda	norep		Epithelial				True	1.0			0.4	True
+179	covid	sccoda	norep		Macrophages				False	0.0			0.01	False
+180	covid	sccoda	norep		Macrophages				False	0.0			0.05	False
+181	covid	sccoda	norep		Macrophages				False	0.0			0.1	False
+182	covid	sccoda	norep		Macrophages				False	0.0			0.2	False
+183	covid	sccoda	norep		Macrophages				True	1.0			0.3	True
+184	covid	sccoda	norep		Macrophages				True	1.0			0.4	True
+185	covid	sccoda	norep		Mast				False	0.0			0.01	False
+186	covid	sccoda	norep		Mast				False	0.0			0.05	False
+187	covid	sccoda	norep		Mast				False	0.0			0.1	False
+188	covid	sccoda	norep		Mast				False	0.0			0.2	False
+189	covid	sccoda	norep		Mast				False	0.0			0.3	False
+190	covid	sccoda	norep		Mast				False	0.0			0.4	False
+191	covid	sccoda	norep		NK cells				False	0.0			0.01	False
+192	covid	sccoda	norep		NK cells				False	0.0			0.05	False
+193	covid	sccoda	norep		NK cells				False	0.0			0.1	False
+194	covid	sccoda	norep		NK cells				False	0.0			0.2	False
+195	covid	sccoda	norep		NK cells				True	1.0			0.3	True
+196	covid	sccoda	norep		NK cells				True	1.0			0.4	True
+197	covid	sccoda	norep		Neutrophil				False	0.0			0.01	False
+198	covid	sccoda	norep		Neutrophil				False	0.0			0.05	False
+199	covid	sccoda	norep		Neutrophil				False	0.0			0.1	False
+200	covid	sccoda	norep		Neutrophil				True	1.0			0.2	True
+201	covid	sccoda	norep		Neutrophil				True	1.0			0.3	True
+202	covid	sccoda	norep		Neutrophil				True	1.0			0.4	True
+203	covid	sccoda	norep		Plasma				False	0.0			0.01	False
+204	covid	sccoda	norep		Plasma				False	0.0			0.05	False
+205	covid	sccoda	norep		Plasma				False	0.0			0.1	False
+206	covid	sccoda	norep		Plasma				True	1.0			0.2	True
+207	covid	sccoda	norep		Plasma				True	1.0			0.3	True
+208	covid	sccoda	norep		Plasma				True	1.0			0.4	True
+209	covid	sccoda	norep		T cells				False	0.0			0.01	False
+210	covid	sccoda	norep		T cells				False	0.0			0.05	False
+211	covid	sccoda	norep		T cells				False	0.0			0.1	False
+212	covid	sccoda	norep		T cells				True	1.0			0.2	True
+213	covid	sccoda	norep		T cells				True	1.0			0.3	True
+214	covid	sccoda	norep		T cells				True	1.0			0.4	True
+215	covid	sccoda	norep		mDC				False	0.0			0.01	False
+216	covid	sccoda	norep		mDC				False	0.0			0.05	False
+217	covid	sccoda	norep		mDC				False	0.0			0.1	False
+218	covid	sccoda	norep		mDC				False	0.0			0.2	False
+219	covid	sccoda	norep		mDC				False	0.0			0.3	False
+220	covid	sccoda	norep		mDC				True	1.0			0.4	True
+221	covid	sccoda	norep		pDC				False	0.0			0.01	False
+222	covid	sccoda	norep		pDC				False	0.0			0.05	False
+223	covid	sccoda	norep		pDC				False	0.0			0.1	False
+224	covid	sccoda	norep		pDC				False	0.0			0.2	False
+225	covid	sccoda	norep		pDC				False	0.0			0.3	False
+226	covid	sccoda	norep		pDC				True	1.0			0.4	True
+227	covid	scanpro	rep	logit	B cells	0.0033428046130703	0.103047141804741	0.1472102025782015	False	0.8320620896597608				
+228	covid	scanpro	rep	logit	Epithelial	0.0536520140397793	0.2427650729411707	0.2801274444566084	False	0.5526443406866572				
+229	covid	scanpro	rep	logit	Macrophages	0.7508698889277194	0.2521147000109476	0.2801274444566084	False	0.5526443406866572				
+230	covid	scanpro	rep	logit	Mast	0.0010636196496132	0.3349113736108906	0.3349113736108906	False	0.4750701035423208				
+231	covid	scanpro	rep	logit	NK cells	0.0164253263033139	0.0211311008085164	0.0704370026950547	False	1.1521991328395396				
+232	covid	scanpro	rep	logit	Neutrophil	0.0244176682418367	4.690857702271956e-10	4.6908577022719555e-09	True	8.328747741227945				
+233	covid	scanpro	rep	logit	Plasma	0.015817543646392	0.0010439077745573	0.0052195388727865	True	2.282367863635738				
+234	covid	scanpro	rep	logit	T cells	0.1172412745202315	0.0712253351898378	0.1275975194015094	False	0.8941577685671144				
+235	covid	scanpro	rep	logit	mDC	0.01486028596174	0.0765585116409056	0.1275975194015094	False	0.8941577685671144				
+236	covid	scanpro	rep	logit	pDC	0.0023095740963031	0.0364076273235981	0.0910190683089953	False	1.0408676143397677				
+237	pbmc	propeller	rep	logit	NK cells	0.1464793253879535	0.0098441721142403	0.0492208605712016	True	1.3078507974179197				
+238	pbmc	propeller	rep	logit	T cells	0.566609913953715	0.1509746417193069	0.3774366042982673	False	0.4231559836785905				
+239	pbmc	propeller	rep	logit	Dendritic cells	0.0171118028445147	0.2953712222810236	0.4922853704683727	False	0.30778307021802914				
+240	pbmc	propeller	rep	logit	B cells	0.0983828343107411	0.6512475952340007	0.8140594940425008	False	0.08934385433661914				
+241	pbmc	propeller	rep	logit	Monocytes	0.1714161235030755	0.9493551154888716	0.9493551154888716	False	0.02257130511850692				
+242	heart	sccoda	norep		Cardiomyocytes				False	0.0			0.01	False
+243	heart	sccoda	norep		Cardiomyocytes				True	1.0			0.05	True
+244	heart	sccoda	norep		Cardiomyocytes				True	1.0			0.1	True
+245	heart	sccoda	norep		Cardiomyocytes				True	1.0			0.2	True
+246	heart	sccoda	norep		Cardiomyocytes				True	1.0			0.3	True
+247	heart	sccoda	norep		Cardiomyocytes				True	1.0			0.4	True
+248	heart	sccoda	norep		Endothelial cells				False	0.0			0.01	False
+249	heart	sccoda	norep		Endothelial cells				False	0.0			0.05	False
+250	heart	sccoda	norep		Endothelial cells				False	0.0			0.1	False
+251	heart	sccoda	norep		Endothelial cells				False	0.0			0.2	False
+252	heart	sccoda	norep		Endothelial cells				True	1.0			0.3	True
+253	heart	sccoda	norep		Endothelial cells				True	1.0			0.4	True
+254	heart	sccoda	norep		Epicardial cells				False	0.0			0.01	False
+255	heart	sccoda	norep		Epicardial cells				False	0.0			0.05	False
+256	heart	sccoda	norep		Epicardial cells				False	0.0			0.1	False
+257	heart	sccoda	norep		Epicardial cells				False	0.0			0.2	False
+258	heart	sccoda	norep		Epicardial cells				False	0.0			0.3	False
+259	heart	sccoda	norep		Epicardial cells				True	1.0			0.4	True
+260	heart	sccoda	norep		Erythroid				False	0.0			0.01	False
+261	heart	sccoda	norep		Erythroid				False	0.0			0.05	False
+262	heart	sccoda	norep		Erythroid				False	0.0			0.1	False
+263	heart	sccoda	norep		Erythroid				True	1.0			0.2	True
+264	heart	sccoda	norep		Erythroid				True	1.0			0.3	True
+265	heart	sccoda	norep		Erythroid				True	1.0			0.4	True
+266	heart	sccoda	norep		Fibroblast				False	0.0			0.01	False
+267	heart	sccoda	norep		Fibroblast				False	0.0			0.05	False
+268	heart	sccoda	norep		Fibroblast				False	0.0			0.1	False
+269	heart	sccoda	norep		Fibroblast				True	1.0			0.2	True
+270	heart	sccoda	norep		Fibroblast				True	1.0			0.3	True
+271	heart	sccoda	norep		Fibroblast				True	1.0			0.4	True
+272	heart	sccoda	norep		Immune cells				False	0.0			0.01	False
+273	heart	sccoda	norep		Immune cells				False	0.0			0.05	False
+274	heart	sccoda	norep		Immune cells				True	1.0			0.1	True
+275	heart	sccoda	norep		Immune cells				True	1.0			0.2	True
+276	heart	sccoda	norep		Immune cells				True	1.0			0.3	True
+277	heart	sccoda	norep		Immune cells				True	1.0			0.4	True
+278	heart	sccoda	norep		Neurons				False	0.0			0.01	False
+279	heart	sccoda	norep		Neurons				False	0.0			0.05	False
+280	heart	sccoda	norep		Neurons				False	0.0			0.1	False
+281	heart	sccoda	norep		Neurons				False	0.0			0.2	False
+282	heart	sccoda	norep		Neurons				True	1.0			0.3	True
+283	heart	sccoda	norep		Neurons				True	1.0			0.4	True
+284	heart	sccoda	norep		Smooth muscle cells				False	0.0			0.01	False
+285	heart	sccoda	norep		Smooth muscle cells				False	0.0			0.05	False
+286	heart	sccoda	norep		Smooth muscle cells				False	0.0			0.1	False
+287	heart	sccoda	norep		Smooth muscle cells				False	0.0			0.2	False
+288	heart	sccoda	norep		Smooth muscle cells				False	0.0			0.3	False
+289	heart	sccoda	norep		Smooth muscle cells				False	0.0			0.4	False
+290	pbmc	scanpro	rep	logit	B cells	0.0983828343107411	0.65121013803382	0.8140126725422749	False	0.08936883396541627				
+291	pbmc	scanpro	rep	logit	Dendritic cells	0.0171118028445147	0.2942871992413807	0.4904786654023012	False	0.30937987859914856				
+292	pbmc	scanpro	rep	logit	Monocytes	0.1714161235030755	0.949430470049435	0.949430470049435	False	0.02253683459154973				
+293	pbmc	scanpro	rep	logit	NK cells	0.1464793253879535	0.0098741904271734	0.0493709521358673	True	1.3065284971805935				
+294	pbmc	scanpro	rep	logit	T cells	0.566609913953715	0.151178306199288	0.3779457654982199	False	0.42257051612766866				
+295	pbmc	sccoda	rep		B cells				False	0.0			0.01	False
+296	pbmc	sccoda	rep		B cells				False	0.0			0.05	False
+297	pbmc	sccoda	rep		B cells				False	0.0			0.1	False
+298	pbmc	sccoda	rep		B cells				False	0.0			0.2	False
+299	pbmc	sccoda	rep		B cells				False	0.0			0.3	False
+300	pbmc	sccoda	rep		B cells				False	0.0			0.4	False
+301	pbmc	sccoda	rep		Dendritic cells				False	0.0			0.01	False
+302	pbmc	sccoda	rep		Dendritic cells				False	0.0			0.05	False
+303	pbmc	sccoda	rep		Dendritic cells				False	0.0			0.1	False
+304	pbmc	sccoda	rep		Dendritic cells				False	0.0			0.2	False
+305	pbmc	sccoda	rep		Dendritic cells				False	0.0			0.3	False
+306	pbmc	sccoda	rep		Dendritic cells				False	0.0			0.4	False
+307	pbmc	sccoda	rep		Monocytes				False	0.0			0.01	False
+308	pbmc	sccoda	rep		Monocytes				False	0.0			0.05	False
+309	pbmc	sccoda	rep		Monocytes				False	0.0			0.1	False
+310	pbmc	sccoda	rep		Monocytes				False	0.0			0.2	False
+311	pbmc	sccoda	rep		Monocytes				False	0.0			0.3	False
+312	pbmc	sccoda	rep		Monocytes				False	0.0			0.4	False
+313	pbmc	sccoda	rep		NK cells				False	0.0			0.01	False
+314	pbmc	sccoda	rep		NK cells				False	0.0			0.05	False
+315	pbmc	sccoda	rep		NK cells				False	0.0			0.1	False
+316	pbmc	sccoda	rep		NK cells				False	0.0			0.2	False
+317	pbmc	sccoda	rep		NK cells				True	1.0			0.3	True
+318	pbmc	sccoda	rep		NK cells				True	1.0			0.4	True
+319	pbmc	sccoda	rep		T cells				False	0.0			0.01	False
+320	pbmc	sccoda	rep		T cells				False	0.0			0.05	False
+321	pbmc	sccoda	rep		T cells				False	0.0			0.1	False
+322	pbmc	sccoda	rep		T cells				False	0.0			0.2	False
+323	pbmc	sccoda	rep		T cells				False	0.0			0.3	False
+324	pbmc	sccoda	rep		T cells				True	1.0			0.4	True
+325	heart	sccoda	rep		Cardiomyocytes				True	1.0			0.01	True
+326	heart	sccoda	rep		Cardiomyocytes				True	1.0			0.05	True
+327	heart	sccoda	rep		Cardiomyocytes				True	1.0			0.1	True
+328	heart	sccoda	rep		Cardiomyocytes				True	1.0			0.2	True
+329	heart	sccoda	rep		Cardiomyocytes				True	1.0			0.3	True
+330	heart	sccoda	rep		Cardiomyocytes				True	1.0			0.4	True
+331	heart	sccoda	rep		Endothelial cells				False	0.0			0.01	False
+332	heart	sccoda	rep		Endothelial cells				False	0.0			0.05	False
+333	heart	sccoda	rep		Endothelial cells				False	0.0			0.1	False
+334	heart	sccoda	rep		Endothelial cells				False	0.0			0.2	False
+335	heart	sccoda	rep		Endothelial cells				True	1.0			0.3	True
+336	heart	sccoda	rep		Endothelial cells				True	1.0			0.4	True
+337	heart	sccoda	rep		Epicardial cells				False	0.0			0.01	False
+338	heart	sccoda	rep		Epicardial cells				False	0.0			0.05	False
+339	heart	sccoda	rep		Epicardial cells				False	0.0			0.1	False
+340	heart	sccoda	rep		Epicardial cells				False	0.0			0.2	False
+341	heart	sccoda	rep		Epicardial cells				False	0.0			0.3	False
+342	heart	sccoda	rep		Epicardial cells				True	1.0			0.4	True
+343	heart	sccoda	rep		Erythroid				False	0.0			0.01	False
+344	heart	sccoda	rep		Erythroid				False	0.0			0.05	False
+345	heart	sccoda	rep		Erythroid				False	0.0			0.1	False
+346	heart	sccoda	rep		Erythroid				True	1.0			0.2	True
+347	heart	sccoda	rep		Erythroid				True	1.0			0.3	True
+348	heart	sccoda	rep		Erythroid				True	1.0			0.4	True
+349	heart	sccoda	rep		Fibroblast				False	0.0			0.01	False
+350	heart	sccoda	rep		Fibroblast				False	0.0			0.05	False
+351	heart	sccoda	rep		Fibroblast				False	0.0			0.1	False
+352	heart	sccoda	rep		Fibroblast				False	0.0			0.2	False
+353	heart	sccoda	rep		Fibroblast				False	0.0			0.3	False
+354	heart	sccoda	rep		Fibroblast				True	1.0			0.4	True
+355	heart	sccoda	rep		Immune cells				False	0.0			0.01	False
+356	heart	sccoda	rep		Immune cells				False	0.0			0.05	False
+357	heart	sccoda	rep		Immune cells				False	0.0			0.1	False
+358	heart	sccoda	rep		Immune cells				True	1.0			0.2	True
+359	heart	sccoda	rep		Immune cells				True	1.0			0.3	True
+360	heart	sccoda	rep		Immune cells				True	1.0			0.4	True
+361	heart	sccoda	rep		Neurons				False	0.0			0.01	False
+362	heart	sccoda	rep		Neurons				False	0.0			0.05	False
+363	heart	sccoda	rep		Neurons				False	0.0			0.1	False
+364	heart	sccoda	rep		Neurons				False	0.0			0.2	False
+365	heart	sccoda	rep		Neurons				False	0.0			0.3	False
+366	heart	sccoda	rep		Neurons				True	1.0			0.4	True
+367	heart	sccoda	rep		Smooth muscle cells				False	0.0			0.01	False
+368	heart	sccoda	rep		Smooth muscle cells				False	0.0			0.05	False
+369	heart	sccoda	rep		Smooth muscle cells				False	0.0			0.1	False
+370	heart	sccoda	rep		Smooth muscle cells				False	0.0			0.2	False
+371	heart	sccoda	rep		Smooth muscle cells				False	0.0			0.3	False
+372	heart	sccoda	rep		Smooth muscle cells				False	0.0			0.4	False
+373	scatac	scanpro	rep		Adrenocortical cells	0.0844362786970283	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+374	scatac	scanpro	rep		Astrocytes	0.0128812422151884	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+375	scatac	scanpro	rep		Cardiomyocytes	0.0699708952882671	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+376	scatac	scanpro	rep		Chromaffin cells	0.007953320639496	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+377	scatac	scanpro	rep		Epithelial cells	0.0008852553728788	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+378	scatac	scanpro	rep		Erythroblasts	0.2121227181377954	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+379	scatac	scanpro	rep		Excitatory neurons	0.0756862282219412	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+380	scatac	scanpro	rep		Ganglion cells	0.0014831910194725	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+381	scatac	scanpro	rep		Goblet cells	0.0018668016810533	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+382	scatac	scanpro	rep		Hepatoblasts	0.0657573903292839	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+383	scatac	scanpro	rep		Inhibitory neurons	0.0192535278203149	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+384	scatac	scanpro	rep		Intestinal epithelial cells	0.0254938016593102	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+385	scatac	scanpro	rep		Lymphoid cells	0.0357674232235099	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+386	scatac	scanpro	rep		Mesangial cells	0.0124355083695459	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+387	scatac	scanpro	rep		Metanephric cells	0.0656999263840268	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+388	scatac	scanpro	rep		Myeloid cells	0.0404965506102049	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+389	scatac	scanpro	rep		Photoreceptor cells	0.0033872666109628	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+390	scatac	scanpro	rep		Retinal pigment cells	0.000891467691285	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+391	scatac	scanpro	rep		Satellite cells	0.0080744608484163	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+392	scatac	scanpro	rep		Skeletal muscle cells	0.0112163408823355	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+393	scatac	scanpro	rep		Smooth muscle cells	0.0109088311212302	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+394	scatac	scanpro	rep		Stromal cells	0.1296899121267561	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+395	scatac	scanpro	rep		Thymocytes	0.0306593444140385	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+396	scatac	scanpro	rep		Trophoblast giant cells	0.009380600793313	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+397	scatac	scanpro	rep		Ureteric bud cells	0.0141190466576173	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+398	scatac	scanpro	rep		Vascular endothelial cells	0.0494826691847263	1.1102230246251563e-16	1.1102230246251563e-16	True	15.954589770191003				
+399	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.3425614744749768	2.00053298371472e-08	7.335287606953976e-08	True	7.134582853372937	heart-intestine-muscle	subset		
+400	scatac	scanpro	rep	arcsin	Chromaffin cells	0.0057482625952341	5.110038748923351e-06	1.4052606559539216e-05	True	4.852243112810018	heart-intestine-muscle	subset		
+401	scatac	scanpro	rep	arcsin	Erythroblasts	0.0173436335710701	0.0002549848260008	0.0004674721810015	True	3.3302442286353546	heart-intestine-muscle	subset		
+402	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.1248118128317036	9.040919979574902e-05	0.0001989002395506	True	3.7013646938215623	heart-intestine-muscle	subset		
+403	scatac	scanpro	rep	arcsin	Lymphoid cells	0.1005945954165969	0.0060347105030531	0.0073757572815094	True	2.132193383309568	heart-intestine-muscle	subset		
+404	scatac	scanpro	rep	arcsin	Myeloid cells	0.0389756535227117	0.0004430034341086	0.0006961482535992	True	3.1572982620220666	heart-intestine-muscle	subset		
+405	scatac	scanpro	rep	arcsin	Satellite cells	0.0395307106251615	1.8818280267396406e-13	2.0700108294136044e-12	True	11.684027382493678	heart-intestine-muscle	subset		
+406	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0549126355327787	1.1233816099576186e-09	6.1785988547669035e-09	True	8.209110000418454	heart-intestine-muscle	subset		
+407	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0348849587128758	0.5347772533308361	0.5347772533308361	False	0.27182707366695713	heart-intestine-muscle	subset		
+408	scatac	scanpro	rep	arcsin	Stromal cells	0.1882555999939172	0.0089327253123704	0.0098259978436074	True	2.00762333551053	heart-intestine-muscle	subset		
+409	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0523806627229732	0.0007677459932903	0.0010556507407741	True	2.976479743207018	heart-intestine-muscle	subset		
+410	covid	sccoda	rep		B cells				False	0.0			0.01	False
+411	covid	sccoda	rep		B cells				False	0.0			0.05	False
+412	covid	sccoda	rep		B cells				False	0.0			0.1	False
+413	covid	sccoda	rep		B cells				False	0.0			0.2	False
+414	covid	sccoda	rep		B cells				False	0.0			0.3	False
+415	covid	sccoda	rep		B cells				True	1.0			0.4	True
+416	covid	sccoda	rep		Epithelial				False	0.0			0.01	False
+417	covid	sccoda	rep		Epithelial				False	0.0			0.05	False
+418	covid	sccoda	rep		Epithelial				False	0.0			0.1	False
+419	covid	sccoda	rep		Epithelial				True	1.0			0.2	True
+420	covid	sccoda	rep		Epithelial				True	1.0			0.3	True
+421	covid	sccoda	rep		Epithelial				True	1.0			0.4	True
+422	covid	sccoda	rep		Macrophages				False	0.0			0.01	False
+423	covid	sccoda	rep		Macrophages				False	0.0			0.05	False
+424	covid	sccoda	rep		Macrophages				False	0.0			0.1	False
+425	covid	sccoda	rep		Macrophages				False	0.0			0.2	False
+426	covid	sccoda	rep		Macrophages				False	0.0			0.3	False
+427	covid	sccoda	rep		Macrophages				False	0.0			0.4	False
+428	covid	sccoda	rep		Mast				False	0.0			0.01	False
+429	covid	sccoda	rep		Mast				False	0.0			0.05	False
+430	covid	sccoda	rep		Mast				False	0.0			0.1	False
+431	covid	sccoda	rep		Mast				False	0.0			0.2	False
+432	covid	sccoda	rep		Mast				False	0.0			0.3	False
+433	covid	sccoda	rep		Mast				False	0.0			0.4	False
+434	covid	sccoda	rep		NK cells				False	0.0			0.01	False
+435	covid	sccoda	rep		NK cells				False	0.0			0.05	False
+436	covid	sccoda	rep		NK cells				False	0.0			0.1	False
+437	covid	sccoda	rep		NK cells				True	1.0			0.2	True
+438	covid	sccoda	rep		NK cells				True	1.0			0.3	True
+439	covid	sccoda	rep		NK cells				True	1.0			0.4	True
+440	covid	sccoda	rep		Neutrophil				False	0.0			0.01	False
+441	covid	sccoda	rep		Neutrophil				False	0.0			0.05	False
+442	covid	sccoda	rep		Neutrophil				True	1.0			0.1	True
+443	covid	sccoda	rep		Neutrophil				True	1.0			0.2	True
+444	covid	sccoda	rep		Neutrophil				True	1.0			0.3	True
+445	covid	sccoda	rep		Neutrophil				True	1.0			0.4	True
+446	covid	sccoda	rep		Plasma				False	0.0			0.01	False
+447	covid	sccoda	rep		Plasma				False	0.0			0.05	False
+448	covid	sccoda	rep		Plasma				False	0.0			0.1	False
+449	covid	sccoda	rep		Plasma				False	0.0			0.2	False
+450	covid	sccoda	rep		Plasma				True	1.0			0.3	True
+451	covid	sccoda	rep		Plasma				True	1.0			0.4	True
+452	covid	sccoda	rep		T cells				False	0.0			0.01	False
+453	covid	sccoda	rep		T cells				True	1.0			0.05	True
+454	covid	sccoda	rep		T cells				True	1.0			0.1	True
+455	covid	sccoda	rep		T cells				True	1.0			0.2	True
+456	covid	sccoda	rep		T cells				True	1.0			0.3	True
+457	covid	sccoda	rep		T cells				True	1.0			0.4	True
+458	covid	sccoda	rep		mDC				False	0.0			0.01	False
+459	covid	sccoda	rep		mDC				False	0.0			0.05	False
+460	covid	sccoda	rep		mDC				False	0.0			0.1	False
+461	covid	sccoda	rep		mDC				False	0.0			0.2	False
+462	covid	sccoda	rep		mDC				False	0.0			0.3	False
+463	covid	sccoda	rep		mDC				True	1.0			0.4	True
+464	covid	sccoda	rep		pDC				False	0.0			0.01	False
+465	covid	sccoda	rep		pDC				False	0.0			0.05	False
+466	covid	sccoda	rep		pDC				False	0.0			0.1	False
+467	covid	sccoda	rep		pDC				False	0.0			0.2	False
+468	covid	sccoda	rep		pDC				True	1.0			0.3	True
+469	covid	sccoda	rep		pDC				True	1.0			0.4	True
+470	scatac	scanpro	norep	logit	Cardiomyocytes	0.0699708952882671	0.0	4.023732319266334e-12	True	11.395370918641078	heart-muscle			
+471	scatac	scanpro	norep	logit	Erythroblasts	0.2121227181377954	0.0	7.390455799068894e-05	True	4.131328776095549	heart-muscle			
+472	scatac	scanpro	norep	logit	Lymphoid cells	0.0357674232235099	0.0	6.055182506286753e-06	True	5.2178727624666355	heart-muscle			
+473	scatac	scanpro	norep	logit	Myeloid cells	0.0404965506102049	0.0	3.757430689867084e-05	True	4.425109021728649	heart-muscle			
+474	scatac	scanpro	norep	logit	Satellite cells	0.0080744608484163	0.2485876434993884	5.646460031441814e-09	True	8.248223741673018	heart-muscle			
+475	scatac	scanpro	norep	logit	Skeletal muscle cells	0.0112163408823355	0.3564686316471361	6.704247797587907e-10	True	9.173649942000662	heart-muscle			
+476	scatac	scanpro	norep	logit	Smooth muscle cells	0.0109088311212302	0.033213891616903	0.683968857788714	False	0.16496367196177883	heart-muscle			
+477	scatac	scanpro	norep	logit	Stromal cells	0.1296899121267561	0.2336164352070891	0.3673412813495283	False	0.43493026344645636	heart-muscle			
+478	scatac	scanpro	norep	logit	Vascular endothelial cells	0.0494826691847263	0.0915067986615348	0.355562746368367	False	0.44908374796669714	heart-muscle			
+479	scatac	scanpro	norep	logit	Ureteric bud cells	0.0141190466576173	0.0	1.0	False	-0.0	heart-muscle			
+480	scatac	scanpro	norep	logit	Adrenocortical cells	0.0844362786970283	0.0	1.0	False	-0.0	heart-muscle			
+481	scatac	scanpro	norep	logit	Epithelial cells	0.0008852553728788	0.0	1.0	False	-0.0	heart-muscle			
+482	scatac	scanpro	norep	logit	Excitatory neurons	0.0756862282219412	0.0	1.0	False	-0.0	heart-muscle			
+483	scatac	scanpro	norep	logit	Inhibitory neurons	0.0192535278203149	0.0	1.0	False	-0.0	heart-muscle			
+484	scatac	scanpro	norep	logit	Retinal pigment cells	0.000891467691285	0.0	1.0	False	-0.0	heart-muscle			
+485	scatac	scanpro	norep	logit	Chromaffin cells	0.007953320639496	0.0	1.0	False	-0.0	heart-muscle			
+486	scatac	scanpro	norep	logit	Mesangial cells	0.0124355083695459	0.0	1.0	False	-0.0	heart-muscle			
+487	scatac	scanpro	norep	logit	Ganglion cells	0.0014831910194725	0.0	1.0	False	-0.0	heart-muscle			
+488	scatac	scanpro	norep	logit	Intestinal epithelial cells	0.0254938016593102	0.0	1.0	False	-0.0	heart-muscle			
+489	scatac	scanpro	norep	logit	Thymocytes	0.0306593444140385	0.0	1.0	False	-0.0	heart-muscle			
+490	scatac	scanpro	norep	logit	Hepatoblasts	0.0657573903292839	0.0	1.0	False	-0.0	heart-muscle			
+491	scatac	scanpro	norep	logit	Trophoblast giant cells	0.009380600793313	0.0	1.0	False	-0.0	heart-muscle			
+492	scatac	scanpro	norep	logit	Metanephric cells	0.0656999263840268	0.0	1.0	False	-0.0	heart-muscle			
+493	scatac	scanpro	norep	logit	Photoreceptor cells	0.0033872666109628	0.0	1.0	False	-0.0	heart-muscle			
+494	scatac	scanpro	norep	logit	Goblet cells	0.0018668016810533	0.0	1.0	False	-0.0	heart-muscle			
+495	scatac	scanpro	norep	logit	Astrocytes	0.0128812422151884	0.0	1.0	False	-0.0	heart-muscle			
+496	covid	propeller	rep	logit	Neutrophil	-0.0	3.546468068150331e-07	3.54646806815033e-06	True	5.450203946118155				
+497	covid	propeller	rep	logit	Plasma	0.0002244276070342	0.0020566728555593	0.0102833642777966	True	1.9878647794794695				
+498	covid	propeller	rep	logit	pDC	0.0011342771894175	0.010522183964379	0.0349347221823859	True	1.4567427061132743				
+499	covid	propeller	rep	logit	NK cells	0.0088943293216437	0.0139738888729543	0.0349347221823859	True	1.4567427061132743				
+500	covid	propeller	rep	logit	T cells	0.0945944805670891	0.0646874860149815	0.129374972029963	False	0.8881497310906711				
+501	covid	propeller	rep	logit	mDC	0.0237761815882123	0.1090338493231534	0.1673737881028153	False	0.7763125545485106				
+502	covid	propeller	rep	logit	B cells	0.0035032662274645	0.1171616516719707	0.1673737881028153	False	0.7763125545485106				
+503	covid	propeller	rep	logit	Epithelial	0.130245919439191	0.1901865585189803	0.2377331981487254	False	0.6239101671734933				
+504	covid	propeller	rep	logit	Macrophages	0.735289783112163	0.2239110706381647	0.2487900784868497	False	0.6041669428892927				
+505	covid	propeller	rep	logit	Mast	0.0023373349477843	0.5127128119260056	0.5127128119260056	False	0.29012583005473175				
+506	heart	scanpro	rep	arcsin	Cardiomyocytes	0.5494643516808275	0.0209085804150429	0.0557562144401145	False	1.2537067202683525				
+507	heart	scanpro	rep	arcsin	Endothelial cells	0.1016069449575175	0.4294224176640775	0.5218197507815122	False	0.28247948695850666				
+508	heart	scanpro	rep	arcsin	Epicardial cells	0.0641669745105282	0.4565922819338232	0.5218197507815122	False	0.28247948695850666				
+509	heart	scanpro	rep	arcsin	Erythroid	0.0022718876985592	6.267618995914326e-05	0.0005014095196731	True	3.299807424860751				
+510	heart	scanpro	rep	arcsin	Fibroblast	0.1821019578869597	0.0426659889889212	0.0853319779778425	False	1.0688881873931875				
+511	heart	scanpro	rep	arcsin	Immune cells	0.07630217953454	0.0086573960528537	0.034629584211415	True	1.460552722882308				
+512	heart	scanpro	rep	arcsin	Neurons	0.0161433321019578	0.1693273678417012	0.2709237885467219	False	0.5671528599317933				
+513	heart	scanpro	rep	arcsin	Smooth muscle cells	0.0079423716291097	0.9215478513345684	0.9215478513345684	False	0.03548210913616694				
+514	humanMI	scanpro	norep	logit	Adipocyte	0.00272686983498	0.0013815819441493	0.1763822482234017	False	0.7535451260441319				
+515	humanMI	scanpro	norep	logit	Cardiomyocyte	0.3363487056492609	0.1394415432150907	0.0034951678862215	True	2.4565319585997205				
+516	humanMI	scanpro	norep	logit	Cycling cells	0.0155374227691024	0.0669455675489487	0.0011214584470105	True	2.9502168135374314				
+517	humanMI	scanpro	norep	logit	Endothelial	0.1704111160353502	0.188122384685223	0.274828289898568	False	0.5609385645001411				
+518	humanMI	scanpro	norep	logit	Fibroblast	0.2466644073098881	0.295853666448596	0.2049269221763365	False	0.6884009826209394				
+519	humanMI	scanpro	norep	logit	Lymphoid	0.0264031909069579	0.0345982616463669	0.181235276469006	False	0.7417572653528077				
+520	humanMI	scanpro	norep	logit	Mast	0.0037487942855653	0.0028328153738222	0.5843438632256825	False	0.23333151255694806				
+521	humanMI	scanpro	norep	logit	Myeloid	0.1099194452410125	0.1888073431005373	0.0461151961660918	True	1.336155939608446				
+522	humanMI	scanpro	norep	logit	Neuronal	0.0127010610287025	0.0041470930143367	0.3100449412447185	False	0.5085753502948638				
+523	humanMI	scanpro	norep	logit	Pericyte	0.0612737558330509	0.0479999434272232	0.416507124033451	False	0.3803775659211627				
+524	humanMI	scanpro	norep	logit	Vsmcs	0.0142652311061289	0.0132756312777811	0.4857877003649897	False	0.3135534852724208				
+525	covid	propeller	rep	arcsin	pDC	0.0011342771894175	0.0078917263873758	0.0280102415872831	True	1.552683145386661				
+526	covid	propeller	rep	arcsin	Neutrophil	-0.0	0.0080067686664827	0.0280102415872831	True	1.552683145386661				
+527	covid	propeller	rep	arcsin	NK cells	0.0088943293216437	0.0084030724761849	0.0280102415872831	True	1.552683145386661				
+528	covid	propeller	rep	arcsin	T cells	0.0945944805670891	0.0233114893017098	0.0546653548747365	False	1.262287828211577				
+529	covid	propeller	rep	arcsin	mDC	0.0237761815882123	0.0273326774373682	0.0546653548747365	False	1.262287828211577				
+530	covid	propeller	rep	arcsin	B cells	0.0035032662274645	0.0802974489496821	0.1338290815828035	False	0.8734495024234564				
+531	covid	propeller	rep	arcsin	Plasma	0.0002244276070342	0.2917769272213346	0.4154449164441628	False	0.38148655086953687				
+532	covid	propeller	rep	arcsin	Macrophages	0.735289783112163	0.3323559331553303	0.4154449164441628	False	0.38148655086953687				
+533	covid	propeller	rep	arcsin	Epithelial	0.130245919439191	0.7429066370429074	0.8254518189365638	False	0.08330827113607914				
+534	covid	propeller	rep	arcsin	Mast	0.0023373349477843	0.954732485637606	0.954732485637606	False	0.02011829992056247				
+535	scatac	scanpro	rep	logit	Cardiomyocytes	0.0699708952882671	2.779437770311208e-10	2.501493993280087e-09	True	8.60180053563024	heart-muscle			
+536	scatac	scanpro	rep	logit	Erythroblasts	0.2121227181377954	1.7628691945788127e-08	5.288607583736439e-08	True	7.276658656565905	heart-muscle			
+537	scatac	scanpro	rep	logit	Lymphoid cells	0.0357674232235099	1.2907655876847765e-07	2.904222572290747e-07	True	6.536970103463116	heart-muscle			
+538	scatac	scanpro	rep	logit	Myeloid cells	0.0404965506102049	3.293508258656876e-09	1.4820787163955945e-08	True	7.8291287294279615	heart-muscle			
+539	scatac	scanpro	rep	logit	Satellite cells	0.0080744608484163	1.293875691513295e-06	1.940813537269942e-06	True	5.712016187241552	heart-muscle			
+540	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0112163408823355	1.0520783373040551e-06	1.8937410071472996e-06	True	5.7226794164931984	heart-muscle			
+541	scatac	scanpro	rep	logit	Smooth muscle cells	0.0109088311212302	0.2905789249951869	0.2905789249951869	False	0.5367358872513572	heart-muscle			
+542	scatac	scanpro	rep	logit	Stromal cells	0.1296899121267561	0.0355765013726883	0.0457412160505993	True	1.3396922936635791	heart-muscle			
+543	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0494826691847263	0.0859443303774998	0.0966873716746873	False	1.0146302453600446	heart-muscle			
+544	scatac	scanpro	rep	logit	Ureteric bud cells	0.0141190466576173	1.0	1.0	False	-0.0	heart-muscle			
+545	scatac	scanpro	rep	logit	Adrenocortical cells	0.0844362786970283	1.0	1.0	False	-0.0	heart-muscle			
+546	scatac	scanpro	rep	logit	Epithelial cells	0.0008852553728788	1.0	1.0	False	-0.0	heart-muscle			
+547	scatac	scanpro	rep	logit	Excitatory neurons	0.0756862282219412	1.0	1.0	False	-0.0	heart-muscle			
+548	scatac	scanpro	rep	logit	Inhibitory neurons	0.0192535278203149	1.0	1.0	False	-0.0	heart-muscle			
+549	scatac	scanpro	rep	logit	Retinal pigment cells	0.000891467691285	1.0	1.0	False	-0.0	heart-muscle			
+550	scatac	scanpro	rep	logit	Chromaffin cells	0.007953320639496	1.0	1.0	False	-0.0	heart-muscle			
+551	scatac	scanpro	rep	logit	Mesangial cells	0.0124355083695459	1.0	1.0	False	-0.0	heart-muscle			
+552	scatac	scanpro	rep	logit	Ganglion cells	0.0014831910194725	1.0	1.0	False	-0.0	heart-muscle			
+553	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.0254938016593102	1.0	1.0	False	-0.0	heart-muscle			
+554	scatac	scanpro	rep	logit	Thymocytes	0.0306593444140385	1.0	1.0	False	-0.0	heart-muscle			
+555	scatac	scanpro	rep	logit	Hepatoblasts	0.0657573903292839	1.0	1.0	False	-0.0	heart-muscle			
+556	scatac	scanpro	rep	logit	Trophoblast giant cells	0.009380600793313	1.0	1.0	False	-0.0	heart-muscle			
+557	scatac	scanpro	rep	logit	Metanephric cells	0.0656999263840268	1.0	1.0	False	-0.0	heart-muscle			
+558	scatac	scanpro	rep	logit	Photoreceptor cells	0.0033872666109628	1.0	1.0	False	-0.0	heart-muscle			
+559	scatac	scanpro	rep	logit	Goblet cells	0.0018668016810533	1.0	1.0	False	-0.0	heart-muscle			
+560	scatac	scanpro	rep	logit	Astrocytes	0.0128812422151884	1.0	1.0	False	-0.0	heart-muscle			
+561	covid	scanpro	norep	arcsin	B cells	0.0033428046130703	0.0019757472995505	0.1252466842306002	False	0.9022337627813947				
+562	covid	scanpro	norep	arcsin	Epithelial	0.0536520140397793	0.045517174807345	0.1516304936118468	False	0.8192134512393665				
+563	covid	scanpro	norep	arcsin	Macrophages	0.7508698889277194	0.7269946500773976	0.0013322090895705	True	2.8754276075078313				
+564	covid	scanpro	norep	arcsin	Mast	0.0010636196496132	0.0005931638834735	0.658442264641639	False	0.18148230004437688				
+565	covid	scanpro	norep	arcsin	NK cells	0.0164253263033139	0.0152345057857146	0.0056459312942652	True	2.248264411117022				
+566	covid	scanpro	norep	arcsin	Neutrophil	0.0244176682418367	0.0389932609499081	1.8178475152952345e-05	True	4.740442549080634				
+567	covid	scanpro	norep	arcsin	Plasma	0.015817543646392	0.0230401838585774	0.0002547833268248	True	3.593828995900698				
+568	covid	scanpro	norep	arcsin	T cells	0.1172412745202315	0.1185925049556459	0.000140548525787	True	3.852173705345966				
+569	covid	scanpro	norep	arcsin	mDC	0.01486028596174	0.0073292104121651	0.2037727367532007	False	0.6908539217509764				
+570	covid	scanpro	norep	arcsin	pDC	0.0023095740963031	0.0012077335893163	0.0503424039511971	False	1.298066049856147				
+571	heart	scanpro	rep	logit	Cardiomyocytes	0.5494643516808275	0.0001235904129992	0.0003295744346646	True	3.4820464842161556				
+572	heart	scanpro	rep	logit	Endothelial cells	0.1016069449575175	0.7135154465567007	0.7135154465567007	False	0.1465966206127876				
+573	heart	scanpro	rep	logit	Epicardial cells	0.0641669745105282	0.4061566797315996	0.5415422396421329	False	0.26636766327124617				
+574	heart	scanpro	rep	logit	Erythroid	0.0022718876985592	1.1102230246251563e-16	8.881784197001252e-16	True	15.05149978319906				
+575	heart	scanpro	rep	logit	Fibroblast	0.1821019578869597	0.0100267793277304	0.0200535586554608	True	1.6978085473684477				
+576	heart	scanpro	rep	logit	Immune cells	0.07630217953454	1.004285586481135e-05	4.01714234592454e-05	True	4.396082778934435				
+577	heart	scanpro	rep	logit	Neurons	0.0161433321019578	0.2131379220534226	0.3410206752854762	False	0.46721928995120965				
+578	heart	scanpro	rep	logit	Smooth muscle cells	0.0079423716291097	0.6677589090275515	0.7135154465567007	False	0.1465966206127876				
+579	scatac	scanpro	norep	arcsin	Cardiomyocytes	0.3425614744749768	0.0	4.0708177569589076e-16	True	15.39031833975244	heart-intestine-muscle	subset		
+580	scatac	scanpro	norep	arcsin	Chromaffin cells	0.0057482625952341	0.0	4.272055008260519e-06	True	5.3693631638376	heart-intestine-muscle	subset		
+581	scatac	scanpro	norep	arcsin	Erythroblasts	0.0173436335710701	0.0	2.06471496698446e-07	True	6.685139894036575	heart-intestine-muscle	subset		
+582	scatac	scanpro	norep	arcsin	Intestinal epithelial cells	0.1248118128317036	0.0	4.0708177569589076e-16	True	15.39031833975244	heart-intestine-muscle	subset		
+583	scatac	scanpro	norep	arcsin	Lymphoid cells	0.1005945954165969	0.0	5.7464986473002945e-11	True	10.240596691192179	heart-intestine-muscle	subset		
+584	scatac	scanpro	norep	arcsin	Myeloid cells	0.0389756535227117	0.0	1.5058256093143497e-06	True	5.822225321161796	heart-intestine-muscle	subset		
+585	scatac	scanpro	norep	arcsin	Satellite cells	0.0395307106251615	0.2573840394312588	4.0708177569589076e-16	True	15.39031833975244	heart-intestine-muscle	subset		
+586	scatac	scanpro	norep	arcsin	Skeletal muscle cells	0.0549126355327787	0.3554287073626052	4.0708177569589076e-16	True	15.39031833975244	heart-intestine-muscle	subset		
+587	scatac	scanpro	norep	arcsin	Smooth muscle cells	0.0348849587128758	0.0399620346638947	0.2277107926422233	False	0.6426163849584916	heart-intestine-muscle	subset		
+588	scatac	scanpro	norep	arcsin	Stromal cells	0.1882555999939172	0.2446569182907035	0.0421381218260115	True	1.3753248256044537	heart-intestine-muscle	subset		
+589	scatac	scanpro	norep	arcsin	Vascular endothelial cells	0.0523806627229732	0.0936227934506826	0.0005302219157072	True	3.275542325501455	heart-intestine-muscle	subset		
+590	covid	scanpro	norep	logit	B cells	0.0033428046130703	0.0019582758110664	0.1597556738018911	False	0.7965437087120015				
+591	covid	scanpro	norep	logit	Epithelial	0.0536520140397793	0.0458190281775641	0.3195341814883867	False	0.4954826772934867				
+592	covid	scanpro	norep	logit	Macrophages	0.7508698889277194	0.72735926650694	0.0326083575919196	True	1.4866710750587904				
+593	covid	scanpro	norep	logit	Mast	0.0010636196496132	0.0005923029849984	0.4891102058285416	False	0.31059327504668793				
+594	covid	scanpro	norep	logit	NK cells	0.0164253263033139	0.0153010923013512	0.0131501375561552	True	1.8810697042413944				
+595	covid	scanpro	norep	logit	Neutrophil	0.0244176682418367	0.0389750081218066	5.33820905701532e-06	True	5.272604422206377				
+596	covid	scanpro	norep	logit	Plasma	0.015817543646392	0.0231229035919906	0.0001834379676557	True	3.7365107698830253				
+597	covid	scanpro	norep	logit	T cells	0.1172412745202315	0.118617261110221	0.008557900417857	True	2.0676327713957674				
+598	covid	scanpro	norep	logit	mDC	0.01486028596174	0.0074199377426077	0.298066420708433	False	0.5256869475583084				
+599	covid	scanpro	norep	logit	pDC	0.0023095740963031	0.0012454197195996	0.0467692057319724	True	1.3300400055276853				
+600	heart	propeller	rep	logit	Erythroid	-0.0	5.825756577236202e-21	4.6606052617889615e-20	True	19.331557678849553				
+601	heart	propeller	rep	logit	Immune cells	0.1895878277260682	9.39725554607512e-06	3.758902218430048e-05	True	4.424938971585629				
+602	heart	propeller	rep	logit	Cardiomyocytes	0.2735465851980814	0.0001152704487892	0.0003073878634379	True	3.512313283700301				
+603	heart	propeller	rep	logit	Fibroblast	0.2986893288564421	0.009747018892831	0.0194940377856621	True	1.7100981964693502				
+604	heart	propeller	rep	logit	Neurons	0.0113808370676133	0.2188770406077601	0.3502032649724163	False	0.4556798092722927				
+605	heart	propeller	rep	logit	Epicardial cells	0.0931577088752663	0.4026099454510176	0.5368132606013567	False	0.27017676456994255				
+606	heart	propeller	rep	logit	Smooth muscle cells	0.0090992940157391	0.6559361784594476	0.711703967977442	False	0.14770061283556796				
+607	heart	propeller	rep	logit	Endothelial cells	0.1245384182607893	0.711703967977442	0.711703967977442	False	0.14770061283556796				
+608	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.0699708952882671	1.9945733842341443e-08	7.313435742191862e-08	True	7.135878550082962	heart-intestine-muscle			
+609	scatac	scanpro	rep	arcsin	Chromaffin cells	0.007953320639496	5.110033597932606e-06	1.4052592394314669e-05	True	4.852243550585168	heart-intestine-muscle			
+610	scatac	scanpro	rep	arcsin	Erythroblasts	0.2121227181377954	0.0002550834127853	0.0004676529234398	True	3.330076346403974	heart-intestine-muscle			
+611	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.0254938016593102	9.041602289194817e-05	0.0001989152503622	True	3.7013319192674525	heart-intestine-muscle			
+612	scatac	scanpro	rep	arcsin	Lymphoid cells	0.0357674232235099	0.0060349042861183	0.0073759941274779	True	2.1321794377251644	heart-intestine-muscle			
+613	scatac	scanpro	rep	arcsin	Myeloid cells	0.0404965506102049	0.0004430506953746	0.000696222521303	True	3.15725193233093	heart-intestine-muscle			
+614	scatac	scanpro	rep	arcsin	Satellite cells	0.0080744608484163	1.8818280267396406e-13	2.0700108294136044e-12	True	11.684027382493678	heart-intestine-muscle			
+615	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0112163408823355	1.1236406249892639e-09	6.180023437440951e-09	True	8.209009877867176	heart-intestine-muscle			
+616	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0109088311212302	0.5346986111566153	0.5346986111566153	False	0.2718909439486617	heart-intestine-muscle			
+617	scatac	scanpro	rep	arcsin	Stromal cells	0.1296899121267561	0.0089375585284974	0.0098313143813471	True	2.0073884160024047	heart-intestine-muscle			
+618	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0494826691847263	0.0007681151930966	0.0010561583905078	True	2.9762709464184574	heart-intestine-muscle			
+619	scatac	scanpro	rep	arcsin	Ureteric bud cells	0.0141190466576173	1.0	1.0	False	-0.0	heart-intestine-muscle			
+620	scatac	scanpro	rep	arcsin	Adrenocortical cells	0.0844362786970283	1.0	1.0	False	-0.0	heart-intestine-muscle			
+621	scatac	scanpro	rep	arcsin	Epithelial cells	0.0008852553728788	1.0	1.0	False	-0.0	heart-intestine-muscle			
+622	scatac	scanpro	rep	arcsin	Excitatory neurons	0.0756862282219412	1.0	1.0	False	-0.0	heart-intestine-muscle			
+623	scatac	scanpro	rep	arcsin	Inhibitory neurons	0.0192535278203149	1.0	1.0	False	-0.0	heart-intestine-muscle			
+624	scatac	scanpro	rep	arcsin	Retinal pigment cells	0.000891467691285	1.0	1.0	False	-0.0	heart-intestine-muscle			
+625	scatac	scanpro	rep	arcsin	Mesangial cells	0.0124355083695459	1.0	1.0	False	-0.0	heart-intestine-muscle			
+626	scatac	scanpro	rep	arcsin	Ganglion cells	0.0014831910194725	1.0	1.0	False	-0.0	heart-intestine-muscle			
+627	scatac	scanpro	rep	arcsin	Hepatoblasts	0.0657573903292839	1.0	1.0	False	-0.0	heart-intestine-muscle			
+628	scatac	scanpro	rep	arcsin	Thymocytes	0.0306593444140385	1.0	1.0	False	-0.0	heart-intestine-muscle			
+629	scatac	scanpro	rep	arcsin	Trophoblast giant cells	0.009380600793313	1.0	1.0	False	-0.0	heart-intestine-muscle			
+630	scatac	scanpro	rep	arcsin	Metanephric cells	0.0656999263840268	1.0	1.0	False	-0.0	heart-intestine-muscle			
+631	scatac	scanpro	rep	arcsin	Photoreceptor cells	0.0033872666109628	1.0	1.0	False	-0.0	heart-intestine-muscle			
+632	scatac	scanpro	rep	arcsin	Goblet cells	0.0018668016810533	1.0	1.0	False	-0.0	heart-intestine-muscle			
+633	scatac	scanpro	rep	arcsin	Astrocytes	0.0128812422151884	1.0	1.0	False	-0.0	heart-intestine-muscle			
+634	covid	scanpro	rep	arcsin	B cells	0.0033428046130703	0.0753726878380863	0.1256211463968106	False	0.9009372476176872				
+635	covid	scanpro	rep	arcsin	Epithelial	0.0536520140397793	0.7388828881905776	0.8209809868784195	False	0.08566690060211939				
+636	covid	scanpro	rep	arcsin	Macrophages	0.7508698889277194	0.3231293688155907	0.4039117110194884	False	0.39371355470966424				
+637	covid	scanpro	rep	arcsin	Mast	0.0010636196496132	0.9588022465954948	0.9588022465954948	False	0.018270957030036467				
+638	covid	scanpro	rep	arcsin	NK cells	0.0164253263033139	0.0070972524211326	0.0236575080704422	True	1.6260310030830623				
+639	covid	scanpro	rep	arcsin	Neutrophil	0.0244176682418367	0.0065600770958599	0.0236575080704422	True	1.6260310030830623				
+640	covid	scanpro	rep	arcsin	Plasma	0.015817543646392	0.2855602613616615	0.4039117110194884	False	0.39371355470966424				
+641	covid	scanpro	rep	arcsin	T cells	0.1172412745202315	0.0197653866477398	0.0491003085003791	True	1.308915779168449				
+642	covid	scanpro	rep	arcsin	mDC	0.01486028596174	0.0245501542501895	0.0491003085003791	True	1.308915779168449				
+643	covid	scanpro	rep	arcsin	pDC	0.0023095740963031	0.0060430048302712	0.0236575080704422	True	1.6260310030830623				
+644	scatac	scanpro	rep	arcsin	Cardiomyocytes	0.0699708952882671	6.739919979889318e-06	2.0219759939667957e-05	True	4.694224004902111	heart-muscle			
+645	scatac	scanpro	rep	arcsin	Erythroblasts	0.2121227181377954	0.0035413656708374	0.0063744582075073	True	2.1955567218726904	heart-muscle			
+646	scatac	scanpro	rep	arcsin	Lymphoid cells	0.0357674232235099	0.0243268411469525	0.031277367188939	True	1.5047698113487158	heart-muscle			
+647	scatac	scanpro	rep	arcsin	Myeloid cells	0.0404965506102049	0.0004557875025436	0.0010255218807232	True	2.9890550690099302	heart-muscle			
+648	scatac	scanpro	rep	arcsin	Satellite cells	0.0080744608484163	3.028844189967681e-10	2.7259597709709136e-09	True	8.56448055766285	heart-muscle			
+649	scatac	scanpro	rep	arcsin	Skeletal muscle cells	0.0112163408823355	2.366454992676217e-07	1.0649047467042978e-06	True	5.97268923713678	heart-muscle			
+650	scatac	scanpro	rep	arcsin	Smooth muscle cells	0.0109088311212302	0.2265100247795856	0.2265100247795856	False	0.6449125724144487	heart-muscle			
+651	scatac	scanpro	rep	arcsin	Stromal cells	0.1296899121267561	0.0051611435742437	0.0077417153613656	True	2.1111628003718472	heart-muscle			
+652	scatac	scanpro	rep	arcsin	Vascular endothelial cells	0.0494826691847263	0.0461856414379117	0.0519588466176507	False	1.2843404979598518	heart-muscle			
+653	scatac	scanpro	rep	arcsin	Ureteric bud cells	0.0141190466576173	1.0	1.0	False	-0.0	heart-muscle			
+654	scatac	scanpro	rep	arcsin	Adrenocortical cells	0.0844362786970283	1.0	1.0	False	-0.0	heart-muscle			
+655	scatac	scanpro	rep	arcsin	Epithelial cells	0.0008852553728788	1.0	1.0	False	-0.0	heart-muscle			
+656	scatac	scanpro	rep	arcsin	Excitatory neurons	0.0756862282219412	1.0	1.0	False	-0.0	heart-muscle			
+657	scatac	scanpro	rep	arcsin	Inhibitory neurons	0.0192535278203149	1.0	1.0	False	-0.0	heart-muscle			
+658	scatac	scanpro	rep	arcsin	Retinal pigment cells	0.000891467691285	1.0	1.0	False	-0.0	heart-muscle			
+659	scatac	scanpro	rep	arcsin	Chromaffin cells	0.007953320639496	1.0	1.0	False	-0.0	heart-muscle			
+660	scatac	scanpro	rep	arcsin	Mesangial cells	0.0124355083695459	1.0	1.0	False	-0.0	heart-muscle			
+661	scatac	scanpro	rep	arcsin	Ganglion cells	0.0014831910194725	1.0	1.0	False	-0.0	heart-muscle			
+662	scatac	scanpro	rep	arcsin	Intestinal epithelial cells	0.0254938016593102	1.0	1.0	False	-0.0	heart-muscle			
+663	scatac	scanpro	rep	arcsin	Thymocytes	0.0306593444140385	1.0	1.0	False	-0.0	heart-muscle			
+664	scatac	scanpro	rep	arcsin	Hepatoblasts	0.0657573903292839	1.0	1.0	False	-0.0	heart-muscle			
+665	scatac	scanpro	rep	arcsin	Trophoblast giant cells	0.009380600793313	1.0	1.0	False	-0.0	heart-muscle			
+666	scatac	scanpro	rep	arcsin	Metanephric cells	0.0656999263840268	1.0	1.0	False	-0.0	heart-muscle			
+667	scatac	scanpro	rep	arcsin	Photoreceptor cells	0.0033872666109628	1.0	1.0	False	-0.0	heart-muscle			
+668	scatac	scanpro	rep	arcsin	Goblet cells	0.0018668016810533	1.0	1.0	False	-0.0	heart-muscle			
+669	scatac	scanpro	rep	arcsin	Astrocytes	0.0128812422151884	1.0	1.0	False	-0.0	heart-muscle			
+670	heart	scanpro	norep	logit	Cardiomyocytes	0.5494643516808275	0.2908382508776244	0.0030703339679272	True	2.5128143826532945				
+671	heart	scanpro	norep	logit	Endothelial cells	0.1016069449575175	0.1298321616742119	0.3477903235356999	False	0.45868250540838074				
+672	heart	scanpro	norep	logit	Epicardial cells	0.0641669745105282	0.0978976859761368	0.2310362144501706	False	0.6363199400075753				
+673	heart	scanpro	norep	logit	Erythroid	0.0022718876985592	0.0	0.0032673784115879	True	2.485800564775403				
+674	heart	scanpro	norep	logit	Fibroblast	0.1821019578869597	0.2896143561362249	0.0273067860072502	True	1.563729413058965				
+675	heart	scanpro	norep	logit	Immune cells	0.07630217953454	0.1522318762590097	0.0097497944374205	True	2.011004540776856				
+676	heart	scanpro	norep	logit	Neurons	0.0161433321019578	0.0098097506391679	0.5096205356905286	False	0.2927530799714004				
+677	heart	scanpro	norep	logit	Smooth muscle cells	0.0079423716291097	0.0080408762894242	0.7108267923957273	False	0.14823621118422173				
+678	humanMI	scanpro	rep	arcsin	Adipocyte	0.00272686983498	0.3926328717102032	0.47473651251149	False	0.32354736492699876				
+679	humanMI	scanpro	rep	arcsin	Cardiomyocyte	0.3363487056492609	0.0060889234541354	0.0334890789977451	True	1.4750967960760542				
+680	humanMI	scanpro	rep	arcsin	Cycling cells	0.0155374227691024	0.0006453929490564	0.0070993224396205	True	2.1487830984324274				
+681	humanMI	scanpro	rep	arcsin	Endothelial	0.1704111160353502	0.1713661222782952	0.2692896207230353	False	0.5697803853541064				
+682	humanMI	scanpro	rep	arcsin	Fibroblast	0.2466644073098881	0.4315786477377182	0.47473651251149	False	0.32354736492699876				
+683	humanMI	scanpro	rep	arcsin	Lymphoid	0.0264031909069579	0.055003895923173	0.1512607137887258	False	0.8202738545297992				
+684	humanMI	scanpro	rep	arcsin	Mast	0.0037487942855653	0.4821769205272757	0.4821769205272757	False	0.3167935810334898				
+685	humanMI	scanpro	rep	arcsin	Myeloid	0.1099194452410125	0.0177904662045158	0.065231709416558	False	1.1855412405109165				
+686	humanMI	scanpro	rep	arcsin	Neuronal	0.0127010610287025	0.0864234734291963	0.1901316415442319	False	0.7209456022058329				
+687	humanMI	scanpro	rep	arcsin	Pericyte	0.0612737558330509	0.1522672807993022	0.2692896207230353	False	0.5697803853541064				
+688	humanMI	scanpro	rep	arcsin	Vsmcs	0.0142652311061289	0.2794531532798994	0.3842480857598616	False	0.41538828738319433				
+689	scatac	scanpro	norep	logit	Cardiomyocytes	0.0699708952882671	0.0	6.106226635438361e-16	True	15.214227080696759	heart-intestine-muscle			
+690	scatac	scanpro	norep	logit	Chromaffin cells	0.007953320639496	0.0	7.374163009331204e-05	True	4.1322872663406205	heart-intestine-muscle			
+691	scatac	scanpro	norep	logit	Erythroblasts	0.2121227181377954	0.0	1.1097057202984009e-05	True	4.954792175262927	heart-intestine-muscle			
+692	scatac	scanpro	norep	logit	Intestinal epithelial cells	0.0254938016593102	0.0	1.2212453270876722e-15	True	14.91319708503278	heart-intestine-muscle			
+693	scatac	scanpro	norep	logit	Lymphoid cells	0.0357674232235099	0.0	6.499498161893769e-11	True	10.187120174731623	heart-intestine-muscle			
+694	scatac	scanpro	norep	logit	Myeloid cells	0.0404965506102049	0.0	1.7443666982160566e-07	True	6.758362213055168	heart-intestine-muscle			
+695	scatac	scanpro	norep	logit	Satellite cells	0.0080744608484163	0.2505461301315836	4.309978300180244e-13	True	12.365524916413678	heart-intestine-muscle			
+696	scatac	scanpro	norep	logit	Skeletal muscle cells	0.0112163408823355	0.3566562695419184	8.548717289613705e-15	True	14.068099045018522	heart-intestine-muscle			
+697	scatac	scanpro	norep	logit	Smooth muscle cells	0.0109088311212302	0.033213891616903	0.6009235671082058	False	0.22118076342835652	heart-intestine-muscle			
+698	scatac	scanpro	norep	logit	Stromal cells	0.1296899121267561	0.2336164352070891	0.483857444850464	False	0.3152825723102985	heart-intestine-muscle			
+699	scatac	scanpro	norep	logit	Vascular endothelial cells	0.0494826691847263	0.0914045262132482	0.07270060829135	False	1.1384619553518083	heart-intestine-muscle			
+700	scatac	scanpro	norep	logit	Ureteric bud cells	0.0141190466576173	0.0	1.0	False	-0.0	heart-intestine-muscle			
+701	scatac	scanpro	norep	logit	Adrenocortical cells	0.0844362786970283	0.0	1.0	False	-0.0	heart-intestine-muscle			
+702	scatac	scanpro	norep	logit	Epithelial cells	0.0008852553728788	0.0	1.0	False	-0.0	heart-intestine-muscle			
+703	scatac	scanpro	norep	logit	Excitatory neurons	0.0756862282219412	0.0	1.0	False	-0.0	heart-intestine-muscle			
+704	scatac	scanpro	norep	logit	Inhibitory neurons	0.0192535278203149	0.0	1.0	False	-0.0	heart-intestine-muscle			
+705	scatac	scanpro	norep	logit	Retinal pigment cells	0.000891467691285	0.0	1.0	False	-0.0	heart-intestine-muscle			
+706	scatac	scanpro	norep	logit	Mesangial cells	0.0124355083695459	0.0	1.0	False	-0.0	heart-intestine-muscle			
+707	scatac	scanpro	norep	logit	Ganglion cells	0.0014831910194725	0.0	1.0	False	-0.0	heart-intestine-muscle			
+708	scatac	scanpro	norep	logit	Hepatoblasts	0.0657573903292839	0.0	1.0	False	-0.0	heart-intestine-muscle			
+709	scatac	scanpro	norep	logit	Thymocytes	0.0306593444140385	0.0	1.0	False	-0.0	heart-intestine-muscle			
+710	scatac	scanpro	norep	logit	Trophoblast giant cells	0.009380600793313	0.0	1.0	False	-0.0	heart-intestine-muscle			
+711	scatac	scanpro	norep	logit	Metanephric cells	0.0656999263840268	0.0	1.0	False	-0.0	heart-intestine-muscle			
+712	scatac	scanpro	norep	logit	Photoreceptor cells	0.0033872666109628	0.0	1.0	False	-0.0	heart-intestine-muscle			
+713	scatac	scanpro	norep	logit	Goblet cells	0.0018668016810533	0.0	1.0	False	-0.0	heart-intestine-muscle			
+714	scatac	scanpro	norep	logit	Astrocytes	0.0128812422151884	0.0	1.0	False	-0.0	heart-intestine-muscle			
+715	pbmc	scanpro	norep	arcsin	B cells	0.0983828343107411	0.0937471185657419	0.5144448676022844	False	0.28866116119127383				
+716	pbmc	scanpro	norep	arcsin	Dendritic cells	0.0171118028445147	0.0173554878938908	0.5012743413621961	False	0.2999245249700387				
+717	pbmc	scanpro	norep	arcsin	Monocytes	0.1714161235030755	0.1718648031431461	0.5295360553565887	False	0.2761044640563828				
+718	pbmc	scanpro	norep	arcsin	NK cells	0.1464793253879535	0.1759394619417835	0.0286559245293308	True	1.5427855752882578				
+719	pbmc	scanpro	norep	arcsin	T cells	0.566609913953715	0.5361408097570894	0.0519231481261512	False	1.2846389839201768				
+720	scatac	scanpro	rep	logit	Cardiomyocytes	0.0699708952882671	5.10702591327572e-15	5.617728504603293e-14	True	13.250439253351205	heart-intestine-muscle			
+721	scatac	scanpro	rep	logit	Chromaffin cells	0.007953320639496	2.8404241958490672e-08	3.905583269292468e-08	True	7.408314098350259	heart-intestine-muscle			
+722	scatac	scanpro	rep	logit	Erythroblasts	0.2121227181377954	2.0388135624216375e-12	1.1213474593319006e-11	True	10.950259796602776	heart-intestine-muscle			
+723	scatac	scanpro	rep	logit	Intestinal epithelial cells	0.0254938016593102	2.038664348447128e-09	4.4850615665836824e-09	True	8.348231591004717	heart-intestine-muscle			
+724	scatac	scanpro	rep	logit	Lymphoid cells	0.0357674232235099	1.1786118747636463e-09	3.2411826556000282e-09	True	8.489296493779905	heart-intestine-muscle			
+725	scatac	scanpro	rep	logit	Myeloid cells	0.0404965506102049	5.7999161029442795e-12	2.126635904412903e-11	True	10.67230685811779	heart-intestine-muscle			
+726	scatac	scanpro	rep	logit	Satellite cells	0.0080744608484163	6.044272971017506e-09	9.498143240170368e-09	True	8.022361285170247	heart-intestine-muscle			
+727	scatac	scanpro	rep	logit	Skeletal muscle cells	0.0112163408823355	4.325341085298362e-09	7.929791989713664e-09	True	8.100738204725822	heart-intestine-muscle			
+728	scatac	scanpro	rep	logit	Smooth muscle cells	0.0109088311212302	0.6199206009828471	0.6199206009828471	False	0.20766393108751244	heart-intestine-muscle			
+729	scatac	scanpro	rep	logit	Stromal cells	0.1296899121267561	0.0887107488104368	0.0975818236914805	False	1.0106310696860843	heart-intestine-muscle			
+730	scatac	scanpro	rep	logit	Vascular endothelial cells	0.0494826691847263	0.0007376110032665	0.0009015245595479	True	3.045022437626165	heart-intestine-muscle			
+731	scatac	scanpro	rep	logit	Ureteric bud cells	0.0141190466576173	1.0	1.0	False	-0.0	heart-intestine-muscle			
+732	scatac	scanpro	rep	logit	Adrenocortical cells	0.0844362786970283	1.0	1.0	False	-0.0	heart-intestine-muscle			
+733	scatac	scanpro	rep	logit	Epithelial cells	0.0008852553728788	1.0	1.0	False	-0.0	heart-intestine-muscle			
+734	scatac	scanpro	rep	logit	Excitatory neurons	0.0756862282219412	1.0	1.0	False	-0.0	heart-intestine-muscle			
+735	scatac	scanpro	rep	logit	Inhibitory neurons	0.0192535278203149	1.0	1.0	False	-0.0	heart-intestine-muscle			
+736	scatac	scanpro	rep	logit	Retinal pigment cells	0.000891467691285	1.0	1.0	False	-0.0	heart-intestine-muscle			
+737	scatac	scanpro	rep	logit	Mesangial cells	0.0124355083695459	1.0	1.0	False	-0.0	heart-intestine-muscle			
+738	scatac	scanpro	rep	logit	Ganglion cells	0.0014831910194725	1.0	1.0	False	-0.0	heart-intestine-muscle			
+739	scatac	scanpro	rep	logit	Hepatoblasts	0.0657573903292839	1.0	1.0	False	-0.0	heart-intestine-muscle			
+740	scatac	scanpro	rep	logit	Thymocytes	0.0306593444140385	1.0	1.0	False	-0.0	heart-intestine-muscle			
+741	scatac	scanpro	rep	logit	Trophoblast giant cells	0.009380600793313	1.0	1.0	False	-0.0	heart-intestine-muscle			
+742	scatac	scanpro	rep	logit	Metanephric cells	0.0656999263840268	1.0	1.0	False	-0.0	heart-intestine-muscle			
+743	scatac	scanpro	rep	logit	Photoreceptor cells	0.0033872666109628	1.0	1.0	False	-0.0	heart-intestine-muscle			
+744	scatac	scanpro	rep	logit	Goblet cells	0.0018668016810533	1.0	1.0	False	-0.0	heart-intestine-muscle			
+745	scatac	scanpro	rep	logit	Astrocytes	0.0128812422151884	1.0	1.0	False	-0.0	heart-intestine-muscle			
+746	pbmc	scanpro	rep	arcsin	B cells	0.0983828343107411	0.6999210019878361	0.8749012524847951	False	0.05804096174459405				
+747	pbmc	scanpro	rep	arcsin	Dendritic cells	0.0171118028445147	0.2808815634132957	0.4681359390221595	False	0.3296280165955399				
+748	pbmc	scanpro	rep	arcsin	Monocytes	0.1714161235030755	0.9294434070469876	0.9294434070469876	False	0.03177704887805231				
+749	pbmc	scanpro	rep	arcsin	NK cells	0.1464793253879535	0.0286051738426502	0.1430258692132512	False	0.8445854042099328				
+750	pbmc	scanpro	rep	arcsin	T cells	0.566609913953715	0.1372984071296607	0.3432460178241518	False	0.46439449253848725				
