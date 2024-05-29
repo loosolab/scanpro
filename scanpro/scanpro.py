@@ -21,6 +21,7 @@ def scanpro(data, clusters_col, conds_col,
             robust=True,
             n_sims=100,
             n_reps=8,
+            run_partial_sim=False,
             verbosity=1,
             seed=1):
     """Wrapper function for scanpro. The data must have replicates,
@@ -41,6 +42,8 @@ def scanpro(data, clusters_col, conds_col,
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
+    :param bool run_partial_sim: If True, the bootstrapping method will be also performed on datasets that are
+        partially replicated (where some samples have replicates).
     :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
     :param int seed: Seed for random number generator, defaults to 1.
 
@@ -168,13 +171,14 @@ def scanpro(data, clusters_col, conds_col,
         # run simulations
         logger.info("Running scanpro with simulated replicates...")
 
-        # set transform to arcsin, since it produces more accurate results for simulations
-        transform = 'arcsin'
-        out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, covariates=covariates,
-                              conds_col=conds_col, transform=transform,
-                              conditions=conditions, robust=robust, verbosity=verbosity)
+        if run_partial_sim:
+          # set transform to arcsin, since it produces more accurate results for simulations
+          transform = 'arcsin'
+          out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, covariates=covariates,
+                                conds_col=conds_col, transform=transform,
+                                conditions=conditions, robust=robust, verbosity=verbosity)
 
-        logger.info("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
+          logger.info("To access results for original replicates, run <out.results>, and <out.sim_results> for simulated results")
 
     # if all conditions have replicates, run scanpro normally
     else:
@@ -214,7 +218,7 @@ def scanpro(data, clusters_col, conds_col,
         out.sim_results = out.results
 
     # add simulated results for partially replicated data
-    if partially_repd:
+    if partially_repd and run_partial_sim:
         out.sim_results = out_sim.results
         out.sim_design = out_sim.sim_design
         out.sim_counts = out_sim.sim_counts
