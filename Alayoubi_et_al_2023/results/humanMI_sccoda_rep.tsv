@@ -1,0 +1,12 @@
+Covariate	Cell Type	credible_effect	fdr
+Zone[T.Ischaemic]	Adipocyte	False	0.05
+Zone[T.Ischaemic]	Cardiomyocyte	True	0.05
+Zone[T.Ischaemic]	Cycling cells	False	0.05
+Zone[T.Ischaemic]	Endothelial	False	0.05
+Zone[T.Ischaemic]	Fibroblast	False	0.05
+Zone[T.Ischaemic]	Lymphoid	False	0.05
+Zone[T.Ischaemic]	Mast	False	0.05
+Zone[T.Ischaemic]	Myeloid	False	0.05
+Zone[T.Ischaemic]	Neuronal	False	0.05
+Zone[T.Ischaemic]	Pericyte	False	0.05
+Zone[T.Ischaemic]	Vsmcs	False	0.05
