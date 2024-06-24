@@ -51,6 +51,7 @@ class ScanproResult():
              clusters=None,
              n_columns=3,
              figsize=None,
+             show=True,
              save=False):
         """Plot proportions pro condition
 
@@ -290,6 +291,9 @@ class ScanproResult():
 
         if save:
             plt.savefig(fname=save, dpi=600, bbox_inches='tight')
+
+        if not show:
+            return ax
 
     def plot_samples(self, stacked=True,
                      x='samples',
