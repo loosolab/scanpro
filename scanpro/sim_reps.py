@@ -46,6 +46,15 @@ def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
         samples_datas[sample] = samples_datas[sample].iloc[reduce, :]
         n = n_min  # number of cells in a sample before subtracting
         cells_indices = np.arange(n)  # all cells in a sample
+
+        if n_reps == 'auto':
+            if n < 5000:
+                n_reps = 3
+            elif n < 14000:
+                n_reps = 5
+            else:
+                n_reps = 8
+
         for i in range(n_reps):
             x = range(n)
             n_rep = np.random.choice(x)  # number of cells for replicate

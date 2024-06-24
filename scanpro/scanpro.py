@@ -20,7 +20,7 @@ def scanpro(data, clusters_col, conds_col,
             transform='logit',
             robust=True,
             n_sims=100,
-            n_reps=8,
+            n_reps='auto',
             run_partial_sim=False,
             verbosity=1,
             seed=1):
@@ -41,7 +41,9 @@ def scanpro(data, clusters_col, conds_col,
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
-    :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
+    :param int n_reps: Number of replicates to simulate if data does not have replicates,
+        'auto' will generate pseudo-replicates for each sample based on its cell count,
+        (3 for #cells<5000, 5 for #cells<14000 and 8 for #cells>14000), defaults to 'auto'.
     :param bool run_partial_sim: If True, the bootstrapping method will be also performed on datasets that are
         partially replicated (where some samples have replicates).
     :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
