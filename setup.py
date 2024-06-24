@@ -45,7 +45,7 @@ setup(
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
     cmdclass={'sdist': sdist},
-    setup_requires=['numpy'],
+    setup_requires=['numpy==1.26.4'],
     install_requires=['pandas',
                       'statsmodels',
                       'matplotlib<3.9',
