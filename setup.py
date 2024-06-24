@@ -48,7 +48,7 @@ setup(
     setup_requires=['numpy==1.26.4'],
     install_requires=['pandas',
                       'statsmodels',
-                      'matplotlib<3.9',
+                      'matplotlib<=3.7.1',
                       'seaborn',
                       'statannotations>=0.4',  # statannotations doesn't support seaborn >= 0.12
                       'patsy',  # for creating design matrices
