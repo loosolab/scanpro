@@ -12,7 +12,7 @@ def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
     """Generate replicates by splitting original samples using bootstrapping.
 
     :param anndata.AnnData or pandas.DataFrame data: Dataframe or adata.obs whith single cell info.
-    :param int n_reps: Number of replicates to generate, defaults to 2.
+    :param int n_reps: Number of replicates to generate, defaults to 8.
     :param str sample_col: Column where samples are stored, defaults to 'sample'.
     :return pandas.DataFrame: List of replicates as dataframes.
     """
@@ -46,14 +46,6 @@ def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
         samples_datas[sample] = samples_datas[sample].iloc[reduce, :]
         n = n_min  # number of cells in a sample before subtracting
         cells_indices = np.arange(n)  # all cells in a sample
-
-        if n_reps == 'auto':
-            if n < 5000:
-                n_reps = 3
-            elif n < 14000:
-                n_reps = 5
-            else:
-                n_reps = 8
 
         for i in range(n_reps):
             x = range(n)

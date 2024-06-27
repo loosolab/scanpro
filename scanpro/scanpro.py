@@ -21,7 +21,7 @@ def scanpro(data, clusters_col, conds_col,
             robust=True,
             n_sims=100,
             n_reps='auto',
-            run_partial_sim=False,
+            run_partial_sim=True,
             verbosity=1,
             seed=1):
     """Wrapper function for scanpro. The data must have replicates,
@@ -149,6 +149,17 @@ def scanpro(data, clusters_col, conds_col,
             logger.warning("Consider setting transform='arcsin', as this produces more accurate results for simulated data.")
         logger.info("Simulation may take some minutes...")
 
+        # set number of pseudo replicates based on sample cell count
+        if n_reps == 'auto':
+            # get smallest cell count in all samples
+            n = data.value_counts(samples_col).min()
+            if n < 5000:
+                n_reps = 3
+            elif n < 14000:
+                n_reps = 5
+            else:
+                n_reps = 8
+
         # set transform to arcsin, since it produces more accurate results for simulations
         out = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, covariates=covariates,
                           conds_col=conds_col, transform=transform,
@@ -159,21 +170,32 @@ def scanpro(data, clusters_col, conds_col,
         s = "The following conditions don't have replicates:  "
         s += ", ".join(no_reps_list)
         logger.info(s)
-        logger.info("Both normal scanpro and sim_scanpro will be performed.")
+        if not run_partial_sim:
+            logger.info("Normal scanpro will be performed. To also run Bootstrapping, set run_partial_sim=True")
 
         # add conditions as merged_samples column
         merged_samples_col = 'merged_samples'
         data[merged_samples_col] = data[conds_col]
+
+        # set number of pseudo replicates based on sample cell count
+        if n_reps == 'auto':
+            # get smallest cell count in all samples
+            n = data.value_counts(merged_samples_col).min()
+            if n < 5000:
+                n_reps = 3
+            elif n < 14000:
+                n_reps = 5
+            else:
+                n_reps = 8
 
         # run scanpro normally
         logger.info("Running scanpro with original replicates...")
         out = run_scanpro(data, clusters=clusters_col, samples=samples_col, conds=conds_col, covariates=covariates,
                           transform=transform, conditions=conditions, robust=robust, verbosity=verbosity)
 
-        # run simulations
-        logger.info("Running scanpro with simulated replicates...")
-
         if run_partial_sim:
+            # run simulations
+            logger.info("Running scanpro with simulated replicates...")
             # set transform to arcsin, since it produces more accurate results for simulations
             transform = 'arcsin'
             out_sim = sim_scanpro(data, n_reps=n_reps, n_sims=n_sims, clusters_col=clusters_col, covariates=covariates,
