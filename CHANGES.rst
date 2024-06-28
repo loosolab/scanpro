@@ -1,4 +1,4 @@
-0.3 (25.06.2024)
+0.3 (28.06.2024)
 -------------------
 - Add covariate testing with unreplicated datasets
 - Add automatic selection for number of pseudo-replicates
