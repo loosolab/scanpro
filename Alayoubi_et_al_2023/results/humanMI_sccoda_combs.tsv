@@ -1,0 +1,199 @@
+	Covariate	clusters	credible_effect	fdr	comb	ctrl	ischaemic	correct
+0	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+1	Zone[T.Ischaemic]	Cardiomyocyte	False	0.05	['CK158', 'CK361']	CK158	CK361	False
+2	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK158', 'CK361']	CK158	CK361	False
+3	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+4	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+5	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+6	Zone[T.Ischaemic]	Mast	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+7	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK158', 'CK361']	CK158	CK361	False
+8	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+9	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+10	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK158', 'CK361']	CK158	CK361	True
+11	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+12	Zone[T.Ischaemic]	Cardiomyocyte	False	0.05	['CK158', 'CK363']	CK158	CK363	False
+13	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK158', 'CK363']	CK158	CK363	False
+14	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+15	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+16	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+17	Zone[T.Ischaemic]	Mast	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+18	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK158', 'CK363']	CK158	CK363	False
+19	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+20	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+21	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK158', 'CK363']	CK158	CK363	True
+22	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+23	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK158', 'CK365']	CK158	CK365	True
+24	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK158', 'CK365']	CK158	CK365	False
+25	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+26	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+27	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+28	Zone[T.Ischaemic]	Mast	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+29	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK158', 'CK365']	CK158	CK365	False
+30	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+31	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+32	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK158', 'CK365']	CK158	CK365	True
+33	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+34	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK158', 'CK371']	CK158	CK371	True
+35	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK158', 'CK371']	CK158	CK371	False
+36	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+37	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+38	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+39	Zone[T.Ischaemic]	Mast	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+40	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK158', 'CK371']	CK158	CK371	False
+41	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+42	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+43	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK158', 'CK371']	CK158	CK371	True
+44	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+45	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK158', 'CK376']	CK158	CK376	True
+46	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK158', 'CK376']	CK158	CK376	True
+47	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+48	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+49	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+50	Zone[T.Ischaemic]	Mast	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+51	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK158', 'CK376']	CK158	CK376	False
+52	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+53	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+54	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK158', 'CK376']	CK158	CK376	True
+55	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+56	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK158', 'CK372']	CK158	CK372	True
+57	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK158', 'CK372']	CK158	CK372	True
+58	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+59	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+60	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+61	Zone[T.Ischaemic]	Mast	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+62	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK158', 'CK372']	CK158	CK372	False
+63	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+64	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+65	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK158', 'CK372']	CK158	CK372	True
+66	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+67	Zone[T.Ischaemic]	Cardiomyocyte	False	0.05	['CK358', 'CK361']	CK358	CK361	False
+68	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK358', 'CK361']	CK358	CK361	False
+69	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+70	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+71	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+72	Zone[T.Ischaemic]	Mast	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+73	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK358', 'CK361']	CK358	CK361	False
+74	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+75	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+76	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK358', 'CK361']	CK358	CK361	True
+77	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+78	Zone[T.Ischaemic]	Cardiomyocyte	False	0.05	['CK358', 'CK363']	CK358	CK363	False
+79	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK358', 'CK363']	CK358	CK363	False
+80	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+81	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+82	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+83	Zone[T.Ischaemic]	Mast	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+84	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK358', 'CK363']	CK358	CK363	False
+85	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+86	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+87	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK358', 'CK363']	CK358	CK363	True
+88	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+89	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK358', 'CK365']	CK358	CK365	True
+90	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK358', 'CK365']	CK358	CK365	False
+91	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+92	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+93	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+94	Zone[T.Ischaemic]	Mast	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+95	Zone[T.Ischaemic]	Myeloid	True	0.05	['CK358', 'CK365']	CK358	CK365	True
+96	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+97	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+98	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK358', 'CK365']	CK358	CK365	True
+99	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+100	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK358', 'CK371']	CK358	CK371	True
+101	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK358', 'CK371']	CK358	CK371	True
+102	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+103	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+104	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+105	Zone[T.Ischaemic]	Mast	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+106	Zone[T.Ischaemic]	Myeloid	True	0.05	['CK358', 'CK371']	CK358	CK371	True
+107	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+108	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+109	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK358', 'CK371']	CK358	CK371	True
+110	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+111	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK358', 'CK376']	CK358	CK376	True
+112	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK358', 'CK376']	CK358	CK376	True
+113	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+114	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+115	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+116	Zone[T.Ischaemic]	Mast	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+117	Zone[T.Ischaemic]	Myeloid	True	0.05	['CK358', 'CK376']	CK358	CK376	True
+118	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+119	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+120	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK358', 'CK376']	CK358	CK376	True
+121	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+122	Zone[T.Ischaemic]	Cardiomyocyte	False	0.05	['CK358', 'CK372']	CK358	CK372	False
+123	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK358', 'CK372']	CK358	CK372	False
+124	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+125	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+126	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+127	Zone[T.Ischaemic]	Mast	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+128	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK358', 'CK372']	CK358	CK372	False
+129	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+130	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+131	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK358', 'CK372']	CK358	CK372	True
+132	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+133	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK374', 'CK361']	CK374	CK361	True
+134	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK374', 'CK361']	CK374	CK361	True
+135	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+136	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+137	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+138	Zone[T.Ischaemic]	Mast	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+139	Zone[T.Ischaemic]	Myeloid	True	0.05	['CK374', 'CK361']	CK374	CK361	True
+140	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+141	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+142	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK374', 'CK361']	CK374	CK361	True
+143	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+144	Zone[T.Ischaemic]	Cardiomyocyte	False	0.05	['CK374', 'CK363']	CK374	CK363	False
+145	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK374', 'CK363']	CK374	CK363	False
+146	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+147	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+148	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+149	Zone[T.Ischaemic]	Mast	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+150	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK374', 'CK363']	CK374	CK363	False
+151	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+152	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+153	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK374', 'CK363']	CK374	CK363	True
+154	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+155	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK374', 'CK365']	CK374	CK365	True
+156	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK374', 'CK365']	CK374	CK365	False
+157	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+158	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+159	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+160	Zone[T.Ischaemic]	Mast	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+161	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK374', 'CK365']	CK374	CK365	False
+162	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+163	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+164	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK374', 'CK365']	CK374	CK365	True
+165	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+166	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK374', 'CK371']	CK374	CK371	True
+167	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK374', 'CK371']	CK374	CK371	True
+168	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+169	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+170	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+171	Zone[T.Ischaemic]	Mast	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+172	Zone[T.Ischaemic]	Myeloid	True	0.05	['CK374', 'CK371']	CK374	CK371	True
+173	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+174	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+175	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK374', 'CK371']	CK374	CK371	True
+176	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+177	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK374', 'CK376']	CK374	CK376	True
+178	Zone[T.Ischaemic]	Cycling cells	True	0.05	['CK374', 'CK376']	CK374	CK376	True
+179	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+180	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+181	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+182	Zone[T.Ischaemic]	Mast	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+183	Zone[T.Ischaemic]	Myeloid	True	0.05	['CK374', 'CK376']	CK374	CK376	True
+184	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+185	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+186	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK374', 'CK376']	CK374	CK376	True
+187	Zone[T.Ischaemic]	Adipocyte	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+188	Zone[T.Ischaemic]	Cardiomyocyte	True	0.05	['CK374', 'CK372']	CK374	CK372	True
+189	Zone[T.Ischaemic]	Cycling cells	False	0.05	['CK374', 'CK372']	CK374	CK372	False
+190	Zone[T.Ischaemic]	Endothelial	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+191	Zone[T.Ischaemic]	Fibroblast	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+192	Zone[T.Ischaemic]	Lymphoid	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+193	Zone[T.Ischaemic]	Mast	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+194	Zone[T.Ischaemic]	Myeloid	False	0.05	['CK374', 'CK372']	CK374	CK372	False
+195	Zone[T.Ischaemic]	Neuronal	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+196	Zone[T.Ischaemic]	Pericyte	False	0.05	['CK374', 'CK372']	CK374	CK372	True
+197	Zone[T.Ischaemic]	Vsmcs	False	0.05	['CK374', 'CK372']	CK374	CK372	True
