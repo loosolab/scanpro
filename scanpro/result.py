@@ -214,7 +214,7 @@ class ScanproResult():
             ax.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=line_width, c=col)
             ax.text((x1 + x2) * 0.5, y + h, p_value, ha='center', va='bottom', color=col)
             for x in labels_idx:
-                ax.plot([x1, x1, x, x], [y, y+h, y+h, y], lw=line_width, c=col)
+                ax.plot([x1, x1, x, x], [y, y + h, y + h, y], lw=line_width, c=col)
 
             # If stripplot and simulated, adjust y limit to be the same for both axes (original and simulated data)
             if ax2 is not None:
