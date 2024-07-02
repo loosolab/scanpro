@@ -48,10 +48,9 @@ setup(
     setup_requires=['numpy==1.26.4'],
     install_requires=['pandas',
                       'statsmodels',
-                      'matplotlib<=3.7.1',
+                      'matplotlib',
                       'numpy==1.26.4',  # included since numpy 2.0 produce error with pandas
                       'seaborn',
-                      'statannotations>=0.4',  # statannotations doesn't support seaborn >= 0.12
                       'patsy',  # for creating design matrices
                       ],
     ext_modules=[flib])
