@@ -1,3 +1,7 @@
+0.3.1 (10.07.2024)
+-------------------
+- Remove statannotations package. Plotting p-values is now implemented directly
+
 0.3 (28.06.2024)
 -------------------
 - Add covariate testing with unreplicated datasets

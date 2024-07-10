@@ -1,13 +1,10 @@
 """ A class containing the results of a scanpro analysis """
 
 import matplotlib.pyplot as plt
-from matplotlib.lines import Line2D
 import seaborn as sns
 import pandas as pd
 import math
 import numpy as np
-import itertools
-from statannotations.Annotator import Annotator
 
 
 class ScanproResult():
@@ -116,8 +113,8 @@ class ScanproResult():
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
         n_rows = math.ceil(len(clusters) / n_columns)
-        width = n_conds // 2 if n_conds > 8 else 3
-        hight = (n_conds // 2) + 1 if n_conds > 8 else 4
+        width = n_conds // 2 if n_conds > 8 else 3.5
+        hight = (n_conds // 2) + 1 if n_conds > 8 else 4.5
 
         if figsize is None:
             figsize = (width * n_columns, hight * n_rows)
@@ -149,7 +146,6 @@ class ScanproResult():
                     if simulated_bool:
                         prop_table = prop_table.sort_index()  # to be compatible with original data
                         marker = "s"  # square marker for simulated data
-                        sample2marker = {sample: marker for sample in prop_table[sample_col]}  # for adjusting legend later
 
                         # Create second axes to enable second legend
                         ax2 = ax.twinx()
@@ -161,18 +157,13 @@ class ScanproResult():
                         ax2.set_ylabel("")  # remove ylabel
                         axes2.append(ax2)
                         sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax2,
-                                      marker=marker, size=7, order=x_order)
+                                      marker=marker, size=7, order=x_order, legend=legend)
 
-                        if legend is False:
-                            ax2.legend_.remove()  # using legend=False in sns.stripplot only exists from seaborn>=0.12.0
                     else:
                         lw = 1 if simulated else 0   # original data is has a border, simulated data does not
                         color = "black" if simulated else None  # original data is black, simulated data is colored
                         sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax,
-                                      marker="o", size=7, linewidth=lw, color=color, order=x_order)
-
-                        if legend is False:
-                            ax.legend_.remove()  # using legend=False in sns.stripplot only exists from seaborn>=0.12.0
+                                      marker="o", size=7, linewidth=lw, color=color, order=x_order, legend=legend)
 
             elif kind == 'boxplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
@@ -191,33 +182,17 @@ class ScanproResult():
             n_conds = len(self.all_conditions)
             n_compared_conds = len(self.conditions)
             labels = [label.get_text() for label in ax.get_xticklabels() if label.get_text() in self.conditions]
+            labels_idx = [j for j, label in enumerate(ax.get_xticklabels()) if label.get_text() in self.conditions]
 
             # get p-value as string
             p_value = f"p={p_values_fmt[i]}"
-            if n_compared_conds > 2:
-                p_value = "ANOVA " + p_value
-            else:
-                p_value = "t-test " + p_value
 
-            # Collect pairs to compare
-            if n_compared_conds == 2:
-                # pairs to plot p values
-                pairs = [(labels[0], labels[-1])]
-                line_width = 1.5
-                pvalues = [p_value]
-
-            elif n_compared_conds < n_conds:
-
-                # choose comparison of first and last label of labels to have p-value in the centre
-                pairs = [(labels[0], labels[-1])] + list(itertools.combinations(labels[:-1], 2))
-                pvalues = [p_value] + [""] * (len(pairs) - 1)
-                line_width = 1.5
+            # plot bracket for compared conditions
+            if n_compared_conds == n_conds:  # if comparing all conditions,  don't plot horizontal bar
+                line_width = 0
 
             else:
-                # choose first and last label to have p-value in the centre
-                pairs = [(labels[0], labels[-1])]
-                pvalues = [p_value]
-                line_width = 0  # if comparing all conditions,  don't plot horizontal bar
+                line_width = 1.5
 
             # get y-axis with maximum value plotted
             max_prop = prop_merged.groupby("simulated")[cluster].max().sort_values(ascending=False)
@@ -228,18 +203,14 @@ class ScanproResult():
                     ax_p = ax2
 
             # add p values to plot
-            annot = Annotator(ax_p, pairs=pairs, data=prop_merged, y=cluster, x=conds_col, verbose=False)
-            (annot
-             .configure(test=None, line_width=line_width, verbose=False)
-             .set_custom_annotations(pvalues)
-             .annotate())
+            x1 = labels_idx.pop(0)
+            x2 = labels_idx.pop(-1)
+            y, h, col = ax_p.get_ylim()[1] + (ax_p.get_ylim()[1] * 0.03), (ax_p.get_ylim()[1] - ax_p.get_ylim()[0]) * 0.05, 'k'
 
-            # If more than one contrast; move all pairs to the same level
-            if len(pairs) > 1:
-                top_y = ax_p._children[-2]._y
-                for element in ax_p._children:
-                    if type(element).__name__ == "Line2D":
-                        element.set_ydata(top_y)
+            ax.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=line_width, c=col)
+            ax.text((x1 + x2) * 0.5, y + (h + h * 0.1), p_value, ha='center', va='bottom', color=col, fontsize='medium')
+            for x in labels_idx:
+                ax.plot([x1, x1, x, x], [y, y + h, y + h, y], lw=line_width, c=col)
 
             # If stripplot and simulated, adjust y limit to be the same for both axes (original and simulated data)
             if ax2 is not None:
@@ -250,6 +221,11 @@ class ScanproResult():
                 ax.set_ylim(new_ylim)
                 ax2.set_ylim(new_ylim)
                 ax2.set_ylabel("")
+
+            # add extra space on plot for the annotation
+            ax.set_ylim(top=ax.get_ylim()[1] + ((ax.get_ylim()[1] - ax.get_ylim()[0]) * 0.04))
+            ax.set_xlim(left=ax.get_xlim()[0] - ((ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.05),
+                        right=ax.get_xlim()[1] + ((ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.05))
 
         plt.subplots_adjust(wspace=0.5, hspace=0.6)
 
@@ -279,8 +255,6 @@ class ScanproResult():
                 # Adjust marker handles manually (bug in legend shows all legends as circles)
                 handles, labels = ax2.get_legend_handles_labels()
                 handles, labels = zip(*sorted(zip(handles, labels), key=lambda t: t[1]))  # sort by label name
-                handles = [Line2D([], [], color=h.get_facecolor(), linestyle='', marker=sample2marker[l])
-                           for h, l in zip(handles, labels)]
 
                 # Final legend location
                 ax2.legend(handles, labels, title="Simulated replicates", frameon=False, ncols=2, loc=l2_loc)
