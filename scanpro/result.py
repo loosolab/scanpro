@@ -208,7 +208,7 @@ class ScanproResult():
             y, h, col = ax_p.get_ylim()[1] + (ax_p.get_ylim()[1] * 0.03), (ax_p.get_ylim()[1] - ax_p.get_ylim()[0]) * 0.05, 'k'
 
             ax.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=line_width, c=col)
-            ax.text((x1 + x2) * 0.5, y +(h + h * 0.1), p_value, ha='center', va='bottom', color=col, fontsize='medium')
+            ax.text((x1 + x2) * 0.5, y + (h + h * 0.1), p_value, ha='center', va='bottom', color=col, fontsize='medium')
             for x in labels_idx:
                 ax.plot([x1, x1, x, x], [y, y + h, y + h, y], lw=line_width, c=col)
 
