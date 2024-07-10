@@ -113,8 +113,8 @@ class ScanproResult():
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters
         n_rows = math.ceil(len(clusters) / n_columns)
-        width = n_conds // 2 if n_conds > 8 else 3
-        hight = (n_conds // 2) + 1 if n_conds > 8 else 4
+        width = n_conds // 2 if n_conds > 8 else 3.5
+        hight = (n_conds // 2) + 1 if n_conds > 8 else 4.5
 
         if figsize is None:
             figsize = (width * n_columns, hight * n_rows)
@@ -182,14 +182,10 @@ class ScanproResult():
             n_conds = len(self.all_conditions)
             n_compared_conds = len(self.conditions)
             labels = [label.get_text() for label in ax.get_xticklabels() if label.get_text() in self.conditions]
-            labels_idx = [i for i, label in enumerate(ax.get_xticklabels()) if label.get_text() in self.conditions]
+            labels_idx = [j for j, label in enumerate(ax.get_xticklabels()) if label.get_text() in self.conditions]
 
             # get p-value as string
             p_value = f"p={p_values_fmt[i]}"
-            if n_compared_conds > 2:
-                p_value = "ANOVA " + p_value
-            else:
-                p_value = "t-test " + p_value
 
             # plot bracket for compared conditions
             if n_compared_conds == n_conds:  # if comparing all conditions,  don't plot horizontal bar
@@ -209,10 +205,10 @@ class ScanproResult():
             # add p values to plot
             x1 = labels_idx.pop(0)
             x2 = labels_idx.pop(-1)
-            y, h, col = ax_p.get_ylim()[1] + (ax_p.get_ylim()[1] * 0.03), (ax_p.get_ylim()[1] - ax_p.get_ylim()[0]) * 0.04, 'k'
+            y, h, col = ax_p.get_ylim()[1] + (ax_p.get_ylim()[1] * 0.03), (ax_p.get_ylim()[1] - ax_p.get_ylim()[0]) * 0.05, 'k'
 
             ax.plot([x1, x1, x2, x2], [y, y + h, y + h, y], lw=line_width, c=col)
-            ax.text((x1 + x2) * 0.5, y + h, p_value, ha='center', va='bottom', color=col)
+            ax.text((x1 + x2) * 0.5, y +(h + h * 0.1), p_value, ha='center', va='bottom', color=col, fontsize='medium')
             for x in labels_idx:
                 ax.plot([x1, x1, x, x], [y, y + h, y + h, y], lw=line_width, c=col)
 
@@ -226,8 +222,10 @@ class ScanproResult():
                 ax2.set_ylim(new_ylim)
                 ax2.set_ylabel("")
 
-            # add extra space on top for the annotation
+            # add extra space on plot for the annotation
             ax.set_ylim(top=ax.get_ylim()[1] + ((ax.get_ylim()[1] - ax.get_ylim()[0]) * 0.04))
+            ax.set_xlim(left=ax.get_xlim()[0] - ((ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.05),
+                        right=ax.get_xlim()[1] + ((ax.get_xlim()[1] - ax.get_xlim()[0]) * 0.05))
 
         plt.subplots_adjust(wspace=0.5, hspace=0.6)
 

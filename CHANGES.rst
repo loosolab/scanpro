@@ -1,4 +1,4 @@
-0.3.1 (03.07.2024)
+0.3.1 (10.07.2024)
 -------------------
 - Remove statannotations package. Plotting p-values is now implemented directly
 
