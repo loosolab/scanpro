@@ -1,7 +1,7 @@
 import pytest
 
 import numpy as np
-from scanpro.scanpro import run_scanpro
+from scanpro.main import run_scanpro
 from scanpro.sim_reps import generate_reps, combine, get_mean_sim
 from scanpro.utils import simulate_cell_counts, convert_counts_to_df
 
