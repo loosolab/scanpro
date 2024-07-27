@@ -69,7 +69,7 @@ tests:
     - pip install pytest
     - pip install pytest-cov
     - pip install pytest-html
-    - pip install .  # install package
+    - pip install -e .  # install package
     - cd tests/      # move to prevent pytest from loading local modules
     - pytest --import-mode=importlib --cov-report=term --cov=scanpro . --junitxml=../pytest.xml --cov-report html:../htmlcov
   artifacts:
@@ -94,7 +94,7 @@ build-pages:
     - pip install nbsphinx
     - pip install nbsphinx_link
     - pip freeze | grep sphinx
-    - pip install .  # install package
+    - pip install -e .  # install package
     - cd docs
     - make html
   artifacts:

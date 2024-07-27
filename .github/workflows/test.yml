@@ -30,7 +30,7 @@ jobs:
         python -m pip install --upgrade pip wheel
         python --version
         pip install flake8 pytest pytest-cov pytest-html
-        pip install .
+        pip install -e .
     - name: Linting
       run: flake8 scanpro setup.py tests --ignore=E501,W503 --extend-exclude=scanpro/__init__.py
     - name: Test
