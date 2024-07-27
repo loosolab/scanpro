@@ -37,5 +37,4 @@ setup(
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
     cmdclass={'sdist': sdist},
-    setup_requires=['scikit-build>=0.13'],
-    )
+    setup_requires=['scikit-build>=0.13', 'numpy'])
