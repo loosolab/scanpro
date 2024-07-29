@@ -1,35 +1,3 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "scikit-build>=0.13",
-    "cmake>=3.18",
-    "ninja",
-    "numpy"
-]
+requires = ["setuptools", "wheel", "numpy<=1.26.4"]
 build-backend = "setuptools.build_meta"
-
-[project]
-name = "scanpro"
-description = "Single-Cell Analysis of Proportions"
-readme = "README.md"
-license.file = "LICENSE"
-dynamic = ["version"]
-authors = [
-  { name = "Yousef Alayoubi", email = "yousef.alayoubi@mpi-bn.mpg.de" },
-]
-maintainers = [
-  { name = "Loosolab"},
-]
-dependencies = [
-  'pandas',
-  'statsmodels',
-  'matplotlib',
-  'numpy>=1.26.4',  # included since numpy 2.0 produce error with pandas
-  'seaborn',
-  'patsy',  # for creating design matrices
-]
-
-[project.urls]
-Homepage = "https://github.com/loosolab/scanpro/"
-Documentation = "https://scanpro.readthedocs.io/"
-Changelog = "https://scanpro.readthedocs.io/en/latest/changelog.html"

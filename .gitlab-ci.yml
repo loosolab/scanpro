@@ -69,7 +69,7 @@ tests:
     - pip install pytest
     - pip install pytest-cov
     - pip install pytest-html
-    - pip install -e .  # install package
+    - pip install .  # install package
     - cd tests/      # move to prevent pytest from loading local modules
     - pytest --import-mode=importlib --cov-report=term --cov=scanpro . --junitxml=../pytest.xml --cov-report html:../htmlcov
   artifacts:
@@ -94,7 +94,7 @@ build-pages:
     - pip install nbsphinx
     - pip install nbsphinx_link
     - pip freeze | grep sphinx
-    - pip install -e .  # install package
+    - pip install .  # install package
     - cd docs
     - make html
   artifacts:
@@ -121,6 +121,9 @@ deploy-pages-MR:
   script: 
     - ls -l docs/
     - echo "deploy"
+  artifacts:
+    paths:
+      - docs/build/html/
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       allow_failure: True

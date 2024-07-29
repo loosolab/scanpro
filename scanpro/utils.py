@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import binom, nbinom
 
-import scanpro
+from scanpro import gaussq2
 
 
 def del_index(x, indices):
@@ -143,7 +143,7 @@ def gauss_quad_prob(n, dist="uniform", ll=0, u=1, mu=0, sigma=1, alpha=1, beta=1
     z = np.zeros(n)
     z[0] = 1
     ierr = 0
-    scanpro.gaussq2.gausq2(n, a, b, z, ierr)
+    gaussq2.gausq2(n, a, b, z, ierr)
     x = a  # nodes
     w = z**2  # weights
     if dist == 'uniform':  # skipped other dists since we only use uniform!
