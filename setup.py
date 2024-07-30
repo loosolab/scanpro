@@ -1,15 +1,5 @@
 import re
-from setuptools import find_packages, dist  # has to be imported befor distutils
-from distutils.command.sdist import sdist
-
-
-# Test if numpy is installed
-try:
-    from numpy.distutils.core import Extension, setup
-except Exception:
-    # Else, fetch numpy if needed
-    dist.Distribution().fetch_build_eggs(['numpy'])
-    from numpy.distutils.core import Extension, setup
+from setuptools import find_packages, setup  # has to be imported befor distutils
 
 
 def find_version(file_path):
@@ -19,12 +9,6 @@ def find_version(file_path):
         return version_match.group(1)
     else:
         raise RuntimeError(f"Unable to find version string in {file_path}.")
-
-
-flib = Extension(name='scanpro.gaussq2',
-                 extra_compile_args=['-O3'],
-                 sources=['scanpro/gaussq2.pyf', 'scanpro/gaussq2.f'],  # you may add several modules files under the same extension
-                 )
 
 
 # Readme from git
@@ -44,13 +28,12 @@ setup(
     url='https://github.com/loosolab/scanpro',
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
-    cmdclass={'sdist': sdist},
-    setup_requires=['numpy==1.26.4'],
+    setup_requires=['numpy<=1.26.4'],
     install_requires=['pandas',
                       'statsmodels',
                       'matplotlib',
-                      'numpy==1.26.4',  # included since numpy 2.0 produce error with pandas
+                      'numpy<=1.26.4',  # included since numpy 2.0 produce error with pandas
                       'seaborn',
                       'patsy',  # for creating design matrices
                       ],
-    ext_modules=[flib])
+                      )
