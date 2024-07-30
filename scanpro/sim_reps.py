@@ -2,7 +2,6 @@ import warnings
 import numpy as np
 import pandas as pd
 
-warnings.simplefilter(action="ignore", category=pd.errors.SettingWithCopyWarning)
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
@@ -51,7 +50,7 @@ def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
             x = range(n)
             n_rep = np.random.choice(x)  # number of cells for replicate
             rep_cells = np.random.choice(cells_indices, n_rep, replace=False)  # choose n_rep cells
-            rep = samples_datas[sample].iloc[rep_cells, :]  # get only chosen cells as a dataframe
+            rep = samples_datas[sample].iloc[rep_cells, :].copy()  # get only chosen cells as a dataframe
             rep.loc[:, replicate_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
             # add covariate column to avoid one replicate having multiple covariate values
             if covariates:
