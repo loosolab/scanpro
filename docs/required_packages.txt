@@ -3,7 +3,7 @@ sphinx
 nbsphinx
 sphinx_rtd_theme
 nbsphinx-link
-numpy
+numpy==1.26.4
 pandas
 statsmodels
 statannotations
