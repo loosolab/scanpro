@@ -38,7 +38,7 @@ class ScanproResult():
             design_melt.drop_duplicates(inplace=True)
 
         # Merge the proportions with the design matrix
-        prop_merged = props.merge(design_melt, left_index=True, right_on=sample_col, how="left")
+        prop_merged = props.reset_index().merge(design_melt, left_on=sample_col, right_on=sample_col, how="left")
         prop_merged.index = props.index
 
         return prop_merged

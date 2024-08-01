@@ -1,3 +1,8 @@
+0.3.2 (01.08.2024)
+-------------------
+- Replace Fortran implementation of gausq2 function with python
+- Replace deprecated numpy.distutils
+
 0.3.1 (10.07.2024)
 -------------------
 - Remove statannotations package. Plotting p-values is now implemented directly
