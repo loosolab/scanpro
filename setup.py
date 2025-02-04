@@ -28,11 +28,11 @@ setup(
     url='https://github.com/loosolab/scanpro',
     license='MIT',
     packages=find_packages(include=['scanpro', 'scanpro.*']),
-    setup_requires=['numpy<=1.26.4'],
+    setup_requires=['numpy'],
     install_requires=['pandas',
                       'statsmodels',
                       'matplotlib',
-                      'numpy<=1.26.4',  # included since numpy 2.0 produce error with pandas
+                      'numpy',
                       'seaborn',
                       'patsy',  # for creating design matrices
                       ])
