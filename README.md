@@ -36,3 +36,5 @@ To show the results, run
 ```out.results```. 
 
 You can plot the results by calling ```out.plot()```.
+
+A detailed documentation can be found here: [Manual](scanpro.readthedocs.io).
