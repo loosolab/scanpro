@@ -37,4 +37,4 @@ To show the results, run
 
 You can plot the results by calling ```out.plot()```.
 
-A detailed documentation can be found here: [Manual](scanpro.readthedocs.io).
+A detailed documentation can be found here: [Manual](https://scanpro.readthedocs.io/en/latest/).
