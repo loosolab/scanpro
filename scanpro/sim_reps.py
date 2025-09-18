@@ -5,6 +5,7 @@ import pandas as pd
 warnings.simplefilter(action='ignore', category=FutureWarning)
 warnings.simplefilter(action='ignore', category=UserWarning)
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
+warnings.simplefilter(action='ignore', category=RuntimeWarning)
 
 
 def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):

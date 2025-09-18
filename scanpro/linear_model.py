@@ -57,7 +57,11 @@ def lm_fit(X, y):
 
     # calculate the covariance using QR decomposition
     m = np.linalg.qr(X, mode='r')
-    cov_coef = np.linalg.inv((m.T @ m))
+    try:
+        cov_coef = np.linalg.inv((m.T @ m))
+    except np.linalg.LinAlgError:
+        # calculate moore-penrose pseudoinverse for singular matrices
+        cov_coef = np.linalg.pinv((m.T @ m))
     results['cov_coef'] = cov_coef
 
     return results
@@ -198,19 +202,33 @@ def create_design(data, sample_col, conds_col, covariates=None):
     if covariates is None:
         covariates = []
 
+    # check for continuous values in covariates
+    new_covariates = []
+    for covariate in covariates:
+        if len(data[covariate].unique()) > len(data[sample_col].unique()):
+            mean_values = data.groupby(sample_col)[covariate].mean().rename(f'mean_{covariate}').to_dict()
+            data[f'mean_{covariate}'] = data[sample_col].map(mean_values)
+            data[f'mean_{covariate}'] = data[f'mean_{covariate}'].astype(float)
+            new_covariates.append(f'mean_{covariate}')
+        else:
+            new_covariates.append(covariate)
+
     # Build sample matrix
     cols = [sample_col, conds_col] if sample_col != conds_col else [conds_col]  # prevent duplicated columns
-    sample_info = data[cols + covariates].drop_duplicates()
+    sample_info = data[cols + new_covariates].drop_duplicates()
     sample_info.set_index(sample_col, drop=False, inplace=True)
 
     # build formula
-    formula = "~0 + " + " + ".join([conds_col] + covariates)
+    formula = "~0 + " + " + ".join([conds_col] + new_covariates)
 
     # build design matrix
     design = dmatrix(formula, sample_info, return_type='dataframe')
 
     # Rename columns from "conds_col[cond]" to "cond"
-    design.columns = [re.match(r".+\[(T\.){0,1}(.+)\]", col).group(2) for col in design.columns]
+    cols_to_rename = np.array([conds_col in col for col in design.columns])
+    renamed_cols = list(np.array(design.columns)[cols_to_rename])
+    renamed_cols = [re.match(r".+\[(T\.){0,1}(.+)\]", col).group(2) for col in renamed_cols]
+    design.columns = renamed_cols + list(np.array(design.columns)[~cols_to_rename])
 
     # Reorder columns to be in the same order as the input condition order
     conditions = sample_info[conds_col].unique().tolist()
