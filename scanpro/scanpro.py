@@ -109,18 +109,19 @@ def scanpro(data, clusters_col, conds_col,
         conditions = data[conds_col].unique().tolist()
 
     # check if samples have more than condition or > 1 value for each categorical covariate
-    cols_to_check = [conds_col]
-    cols_to_check += covariates if covariates is not None else []
-    bad_cols = []
-    for col in cols_to_check:
-        if data[col].dtype.name == 'category' or data[col].dtype.name == 'object':
-            samples = data[samples_col].unique()
-            if len(list(set(tuple(x) for x in data[[samples_col, col]].values))) > len(samples):
-                bad_cols.append(col)
-    if bad_cols:
-        s1 = "Some samples have more than 2 values for the follwoing columns: "
-        s2 = ', '.join(bad_cols)
-        raise ValueError(s1 + s2)
+    if samples_col is not None:
+        cols_to_check = [conds_col]
+        cols_to_check += covariates if covariates is not None else []
+        bad_cols = []
+        for col in cols_to_check:
+            if data[col].dtype.name == 'category' or data[col].dtype.name == 'object':
+                samples = data[samples_col].unique()
+                if len(list(set(tuple(x) for x in data[[samples_col, col]].values))) > len(samples):
+                    bad_cols.append(col)
+        if bad_cols:
+            s1 = "Some samples have more than 2 values for the follwoing columns: "
+            s2 = ', '.join(bad_cols)
+            raise ValueError(s1 + s2)
 
     # check if there are 2 conditions or more
     if len(conditions) < 2:
