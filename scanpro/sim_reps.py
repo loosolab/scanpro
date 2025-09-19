@@ -14,6 +14,7 @@ def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
     :param anndata.AnnData or pandas.DataFrame data: Dataframe or adata.obs whith single cell info.
     :param int n_reps: Number of replicates to generate, defaults to 8.
     :param str sample_col: Column where samples are stored, defaults to 'sample'.
+    :param list covariates: List of covariates to be considered when generating replicates, defaults to None.
     :return pandas.DataFrame: List of replicates as dataframes.
     """
     # check type of data
@@ -52,7 +53,7 @@ def generate_reps(data, n_reps=8, sample_col='sample', covariates=None):
             n_rep = np.random.choice(x)  # number of cells for replicate
             rep_cells = np.random.choice(cells_indices, n_rep, replace=False)  # choose n_rep cells
             rep = samples_datas[sample].iloc[rep_cells, :].copy()  # get only chosen cells as a dataframe
-            rep.loc[:, replicate_col] = [sample + '_rep_' + str(i + 1)] * rep.shape[0]  # add sample name as column
+            rep.loc[:, replicate_col] = [f"{sample}_rep_{i + 1}"] * rep.shape[0]  # add sample name as column
             # add covariate column to avoid one replicate having multiple covariate values
             if covariates:
                 if len(rep) > 0:

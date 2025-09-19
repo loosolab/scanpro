@@ -74,6 +74,10 @@ def scanpro(data, clusters_col, conds_col,
         elif not isinstance(covariates, list):  # if not a string, must be list
             raise ValueError("covariates must be a list of strings.")
 
+    # check if conds_col is categorical, if not convert to categorical
+    if data[conds_col].dtype.name != "category":
+        data[conds_col] = data[conds_col].astype('category')
+
     # check if samples_col and conds_col are in data
     columns = [clusters_col, conds_col]
     columns += [samples_col] if samples_col is not None else []    # add samples_col if given
@@ -266,7 +270,7 @@ def run_scanpro(data, clusters_col, conds_col,
             # get samples for condition
             samples_list = data[data[conds_col] == condition][samples_col].unique()
             if len(samples_list) == 1:
-                no_reps_list.append(condition)
+                no_reps_list.append(str(condition))
 
         # at least one condition doesn't have replicates
         if len(no_reps_list) > 0:
@@ -405,6 +409,7 @@ def run_stats(data, clusters, samples, conds, transform='logit',
     :param str transform: Method of normalization of proportions (logit or arcsin), defaults to 'logit'
     :param str conditions: List of condtitions of interest to compare, defaults to None.
     :param bool robust: Robust ebayes estimation to mitigate the effect of outliers, defaults to True
+    :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
     :return ScanproResult: A scanpro object containing estimated mean proportions for each cluster and p-values.
     """
 
@@ -488,6 +493,7 @@ def anova(props, prop_trans, design, coef, robust=True, verbosity=1):
         coefficients of condtions of interest to be estimated.
     :param numpy.ndarray coef: Array specifiying columns of interest in the design matrix.
     :param bool robust: Robust empirical bayes estimation of posterior variances.
+    :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
         F-statistics, p-values and adjusted p-values.
     """
@@ -548,6 +554,7 @@ def t_test(props, prop_trans, design, contrasts, robust=True, verbosity=1):
         coefficients of condtions of interest to be estimated.
     :param list contrasts: A list specifiying 2 conditions in the design matrix to be tested; [1, -1].
     :param bool robust: Robust empirical bayes estimation of posterior variances.
+    :param int verbosity: Verbosity level for logging progress. 0=silent, 1=info, 2=debug. Defaults to 1.
     :return pandas.DataFrame: Dataframe containing estimated mean proportions for each condition,
         F-statistics, p-values and adjusted p-values.
     """
@@ -617,6 +624,7 @@ def sim_scanpro(data, clusters_col, conds_col,
         condition and cluster/celltype information.
     :param str clusters_col: Name of column in date or data.obs where cluster/celltype information are stored.
     :param str conds_col: Column in data or data.obs where condition informtaion are stored.
+    :param list covariates: List of covariates to include in the model, defaults to None.
     :param str transform: Method of transformation of proportions, defaults to 'logit'.
     :param int n_reps: Number of replicates to simulate if data does not have replicates, defaults to 8.
     :param int n_sims: Number of simulations to perform if data does not have replicates, defaults to 100.
