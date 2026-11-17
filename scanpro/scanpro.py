@@ -359,13 +359,7 @@ def run_scanpro(data, clusters_col, conds_col,
 
     zero_rows = pd.DataFrame(np.nan, index=list(missing_clusters), columns=out.results.columns)
     out.results = pd.concat([out.results, zero_rows])
-    for col in out.results.columns:
-        if "p_values" in col:
-            out.results[col].fillna(1, inplace=True)
-        elif "mean_props" in col:
-            out.results[col].fillna(0, inplace=True)
-        elif "prop_ratio" in col:
-            out.results[col].fillna(0, inplace=True)
+    out.results = fill_missing_clusters(out.results)
 
     # add baseline proportions as first column
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
@@ -677,13 +671,7 @@ def sim_scanpro(data, clusters_col, conds_col,
         zero_rows = pd.DataFrame(np.nan, index=list(missing_clusters), columns=out_sim.results.columns)
         out_sim.results = pd.concat([out_sim.results, zero_rows])
         out_sim.results.index.rename(clusters_col, inplace=True)
-        for col in out_sim.results.columns:
-            if "p_values" in col:
-                out_sim.results[col].fillna(1, inplace=True)
-            elif "mean_props" in col:
-                out_sim.results[col].fillna(0, inplace=True)
-            elif "prop_ratio" in col:
-                out_sim.results[col].fillna(0, inplace=True)
+        out_sim.results = fill_missing_clusters(out_sim.results)
 
         # save results object
         result_objects.append(out_sim)
@@ -747,3 +735,22 @@ def sim_scanpro(data, clusters_col, conds_col,
         data.drop(samples_col, axis=1, inplace=True)
 
     return output_obj
+
+
+def fill_missing_clusters(results):
+    """Fill NaN values of clusters which were added due to 0-counts in samples.
+    P-values are set to 1, mean proportions and proportion ratios are set to 0.
+
+    :param pandas.DataFrame results: Results table of scanpro with clusters as index.
+    :return pandas.DataFrame: Results table with filled values.
+    """
+
+    # get fill value for each column
+    fill_values = {}
+    for col in results.columns:
+        if "p_values" in col:
+            fill_values[col] = 1
+        elif "mean_props" in col or "prop_ratio" in col:
+            fill_values[col] = 0
+
+    return results.fillna(fill_values)
