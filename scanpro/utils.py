@@ -331,7 +331,7 @@ def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, colu
     # If not given, try to get prop_cols and meta_cols automatically
     if prop_cols is None:
         dtypes = counts.dtypes.astype(str)
-        prop_cols = [col for i, col in enumerate(counts.columns) if "float" in dtypes[i] or "int" in dtypes[i]]
+        prop_cols = [col for col in counts.columns if "float" in dtypes[col] or "int" in dtypes[col]]
 
     if meta_cols is None:
         meta_cols = [col for col in counts.columns if col not in prop_cols]
