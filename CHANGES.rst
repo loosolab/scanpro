@@ -1,8 +1,7 @@
-0.4.1 (17.11.2026)
+0.5.0 (17.11.2026)
 -------------------
 - Fix filling of missing values for clusters with 0-counts, which had no effect with pandas >= 3.0 (Copy-on-Write)
-- Fix KeyError in convert_counts_to_df with pandas >= 3.0
-- Fix KeyError in simulate_cell_counts_2 with pandas >= 3.0 when beta parameters are given as pandas.Series
+- simulate_cell_counts_2 accepts beta parameters as lists, numpy arrays or pandas.Series
 - Remove cells with missing cluster, condition, sample or covariate information with a warning (in scanpro and run_scanpro). Previously, missing clusters resulted in an empty NaN row in the results and wrong baseline proportions
 - Fix arguments not passed on in scanpro: n_sims was ignored with pairwise=False, verbosity was ignored with pairwise=True
 - Fix failed simulations in sim_scanpro being skipped instead of rerun, which resulted in fewer than n_sims simulations. An error is raised if more than n_sims simulations fail
@@ -12,6 +11,11 @@
 - Add test for plotting
 - Fix sorting of results by p-values, which had no effect. Results (and plots) are now ordered by adjusted p-values instead of cluster order
 - Replace deprecated color argument in stripplot with palette (seaborn FutureWarning)
+
+0.4.1 (26.02.2026)
+-------------------
+- Update parameter for scipy.optimize.brentq as float and not array
+- Update indexing of pandas series using .iloc
 
 0.4.0 (03.09.2025)
 -------------------
