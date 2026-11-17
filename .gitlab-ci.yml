@@ -48,7 +48,7 @@ pass:
 linting:
   stage: test
   tags:
-    - coverage
+    - docker
   script:
     - pip install flake8
     - flake8 scanpro setup.py tests --ignore=E501,W503 --extend-exclude=scanpro/__init__.py  # exclude __init__ due to version import
@@ -63,7 +63,7 @@ linting:
 tests:
   stage: test
   tags:
-    - coverage
+    - docker
   coverage: '/TOTAL.*\s(\d*.\d*\%)/'
   script:
     - pip install pytest
@@ -115,9 +115,6 @@ deploy-pages-MR:
   environment:
     name: pages/$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
     url: "https://loosolab.pages.gwdg.de/-/software/pypropeller/-/jobs/$CI_JOB_ID/artifacts/docs/build/html/index.html"
-  artifacts:
-    paths:
-      - docs/build/html/
   script: 
     - ls -l docs/
     - echo "deploy"
