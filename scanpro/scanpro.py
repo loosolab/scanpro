@@ -88,12 +88,8 @@ def scanpro(data, clusters_col, conds_col,
         s += ', '.join(columns_not_in_data)
         raise ValueError(s)
 
-    # remove cells with missing cluster, condition or sample information
-    na_cols = [clusters_col, conds_col] + ([samples_col] if samples_col is not None else [])
-    na_cells = data[na_cols].isna().any(axis=1)
-    if na_cells.any():
-        logger.warning(f"Removing {na_cells.sum()} cells with missing values in the following columns: {', '.join(na_cols)}")
-        data = data[~na_cells]
+    # remove cells with missing cluster, condition, sample or covariate information
+    data = remove_na_cells(data, columns, logger)
 
     # check if pairwise and conditions are both set
     if pairwise and conditions is not None:
@@ -250,6 +246,12 @@ def run_scanpro(data, clusters_col, conds_col,
 
     logger = ScanproLogger(verbosity)  # create logger instance
     np.random.seed(seed)
+
+    # remove cells with missing cluster, condition, sample or covariate information
+    columns = [clusters_col, conds_col]
+    columns += [samples_col] if samples_col is not None else []    # add samples_col if given
+    columns += covariates if covariates is not None else []        # add covariates if given
+    data = remove_na_cells(data, columns, logger)
 
     # if samples_col is None, data is not replicated
     if samples_col is None:
@@ -761,3 +763,21 @@ def fill_missing_clusters(results):
             fill_values[col] = 0
 
     return results.fillna(fill_values)
+
+
+def remove_na_cells(data, columns, logger):
+    """Remove cells with missing values in any of the given columns.
+
+    :param pandas.DataFrame data: Single cell data with columns containing sample,
+        condition and cluster/celltype information.
+    :param list columns: List of columns to check for missing values.
+    :param ScanproLogger logger: Logger instance to report removed cells.
+    :return pandas.DataFrame: Data without cells with missing values.
+    """
+
+    na_cells = data[columns].isna().any(axis=1)
+    if na_cells.any():
+        logger.warning(f"Removing {na_cells.sum()} cells with missing values in the following columns: {', '.join(columns)}")
+        data = data[~na_cells]
+
+    return data
