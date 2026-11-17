@@ -270,8 +270,9 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     :param pandas.DataFrame or numpy.ndarray props: Proportions of each cluster in all samples.
     :param int n_reps: Number of replicates.
-    :param list a: estimated alpha paramters for beta distribution.
+    :param list or pandas.Series a: estimated alpha paramters for beta distribution.
     :param list b: estimated beta paramters from beta distribution for each cluster in each sample.
+        A list with one list or pandas.Series per condition.
     :param float n: Parameter for NB distribution, defaults to 20.
     :param float mu: Mean parameter for NB distribution, defaults to 5000.
     :return pandas.DataFrame: Simulated cell counts.
@@ -294,6 +295,10 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
         clusters_names = props.index
     except AttributeError:
         clusters_names = [f'c{i + 1}' for i in range(len(props))]
+
+    # convert beta parameters to arrays for positional indexing
+    a = np.asarray(a)
+    b = [np.asarray(b_grp) for b_grp in b]
 
     # draw cluster proportions from a beta distribution
     for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
