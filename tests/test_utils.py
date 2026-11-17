@@ -39,8 +39,8 @@ def counts_matrix():
     b = a * (1 - p) / p
     n_reps = 2
     counts = simulate_cell_counts(props=p, n_reps=n_reps, a=a, b=b, n_conds=2)
-    counts.set_index('sample', inplace=True)
-    counts.drop('group', axis=1, inplace=True)
+    counts = counts.set_index('sample')
+    counts = counts.drop('group', axis=1)
     return counts
 
 
@@ -218,7 +218,7 @@ def test_simulate_cell_counts(n_reps):
     # check if number of samples is correct
     assert len(counts['sample']) == n_samples
     # check if number of clusters is correct
-    counts.drop(['sample', 'group'], inplace=True, axis=1)
+    counts = counts.drop(['sample', 'group'], axis=1)
     assert len(counts.columns) == n_clusters
 
 
@@ -237,7 +237,7 @@ def test_simulate_cell_counts_2(n_reps, true_props, beta_params):
     # check if number of samples is correct
     assert len(counts['sample']) == n_samples
     # check if number of clusters is correct
-    counts.drop(['sample', 'group'], inplace=True, axis=1)
+    counts = counts.drop(['sample', 'group'], axis=1)
     assert len(counts.columns) == n_clusters
 
 

@@ -270,8 +270,9 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
 
     :param pandas.DataFrame or numpy.ndarray props: Proportions of each cluster in all samples.
     :param int n_reps: Number of replicates.
-    :param list a: estimated alpha paramters for beta distribution.
+    :param list or pandas.Series a: estimated alpha paramters for beta distribution.
     :param list b: estimated beta paramters from beta distribution for each cluster in each sample.
+        A list with one list or pandas.Series per condition.
     :param float n: Parameter for NB distribution, defaults to 20.
     :param float mu: Mean parameter for NB distribution, defaults to 5000.
     :return pandas.DataFrame: Simulated cell counts.
@@ -295,11 +296,15 @@ def simulate_cell_counts_2(props, n_reps, a, b, n_conds=2, n=20, mu=5000):
     except AttributeError:
         clusters_names = [f'c{i + 1}' for i in range(len(props))]
 
+    # convert beta parameters to arrays for positional indexing
+    a = np.asarray(a)
+    b = [np.asarray(b_grp) for b_grp in b]
+
     # draw cluster proportions from a beta distribution
     for k in range(len(props)):  # len(props) = props.shape[0]; iterate over clusters
         for i in range(0, total_reps, n_reps):  # iterate over samples
             # draw random proportions from beta distribution for each sample
-            true_p[k, i:i + n_reps] = np.random.beta(a.iloc[k], b[i // n_reps].iloc[k], n_reps)
+            true_p[k, i:i + n_reps] = np.random.beta(a[k], b[i // n_reps][k], n_reps)
 
     # generate counts for each cluster in each replicate
     counts_sim = np.zeros((len(true_p), total_reps))
@@ -331,7 +336,7 @@ def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, colu
     # If not given, try to get prop_cols and meta_cols automatically
     if prop_cols is None:
         dtypes = counts.dtypes.astype(str)
-        prop_cols = [col for i, col in enumerate(counts.columns) if "float" in dtypes.iloc[i] or "int" in dtypes.iloc[i]]
+        prop_cols = [col for col in counts.columns if "float" in dtypes[col] or "int" in dtypes[col]]
 
     if meta_cols is None:
         meta_cols = [col for col in counts.columns if col not in prop_cols]
@@ -346,7 +351,7 @@ def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, colu
 
     # Duplicate rows based on number of cells
     counts_long = counts_melt.loc[counts_melt.index.repeat(counts_melt["count"])].reset_index(drop=True)
-    counts_long.drop(columns="count", inplace=True)
+    counts_long = counts_long.drop(columns="count")
     counts_long.index = ["cell_" + str(i) for i in range(1, len(counts_long) + 1)]
 
     return counts_long
