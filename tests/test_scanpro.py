@@ -1,6 +1,5 @@
 import pytest
 import matplotlib
-matplotlib.use("Agg")  # non-interactive backend for tests
 import matplotlib.pyplot as plt
 
 import numpy as np
@@ -10,6 +9,8 @@ from scanpro.get_transformed_props import get_transformed_props
 from scanpro.linear_model import create_design
 from scanpro.utils import simulate_cell_counts, convert_counts_to_df
 from scanpro.result import ScanproResult
+
+matplotlib.use("Agg")  # non-interactive backend for tests
 
 
 @pytest.fixture
