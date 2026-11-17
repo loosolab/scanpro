@@ -377,7 +377,7 @@ def run_scanpro(data, clusters_col, conds_col,
     out.results.index.names = ['clusters']  # rename index column
 
     # Sort by p-values (small to large)
-    out.results.sort_values(out.results.columns[-1])
+    out.results = out.results.sort_values(out.results.columns[-1])
 
     # add conditions to object
     out.conds_col = conds_col
@@ -391,7 +391,7 @@ def run_scanpro(data, clusters_col, conds_col,
 
     # add simulated results for partially replicated data
     if partially_repd and run_partial_sim:
-        out.sim_results = out_sim.results
+        out.sim_results = out_sim.results.sort_values(out_sim.results.columns[-1])  # sort by p-values (small to large)
         out.sim_design = out_sim.sim_design
         out.sim_counts = out_sim.sim_counts
         out.sim_props = out_sim.sim_props
