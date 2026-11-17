@@ -11,6 +11,7 @@
 - Fix plotting of unreplicated data with pandas >= 3.0 (ValueError: melt output columns cannot contain duplicate names)
 - Add test for plotting
 - Fix sorting of results by p-values, which had no effect. Results (and plots) are now ordered by adjusted p-values instead of cluster order
+- Replace deprecated color argument in stripplot with palette (seaborn FutureWarning)
 
 0.4.0 (03.09.2025)
 -------------------

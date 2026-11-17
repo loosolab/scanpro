@@ -168,9 +168,9 @@ class ScanproResult():
 
                     else:
                         lw = 1 if simulated else 0   # original data is has a border, simulated data does not
-                        color = "black" if simulated else None  # original data is black, simulated data is colored
+                        palette = "dark:black" if simulated else None  # original data is dark gray shades, simulated data is colored
                         sns.stripplot(data=prop_table, y=cluster, x=conds_col, hue=sample_col, jitter=True, ax=ax,
-                                      marker="o", size=7, linewidth=lw, color=color, order=x_order, legend=legend)
+                                      marker="o", size=7, linewidth=lw, palette=palette, order=x_order, legend=legend)
 
             elif kind == 'boxplot':
                 prop_table = prop_merged[prop_merged["simulated"]] if simulated else prop_merged  # if simulated = True, only show simulated data
