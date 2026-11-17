@@ -1,3 +1,7 @@
+0.4.1 (17.11.2026)
+-------------------
+- Fix filling of missing values for clusters with 0-counts, which had no effect with pandas >= 3.0 (Copy-on-Write)
+
 0.4.0 (03.09.2025)
 -------------------
 - Add pairwise testing: test each pair of conditions individually
