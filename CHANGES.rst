@@ -5,6 +5,8 @@
 - Fix KeyError in simulate_cell_counts_2 with pandas >= 3.0 when beta parameters are given as pandas.Series
 - Remove cells with missing cluster, condition, sample or covariate information with a warning (in scanpro and run_scanpro). Previously, missing clusters resulted in an empty NaN row in the results and wrong baseline proportions
 - Fix arguments not passed on in scanpro: n_sims was ignored with pairwise=False, verbosity was ignored with pairwise=True
+- Fix failed simulations in sim_scanpro being skipped instead of rerun, which resulted in fewer than n_sims simulations. An error is raised if more than n_sims simulations fail
+- Remove unused calculation of coefficients in sim_scanpro
 
 0.4.0 (03.09.2025)
 -------------------

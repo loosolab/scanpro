@@ -654,8 +654,9 @@ def sim_scanpro(data, clusters_col, conds_col,
 
     # start timer
     result_objects = []
+    n_failed = 0
     start = time.time()
-    for i in range(n_sims):
+    while len(result_objects) < n_sims:
 
         # generate replicates
         rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col, covariates=covariates)
@@ -668,9 +669,11 @@ def sim_scanpro(data, clusters_col, conds_col,
                                 conditions=conditions, robust=robust, verbosity=0)  # verbosity is 0 to prevent prints from individual simulations
 
         # workaround brentq error "f(a) and f(b) must have different signs"
-        # rerun simulation instead of crashing
-        except ValueError:
-            i -= 1
+        # rerun simulation instead of crashing, but stop if too many simulations fail
+        except ValueError as e:
+            n_failed += 1
+            if n_failed > n_sims:
+                raise ValueError(f"Too many simulations failed ({n_failed}). Last error: {e}") from e
             continue
 
         # Add additional clusters not included due to 0-counts in samples
@@ -689,6 +692,8 @@ def sim_scanpro(data, clusters_col, conds_col,
     end = time.time()
     elapsed = end - start
     logger.info(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
+    if n_failed > 0:
+        logger.info(f"{n_failed} failed simulations were rerun.")
 
     # Combine results from all simulations
     combined_results = pd.concat([result_object.results.reset_index() for result_object in result_objects])
@@ -702,14 +707,6 @@ def sim_scanpro(data, clusters_col, conds_col,
     counts_list = [obj.counts for obj in result_objects]
     props_list = [obj.props for obj in result_objects]
     prop_trans_list = [obj.prop_trans for obj in result_objects]
-
-    # get coefficients estimates from linear model fit
-    n_clusters = len(data[clusters_col].unique())
-    coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
-    for obj in result_objects:
-        for k, cluster in enumerate(obj.results.index):
-            for j, condition in enumerate(conditions):
-                coefficients[condition][i, k] = obj.results.iloc[k, j]
 
     # save design matrix
     # make sure to include all simulations as some clusters may be missing in some simulations
