@@ -88,6 +88,9 @@ def scanpro(data, clusters_col, conds_col,
         s += ', '.join(columns_not_in_data)
         raise ValueError(s)
 
+    # remove cells with missing cluster, condition, sample or covariate information
+    data = remove_na_cells(data, columns, logger)
+
     # check if pairwise and conditions are both set
     if pairwise and conditions is not None:
         logger.info("You can't set conditions with pairwise! Changing conditions=None to do pairwise comparisons...")
@@ -139,9 +142,11 @@ def scanpro(data, clusters_col, conds_col,
             res = run_scanpro(data, clusters_col=clusters_col, samples_col=samples_col, conds_col=conds_col,
                               covariates=covariates, transform=transform, conditions=pair,
                               n_reps=n_reps, n_sims=n_sims, run_partial_sim=run_partial_sim,
-                              robust=robust, verbosity=1, seed=seed)
+                              robust=robust, verbosity=verbosity, seed=seed)
 
-            res.results.sort_index(inplace=True)
+            res.results = res.results.sort_index()
+            if res.repd == 'non':
+                res.sim_results = res.results  # unreplicated data uses results as sim_results
             res_pairs[pair] = res
 
         out = ScanproResult()
@@ -161,11 +166,9 @@ def scanpro(data, clusters_col, conds_col,
         for pair, df in res_pairs.items():
             cond_1 = pair[0]
             cond_2 = pair[1]
-            df.results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'},
-                              inplace=True)
+            df.results = df.results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'})
             if df.repd != 'all':
-                df.sim_results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'},
-                                      inplace=True)
+                df.sim_results = df.sim_results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'})
 
             res_pairs[pair] = df
 
@@ -193,7 +196,7 @@ def scanpro(data, clusters_col, conds_col,
     else:
         out = run_scanpro(data, clusters_col=clusters_col, samples_col=samples_col, conds_col=conds_col,
                           covariates=covariates, transform=transform, conditions=conditions,
-                          n_reps=n_reps, run_partial_sim=run_partial_sim, robust=robust,
+                          n_reps=n_reps, n_sims=n_sims, run_partial_sim=run_partial_sim, robust=robust,
                           verbosity=verbosity, seed=seed)
 
     out.pairwise = pairwise
@@ -243,6 +246,12 @@ def run_scanpro(data, clusters_col, conds_col,
 
     logger = ScanproLogger(verbosity)  # create logger instance
     np.random.seed(seed)
+
+    # remove cells with missing cluster, condition, sample or covariate information
+    columns = [clusters_col, conds_col]
+    columns += [samples_col] if samples_col is not None else []    # add samples_col if given
+    columns += covariates if covariates is not None else []        # add covariates if given
+    data = remove_na_cells(data, columns, logger)
 
     # if samples_col is None, data is not replicated
     if samples_col is None:
@@ -359,13 +368,7 @@ def run_scanpro(data, clusters_col, conds_col,
 
     zero_rows = pd.DataFrame(np.nan, index=list(missing_clusters), columns=out.results.columns)
     out.results = pd.concat([out.results, zero_rows])
-    for col in out.results.columns:
-        if "p_values" in col:
-            out.results[col].fillna(1, inplace=True)
-        elif "mean_props" in col:
-            out.results[col].fillna(0, inplace=True)
-        elif "prop_ratio" in col:
-            out.results[col].fillna(0, inplace=True)
+    out.results = fill_missing_clusters(out.results)
 
     # add baseline proportions as first column
     baseline_props = data[clusters_col].value_counts() / data.shape[0]  # proportions of each cluster in all samples
@@ -374,7 +377,7 @@ def run_scanpro(data, clusters_col, conds_col,
     out.results.index.names = ['clusters']  # rename index column
 
     # Sort by p-values (small to large)
-    out.results.sort_values(out.results.columns[-1])
+    out.results = out.results.sort_values(out.results.columns[-1])
 
     # add conditions to object
     out.conds_col = conds_col
@@ -388,7 +391,7 @@ def run_scanpro(data, clusters_col, conds_col,
 
     # add simulated results for partially replicated data
     if partially_repd and run_partial_sim:
-        out.sim_results = out_sim.results
+        out.sim_results = out_sim.results.sort_values(out_sim.results.columns[-1])  # sort by p-values (small to large)
         out.sim_design = out_sim.sim_design
         out.sim_counts = out_sim.sim_counts
         out.sim_props = out_sim.sim_props
@@ -651,8 +654,9 @@ def sim_scanpro(data, clusters_col, conds_col,
 
     # start timer
     result_objects = []
+    n_failed = 0
     start = time.time()
-    for i in range(n_sims):
+    while len(result_objects) < n_sims:
 
         # generate replicates
         rep_data = generate_reps(data=data, n_reps=n_reps, sample_col=conds_col, covariates=covariates)
@@ -665,9 +669,11 @@ def sim_scanpro(data, clusters_col, conds_col,
                                 conditions=conditions, robust=robust, verbosity=0)  # verbosity is 0 to prevent prints from individual simulations
 
         # workaround brentq error "f(a) and f(b) must have different signs"
-        # rerun simulation instead of crashing
-        except ValueError:
-            i -= 1
+        # rerun simulation instead of crashing, but stop if too many simulations fail
+        except ValueError as e:
+            n_failed += 1
+            if n_failed > n_sims:
+                raise ValueError(f"Too many simulations failed ({n_failed}). Last error: {e}") from e
             continue
 
         # Add additional clusters not included due to 0-counts in samples
@@ -676,14 +682,8 @@ def sim_scanpro(data, clusters_col, conds_col,
 
         zero_rows = pd.DataFrame(np.nan, index=list(missing_clusters), columns=out_sim.results.columns)
         out_sim.results = pd.concat([out_sim.results, zero_rows])
-        out_sim.results.index.rename(clusters_col, inplace=True)
-        for col in out_sim.results.columns:
-            if "p_values" in col:
-                out_sim.results[col].fillna(1, inplace=True)
-            elif "mean_props" in col:
-                out_sim.results[col].fillna(0, inplace=True)
-            elif "prop_ratio" in col:
-                out_sim.results[col].fillna(0, inplace=True)
+        out_sim.results.index = out_sim.results.index.rename(clusters_col)
+        out_sim.results = fill_missing_clusters(out_sim.results)
 
         # save results object
         result_objects.append(out_sim)
@@ -692,6 +692,8 @@ def sim_scanpro(data, clusters_col, conds_col,
     end = time.time()
     elapsed = end - start
     logger.info(f"Finished {n_sims} simulations in {round(elapsed, 2)} seconds")
+    if n_failed > 0:
+        logger.info(f"{n_failed} failed simulations were rerun.")
 
     # Combine results from all simulations
     combined_results = pd.concat([result_object.results.reset_index() for result_object in result_objects])
@@ -705,14 +707,6 @@ def sim_scanpro(data, clusters_col, conds_col,
     counts_list = [obj.counts for obj in result_objects]
     props_list = [obj.props for obj in result_objects]
     prop_trans_list = [obj.prop_trans for obj in result_objects]
-
-    # get coefficients estimates from linear model fit
-    n_clusters = len(data[clusters_col].unique())
-    coefficients = {condition: np.zeros((n_sims, n_clusters)) for condition in conditions}
-    for obj in result_objects:
-        for k, cluster in enumerate(obj.results.index):
-            for j, condition in enumerate(conditions):
-                coefficients[condition][i, k] = obj.results.iloc[k, j]
 
     # save design matrix
     # make sure to include all simulations as some clusters may be missing in some simulations
@@ -744,6 +738,43 @@ def sim_scanpro(data, clusters_col, conds_col,
 
     # remove temporary samples column
     if samples_col is None:
-        data.drop(samples_col, axis=1, inplace=True)
+        data = data.drop(samples_col, axis=1)
 
     return output_obj
+
+
+def fill_missing_clusters(results):
+    """Fill NaN values of clusters which were added due to 0-counts in samples.
+    P-values are set to 1, mean proportions and proportion ratios are set to 0.
+
+    :param pandas.DataFrame results: Results table of scanpro with clusters as index.
+    :return pandas.DataFrame: Results table with filled values.
+    """
+
+    # get fill value for each column
+    fill_values = {}
+    for col in results.columns:
+        if "p_values" in col:
+            fill_values[col] = 1
+        elif "mean_props" in col or "prop_ratio" in col:
+            fill_values[col] = 0
+
+    return results.fillna(fill_values)
+
+
+def remove_na_cells(data, columns, logger):
+    """Remove cells with missing values in any of the given columns.
+
+    :param pandas.DataFrame data: Single cell data with columns containing sample,
+        condition and cluster/celltype information.
+    :param list columns: List of columns to check for missing values.
+    :param ScanproLogger logger: Logger instance to report removed cells.
+    :return pandas.DataFrame: Data without cells with missing values.
+    """
+
+    na_cells = data[columns].isna().any(axis=1)
+    if na_cells.any():
+        logger.warning(f"Removing {na_cells.sum()} cells with missing values in the following columns: {', '.join(columns)}")
+        data = data[~na_cells]
+
+    return data

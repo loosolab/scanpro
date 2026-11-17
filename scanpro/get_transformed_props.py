@@ -51,7 +51,7 @@ def get_transformed_props_counts(x, transform='logit', sample_col=None, meta_col
     """
     counts = x.copy()
     if sample_col:
-        counts.set_index(sample_col, inplace=True)
+        counts = counts.set_index(sample_col)
     if meta_cols:
         counts = counts[[column for column in counts.columns if column not in meta_cols]]
     # adding pseudo count to avoid zeroes

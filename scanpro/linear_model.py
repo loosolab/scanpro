@@ -216,7 +216,7 @@ def create_design(data, sample_col, conds_col, covariates=None):
     # Build sample matrix
     cols = [sample_col, conds_col] if sample_col != conds_col else [conds_col]  # prevent duplicated columns
     sample_info = data[cols + new_covariates].drop_duplicates()
-    sample_info.set_index(sample_col, drop=False, inplace=True)
+    sample_info = sample_info.set_index(sample_col, drop=False)
 
     # build formula
     formula = "~0 + " + " + ".join([conds_col] + new_covariates)

@@ -182,7 +182,8 @@ def fit_f_dist_robust(x, df1, covariate=None, winsor_tail_p=[0.05, 0.1]):
         df2 = non_robust['df2']
     else:
         # interval [rbx, 0.99] since 1 gives divisionbyzero error
-        u = scipy.optimize.brentq(fun, rbx, 0.99, (df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
+        rbx = rbx[0] if isinstance(rbx, np.ndarray) else rbx
+        u = scipy.optimize.brentq(fun, rbx, 0.99, args=(df1, linkinv, winsorized_moments, zwvar, winsor_tail_p, linkfun, g))
         df2 = linkinv(u)
 
     # Correct ztrend for bias
