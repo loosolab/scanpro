@@ -1,4 +1,7 @@
 import pytest
+import matplotlib
+matplotlib.use("Agg")  # non-interactive backend for tests
+import matplotlib.pyplot as plt
 
 import numpy as np
 import pandas as pd
@@ -142,3 +145,19 @@ def test_sim_scanpro(counts_df):
 
     assert isinstance(out, ScanproResult) and isinstance(out.results, pd.DataFrame)
     assert "adjusted_p_values" in out.results.columns
+
+
+@pytest.mark.parametrize("kind", ["stripplot", "boxplot", "barplot"])
+@pytest.mark.parametrize("samples, pairwise", [(None, False),
+                                               ('sample', False),
+                                               (None, True),
+                                               ('sample', True)])
+def test_plot(counts_df, samples, pairwise, kind):
+    """Test plotting of scanpro results with replicated and unreplicated data"""
+    out = scanpro(counts_df, 'cluster', 'group', samples_col=samples,
+                  pairwise=pairwise, n_sims=10, verbosity=0)
+
+    axes = out.plot(kind=kind, show=False)
+    plt.close('all')
+
+    assert len(axes) > 0

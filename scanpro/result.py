@@ -28,10 +28,13 @@ class ScanproResult():
 
         # Establish the samples per group
         sample_col = design.index.name
-        design_melt = design.reset_index().melt(id_vars=sample_col, var_name=self.conds_col)
+        var_name = self.conds_col if sample_col != self.conds_col else f"_{self.conds_col}"  # melt does not allow duplicate column names
+        design_melt = design.reset_index().melt(id_vars=sample_col, var_name=var_name)
         design_melt = design_melt[design_melt["value"] == 1]
         design_melt = design_melt.drop(columns="value")
-        design_melt = design_melt.loc[:, ~design_melt.columns.duplicated()].copy()  # remove duplicate columns, e.g. if sample_col == conds_col
+        if var_name != self.conds_col:
+            design_melt = design_melt.drop(columns=var_name)  # sample_col already contains the conditions
+            design_melt[sample_col] = design_melt[sample_col].astype(object)  # same dtype as for replicated data
 
         # Subset conditions to those in all_conditions (to not include covariates in the plot)
         design_melt = design_melt[design_melt[self.conds_col].isin(self.all_conditions)]

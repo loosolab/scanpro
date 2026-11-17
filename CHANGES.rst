@@ -8,6 +8,8 @@
 - Fix failed simulations in sim_scanpro being skipped instead of rerun, which resulted in fewer than n_sims simulations. An error is raised if more than n_sims simulations fail
 - Remove unused calculation of coefficients in sim_scanpro
 - Replace deprecated inplace=True operations for compatibility with pandas 4
+- Fix plotting of unreplicated data with pandas >= 3.0 (ValueError: melt output columns cannot contain duplicate names)
+- Add test for plotting
 
 0.4.0 (03.09.2025)
 -------------------
