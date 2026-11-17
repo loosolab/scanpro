@@ -142,7 +142,7 @@ def scanpro(data, clusters_col, conds_col,
             res = run_scanpro(data, clusters_col=clusters_col, samples_col=samples_col, conds_col=conds_col,
                               covariates=covariates, transform=transform, conditions=pair,
                               n_reps=n_reps, n_sims=n_sims, run_partial_sim=run_partial_sim,
-                              robust=robust, verbosity=1, seed=seed)
+                              robust=robust, verbosity=verbosity, seed=seed)
 
             res.results.sort_index(inplace=True)
             res_pairs[pair] = res
@@ -196,7 +196,7 @@ def scanpro(data, clusters_col, conds_col,
     else:
         out = run_scanpro(data, clusters_col=clusters_col, samples_col=samples_col, conds_col=conds_col,
                           covariates=covariates, transform=transform, conditions=conditions,
-                          n_reps=n_reps, run_partial_sim=run_partial_sim, robust=robust,
+                          n_reps=n_reps, n_sims=n_sims, run_partial_sim=run_partial_sim, robust=robust,
                           verbosity=verbosity, seed=seed)
 
     out.pairwise = pairwise
