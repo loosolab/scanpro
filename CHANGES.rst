@@ -2,6 +2,7 @@
 -------------------
 - Fix filling of missing values for clusters with 0-counts, which had no effect with pandas >= 3.0 (Copy-on-Write)
 - Fix KeyError in convert_counts_to_df with pandas >= 3.0
+- Fix KeyError in simulate_cell_counts_2 with pandas >= 3.0 when beta parameters are given as pandas.Series
 
 0.4.0 (03.09.2025)
 -------------------
