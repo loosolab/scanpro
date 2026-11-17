@@ -88,6 +88,13 @@ def scanpro(data, clusters_col, conds_col,
         s += ', '.join(columns_not_in_data)
         raise ValueError(s)
 
+    # remove cells with missing cluster, condition or sample information
+    na_cols = [clusters_col, conds_col] + ([samples_col] if samples_col is not None else [])
+    na_cells = data[na_cols].isna().any(axis=1)
+    if na_cells.any():
+        logger.warning(f"Removing {na_cells.sum()} cells with missing values in the following columns: {', '.join(na_cols)}")
+        data = data[~na_cells]
+
     # check if pairwise and conditions are both set
     if pairwise and conditions is not None:
         logger.info("You can't set conditions with pairwise! Changing conditions=None to do pairwise comparisons...")
