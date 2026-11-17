@@ -7,6 +7,7 @@
 - Fix arguments not passed on in scanpro: n_sims was ignored with pairwise=False, verbosity was ignored with pairwise=True
 - Fix failed simulations in sim_scanpro being skipped instead of rerun, which resulted in fewer than n_sims simulations. An error is raised if more than n_sims simulations fail
 - Remove unused calculation of coefficients in sim_scanpro
+- Replace deprecated inplace=True operations for compatibility with pandas 4
 
 0.4.0 (03.09.2025)
 -------------------

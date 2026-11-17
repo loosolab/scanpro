@@ -37,7 +37,7 @@ class ScanproResult():
         design_melt = design_melt[design_melt[self.conds_col].isin(self.all_conditions)]
 
         if self.covariates:
-            design_melt.drop_duplicates(inplace=True)
+            design_melt = design_melt.drop_duplicates()
 
         # Merge the proportions with the design matrix
         prop_merged = props.reset_index().merge(design_melt, left_on=sample_col, right_on=sample_col, how="left")
@@ -109,10 +109,10 @@ class ScanproResult():
             prop_merged = pd.concat([prop_merged, prop_merged_simulated])
 
         # Sort the dataframe by the order of the conditions in the design matrix
-        prop_merged.reset_index(drop=True, inplace=True)
+        prop_merged = prop_merged.reset_index(drop=True)
         column_order = {col: i for i, col in enumerate(self.design.columns)}
         prop_merged["_order"] = prop_merged[conds_col].map(column_order)
-        prop_merged.sort_values(["_order", sample_col], inplace=True)  # first by condition order, then sample order
+        prop_merged = prop_merged.sort_values(["_order", sample_col])  # first by condition order, then sample order
 
         # Create a figure with n_columns
         n_columns = min(n_columns, len(clusters))  # number of columns are at least the number of clusters

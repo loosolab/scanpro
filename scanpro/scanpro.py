@@ -144,7 +144,9 @@ def scanpro(data, clusters_col, conds_col,
                               n_reps=n_reps, n_sims=n_sims, run_partial_sim=run_partial_sim,
                               robust=robust, verbosity=verbosity, seed=seed)
 
-            res.results.sort_index(inplace=True)
+            res.results = res.results.sort_index()
+            if res.repd == 'non':
+                res.sim_results = res.results  # unreplicated data uses results as sim_results
             res_pairs[pair] = res
 
         out = ScanproResult()
@@ -164,11 +166,9 @@ def scanpro(data, clusters_col, conds_col,
         for pair, df in res_pairs.items():
             cond_1 = pair[0]
             cond_2 = pair[1]
-            df.results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'},
-                              inplace=True)
+            df.results = df.results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'})
             if df.repd != 'all':
-                df.sim_results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'},
-                                      inplace=True)
+                df.sim_results = df.sim_results.rename(columns={'adjusted_p_values': f'adjusted_p_values_{cond_1}_{cond_2}'})
 
             res_pairs[pair] = df
 
@@ -682,7 +682,7 @@ def sim_scanpro(data, clusters_col, conds_col,
 
         zero_rows = pd.DataFrame(np.nan, index=list(missing_clusters), columns=out_sim.results.columns)
         out_sim.results = pd.concat([out_sim.results, zero_rows])
-        out_sim.results.index.rename(clusters_col, inplace=True)
+        out_sim.results.index = out_sim.results.index.rename(clusters_col)
         out_sim.results = fill_missing_clusters(out_sim.results)
 
         # save results object
@@ -738,7 +738,7 @@ def sim_scanpro(data, clusters_col, conds_col,
 
     # remove temporary samples column
     if samples_col is None:
-        data.drop(samples_col, axis=1, inplace=True)
+        data = data.drop(samples_col, axis=1)
 
     return output_obj
 

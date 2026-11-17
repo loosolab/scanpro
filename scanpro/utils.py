@@ -351,7 +351,7 @@ def convert_counts_to_df(counts, prop_cols=None, meta_cols=None, n_cells=1, colu
 
     # Duplicate rows based on number of cells
     counts_long = counts_melt.loc[counts_melt.index.repeat(counts_melt["count"])].reset_index(drop=True)
-    counts_long.drop(columns="count", inplace=True)
+    counts_long = counts_long.drop(columns="count")
     counts_long.index = ["cell_" + str(i) for i in range(1, len(counts_long) + 1)]
 
     return counts_long
